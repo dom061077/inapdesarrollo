@@ -17,6 +17,19 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
+					colNames:[
+					<%  excludedProps = Event.allEvents.toList() << 'version'
+                    allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
+                    props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) && !Collection.isAssignableFrom(it.type) }
+                    Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
+                    props.eachWithIndex { p, i ->
+                        if (i < 6) {
+                            if (p.isAssociation()) { %>
+                    <th><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
+                <%      } else { %>
+                    <g:sortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
+                <%  }   }   } %>	
+					],
 				   	colNames:['Id','C.U.I.T', 'Matricula', 'Nombre','Telófono','Large Url','Url','Foto','Operaciones'],
 				   	colModel:[
 				   		
@@ -83,17 +96,7 @@
                 <table>
                     <thead>
                         <tr>
-                        <%  excludedProps = Event.allEvents.toList() << 'version'
-                            allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
-                            props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) && !Collection.isAssignableFrom(it.type) }
-                            Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-                            props.eachWithIndex { p, i ->
-                                if (i < 6) {
-                                    if (p.isAssociation()) { %>
-                            <th><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
-                        <%      } else { %>
-                            <g:sortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
-                        <%  }   }   } %>
+                        
                         </tr>
                     </thead>
                     <tbody>

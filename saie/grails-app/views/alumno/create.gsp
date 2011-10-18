@@ -406,3 +406,155 @@ $('#localidadNacId').lookupfield({source:'colocar aqui la url',
 								<label for="sexo"><g:message code="alumno.sexo.label" default="Sexo" /></label>
 							</div>
 							<div class="span-5">
+								<g:select id="sexoId" class="ui-widget ui-corner-all ui-widget-content" name="sexo" from="${com.educacion.enums.SexoEnum?.values()}" keys="${com.educacion.enums.SexoEnum?.values()*.name()}" value="${alumnoInstance?.sexo?.name()}"  optionValue="name"/>
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="sexo">
+								<g:renderErrors bean="alumnoInstance" as="list" field="sexo"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="situacionAcademicas">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="situacionAcademicas"><g:message code="alumno.situacionAcademicas.label" default="Situacion Academicas" /></label>
+							</div>
+							<div class="span-5">
+								<g:select id="situacionAcademicasId" class="ui-widget ui-corner-all ui-widget-content" name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="situacionAcademicas">
+								<g:renderErrors bean="alumnoInstance" as="list" field="situacionAcademicas"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="telefenoAlternativo">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="telefenoAlternativo"><g:message code="alumno.telefenoAlternativo.label" default="Telefeno Alternativo" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField name="telefenoAlternativoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefenoAlternativo}" />
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="telefenoAlternativo">
+								<g:renderErrors bean="alumnoInstance" as="list" field="telefenoAlternativo"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="telefonoCelular">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="telefonoCelular"><g:message code="alumno.telefonoCelular.label" default="Telefono Celular" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField name="telefonoCelularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoCelular}" />
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="telefonoCelular">
+								<g:renderErrors bean="alumnoInstance" as="list" field="telefonoCelular"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="telefonoLaboral">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="telefonoLaboral"><g:message code="alumno.telefonoLaboral.label" default="Telefono Laboral" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField name="telefonoLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoLaboral}" />
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="telefonoLaboral">
+								<g:renderErrors bean="alumnoInstance" as="list" field="telefonoLaboral"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="telefonoParticular">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="telefonoParticular"><g:message code="alumno.telefonoParticular.label" default="Telefono Particular" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField name="telefonoParticularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoParticular}" />
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="telefonoParticular">
+								<g:renderErrors bean="alumnoInstance" as="list" field="telefonoParticular"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="tipoDocumento">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="tipoDocumento"><g:message code="alumno.tipoDocumento.label" default="Tipo Documento" /></label>
+							</div>
+							<div class="span-5">
+								<g:select id="tipoDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="tipoDocumento" from="${com.educacion.enums.TipoDocumentoEnum?.values()}" keys="${com.educacion.enums.TipoDocumentoEnum?.values()*.name()}" value="${alumnoInstance?.tipoDocumento?.name()}"  optionValue="name"/>
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="tipoDocumento">
+								<g:renderErrors bean="alumnoInstance" as="list" field="tipoDocumento"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="alumnoInstance" field="titulo">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="titulo"><g:message code="alumno.titulo.label" default="Titulo" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField name="tituloId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.titulo}" />
+							</div>
+										
+							<g:hasErrors bean="alumnoInstance" field="titulo">
+								<g:renderErrors bean="alumnoInstance" as="list" field="titulo"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+                </div>
+                <div class="buttons">
+                    <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                </div>
+            </g:form>
+        </div>
+    </body>
+</html>

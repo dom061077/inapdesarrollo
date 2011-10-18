@@ -192,7 +192,7 @@
                                   <label for="sexo"><g:message code="alumno.sexo.label" default="Sexo" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: alumnoInstance, field: 'sexo', 'errors')}">
-                                    <g:select name="sexo" from="${com.educacion.enums.SexoEnum?.values()}" keys="${com.educacion.enums.SexoEnum?.values()*.name()}" value="${alumnoInstance?.org.codehaus.groovy.grails.commons.DefaultGrailsDomainClassProperty@1ea7d34[name=sexo,type=class com.educacion.enums.SexoEnum,persistent=true,optional=false,association=false,bidirectional=false,association-type=<null>]}"  optionValue="sexo" />
+                                    <g:select id="sexoId" class="ui-widget ui-corner-all ui-widget-content" name="sexo" from="${com.educacion.enums.SexoEnum?.values()}" keys="${com.educacion.enums.SexoEnum?.values()*.name()}" value="${alumnoInstance?.sexo?.name()}"  optionValue="name"/>
                                 </td>
                             </tr>
                         
@@ -201,7 +201,7 @@
                                   <label for="situacionAcademicas"><g:message code="alumno.situacionAcademicas.label" default="Situacion Academicas" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: alumnoInstance, field: 'situacionAcademicas', 'errors')}">
-                                    <g:select name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.org.codehaus.groovy.grails.commons.DefaultGrailsDomainClassProperty@1c1e1e7[name=situacionAcademicas,type=class com.educacion.enums.SituacionAcademicaEnum,persistent=true,optional=false,association=false,bidirectional=false,association-type=<null>]}"  optionValue="situacionAcademicas" />
+                                    <g:select id="situacionAcademicasId" class="ui-widget ui-corner-all ui-widget-content" name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
                                 </td>
                             </tr>
                         
@@ -246,7 +246,7 @@
                                   <label for="tipoDocumento"><g:message code="alumno.tipoDocumento.label" default="Tipo Documento" /></label>
                                 </td>
                                 <td valign="top" class="value ${hasErrors(bean: alumnoInstance, field: 'tipoDocumento', 'errors')}">
-                                    <g:select name="tipoDocumento" from="${com.educacion.enums.TipoDocumentoEnum?.values()}" keys="${com.educacion.enums.TipoDocumentoEnum?.values()*.name()}" value="${alumnoInstance?.org.codehaus.groovy.grails.commons.DefaultGrailsDomainClassProperty@6286e3[name=tipoDocumento,type=class com.educacion.enums.TipoDocumentoEnum,persistent=true,optional=false,association=false,bidirectional=false,association-type=<null>]}"  optionValue="tipoDocumento" />
+                                    <g:select id="tipoDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="tipoDocumento" from="${com.educacion.enums.TipoDocumentoEnum?.values()}" keys="${com.educacion.enums.TipoDocumentoEnum?.values()*.name()}" value="${alumnoInstance?.tipoDocumento?.name()}"  optionValue="name"/>
                                 </td>
                             </tr>
                         

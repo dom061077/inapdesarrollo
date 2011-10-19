@@ -25,11 +25,17 @@
     </head>
     <body>
     	<div class="container">
-	        <div id="spinner" class="spinner" style="display:none;">
-	            <img src="${resource(dir:'images',file:'spinner.gif')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
+	        <div class="span-24">
+	            <img src="${resource(dir:'images',file:'cabecera1.png')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
 	        </div>
-	        <div id="grailsLogo"><a href="http://grails.org"><img src="${resource(dir:'images',file:'grails_logo.png')}" alt="Grails" border="0" /></a></div>
-	        <g:layoutBody />
+	        <div class="clear"></div>
+	        <div class="span-20 prepend-2">
+	        	<g:layoutBody />
+	        </div>
+	        <div class="clear"></div>
+	        <div class="span-24">
+	        	<p style="text-align:center"><h4>Copyright ....</h2></p>
+	        </div>
 	    </div>    
     </body>
 </html>

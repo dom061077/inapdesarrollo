@@ -12,35 +12,17 @@
         <script type="text/javascript" src="\${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">
-        	$(document).ready(function(){
+        	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:[
-					<%  excludedProps = Event.allEvents.toList() << 'version'
-                    allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
-                    props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) && !Collection.isAssignableFrom(it.type) }
-                    Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
-                    props.eachWithIndex { p, i ->
-                        if (i < 6) {
-                            if (p.isAssociation()) { %>
-                    <th><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></th>
-                <%      } else { %>
-                    <g:sortableColumn property="${p.name}" title="\${message(code: '${domainClass.propertyName}.${p.name}.label', default: '${p.naturalName}')}" />
-                <%  }   }   } %>	
-					],
-				   	colNames:['Id','C.U.I.T', 'Matricula', 'Nombre','Telófono','Large Url','Url','Foto','Operaciones'],
+					colNames:['Id','Prop.1','Prop.2','Prop.3'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,searchoptions:{sopt:['eq']}},
-				   		{name:'cuit',index:'cuit', width:92,sortable:false,searchoptions:{sopt:['eq']}},
-				   		{name:'matricula',index:'matricula', width:100,search:false,searchoptions:{sopt:['eq']}},
-				   		{name:'nombre',index:'nombre', width:150, sortable:true},
-				   		{name:'telefono',index:'telefono', width:80, align:"right",search:false, sortable:false,searchoptions:{sopt:['eq']}},
-				   		{name:'urllargephoto',index:'urllargephoto', hidden:true, width:80,search:false, align:"right", sortable:false},
-				   		{name:'urlphoto',index:'urlphoto', hidden:true, width:80,search:false, align:"right", sortable:false},						   		
-				   		{name:'foto',index:'foto', width:80, align:"center",search:false, sortable:false},						   		
+				   		{name:'id',index:'id', width:40},
+				   		{name:'prop1',index:'prop2', width:92,sortable:false},
+				   		{name:'prop3',index:'prop3', width:100,search:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -52,15 +34,14 @@
 				    viewrecords: true,
 				    sortorder: "desc",
 					gridComplete: function(){ 
-						/*var ids = jQuery("#list").jqGrid('getDataIDs');
+						var ids = jQuery("#list").jqGrid('getDataIDs');
 						var obj; 
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
-							obj = $("#list").getRowData(ids[i]); 
+							obj = jQuery("#list").getRowData(ids[i]); 
 							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='margin: 3px 3px 3px 10px'  ></span></a>";
-							ph = '<a class="thickbox" href="'+obj.urllargephoto+'" onclick="return false"><img src="'+obj.urlphoto+'"/></a>';
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be,foto:ph}); 
-							}*/
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
+							}
 						
 						 
 					}, 						    
@@ -92,35 +73,8 @@
             <g:if test="\${flash.message}">
             <div class="ui-state-highlight ui-corner-all">\${flash.message}</div>
             </g:if>
-            <div class="list">
-                <table>
-                    <thead>
-                        <tr>
-                        
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <g:each in="\${${propertyName}List}" status="i" var="${propertyName}">
-                        <tr class="\${(i % 2) == 0 ? 'odd' : 'even'}">
-                        <%  props.eachWithIndex { p, i ->
-                                if (i == 0) { %>
-                            <td><g:link action="show" id="\${${propertyName}.id}">\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</g:link></td>
-                        <%      } else if (i < 6) {
-                                    if (p.type == Boolean.class || p.type == boolean.class) { %>
-                            <td><g:formatBoolean boolean="\${${propertyName}.${p.name}}" /></td>
-                        <%          } else if (p.type == Date.class || p.type == java.sql.Date.class || p.type == java.sql.Time.class || p.type == Calendar.class) { %>
-                            <td><g:formatDate date="\${${propertyName}.${p.name}}" /></td>
-                        <%          } else { %>
-                            <td>\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</td>
-                        <%  }   }   } %>
-                        </tr>
-                    </g:each>
-                    </tbody>
-                </table>
-            </div>
-            <div class="paginateButtons">
-                <g:paginate total="\${${propertyName}Total}" />
-            </div>
+			<table style="z-index:1"  id="list"></table>
+			<div id="pager" ></div>
         </div>
     </body>
 </html>

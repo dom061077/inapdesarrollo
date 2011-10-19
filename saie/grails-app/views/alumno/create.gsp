@@ -16,8 +16,8 @@
         <script type="text/javascript">
         	$(document).ready(function(){
         $('#fechaNacimientoId' ).datepicker($.datepicker.regional[ 'es' ]); 
-$('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
+$		('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
 ,colnames:['Prop.Id','Prop 1','Prop 2'] 
 ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
 ,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
@@ -26,9 +26,23 @@ $('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
 ,descid:'localidadDomicilioId' 
 ,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
 ,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-//---------------------------------- 
-$('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
+
+$('#localidadDomicilioId' ).autocomplete({source: 'colocar aqui la url',
+ minLength: 2, 
+ select: function( event, ui ) {
+ if(ui.item){ 
+ $('#cie10Id').val(ui.item.id) 
+ } 
+	}, 
+ open: function() { 
+ $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ }, 
+ close: function() {
+ $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ } 
+ });//---------------------------------- 
+$		('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
 ,colnames:['Prop.Id','Prop 1','Prop 2'] 
 ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
 ,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
@@ -37,9 +51,23 @@ $('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
 ,descid:'localidadLaboralId' 
 ,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
 ,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-//---------------------------------- 
-$('#localidadNacId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
+
+$('#localidadLaboralId' ).autocomplete({source: 'colocar aqui la url',
+ minLength: 2, 
+ select: function( event, ui ) {
+ if(ui.item){ 
+ $('#cie10Id').val(ui.item.id) 
+ } 
+	}, 
+ open: function() { 
+ $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ }, 
+ close: function() {
+ $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ } 
+ });//---------------------------------- 
+$		('#localidadNacId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
 ,colnames:['Prop.Id','Prop 1','Prop 2'] 
 ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
 ,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
@@ -48,7 +76,21 @@ $('#localidadNacId').lookupfield({source:'colocar aqui la url',
 ,descid:'localidadNacId' 
 ,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
 ,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-//---------------------------------- 
+
+$('#localidadNacId' ).autocomplete({source: 'colocar aqui la url',
+ minLength: 2, 
+ select: function( event, ui ) {
+ if(ui.item){ 
+ $('#cie10Id').val(ui.item.id) 
+ } 
+	}, 
+ open: function() { 
+ $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ }, 
+ close: function() {
+ $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ } 
+ });//---------------------------------- 
 
         	});
 		</script>
@@ -70,7 +112,6 @@ $('#localidadNacId').lookupfield({source:'colocar aqui la url',
             </div>
             </g:hasErrors>
             <g:form action="save" >
-                <div class="dialog">
                         
 							<g:hasErrors bean="alumnoInstance" field="anioEgreso">
 								<div class="ui-state-error ui-corner-all">
@@ -550,7 +591,6 @@ $('#localidadNacId').lookupfield({source:'colocar aqui la url',
 
 																	
                         
-                </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

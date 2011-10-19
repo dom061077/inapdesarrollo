@@ -1,4 +1,4 @@
-package com.educacion.alumno
+package com.educacion.geografico
 
 
 import com.educacion.util.GUtilDomainClass 
@@ -11,7 +11,7 @@ import java.text.ParseException
 
 
 
-class AlumnoController {
+class LocalidadController {
 
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
@@ -28,22 +28,22 @@ class AlumnoController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-        def alumnoInstance = new Alumno()
-        alumnoInstance.properties = params
-        return [alumnoInstance: alumnoInstance]
+        def localidadInstance = new Localidad()
+        localidadInstance.properties = params
+        return [localidadInstance: localidadInstance]
     }
 
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 
-        def alumnoInstance = new Alumno(params)
-        if (alumnoInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
-            redirect(action: "show", id: alumnoInstance.id)
+        def localidadInstance = new Localidad(params)
+        if (localidadInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'localidad.label', default: 'Localidad'), localidadInstance.id])}"
+            redirect(action: "show", id: localidadInstance.id)
         }
         else {
-            render(view: "create", model: [alumnoInstance: alumnoInstance])
+            render(view: "create", model: [localidadInstance: localidadInstance])
         }
     }
 
@@ -52,13 +52,13 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
 
 		
-        def alumnoInstance = Alumno.get(params.id)
-        if (!alumnoInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+        def localidadInstance = Localidad.get(params.id)
+        if (!localidadInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
             redirect(action: "list")
         }
         else {
-            [alumnoInstance: alumnoInstance]
+            [localidadInstance: localidadInstance]
         }
     }
 
@@ -67,13 +67,13 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
 
 			
-        def alumnoInstance = Alumno.get(params.id)
-        if (!alumnoInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+        def localidadInstance = Localidad.get(params.id)
+        if (!localidadInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [alumnoInstance: alumnoInstance]
+            return [localidadInstance: localidadInstance]
         }
     }
 
@@ -81,28 +81,28 @@ class AlumnoController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
-        def alumnoInstance = Alumno.get(params.id)
-        if (alumnoInstance) {
+        def localidadInstance = Localidad.get(params.id)
+        if (localidadInstance) {
             if (params.version) {
                 def version = params.version.toLong()
-                if (alumnoInstance.version > version) {
+                if (localidadInstance.version > version) {
                     
-                    alumnoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'alumno.label', default: 'Alumno')] as Object[], "Another user has updated this Alumno while you were editing")
-                    render(view: "edit", model: [alumnoInstance: alumnoInstance])
+                    localidadInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'localidad.label', default: 'Localidad')] as Object[], "Another user has updated this Localidad while you were editing")
+                    render(view: "edit", model: [localidadInstance: localidadInstance])
                     return
                 }
             }
-            alumnoInstance.properties = params
-            if (!alumnoInstance.hasErrors() && alumnoInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
-                redirect(action: "show", id: alumnoInstance.id)
+            localidadInstance.properties = params
+            if (!localidadInstance.hasErrors() && localidadInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'localidad.label', default: 'Localidad'), localidadInstance.id])}"
+                redirect(action: "show", id: localidadInstance.id)
             }
             else {
-                render(view: "edit", model: [alumnoInstance: alumnoInstance])
+                render(view: "edit", model: [localidadInstance: localidadInstance])
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
             redirect(action: "list")
         }
     }
@@ -112,20 +112,20 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
 
 		
-        def alumnoInstance = Alumno.get(params.id)
-        if (alumnoInstance) {
+        def localidadInstance = Localidad.get(params.id)
+        if (localidadInstance) {
             try {
-                alumnoInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+                localidadInstance.delete(flush: true)
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
                 redirect(action: "list")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
                 redirect(action: "show", id: params.id)
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'localidad.label', default: 'Localidad'), params.id])}"
             redirect(action: "list")
         }
     }
@@ -133,7 +133,7 @@ class AlumnoController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
-		def gud=new GUtilDomainClass(Alumno,params,grailsApplication)
+		def gud=new GUtilDomainClass(Localidad,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
 		
@@ -164,14 +164,14 @@ class AlumnoController {
 	def listjsonautocomplete={
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
-		def profesionales = Alumno.createCriteria().list(){
+		def list = Localidad.createCriteria().list(){
 				like('nombre','%'+params.term+'%')
 		}
 		log.debug "PROFESIONALES LISTADOS: "+profesionales.size()
 		render(contentType:"text/json"){
 			array{
-				for (prof in profesionales){
-					Alumno id:prof.id,label:prof.nombre,value:prof.nombre
+				for (prof in list){
+					localidad id:prof.id,label:prof.nombre,value:prof.nombre
 				}
 			}
 			
@@ -181,7 +181,7 @@ class AlumnoController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
-		def gud=new GUtilDomainClass(Alumno,params,grailsApplication)
+		def gud=new GUtilDomainClass(Localidad,params,grailsApplication)
 		list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
 		

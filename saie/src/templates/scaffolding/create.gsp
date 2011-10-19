@@ -17,25 +17,11 @@
         	\$(document).ready(function(){
         <% 
 			private renderLookupField(property){
-				return "\$('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n title:'Poner aqui titulo de busqueda' \n,colnames:['Prop.Id','Prop 1','Prop 2'] \n,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' \n,descid:'${property.name+"Id"}' \n,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' \n,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
+				return "\$\t\t('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n \t\t\t\t title:'Poner aqui titulo de busqueda' \n\t\t\t\t,colnames:['Prop.Id','Prop 1','Prop 2'] \n\t\t\t\t,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n \t\t\t\t,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n \t\t\t\t,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n \t\t\t\t,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' \n \t\t\t\t,descid:'${property.name+"Id"}' \n \t\t\t\t,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' \n \t\t\t\t,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
 			}
 			
 			private renderAutocompleField(property){
-				/*$( "#cie10DescripcionId" ).autocomplete({
-				source: 'colocar aqui la ur',
-				minLength: 2,
-				select: function( event, ui ) {
-					if(ui.item){
-						$("#cie10Id").val(ui.item.id)
-					}
-					
-				},
-				open: function() {
-					$( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-				},
-				close: function() {
-					$( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-				}*/
+				return "\$('#${property.name}Id' ).autocomplete({source: 'colocar aqui la url',\n \t\t\t\t minLength: 2, \n  \t\t\t\t select: function( event, ui ) {\n \t\t\t\t\t if(ui.item){ \n \t\t\t\t\t \$('#cie10Id').val(ui.item.id) \n } \n\t\t\t\t\t	}, \n \t\t\t\t open: function() { \n \t\t\t\t\$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); \n \t\t\t\t }, \n \t\t\t\t close: function() {\n \t\t\t\t \$( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); \n \t\t\t\t } \n  \t\t\t\t}); \n"
 			}
 			excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
 			persistentPropNames = domainClass.persistentProperties*.name
@@ -72,6 +58,8 @@
 					    else if (p.type==([] as byte[]).class) out<< ""//TODO: Bug in groovy means i have to do this :(
 					    else if (p.manyToOne || p.oneToOne){
 								out << renderLookupField(p)
+								out << "\n"
+								out << renderAutocompleField(p)
 								out << "//---------------------------------- \n"
 							}
 					    else if ((p.oneToMany && !p.bidirectional) || (p.manyToMany && p.isOwningSide()))
@@ -103,7 +91,6 @@
             </div>
             </g:hasErrors>
             <g:form action="save" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
-                <div class="dialog">
                         <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
                             persistentPropNames = domainClass.persistentProperties*.name
                             props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
@@ -136,7 +123,6 @@
 
 																	
                         <%  }   }   } %>
-                </div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="\${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

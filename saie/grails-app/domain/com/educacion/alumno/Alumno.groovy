@@ -27,7 +27,7 @@ class Alumno {
 	String telefonoParticular
 	String telefonoCelular
 	String email
-	String telefenoAlternativo
+	String telefonoAlternativo
 	
 	//Datos Académicos
 	String establecimientoProcedencia

@@ -3,7 +3,7 @@
         <title><g:layoutTitle default="Grails" /></title>
 	    <link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'screen.css')}" type="text/css" media="screen, projection">
     	<link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'print.css')}" media="print">
-    	<!--[if lt IE 8]><link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'ie.css')}" type="text/css" media="screen, projection"><![endif]-->
+    	<!--[if lt IE 9]><link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'ie.css')}" type="text/css" media="screen, projection"><![endif]-->
         
          <link rel="stylesheet" href="${resource(dir:'css/pepper-grinder',file:'jquery-ui-1.8.16.custom.css')}" />
          <link rel="stylesheet" href="${resource(dir:'css',file:'custom.css')}" /> 
@@ -25,7 +25,7 @@
     </head>
     <body>
     	<div class="container">
-	        <div class="span-24">
+	        <div class="span-24 prepend-top">
 	            <img src="${resource(dir:'images',file:'cabecera1.png')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
 	        </div>
 	        <div class="clear"></div>
@@ -33,9 +33,12 @@
 	        	<g:layoutBody />
 	        </div>
 	        <div class="clear"></div>
-	        <div class="span-24">
-	        	<p style="text-align:center"><h4>Copyright ....</h2></p>
-	        </div>
+
+			<div style="padding-top:5px;height:25px;background:url(${resource(dir:"images",file:"footer1.png")}) no-repeat"  class="span-24 last prepend-top">
+        		<p style="text-align:center">
+           		 &copy; Copyright 2011 &lt;INAP&gt; | Design by: Marca Registrada
+            	</p>
+        	</div><!-- end footer -->	        
 	    </div>    
     </body>
 </html>

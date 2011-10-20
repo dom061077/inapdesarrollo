@@ -16,81 +16,84 @@
         <script type="text/javascript">
         	$(document).ready(function(){
         $('#fechaNacimientoId' ).datepicker($.datepicker.regional[ 'es' ]); 
-$('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
-,colnames:['Prop.Id','Prop 1','Prop 2'] 
-,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
-,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
-,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
-,descid:'localidadDomicilioId' 
-,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
-,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+		$('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
+				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
+ 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
+ 				,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
+ 				,descid:'localidadDomicilioId' 
+ 				,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
+ 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-$('#localidadDomicilioId' ).autocomplete({source: 'colocar aqui la url',
- minLength: 2, 
- select: function( event, ui ) {
- if(ui.item){ 
- $('#cie10Id').val(ui.item.id) 
- } 
-	}, 
- open: function() { 
- $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- }, 
- close: function() {
- $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- } 
- });//---------------------------------- 
-$('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
-,colnames:['Prop.Id','Prop 1','Prop 2'] 
-,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
-,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
-,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
-,descid:'localidadLaboralId' 
-,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
-,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+		$('#localidadDomicilioId' ).autocomplete({source: 'colocar aqui la url',
+ 				 minLength: 2, 
+  				 select: function( event, ui ) {
+ 					 if(ui.item){ 
+ 						 $('#cie10Id').val(ui.item.id) 
+					 } 
+					}, 
+ 				 open: function() { 
+ 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ 				 }, 
+ 				 close: function() {
+ 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ 				 } 
+  				}); 
+//---------------------------------- 
+		$('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
+				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
+ 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
+ 				,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
+ 				,descid:'localidadLaboralId' 
+ 				,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
+ 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-$('#localidadLaboralId' ).autocomplete({source: 'colocar aqui la url',
- minLength: 2, 
- select: function( event, ui ) {
- if(ui.item){ 
- $('#cie10Id').val(ui.item.id) 
- } 
-	}, 
- open: function() { 
- $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- }, 
- close: function() {
- $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- } 
- });//---------------------------------- 
-$('#localidadNacId').lookupfield({source:'colocar aqui la url',
- title:'Poner aqui titulo de busqueda' 
-,colnames:['Prop.Id','Prop 1','Prop 2'] 
-,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
-,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
-,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
-,descid:'localidadNacId' 
-,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
-,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+		$('#localidadLaboralId' ).autocomplete({source: 'colocar aqui la url',
+ 				 minLength: 2, 
+  				 select: function( event, ui ) {
+ 					 if(ui.item){ 
+ 						 $('#cie10Id').val(ui.item.id) 
+					 } 
+					}, 
+ 				 open: function() { 
+ 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ 				 }, 
+ 				 close: function() {
+ 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ 				 } 
+  				}); 
+//---------------------------------- 
+		$('#localidadNacId').lookupfield({source:'colocar aqui la url',
+ 				 title:'Poner aqui titulo de busqueda' 
+				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
+ 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
+ 				,hiddenid:'aqui va el id DOM del elemento html que guarda el id de busqueda' 
+ 				,descid:'localidadNacId' 
+ 				,hiddenfield:'aqui va el id a recuperar de la grilla (Prop.Id)' 
+ 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-$('#localidadNacId' ).autocomplete({source: 'colocar aqui la url',
- minLength: 2, 
- select: function( event, ui ) {
- if(ui.item){ 
- $('#cie10Id').val(ui.item.id) 
- } 
-	}, 
- open: function() { 
- $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- }, 
- close: function() {
- $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- } 
- });//---------------------------------- 
+		$('#localidadNacId' ).autocomplete({source: 'colocar aqui la url',
+ 				 minLength: 2, 
+  				 select: function( event, ui ) {
+ 					 if(ui.item){ 
+ 						 $('#cie10Id').val(ui.item.id) 
+					 } 
+					}, 
+ 				 open: function() { 
+ 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ 				 }, 
+ 				 close: function() {
+ 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ 				 } 
+  				}); 
+//---------------------------------- 
 
         	});
 		</script>

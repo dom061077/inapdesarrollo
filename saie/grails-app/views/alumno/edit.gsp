@@ -483,19 +483,19 @@
 		
 																
 		            
-						<g:hasErrors bean="alumnoInstance" field="telefenoAlternativo">
+						<g:hasErrors bean="alumnoInstance" field="telefonoAlternativo">
 							<div class="ui-state-error ui-corner-all">
 						</g:hasErrors>
 						
 						<div class="span-3 spanlabel">
-							<label for="telefenoAlternativo"><g:message code="alumno.telefenoAlternativo.label" default="Telefeno Alternativo" /></label>
+							<label for="telefonoAlternativo"><g:message code="alumno.telefonoAlternativo.label" default="telefono Alternativo" /></label>
 						</div>
 						<div class="span-5">
-							<g:textField name="telefenoAlternativoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefenoAlternativo}" />
+							<g:textField name="telefonoAlternativoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoAlternativo}" />
 						</div>
 									
-						<g:hasErrors bean="alumnoInstance" field="telefenoAlternativo">
-							<g:renderErrors bean="alumnoInstance" as="list" field="telefenoAlternativo"/>
+						<g:hasErrors bean="alumnoInstance" field="telefonoAlternativo">
+							<g:renderErrors bean="alumnoInstance" as="list" field="telefonoAlternativo"/>
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>

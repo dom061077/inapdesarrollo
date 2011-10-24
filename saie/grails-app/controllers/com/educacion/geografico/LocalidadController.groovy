@@ -167,11 +167,10 @@ class LocalidadController {
 		def list = Localidad.createCriteria().list(){
 				like('nombre','%'+params.term+'%')
 		}
-		log.debug "PROFESIONALES LISTADOS: "+profesionales.size()
 		render(contentType:"text/json"){
 			array{
-				for (prof in list){
-					localidad id:prof.id,label:prof.nombre,value:prof.nombre
+				for (obj in list){
+					localidad id:obj.id,label:obj.nombre,value:obj.nombre
 				}
 			}
 			

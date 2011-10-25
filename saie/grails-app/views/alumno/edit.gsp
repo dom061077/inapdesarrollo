@@ -18,7 +18,7 @@
         $('#fechaNacimientoId' ).datepicker($.datepicker.regional[ 'es' ]); 
 		$('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
  				 title:'Poner aqui titulo de busqueda' 
-				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colNames:['Prop.Id','Prop 1','Prop 2'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
  				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
@@ -44,7 +44,7 @@
 //---------------------------------- 
 		$('#localidadLaboralId').lookupfield({source:'colocar aqui la url',
  				 title:'Poner aqui titulo de busqueda' 
-				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colNames:['Prop.Id','Prop 1','Prop 2'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
  				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
@@ -70,7 +70,7 @@
 //---------------------------------- 
 		$('#localidadNacId').lookupfield({source:'colocar aqui la url',
  				 title:'Poner aqui titulo de busqueda' 
-				,colnames:['Prop.Id','Prop 1','Prop 2'] 
+				,colNames:['Prop.Id','Prop 1','Prop 2'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
  				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 

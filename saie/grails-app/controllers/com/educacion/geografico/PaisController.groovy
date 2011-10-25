@@ -167,11 +167,10 @@ class PaisController {
 		def list = Pais.createCriteria().list(){
 				like('nombre','%'+params.term+'%')
 		}
-		log.debug "PROFESIONALES LISTADOS: "+profesionales.size()
 		render(contentType:"text/json"){
 			array{
-				for (prof in list){
-					pais id:prof.id,label:prof.nombre,value:prof.nombre
+				for (obj in list){
+					pais id:obj.id,label:obj.nombre,value:obj.nombre
 				}
 			}
 			

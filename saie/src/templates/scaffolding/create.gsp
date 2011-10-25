@@ -17,7 +17,7 @@
         	\$(document).ready(function(){
         <% 
 			private renderLookupField(property){
-				return "\t\t\$('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n \t\t\t\t title:'Poner aqui titulo de busqueda' \n\t\t\t\t,colnames:['Prop.Id','Prop 1','Prop 2'] \n\t\t\t\t,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n \t\t\t\t,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n \t\t\t\t,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n \t\t\t\t,hiddenid:'${property.name+"Id"}' \n \t\t\t\t,descid:'${property.name+"Id"}' \n \t\t\t\t,hiddenfield:'id' \n \t\t\t\t,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
+				return "\t\t\$('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n \t\t\t\t title:'Poner aqui titulo de busqueda' \n\t\t\t\t,colNames:['Prop.Id','Prop 1','Prop 2'] \n\t\t\t\t,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n \t\t\t\t,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n \t\t\t\t,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n \t\t\t\t,hiddenid:'${property.name+"Id"}' \n \t\t\t\t,descid:'${property.name+"Id"}' \n \t\t\t\t,hiddenfield:'id' \n \t\t\t\t,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
 			}
 			
 			private renderAutocompleField(property){

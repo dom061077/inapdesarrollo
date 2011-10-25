@@ -198,7 +198,7 @@ class LocalidadController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'","'+it.codigoPostal+'"]}'
 			 
 			flagaddcomilla=true
 		}

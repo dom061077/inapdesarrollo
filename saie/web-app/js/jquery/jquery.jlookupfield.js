@@ -13,7 +13,9 @@ $(document).ready(function(){
 		                colnames:[],
 		                colModel:[],
 		                hiddenfield:'id',
-		                descfield:['descripcion']
+		                descfield:['descripcion'],
+		                onSelected :function(){},
+		                postData:{}
 		            };
 		            function showgriddialog(dialog){
 						//$('#searchDialogId').add(grid);
@@ -51,9 +53,10 @@ $(document).ready(function(){
 									 ],*/
 							//colnames:settings.colnames,
 							//colModel:settings.colModel,
-							colnames:settings.colnames,
+							colNames:settings.colNames,
 							colModel:settings.colModel,
-									 
+							postData: settings.postData,
+							ajaxGridOptions: {cache: false},		 
 							ondblClickRow: function(id){
 								var obj=$('#'+tableSearchId).getRowData(id);
 								var descriptions = "";
@@ -64,6 +67,7 @@ $(document).ready(function(){
 								$('#'+settings.hiddenid).val(obj[settings.hiddenfield]);
 								$('#'+settings.descid).val(descriptions);		 
 								$('#'+searchDialogId).dialog("close");
+								settings.onSelected();
 								
 							} 
 						});

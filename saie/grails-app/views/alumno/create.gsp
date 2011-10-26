@@ -30,7 +30,18 @@
 			,hiddenfield:'id' 
 			,descfield:['nombre']
 			,onSelected:function(){
-				$('#gview_provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
+				alert($('#provinciaDomicilioIdtablesearchId').getPostData());
+				var filters = {filters:{
+						groupOp:"AND"
+						,rules:[
+								{field:"nombre",op:"bw",data:"ab"}
+								]
+					}};
+				
+				$('#provinciaDomicilioIdtablesearchId').setPostData(filters);
+				$('#provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
+				
+				
 			}
 		}); 
 

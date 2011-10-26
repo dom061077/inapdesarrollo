@@ -181,6 +181,7 @@ class ProvinciaController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
+		
 		def gud=new GUtilDomainClass(Provincia,params,grailsApplication)
 		list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)

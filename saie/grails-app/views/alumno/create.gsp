@@ -30,21 +30,35 @@
 			,hiddenfield:'id' 
 			,descfield:['nombre']
 			,onSelected:function(){
-				alert($('#provinciaDomicilioIdtablesearchId').getPostData());
-				var filters = {filters:{
-						groupOp:"AND"
-						,rules:[
-								{field:"nombre",op:"bw",data:"ab"}
-								]
-					}};
+				var filters = '{altfilters:{groupOp:"AND",rules:[{field:"pais_id",op:"eq",data:'+$('#paisDomicilioIdId').val()+'}]}}';
 				
-				$('#provinciaDomicilioIdtablesearchId').setPostData(filters);
+				$('#provinciaDomicilioIdtablesearchId').setPostData(JSON.stringify(filters));
 				$('#provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
 				
 				
 			}
 		}); 
 
+		$('#paisDomicilioId' ).autocomplete({source: '<%createLink(controller:"pais",action:"listjsonautocomplete")%>',
+			 minLength: 2, 
+				 select: function( event, ui ) {
+				 if(ui.item){ 
+					 $('#paisDomicilioIdId').val(ui.item.id) 
+				 } 
+				}, 
+			 open: function() { 
+				$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+			 }, 
+			 close: function() {
+				 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+			 } 
+				}); 
+		$('#paisDomicilioId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#paisDomicilioId').val("")
+	   		}
+	   	});	
+		
 				 
 		//---------------------------------- 
 		
@@ -53,16 +67,39 @@
 				,colNames:['Id','Nombre'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  					,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
-				,postData:{
-						paisId:function(){
-								return $('#paisDomicilioId').val();
-							}
-					} 
+				,onSelected:function(){
+					var filters = '{altfilters:{groupOp:"AND",rules:[{field:"provincia_id",op:"eq",data:'+$('#provinciaDomicilioIdId').val()+'}]}}';
+					$('#localidadDomicilioIdtablesearchId').setPostData(JSON.stringify(filters));
+					$('#localidadDomicilioIdtablesearchId').trigger('reloadGrid');
+					
+					
+				}
  				,hiddenid:'provinciaDomicilioIdId' 
- 				,descid:'provinciaDomicilioId' 
+ 				,descid:'provinciaDomicilioId'
  				,hiddenfield:'id' 
  				,descfield:['nombre']}); 
 
+		$('#provinciaDomicilioId' ).autocomplete({source: '<%createLink(controller:"provincia",action:"listjsonautocomplete")%>',
+			 minLength: 2, 
+				 select: function( event, ui ) {
+				 if(ui.item){ 
+					 $('#provinciaDomicilioIdId').val(ui.item.id) 
+				 } 
+				}, 
+			 open: function() { 
+				$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+			 }, 
+			 close: function() {
+				 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+			 } 
+				}); 
+		$('#provinciaDomicilioId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#provinciaDomicilioId').val("")
+	   		}
+	   	});	
+
+		
 		//---------------------------------- 
 		
         
@@ -71,12 +108,36 @@
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
- 				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+ 				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}]
+				,postData:{
+					provinciaId:function(){
+							return $('#provinciaDomicilioId').val();
+						}
+				} 
  				,hiddenid:'localidadDomicilioIdId' 
  				,descid:'localidadDomicilioId' 
  				,hiddenfield:'id' 
  				,descfield:['nombre','codigoPostal']}); 
 
+		$('#localidadDomicilioId' ).autocomplete({source: '<%createLink(controller:"localidad",action:"listjsonautocomplete")%>',
+ 				 minLength: 2, 
+  				 select: function( event, ui ) {
+ 					 if(ui.item){ 
+ 						 $('#localidadDomicilioIdId').val(ui.item.id) 
+					 } 
+					}, 
+ 				 open: function() { 
+ 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+ 				 }, 
+ 				 close: function() {
+ 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+ 				 } 
+  				}); 
+		$('#localidadDomicilioId').keyup(function(){
+        	if($.trim($(this).val())==""){
+        		$('#localidadDomicilioId').val("")
+        	}
+        });	
 //---------------------------------- 
 		$('#localidadLaboralId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
  				 title:'Localidad Laboral' 

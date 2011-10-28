@@ -159,6 +159,7 @@ class GUtilDomainClass{
 		def metaProperty
 		def fieldToken
 		def list = []
+		def filtersJson
 		def pagingConfing = [
 			max: Integer.parseInt(params.rows),
 			offset: Integer.parseInt(params.page)-1
@@ -177,7 +178,7 @@ class GUtilDomainClass{
 					criteria."${searchOper}"(params.searchField,searchValue)
 				}	
 				if(params.filters){
-					def filtersJson = JSON.parse(params.filters)
+					filtersJson = JSON.parse(params.filters)
 					criteria."${filtersJson.groupOp.toLowerCase()}"(){
 							filtersJson?.rules?.each{
 								log.info "REGLAS DE BUSQUEDA APLICADAS:"
@@ -194,12 +195,31 @@ class GUtilDomainClass{
 								}else{
 									criteria."${searchOper}"(it.field,searchValue)
 								}
-
-								
-								
 							}
 						}	
 				}
+				if(params.altfilters){
+					filtersJson = JSON.parse(params.altfilters)
+					criteria."${filtersJson.groupOp.toLowerCase()}"(){
+							filtersJson?.rules?.each{
+								log.info "REGLAS DE BUSQUEDA APLICADAS:"
+								searchOper = operationSearch(it.op)
+								metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
+								
+
+								searchValue=parseValue(it.data,metaProperty,params)
+								if(it.field.contains("_")){
+									fieldToken = it.field.tokenize("_")
+									criteria."${fieldToken[0]}"{
+										criteria."${searchOper}"(fieldToken[1],searchValue)
+									}
+								}else{
+									criteria."${searchOper}"(it.field,searchValue)
+								}
+							}
+						}
+				}
+				
 			}
 			log.info "paginacion en list refactor rows: ${params.rows.toInteger()}, pag: ${params.page.toInteger()}"
 			if(rowcount){

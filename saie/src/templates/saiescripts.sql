@@ -1,4 +1,5 @@
 INSERT INTO saie.pais(id,VERSION,nombre)VALUES(1,0,'ARGENTINA');
+INSERT INTO saie.pais(id,VERSION,nombre)VALUES(2,0,'MEXICO');
 
 ALTER TABLE `saie`.`provincia` CHANGE `id` `id` BIGINT(20) NOT NULL;
 INSERT INTO saie.provincia(id,VERSION,nombre,pais_id)

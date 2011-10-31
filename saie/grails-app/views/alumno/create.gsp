@@ -30,10 +30,27 @@
 			,hiddenfield:'id' 
 			,descfield:['nombre']
 			,onSelected:function(){
-				var filters = '{altfilters:{groupOp:"AND",rules:[{field:"pais_id",op:"eq",data:'+$('#paisDomicilioIdId').val()+'}]}}';
+				// addPostDataFilters("AND");
+				var myfilter = { groupOp: "AND", rules: []};
+
+				// addFilteritem("invdate", "gt", "2007-09-06");
+				//myfilter.rules.push({field:"invdate",op:"gt",data:"2007-09-06"});
+
+				// addFilteritem("invdate", "lt", "2007-10-04");
+				//myfilter.rules.push({field:"invdate",op:"lt",data:"2007-10-04"});
+
+				// addFilteritem("name", "bw", "test");
+				myfilter.rules.push({field:"pais_id",op:"eq",data:$('#paisDomicilioIdId').val()});
+
+				var grid = $('#provinciaDomicilioIdtablesearchId') 
+				grid[0].p.search = myfilter.rules.length>0;
+				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(myfilter)});
+				grid.trigger("reloadGrid",[{page:1}]);
+
 				
-				$('#provinciaDomicilioIdtablesearchId').setPostData(JSON.stringify(filters));
-				$('#provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
+				//$('#provinciaDomicilioIdtablesearchId').setPostData(jQuery.parseJSON(filters));
+				//var data = $("#provinciaDomicilioIdtablesearchId").jqGrid("getGridParam","postData");
+				//$('#provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
 				
 				
 			}

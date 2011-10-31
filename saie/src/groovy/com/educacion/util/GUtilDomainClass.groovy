@@ -168,7 +168,7 @@ class GUtilDomainClass{
 		
 		def closure = {
 			log.debug "INGRESANDO AL CLOSURE INTERNO QUE AGREGA LAS CONDICIONES DE BUSQUEDA DEL CRITERIA"
-			if(Boolean.parseBoolean(params._search)){
+			if(Boolean.parseBoolean(params._search )|| (params.search && Boolean.parseBoolean(params.search))){
 				if(params.searchOper){
 					log.debug "params.searchString ${params.searchString}, params.searchField: ${params.searchField}"
 					metaProperty=FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,params.searchField)

@@ -10,3 +10,8 @@ h1,h2{
 		padding: 7px 0px 0px 0px;
 	
 }
+
+.geoinput{
+	width:300px;
+	readonly:true;
+}

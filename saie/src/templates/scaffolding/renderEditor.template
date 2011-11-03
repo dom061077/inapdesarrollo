@@ -64,7 +64,7 @@
 
     private renderManyToOne(domainClass,property) {
         if (property.association) {
-            return "<g:textField class=\"ui-widget ui-corner-all ui-widget-content\" id=\"${property.name}Id\" name=\"${property.name}Desc\"  value=\"colocar el valor del field descripcion\" /> \n <g:hiddenField id=\"${property.name}IdId\" name=\"${property.name}.id\" value=\"\$${property.name}?.id\" />"
+            return "<g:textField class=\"ui-widget ui-corner-all ui-widget-content\" id=\"${property.name}Id\" name=\"${property.name}Desc\"  value=\"colocar el valor del field descripcion\" /> \n <g:hiddenField id=\"${property.name}IdId\" name=\"${property.name}.id\" value=\"\$\{${property.name}?.id\}\" />"
         }
     }
 

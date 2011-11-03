@@ -104,7 +104,7 @@
                                         display = (cp ? cp.display : true)
                                     }
                                     if (display) { %>
-							<g:hasErrors bean="${propertyName}" field="${p.name}">
+							<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -115,8 +115,8 @@
 								${renderEditor(p)}
 							</div>
 										
-							<g:hasErrors bean="${propertyName}" field="${p.name}">
-								<g:renderErrors bean="${propertyName}" as="list" field="${p.name}"/>
+							<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
+								<g:renderErrors bean="\$\{${propertyName}\}" as="list" field="${p.name}"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>

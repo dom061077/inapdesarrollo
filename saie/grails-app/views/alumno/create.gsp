@@ -111,31 +111,341 @@
         		$('#localidadDomicilioId').val("")
         	}
         });	
-//---------------------------------- 
-		$('#localidadLaboralId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
- 				 title:'Localidad Laboral' 
+
+        
+		//---------------------------------- 	
+		$('#paisLaboralId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+			 title:'Pais de Laboral' 
+			,colNames:['Id','Nombre'] 
+			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+			,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+			,hiddenid:'paisLaboralIdId' 
+			,descid:'paisLaboralId' 
+			,hiddenfield:'id' 
+			,descfield:['nombre']
+			,onSelected:function(){
+				var filter = { groupOp: "AND", rules: []};
+
+				filter.rules.push({field:"pais_id",op:"eq",data:$('#paisLaboralIdId').val()});
+
+				var grid = $('#provinciaLaboralIdtablesearchId') 
+				grid[0].p.search = filter.rules.length>0;
+				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+				grid.trigger("reloadGrid",[{page:1}]);
+				
+				
+			}
+		}); 
+
+		$('#paisLaboralId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#paisLaboralId').val("")
+	   		}
+	   	});	
+		
+				 
+		//---------------------------------- 
+		
+		$('#provinciaLaboralId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+ 				 title:'Provincia del Laboral' 
 				,colNames:['Id','Nombre'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+ 					,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+				,onSelected:function(){
+					var filter = { groupOp: "AND", rules: []};
+					filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaLaboralIdId').val()});
+					var grid = $('#localidadLaboralIdtablesearchId') ;
+					grid[0].p.search = filter.rules.length>0;
+					$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+					grid.trigger("reloadGrid",[{page:1}]);
+					
+					
+				}
+ 				,hiddenid:'provinciaLaboralIdId' 
+ 				,descid:'provinciaLaboralId'
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre']}); 
+
+		$('#provinciaLaboralId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#provinciaLaboralId').val("")
+	   		}
+	   	});	
+
+		
+		//---------------------------------- 
+
+
+
+		$('#localidadLaboralId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+ 				 title:'Localidad Laboral' 
+				,colNames:['Id','Nombre','Código Postal'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
  				,hiddenid:'localidadLaboralIdId' 
  				,descid:'localidadLaboralId' 
  				,hiddenfield:'id' 
- 				,descfield:['nombre','codigoPostal']}); 
+ 				,descfield:['nombre','codigoPostal'] 
+        	});
 
-//---------------------------------- 
-		$('#localidadNacId').lookupfield({source:'<%createLink(controller:"localidad",action:"listsearchjson")%>',
- 				 title:'Localidad de Nacimiento' 
+
+//---------------------------------- 	
+		$('#paisNacId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+			 title:'Pais de Nacimiento' 
+			,colNames:['Id','Nombre'] 
+			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+			,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+			,hiddenid:'paisNacIdId' 
+			,descid:'paisNacId' 
+			,hiddenfield:'id' 
+			,descfield:['nombre']
+			,onSelected:function(){
+				// addPostDataFilters("AND");
+				var filter = { groupOp: "AND", rules: []};
+
+				// addFilteritem("invdate", "gt", "2007-09-06");
+				//myfilter.rules.push({field:"invdate",op:"gt",data:"2007-09-06"});
+
+				// addFilteritem("invdate", "lt", "2007-10-04");
+				//myfilter.rules.push({field:"invdate",op:"lt",data:"2007-10-04"});
+
+				// addFilteritem("name", "bw", "test");
+				filter.rules.push({field:"pais_id",op:"eq",data:$('#paisNacIdId').val()});
+
+				var grid = $('#provinciaNacIdtablesearchId') 
+				grid[0].p.search = filter.rules.length>0;
+				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+				grid.trigger("reloadGrid",[{page:1}]);
+
+				
+				//$('#provinciaDomicilioIdtablesearchId').setPostData(jQuery.parseJSON(filters));
+				//var data = $("#provinciaDomicilioIdtablesearchId").jqGrid("getGridParam","postData");
+				//$('#provinciaDomicilioIdtablesearchId').trigger('reloadGrid');
+				
+				
+			}
+		}); 
+
+		$('#paisNacId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#paisNacId').val("")
+	   		}
+	   	});	
+		
+				 
+		//---------------------------------- 
+		
+		$('#provinciaNacId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+ 				 title:'Provincia del Nacimiento' 
 				,colNames:['Id','Nombre'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+ 					,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+				,onSelected:function(){
+					var filter = { groupOp: "AND", rules: []};
+					filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaNacIdId').val()});
+					var grid = $('#localidadNacIdtablesearchId') ;
+					grid[0].p.search = filter.rules.length>0;
+					$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+					grid.trigger("reloadGrid",[{page:1}]);
+					
+					
+				}
+ 				,hiddenid:'provinciaNacIdId' 
+ 				,descid:'provinciaNacId'
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre']}); 
+
+		$('#provinciaNacId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#provinciaNacId').val("")
+	   		}
+	   	});	
+
+		
+		//---------------------------------- 
+
+
+		$('#localidadNacId').lookupfield({source:'<%out << createLink(controller:"localidad",action:"listsearchjson")%>',
+ 				 title:'Localidad de Nacimiento' 
+				,colNames:['Id','Nombre','Código Postal'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
  				,hiddenid:'localidadNacIdId' 
  				,descid:'localidadNacId' 
  				,hiddenfield:'id' 
- 				,descfield:['nombre','codigoPostal']}); 
+ 				,descfield:['nombre','codigoPostal']});
+		$('#localidadNacId').keyup(function(){
+		   	if($.trim($(this).val())==""){
+		   		$('#localidadNacId').val("")
+		   	}
+		   }); 
+
+
+		//---------------------------------- 	
+		$('#paisTutorId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+			 title:'Pais de Laboral' 
+			,colNames:['Id','Nombre'] 
+			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+			,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+			,hiddenid:'paisTutorIdId' 
+			,descid:'paisTutorId' 
+			,hiddenfield:'id' 
+			,descfield:['nombre']
+			,onSelected:function(){
+				var filter = { groupOp: "AND", rules: []};
+
+				filter.rules.push({field:"pais_id",op:"eq",data:$('#paisTutorIdId').val()});
+
+				var grid = $('#provinciaTutorIdtablesearchId') 
+				grid[0].p.search = filter.rules.length>0;
+				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+				grid.trigger("reloadGrid",[{page:1}]);
+				
+				
+			}
+		}); 
+
+		$('#paisTutorId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#paisTutorId').val("")
+	   		}
+	   	});	
+		
+				 
+		//---------------------------------- 
+		
+		$('#provinciaTutorId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+ 				 title:'Provincia del Tutor' 
+				,colNames:['Id','Nombre'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 					,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+				,onSelected:function(){
+					var filter = { groupOp: "AND", rules: []};
+					filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaTutorIdId').val()});
+					var grid = $('#localidadTutorIdtablesearchId') ;
+					grid[0].p.search = filter.rules.length>0;
+					$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+					grid.trigger("reloadGrid",[{page:1}]);
+					
+					
+				}
+ 				,hiddenid:'provinciaTutorIdId' 
+ 				,descid:'provinciaTutorId'
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre']}); 
+
+		$('#provinciaTutorId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#provinciaTutorId').val("")
+	   		}
+	   	});	
+
+		
+		//---------------------------------- 
+
+
+
+		$('#localidadTutorId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+ 				 title:'Localidad Tutor' 
+				,colNames:['Id','Nombre','Código Postal'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+ 				,hiddenid:'localidadTutorIdId' 
+ 				,descid:'localidadTutorId' 
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre','codigoPostal'] 
+        	});
+
+		
+
+//----------------------------------
+
+		$('#paisGaranteId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+			 title:'Pais del Garante' 
+			,colNames:['Id','Nombre'] 
+			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+			,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
+			,hiddenid:'paisGaranteIdId' 
+			,descid:'paisGaranteId' 
+			,hiddenfield:'id' 
+			,descfield:['nombre']
+			,onSelected:function(){
+				var filter = { groupOp: "AND", rules: []};
+
+				filter.rules.push({field:"pais_id",op:"eq",data:$('#paisGaranteIdId').val()});
+
+				var grid = $('#provinciaGaranteIdtablesearchId') 
+				grid[0].p.search = filter.rules.length>0;
+				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+				grid.trigger("reloadGrid",[{page:1}]);
+				
+				
+			}
+		}); 
+
+		$('#paisGaranteId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#paisGaranteId').val("")
+	   		}
+	   	});	
+		
+				 
+		//---------------------------------- 
+		
+		$('#provinciaGaranteId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+ 				 title:'Provincia del Garante' 
+				,colNames:['Id','Nombre'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 					,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+				,onSelected:function(){
+					var filter = { groupOp: "AND", rules: []};
+					filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaGaranteIdId').val()});
+					var grid = $('#localidadGaranteIdtablesearchId') ;
+					grid[0].p.search = filter.rules.length>0;
+					$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+					grid.trigger("reloadGrid",[{page:1}]);
+					
+					
+				}
+ 				,hiddenid:'provinciaGaranteIdId' 
+ 				,descid:'provinciaGaranteId'
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre']}); 
+
+		$('#provinciaGaranteId').keyup(function(){
+	   		if($.trim($(this).val())==""){
+	   			$('#provinciaGaranteId').val("")
+	   		}
+	   	});	
+
+		
+		//---------------------------------- 
+
+
+
+		$('#localidadGaranteId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+ 				 title:'Localidad Garante' 
+				,colNames:['Id','Nombre','Código Postal'] 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+ 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+ 				,hiddenid:'localidadGaranteIdId' 
+ 				,descid:'localidadGaranteId' 
+ 				,hiddenfield:'id' 
+ 				,descfield:['nombre','codigoPostal'] 
+        	});
+
+		
 
 //---------------------------------- 
+
+
+
 		$('#situacionAdministrativaId').lookupfield({source:'<%createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>',
- 				 title:'Localidad de Nacimiento' 
+ 				 title:'Situacion Admistrativa' 
 				,colNames:['Id','Nombre'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
@@ -168,7 +478,7 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-            	<div id="tabs">
+            	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>
 						<li><a href="#tabs-datostutorgarante">Datos del Tutor y Garante</a></li>
@@ -179,7 +489,7 @@
                      <fieldset>
                      	<legend>Datos Personales</legend>
                       
-							<g:hasErrors bean="alumnoInstance" field="tipoDocumento">
+							<g:hasErrors bean="${alumnoInstance}" field="tipoDocumento">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -190,13 +500,13 @@
 								<g:select id="tipoDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="tipoDocumento" from="${com.educacion.enums.TipoDocumentoEnum?.values()}" keys="${com.educacion.enums.TipoDocumentoEnum?.values()*.name()}" value="${alumnoInstance?.tipoDocumento?.name()}"  optionValue="name"/>
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="tipoDocumento">
-								<g:renderErrors bean="alumnoInstance" as="list" field="tipoDocumento"/>
+							<g:hasErrors bean="${alumnoInstance}" field="tipoDocumento">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="tipoDocumento"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
-							<g:hasErrors bean="alumnoInstance" field="numeroDocumento">
+							<g:hasErrors bean="${alumnoInstance}" field="numeroDocumento">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -207,13 +517,13 @@
 								<g:textField id="numeroDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="numeroDocumento" value="${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}" />
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="numeroDocumento">
-								<g:renderErrors bean="alumnoInstance" as="list" field="numeroDocumento"/>
+							<g:hasErrors bean="${alumnoInstance}" field="numeroDocumento">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="numeroDocumento"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-							<g:hasErrors bean="alumnoInstance" field="apellidoNombre">
+							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -224,13 +534,13 @@
 								<g:textField name="apellidoNombreId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="apellidoNombre">
-								<g:renderErrors bean="alumnoInstance" as="list" field="apellidoNombre"/>
+							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="apellidoNombre"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-							<g:hasErrors bean="alumnoInstance" field="sexo">
+							<g:hasErrors bean="${alumnoInstance}" field="sexo">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -241,13 +551,13 @@
 								<g:select id="sexoId" class="ui-widget ui-corner-all ui-widget-content" name="sexo" from="${com.educacion.enums.SexoEnum?.values()}" keys="${com.educacion.enums.SexoEnum?.values()*.name()}" value="${alumnoInstance?.sexo?.name()}"  optionValue="name"/>
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="sexo">
-								<g:renderErrors bean="alumnoInstance" as="list" field="sexo"/>
+							<g:hasErrors bean="${alumnoInstance}" field="sexo">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="sexo"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-							<g:hasErrors bean="alumnoInstance" field="fechaNacimiento">
+							<g:hasErrors bean="${alumnoInstance}" field="fechaNacimiento">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
@@ -258,8 +568,8 @@
 								<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="fechaNacimiento" value="${fieldValue(bean: alumnoInstance, field: 'fechaNacimiento')}" />
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="fechaNacimiento">
-								<g:renderErrors bean="alumnoInstance" as="list" field="fechaNacimiento"/>
+							<g:hasErrors bean="${alumnoInstance}" field="fechaNacimiento">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="fechaNacimiento"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
@@ -272,8 +582,8 @@
 								<label for="paisNac"><g:message code="alumno.paisNac.label" default="Pais de Nacimiento" /></label>
 							</div>
 							<div class="span-9">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisNacId" name="paisNacDesc"  value="localidadNac.provincia?.pais?.nombre" /> 
-								<g:hiddenField id="paisNacIdId" name="localidadNac.provincia?.pais?.id" value="$localidadNac?.provincia?.pais.id" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisNacId" name="paisNacDesc"  value="${alumnoInstance?.localidadNac?.provincia?.pais?.nombre}" /> 
+								<g:hiddenField id="paisNacIdId" name="localidadNac.provincia?.pais?.id" value="${alumnoInstance?.localidadNac?.provincia?.pais?.id}" />
 							</div>
 							<div class="clear"></div>	
 
@@ -281,45 +591,33 @@
 								<label for="provinciaNac"><g:message code="alumno.provinciaNac.label" default="Provincia de Nacimiento" /></label>
 							</div>
 							<div class="span-9">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaNacId" name="provinciaNacDesc"  value="localidadNac.provincia?.nombre" /> 
-								<g:hiddenField id="provinciaNacIdId" name="localidadNac.provincia?.id" value="$localidadNac?.provincia?.id" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaNacId" name="provinciaNacDesc"  value="${alumnoInstance?.localidadNac?.provincia?.nombre}" /> 
+								<g:hiddenField id="provinciaNacIdId" name="localidadNac.provincia?.id" value="${alumnoInstance?.localidadNac?.provincia?.id}" />
 							</div>
 							<div class="clear"></div>	
 
-
+							<g:hasErrors bean="${alumnoInstance}" field="localidadNac">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
 							<div class="span-3 spanlabel">
 								<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 							</div>
 							<div class="span-9">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="colocar el valor del field descripcion" /> 
-								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="$localidadNac?.id" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
+								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
 							</div>
-							<div class="clear"></div>
 							
-							
-							<g:hasErrors bean="alumnoInstance" field="localidadNac">
+							<g:hasErrors bean="${alumnoInstance}" field="localidadNac">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
+							<div class="clear"></div>
 					
-							<div class="span-3 spanlabel">
-								<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="colocar el valor del field descripcion" /> 
-								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="$localidadNac?.id" />
-							</div>
-										
-							<g:hasErrors bean="alumnoInstance" field="localidadNac">
-								<g:renderErrors bean="alumnoInstance" as="list" field="localidadNac"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
 						
 						</fieldset>						   
 
 						<fieldset>
 							<legend>Domicilio</legend>
-											<g:hasErrors bean="alumnoInstance" field="calleDomicilio">
+											<g:hasErrors bean="${alumnoInstance}" field="calleDomicilio">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -330,14 +628,14 @@
 												<g:textField name="calleDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleDomicilio}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="calleDomicilio">
-												<g:renderErrors bean="alumnoInstance" as="list" field="calleDomicilio"/>
+											<g:hasErrors bean="${alumnoInstance}" field="calleDomicilio">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="calleDomicilio"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
 				
-											<g:hasErrors bean="alumnoInstance" field="numeroDomicilio">
+											<g:hasErrors bean="${alumnoInstance}" field="numeroDomicilio">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -348,13 +646,13 @@
 												<g:textField name="numeroDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroDomicilio}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="numeroDomicilio">
-												<g:renderErrors bean="alumnoInstance" as="list" field="numeroDomicilio"/>
+											<g:hasErrors bean="${alumnoInstance}" field="numeroDomicilio">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="numeroDomicilio"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
-											<g:hasErrors bean="alumnoInstance" field="barrioDomicilio">
+											<g:hasErrors bean="${alumnoInstance}" field="barrioDomicilio">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -365,8 +663,8 @@
 												<g:textField name="barrioDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioDomicilio}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="barrioDomicilio">
-												<g:renderErrors bean="alumnoInstance" as="list" field="barrioDomicilio"/>
+											<g:hasErrors bean="${alumnoInstance}" field="barrioDomicilio">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="barrioDomicilio"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
@@ -390,7 +688,7 @@
 											<div class="clear"></div>
 											
 											
-											<g:hasErrors bean="alumnoInstance" field="localidadDomicilio">
+											<g:hasErrors bean="${alumnoInstance}" field="localidadDomicilio">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -402,8 +700,8 @@
 				 								<g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${alumnoInstance.localidadDomicilio?.id}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="localidadDomicilio">
-												<g:renderErrors bean="alumnoInstance" as="list" field="localidadDomicilio"/>
+											<g:hasErrors bean="${alumnoInstance}" field="localidadDomicilio">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="localidadDomicilio"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
@@ -412,7 +710,7 @@
 							<fieldset>
 								<legend>Datos de Contacto</legend>
 								
-											<g:hasErrors bean="alumnoInstance" field="telefonoParticular">
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoParticular">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											<div class="span-3 spanlabel">
@@ -421,14 +719,14 @@
 											<div class="span-5">
 												<g:textField name="telefonoParticularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoParticular}" />
 											</div>
-											<g:hasErrors bean="alumnoInstance" field="telefonoParticular">
-												<g:renderErrors bean="alumnoInstance" as="list" field="telefonoParticular"/>
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoParticular">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoParticular"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 					
 										   
-											<g:hasErrors bean="alumnoInstance" field="telefonoCelular">
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoCelular">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											<div class="span-3 spanlabel">
@@ -437,14 +735,14 @@
 											<div class="span-5">
 												<g:textField name="telefonoCelularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoCelular}" />
 											</div>
-											<g:hasErrors bean="alumnoInstance" field="telefonoCelular">
-												<g:renderErrors bean="alumnoInstance" as="list" field="telefonoCelular"/>
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoCelular">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoCelular"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 										   
 					
-											<g:hasErrors bean="alumnoInstance" field="email">
+											<g:hasErrors bean="${alumnoInstance}" field="email">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											<div class="span-3 spanlabel">
@@ -453,14 +751,14 @@
 											<div class="span-5">
 												<g:textField name="emailId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.email}" />
 											</div>
-											<g:hasErrors bean="alumnoInstance" field="email">
-												<g:renderErrors bean="alumnoInstance" as="list" field="email"/>
+											<g:hasErrors bean="${alumnoInstance}" field="email">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="email"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 					
 										   
-											<g:hasErrors bean="alumnoInstance" field="telefonoAlternativo">
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoAlternativo">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -470,8 +768,8 @@
 											<div class="span-5">
 												<g:textField name="telefonoAlternativoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoAlternativo}" />
 											</div>
-											<g:hasErrors bean="alumnoInstance" field="telefonoAlternativo">
-												<g:renderErrors bean="alumnoInstance" as="list" field="telefonoAlternativo"/>
+											<g:hasErrors bean="${alumnoInstance}" field="telefonoAlternativo">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoAlternativo"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
@@ -481,7 +779,7 @@
 							
 							<fieldset>
 								<legend>Datos Académicos</legend>
-											<g:hasErrors bean="alumnoInstance" field="establecimientoProcedencia">
+											<g:hasErrors bean="${alumnoInstance}" field="establecimientoProcedencia">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -492,14 +790,14 @@
 												<g:textField name="establecimientoProcedenciaId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.establecimientoProcedencia}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="establecimientoProcedencia">
-												<g:renderErrors bean="alumnoInstance" as="list" field="establecimientoProcedencia"/>
+											<g:hasErrors bean="${alumnoInstance}" field="establecimientoProcedencia">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="establecimientoProcedencia"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
 				
-											<g:hasErrors bean="alumnoInstance" field="titulo">
+											<g:hasErrors bean="${alumnoInstance}" field="titulo">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -510,14 +808,14 @@
 												<g:textField name="tituloId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.titulo}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="titulo">
-												<g:renderErrors bean="alumnoInstance" as="list" field="titulo"/>
+											<g:hasErrors bean="${alumnoInstance}" field="titulo">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="titulo"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
 				
-											<g:hasErrors bean="alumnoInstance" field="anioEgreso">
+											<g:hasErrors bean="${alumnoInstance}" field="anioEgreso">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -528,14 +826,14 @@
 												<g:textField id="anioEgresoId" class="ui-widget ui-corner-all ui-widget-content" name="anioEgreso" value="${fieldValue(bean: alumnoInstance, field: 'anioEgreso')}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="anioEgreso">
-												<g:renderErrors bean="alumnoInstance" as="list" field="anioEgreso"/>
+											<g:hasErrors bean="${alumnoInstance}" field="anioEgreso">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="anioEgreso"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
 				
-											<g:hasErrors bean="alumnoInstance" field="situacionAcademicas">
+											<g:hasErrors bean="${alumnoInstance}" field="situacionAcademicas">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -546,15 +844,15 @@
 												<g:select id="situacionAcademicasId" class="ui-widget ui-corner-all ui-widget-content" name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="situacionAcademicas">
-												<g:renderErrors bean="alumnoInstance" as="list" field="situacionAcademicas"/>
+											<g:hasErrors bean="${alumnoInstance}" field="situacionAcademicas">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="situacionAcademicas"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
 				
 				
 				
-											<g:hasErrors bean="alumnoInstance" field="legajo">
+											<g:hasErrors bean="${alumnoInstance}" field="legajo">
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
@@ -565,8 +863,8 @@
 												<g:textField name="legajoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.legajo}" />
 											</div>
 														
-											<g:hasErrors bean="alumnoInstance" field="legajo">
-												<g:renderErrors bean="alumnoInstance" as="list" field="legajo"/>
+											<g:hasErrors bean="${alumnoInstance}" field="legajo">
+												<g:renderErrors bean="${alumnoInstance}" as="list" field="legajo"/>
 												</div>
 										   </g:hasErrors>
 										   <div class="clear"></div>
@@ -574,7 +872,7 @@
 							
 							<fieldset>
 									<legend>Datos Laborales</legend>
-									<g:hasErrors bean="alumnoInstance" field="lugarLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="lugarLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									<div class="span-3 spanlabel">
@@ -583,15 +881,15 @@
 									<div class="span-5">
 										<g:textField name="lugarLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.lugarLaboral}" />
 									</div>
-									<g:hasErrors bean="alumnoInstance" field="lugarLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="lugarLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="lugarLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="lugarLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
 		
 		
 		
-									<g:hasErrors bean="alumnoInstance" field="telefonoLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="telefonoLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									
@@ -602,14 +900,14 @@
 										<g:textField name="telefonoLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoLaboral}" />
 									</div>
 												
-									<g:hasErrors bean="alumnoInstance" field="telefonoLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="telefonoLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="telefonoLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
 		
 		
-									<g:hasErrors bean="alumnoInstance" field="calleLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="calleLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									
@@ -620,14 +918,14 @@
 										<g:textField name="calleLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleLaboral}" />
 									</div>
 												
-									<g:hasErrors bean="alumnoInstance" field="calleLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="calleLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="calleLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="calleLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
 		
 		
-									<g:hasErrors bean="alumnoInstance" field="numeroLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="numeroLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									
@@ -638,15 +936,15 @@
 										<g:textField name="numeroLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroLaboral}" />
 									</div>
 												
-									<g:hasErrors bean="alumnoInstance" field="numeroLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="numeroLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="numeroLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="numeroLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
 		
 		
 		
-									<g:hasErrors bean="alumnoInstance" field="barrioLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="barrioLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									
@@ -657,8 +955,8 @@
 										<g:textField name="barrioLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioLaboral}" />
 									</div>
 												
-									<g:hasErrors bean="alumnoInstance" field="barrioLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="barrioLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="barrioLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="barrioLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
@@ -669,8 +967,8 @@
 										<label for="paisLaboral"><g:message code="alumno.paisLaboral.label" default="Pais Laboral" /></label>
 									</div>
 									<div class="span-9">
-										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisLaboralId" name="paisLaboralDesc"  value="${localidad?.provincia?.pais?.nombre}" /> 
-										<g:hiddenField id="paisLaboralIdId" name="paisLaboral.id" value="${localidadLaboral?.provincia?.pais?.id}" />
+										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisLaboralId" name="paisLaboralDesc"  value="${alumnoInstance?.localidadLaboral?.provincia?.pais?.nombre}" /> 
+										<g:hiddenField id="paisLaboralIdId" name="paisLaboral.id" value="${alumnoInstance?.localidadLaboral?.provincia?.pais?.id}" />
 									</div>
 								   <div class="clear"></div>
 		
@@ -678,14 +976,14 @@
 										<label for="provinciaLaboral"><g:message code="alumno.paisLaboral.label" default="Provincia Laboral" /></label>
 									</div>
 									<div class="span-9">
-										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaLaboralId" name="provinciaLaboralDesc"  value="${localidad?.provincia?.nombre}" /> 
-										<g:hiddenField id="provinciaLaboralIdId" name="provinciaLaboral.id" value="${localidadLaboral?.provincia?.id}" />
+										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaLaboralId" name="provinciaLaboralDesc"  value="${alumnoInstance?.localidadLaboral?.provincia?.nombre}" /> 
+										<g:hiddenField id="provinciaLaboralIdId" name="provinciaLaboral.id" value="${alumnoInstance?.localidadLaboral?.provincia?.id}" />
 									</div>
 								   <div class="clear"></div>
 		
 		
 		
-									<g:hasErrors bean="alumnoInstance" field="localidadLaboral">
+									<g:hasErrors bean="${alumnoInstance}" field="localidadLaboral">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									
@@ -693,24 +991,19 @@
 										<label for="localidadLaboral"><g:message code="alumno.localidadLaboral.label" default="Localidad Laboral" /></label>
 									</div>
 									<div class="span-9">
-										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadLaboralId" name="localidadLaboralDesc"  value="colocar el valor del field descripcion" /> 
-		 										<g:hiddenField id="localidadLaboralIdId" name="localidadLaboral.id" value="$localidadLaboral?.id" />
+										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadLaboralId" name="localidadLaboralDesc"  value="${alumnoInstance?.localidadLaboral?.nombre}" /> 
+		 										<g:hiddenField id="localidadLaboralIdId" name="localidadLaboral.id" value="${alumnoInstance?.localidadLaboral?.id}" />
 									</div>
 												
-									<g:hasErrors bean="alumnoInstance" field="localidadLaboral">
-										<g:renderErrors bean="alumnoInstance" as="list" field="localidadLaboral"/>
+									<g:hasErrors bean="${alumnoInstance}" field="localidadLaboral">
+										<g:renderErrors bean="${alumnoInstance}" as="list" field="localidadLaboral"/>
 										</div>
 								   </g:hasErrors>
 								   <div class="clear"></div>
 							
 							</fieldset>
 							
-							<fieldset>
-								<legend></legend>
-								
-							
-							</fieldset>
-							
+
 
 					</div>                        
 
@@ -721,7 +1014,7 @@
                     			<legend>Datos del Tutor</legend>
                     		
 
-								<g:hasErrors bean="alumnoInstance" field="apellidoNombreTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="apellidoNombreTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -732,15 +1025,15 @@
 									<g:textField name="apellidoNombreTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombreTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="apellidoNombreTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="apellidoNombreTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="apellidoNombreTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="apellidoNombreTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                                        
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="profesionTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="profesionTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -751,15 +1044,15 @@
 									<g:textField name="profesionTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.profesionTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="profesionTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="profesionTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="profesionTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="profesionTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="parentescoTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="parentescoTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -770,14 +1063,14 @@
 									<g:textField name="parentescoTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.parentescoTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="parentescoTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="parentescoTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="parentescoTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="parentescoTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	
-								<g:hasErrors bean="alumnoInstance" field="telefonoTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="telefonoTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -788,14 +1081,14 @@
 									<g:textField name="telefonoTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="telefonoTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="telefonoTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="telefonoTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	
 	
-								<g:hasErrors bean="alumnoInstance" field="calleTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="calleTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -806,15 +1099,15 @@
 									<g:textField name="calleTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="calleTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="calleTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="calleTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="calleTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="numeroTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="numeroTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -825,14 +1118,14 @@
 									<g:textField name="numeroTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="numeroTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="numeroTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="numeroTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="numeroTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="barrioTutor">
+								<g:hasErrors bean="${alumnoInstance}" field="barrioTutor">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -843,23 +1136,46 @@
 									<g:textField name="barrioTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioTutor}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="barrioTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="barrioTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="barrioTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="barrioTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
-	                    
-	                    
+
+
 								<div class="span-3 spanlabel">
-									<label for="localidadTutor"><g:message code="alumno.localidadTutor.label" default="Localidad Tutor" /></label>
+									<label for="paisTutorDesc"><g:message code="alumno.paisTutor.label" default="Pais Tutor" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadLaboralId" name="localidadLaboralDesc"  value="colocar el valor del field descripcion" /> 
-	 										<g:hiddenField id="localidadTutorIdId" name="localidadTutor.id" value="$localidadTutor?.id" />
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisTutorId" name="paisTutorDesc"  value="${alumnoInstance?.localidadTutor?.provincia?.pais?.nombre}" /> 
+	 										<g:hiddenField id="paisTutorIdId" name="paisTutorId" value="${alumnoInstance?.localidadTutor?.provincia?.pais?.id}" />
+								</div>
+							   <div class="clear"></div>
+
+
+								<div class="span-3 spanlabel">
+									<label for="provinciaTutorDesc"><g:message code="alumno.provinciaTutor.label" default="Provincia Tutor" /></label>
+								</div>
+								<div class="span-9">
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaTutorId" name="provinciaTutorDesc"  value="${alumnoInstance?.localidadTutor?.provincia?.nombre}" /> 
+	 										<g:hiddenField id="provinciaTutorIdId" name="provinciaTutorId" value="${alumnoInstance?.localidadTutor?.provincia?.id}" />
+								</div>
+							   <div class="clear"></div>	                    
+	                    
+								<g:hasErrors bean="${alumnoInstance}" field="localidadTutor">
+									<div class="ui-state-error ui-corner-all">
+								</g:hasErrors>
+	                    
+								<div class="span-3 spanlabel">
+									<label for="localidadTutorDesc"><g:message code="alumno.localidadTutor.label" default="Localidad Tutor" /></label>
+								</div>
+								<div class="span-9">
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadTutorId" name="localidadTutorDesc"  value="${localidadTutor?.nombre}" /> 
+	 										<g:hiddenField id="localidadTutorIdId" name="localidadTutor.id" value="${localidadTutor?.id}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="localidadTutor">
-									<g:renderErrors bean="alumnoInstance" as="list" field="localidadTutor"/>
+								<g:hasErrors bean="${alumnoInstance}" field="localidadTutor">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="localidadTutor"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
@@ -867,7 +1183,7 @@
                     		
                     		<fieldset>
                     			<legend>Datos del Garante</legend>
-								<g:hasErrors bean="alumnoInstance" field="apellidoNombreGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="apellidoNombreGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -878,15 +1194,15 @@
 									<g:textField name="apellidoNombreGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombreGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="apellidoNombreGaranteGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="apellidoNombreGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="apellidoNombreGaranteGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="apellidoNombreGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                                        
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="profesionGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="profesionGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -897,15 +1213,15 @@
 									<g:textField name="profesionGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.profesionGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="profesionGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="profesionGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="profesionGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="profesionGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="parentescoGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="parentescoGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -916,14 +1232,14 @@
 									<g:textField name="parentescoGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.parentescoGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="parentescoGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="parentescoGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="parentescoGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="parentescoGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	
-								<g:hasErrors bean="alumnoInstance" field="telefonoGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="telefonoGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -934,14 +1250,14 @@
 									<g:textField name="telefonoGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="telefonoGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="telefonoGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="telefonoGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	
 	
-								<g:hasErrors bean="alumnoInstance" field="calleGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="calleGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -952,15 +1268,15 @@
 									<g:textField name="calleGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="calleGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="calleGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="calleGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="calleGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="numeroGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="numeroGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -971,14 +1287,14 @@
 									<g:textField name="numeroGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="numeroGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="numeroGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="numeroGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="numeroGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
 	                    
 	                    
-								<g:hasErrors bean="alumnoInstance" field="barrioGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="barrioGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
@@ -989,8 +1305,8 @@
 									<g:textField name="barrioGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioGarante}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="barrioGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="barrioGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="barrioGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="barrioGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
@@ -1000,8 +1316,8 @@
 									<label for="paisGarante"><g:message code="alumno.paisGarante.label" default="Pais Garante" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisGaranteId" name="localidadGaranteDesc"  value="${localidadGarante?.provincia?.pais?.nombre}" /> 
-	 										<g:hiddenField id="paisGaranteIdId" name="paisGaranteId" value="${localidadGarante?.provincia?.pais?.id}" />
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisGaranteId" name="paisGaranteDesc"  value="${alumnoInstance?.localidadGarante?.provincia?.pais?.nombre}" /> 
+	 										<g:hiddenField id="paisGaranteIdId" name="paisGaranteId" value="${alumnosInstance?.localidadGarante?.provincia?.pais?.id}" />
 								</div>
 							   <div class="clear"></div>								
 	                    
@@ -1009,26 +1325,26 @@
 									<label for="provinciaGarante"><g:message code="alumno.provinciaGarante.label" default="Provincia Garante" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisGaranteId" name="localidadGaranteDesc"  value="${localidadGarante?.provincia?.nombre}" /> 
-	 										<g:hiddenField id="provinciaGaranteIdId" name="provinciaGaranteId" value="${localidadGarante?.provincia?.id}" />
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaGaranteId" name="provinciaGaranteDesc"  value="${alumnoInstance?.localidadGarante?.provincia?.nombre}" /> 
+	 										<g:hiddenField id="provinciaGaranteIdId" name="provinciaGaranteId" value="${alumnoInstance?.localidadGarante?.provincia?.id}" />
 								</div>
 							   <div class="clear"></div>								
 
 
 	                    
-								<g:hasErrors bean="alumnoInstance" field="localidadGarante">
+								<g:hasErrors bean="${alumnoInstance}" field="localidadGarante">
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								<div class="span-3 spanlabel">
 									<label for="localidadGarante"><g:message code="alumno.localidadGarante.label" default="Localidad Garante" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadGaranteId" name="localidadGaranteDesc"  value="colocar el valor del field descripcion" /> 
-	 										<g:hiddenField id="localidadGaranteIdId" name="localidadGarante.id" value="$localidadGarante?.id" />
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadGaranteId" name="localidadGaranteDesc"  value="${alumnoInstance.localidadGarante?.nombre}" /> 
+	 										<g:hiddenField id="localidadGaranteIdId" name="localidadGarante.id" value="${localidadGarante?.id}" />
 								</div>
 											
-								<g:hasErrors bean="alumnoInstance" field="localidadGarante">
-									<g:renderErrors bean="alumnoInstance" as="list" field="localidadGarante"/>
+								<g:hasErrors bean="${alumnoInstance}" field="localidadGarante">
+									<g:renderErrors bean="${alumnoInstance}" as="list" field="localidadGarante"/>
 									</div>
 							   </g:hasErrors>
 							   <div class="clear"></div>
@@ -1040,7 +1356,7 @@
                         
 
                     <div id="tabs-otrosdatos">
-							<g:hasErrors bean="alumnoInstance" field="estadoAcademico">
+							<g:hasErrors bean="${alumnoInstance}" field="estadoAcademico">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							<div class="span-3 spanlabel">
@@ -1049,13 +1365,13 @@
 							<div class="span-5">
 								<g:select id="estadoAcademicoId" class="ui-widget ui-corner-all ui-widget-content" name="estadoAcademico" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
 							</div>
-							<g:hasErrors bean="alumnoInstance" field="estadoAcademico">
-								<g:renderErrors bean="alumnoInstance" as="list" field="estadoAcademico"/>
+							<g:hasErrors bean="${alumnoInstance}" field="estadoAcademico">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="estadoAcademico"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-							<g:hasErrors bean="alumnoInstance" field="situacionAdministrativa">
+							<g:hasErrors bean="${alumnoInstance}" field="situacionAdministrativa">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							<div class="span-3 spanlabel">
@@ -1063,11 +1379,11 @@
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="situacionAdministrativaId" name="situacionAdministrativaDesc"  value="${alumnoInstance?.situacionAdministrativa?.descripcion}" /> 
- 										<g:hiddenField id="situacionAdministrativaIdId" name="situacionAdministrativa.id" value="$situacionAdministrativa?.id" />
+ 										<g:hiddenField id="situacionAdministrativaIdId" name="situacionAdministrativa.id" value="${situacionAdministrativa?.id}" />
 							</div>
 										
-							<g:hasErrors bean="alumnoInstance" field="situacionAdministrativa">
-								<g:renderErrors bean="alumnoInstance" as="list" field="situacionAdministrativa"/>
+							<g:hasErrors bean="${alumnoInstance}" field="situacionAdministrativa">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="situacionAdministrativa"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
@@ -1076,8 +1392,9 @@
                     </div> <%--end tab-datos otros --%>   
 																	
                 </div>
+                <div class="clear"></div>
                         
-                <div class="buttons">
+                <div class="span-4 append-bottom">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>

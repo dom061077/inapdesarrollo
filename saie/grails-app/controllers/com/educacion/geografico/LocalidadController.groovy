@@ -160,7 +160,7 @@ class LocalidadController {
 		render result
 
 	}
-	
+	 
 	def listjsonautocomplete={
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"

@@ -45,7 +45,7 @@
 						
 						 
 					}, 						    
-				    caption:"Listado de xxxxxx"
+				    caption:"Listado de Alumnos"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

@@ -531,7 +531,7 @@
 								<label for="apellidoNombre"><g:message code="alumno.apellidoNombre.label" default="Apellido Nombre" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="apellidoNombreId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
+								<g:textField name="apellidoNombre" id="apellidoNombreId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
 							</div>
 										
 							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">
@@ -565,7 +565,7 @@
 								<label for="fechaNacimiento"><g:message code="alumno.fechaNacimiento.label" default="Fecha Nacimiento" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="fechaNacimiento" value="${fieldValue(bean: alumnoInstance, field: 'fechaNacimiento')}" />
+								<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="fechaNacimiento" value="${g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)}" />
 							</div>
 										
 							<g:hasErrors bean="${alumnoInstance}" field="fechaNacimiento">

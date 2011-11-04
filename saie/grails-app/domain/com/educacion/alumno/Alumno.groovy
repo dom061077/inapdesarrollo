@@ -94,50 +94,50 @@ class Alumno {
 		numeroDomicilio(nullable:true,blank:true)
 		
 		//Datos de Contacto
-		String telefonoParticular
-		String telefonoCelular
-		String email
-		String telefonoAlternativo
+		telefonoParticular(nullable:true,blank:true)
+		telefonoCelular(nullable:true,blank:true)
+		email(nullable:true,blank:true)
+		telefonoAlternativo(nullable:true,blank:true)
 		
 		//Datos Académicos
-		String establecimientoProcedencia
-		String titulo
-		Integer anioEgreso
-		SituacionAcademicaEnum situacionAcademicas
-		String legajo
+		establecimientoProcedencia(nullable:true,blank:true)
+		titulo(nullable:true,blank:true)
+		anioEgreso(nullable:true,blank:true)
+		situacionAcademicas(nullable:true,blank:true)
+		legajo(nullable:true,blank:true)
 		
 		//Datos Laborales
-		String lugarLaboral
-		String telefonoLaboral
-		String barrioLaboral
-		String calleLaboral
-		String numeroLaboral
-		Localidad localidadLaboral//de ahi obtengo pais, provincia y cod.Postal
+		lugarLaboral(nullable:true,blank:true)
+		telefonoLaboral(nullable:true,blank:true)
+		barrioLaboral(nullable:true,blank:true)
+		calleLaboral(nullable:true,blank:true)
+		numeroLaboral(nullable:true,blank:true)
+		localidadLaboral(nullable:true,blank:true)//de ahi obtengo pais, provincia y cod.Postal
 		
 		//Datos tutor
-		String apellidoNombreTutor
-		String profesionTutor
-		String parentescoTutor
-		String telefonoTutor
-		String calleTutor
-		String numeroTutor
-		String barrioTutor
-		Localidad localidadTutor
+		apellidoNombreTutor(nullable:true,blank:true)
+		profesionTutor(nullable:true,blank:true)
+		parentescoTutor(nullable:true,blank:true)
+		telefonoTutor(nullable:true,blank:true)
+		calleTutor(nullable:true,blank:true)
+		numeroTutor(nullable:true,blank:true)
+		barrioTutor(nullable:true,blank:true)
+		localidadTutor(nullable:true,blank:true)
 		
 		//Datos Garante
-		String apellidoNombreGarante
-		String profesionGarante
-		String parentescoGarante
-		String telefonoGarante
-		String calleGarante
-		String numeroGarante
-		String barrioGarante
-		Localidad localidadGarante
+		apellidoNombreGarante(nullable:true,blank:true)
+		profesionGarante(nullable:true,blank:true)
+		parentescoGarante(nullable:true,blank:true)
+		telefonoGarante(nullable:true,blank:true)
+		calleGarante(nullable:true,blank:true)
+		numeroGarante(nullable:true,blank:true)
+		barrioGarante(nullable:true,blank:true)
+		localidadGarante(nullable:true,blank:true)
 		
 		
 		//Otros
-		SituacionAcademicaEnum estadoAcademico
-		SituacionAdministrativa situacionAdministrativa
+		estadoAcademico(nullable:true,blank:true)
+		situacionAdministrativa(nullable:true,blank:true)
 	
     }
 }

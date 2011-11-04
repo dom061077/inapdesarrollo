@@ -36,13 +36,50 @@ class AlumnoController {
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+		def fechaNacimientoError=false
+		if (params.fechaNacimiento){
+			if (params.fechaNacimiento.length()<10){
+				fechaNacimientoError=true
+			}else{
+				params.fechaNacimiento_year=params.fechaNacimiento.substring(6,10)
+				params.fechaNacimiento_month=params.fechaNacimiento.substring(3,5)
+				params.fechaNacimiento_day=params.fechaNacimiento.substring(0,2)
+				try{
+					if(params.fechaNacimiento_month.toInteger()>12)
+						fechaNacimientoError=true
+					if(params.fechaNacimiento_day.toInteger()>31){
+						fechaNacimientoError=true
+					}
+				}catch(NumberFormatException e){
+					fechaNacimientoError=true
+				}
+			}
+		}
 
+		
         def alumnoInstance = new Alumno(params)
+		
+		if(fechaNacimientoError){
+			alumnoInstance.validate()
+			alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
+			log.debug "ERRORES DE VALIDACION: "
+			alumnoInstance.errors.allErrors.each{
+				log.debug "						  "+it
+			}
+			render(view: "create", model: [alumnoInstance: alumnoInstance])
+			return
+		}
+
         if (alumnoInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
             redirect(action: "show", id: alumnoInstance.id)
         }
         else {
+			log.debug "ERRORES DE VALIDACION: "
+			alumnoInstance.errors.allErrors.each{
+				log.debug "						  "+it
+			}
+
             render(view: "create", model: [alumnoInstance: alumnoInstance])
         }
     }
@@ -171,7 +208,7 @@ class AlumnoController {
 		render(contentType:"text/json"){
 			array{
 				for (prof in profesionales){
-					Alumno id:prof.id,label:prof.nombre,value:prof.nombre
+					alumno id:prof.id,label:prof.nombre,value:prof.nombre
 				}
 			}
 			

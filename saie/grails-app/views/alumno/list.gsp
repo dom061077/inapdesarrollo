@@ -17,12 +17,14 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Apellido y Nombre','Tipo Documento','Número de Documento','Fecha Nacimiento','Ver'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'apellidoNombre',index:'apellidoNombre', width:92,search:true,sortable:true},
+				   		{name:'tipoDocumento',index:'tipoDocumento', width:100,search:false},
+				   		{name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sortable:true,searchoptions:{sopt:['eq']}},
+				   		{name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -33,13 +35,24 @@
 				   	sortname: 'id',
 				    viewrecords: true,
 				    sortorder: "desc",
+				    gridComplete: function(){ 
+						var ids = jQuery("#list").jqGrid('getDataIDs');
+						var obj; 
+						for(var i=0;i < ids.length;i++){ 
+							var cl = ids[i];
+							obj = $("#list").getRowData(ids[i]); 
+							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='margin: 3px 3px 3px 10px'  ></span></a>";
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
+							}
+						 
+					}, 	
 					gridComplete: function(){ 
 						var ids = jQuery("#list").jqGrid('getDataIDs');
 						var obj; 
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='margin: 3px 3px 3px 10px'  ></span></a>";
+							be = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='margin: 3px 3px 3px 10px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
 						

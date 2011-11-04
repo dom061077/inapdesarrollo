@@ -163,9 +163,9 @@
                         </tr>
                     
                         <tr class="prop">
-                            <td valign="top" class="name"><g:message code="alumno.telefenoAlternativo.label" default="Telefeno Alternativo" /></td>
+                            <td valign="top" class="name"><g:message code="alumno.telefonoAlternativo.label" default="Telefono Alternativo" /></td>
                             
-                            <td valign="top" class="value">${fieldValue(bean: alumnoInstance, field: "telefenoAlternativo")}</td>
+                            <td valign="top" class="value">${fieldValue(bean: alumnoInstance, field: "telefonoAlternativo")}</td>
                             
                         </tr>
                     
@@ -210,8 +210,8 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${alumnoInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

@@ -133,6 +133,7 @@ class LocalidadController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+
 		def gud=new GUtilDomainClass(Localidad,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
@@ -142,7 +143,6 @@ class LocalidadController {
 			totalpaginas=1;
 		totalpaginas=totalpaginas.intValue()
 
-		
 		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
@@ -180,6 +180,12 @@ class LocalidadController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
+		if(!params.altfilters){
+				render '{"page":0,"total":"0","records":"0","rows":[0]}'
+				return
+		}
+
+		
 		def gud=new GUtilDomainClass(Localidad,params,grailsApplication)
 		list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)

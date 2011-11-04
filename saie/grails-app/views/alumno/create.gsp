@@ -100,7 +100,7 @@
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
- 				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}]
+ 				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true ,searchoptions:{sopt:['eq']}}]
  				,hiddenid:'localidadDomicilioIdId' 
  				,descid:'localidadDomicilioId' 
  				,hiddenfield:'id' 
@@ -182,7 +182,7 @@
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
-				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true,searchoptions:{sopt:['eq']}}] 
  				,hiddenid:'localidadLaboralIdId' 
  				,descid:'localidadLaboralId' 
  				,hiddenfield:'id' 
@@ -229,7 +229,7 @@
 
 		$('#paisNacId').keyup(function(){
 	   		if($.trim($(this).val())==""){
-	   			$('#paisNacId').val("")
+	   			$('#paisNacId').val("");
 	   		}
 	   	});	
 		
@@ -271,7 +271,7 @@
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
-				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true,searchoptions:{sopt:['eq']}}] 
  				,hiddenid:'localidadNacIdId' 
  				,descid:'localidadNacId' 
  				,hiddenfield:'id' 
@@ -345,14 +345,15 @@
 		
 		//---------------------------------- 
 
-
+		
+		
 
 		$('#localidadTutorId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
  				 title:'Localidad Tutor' 
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
-				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true,searchoptions:{sopt:['eq']}}] 
  				,hiddenid:'localidadTutorIdId' 
  				,descid:'localidadTutorId' 
  				,hiddenfield:'id' 
@@ -431,16 +432,13 @@
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
  				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}
-				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true}] 
+				,{name:'codigoPostal',index:'codigoPostal', width:60,  sortable:true,search:true,searchoptions:{sopt:['eq']}}] 
  				,hiddenid:'localidadGaranteIdId' 
  				,descid:'localidadGaranteId' 
  				,hiddenfield:'id' 
  				,descfield:['nombre','codigoPostal'] 
         	});
 
-		
-
-//---------------------------------- 
 
 
 
@@ -603,7 +601,7 @@
 								<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 							</div>
 							<div class="span-9">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
+								<g:textField readonly="true" class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
 								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
 							</div>
 							

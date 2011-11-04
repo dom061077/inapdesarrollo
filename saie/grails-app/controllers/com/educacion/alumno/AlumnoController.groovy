@@ -118,6 +118,27 @@ class AlumnoController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
+		def fechaNacimientoError=false
+		if (params.fechaNacimiento){
+			if (params.fechaNacimiento.length()<10){
+				fechaNacimientoError=true
+			}else{
+				params.fechaNacimiento_year=params.fechaNacimiento.substring(6,10)
+				params.fechaNacimiento_month=params.fechaNacimiento.substring(3,5)
+				params.fechaNacimiento_day=params.fechaNacimiento.substring(0,2)
+				try{
+					if(params.fechaNacimiento_month.toInteger()>12)
+						fechaNacimientoError=true
+					if(params.fechaNacimiento_day.toInteger()>31){
+						fechaNacimientoError=true
+					}
+				}catch(NumberFormatException e){
+					fechaNacimientoError=true
+				}
+			}
+		}
+
+		
         def alumnoInstance = Alumno.get(params.id)
         if (alumnoInstance) {
             if (params.version) {
@@ -130,6 +151,17 @@ class AlumnoController {
                 }
             }
             alumnoInstance.properties = params
+			if(fechaNacimientoError){
+				alumnoInstance.validate()
+				alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
+				log.debug "ERRORES DE VALIDACION: "
+				alumnoInstance.errors.allErrors.each{
+					log.debug "						  "+it
+				}
+				render(view: "edit", model: [alumnoInstance: alumnoInstance])
+				return
+			}
+	
             if (!alumnoInstance.hasErrors() && alumnoInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
                 redirect(action: "show", id: alumnoInstance.id)
@@ -189,7 +221,7 @@ class AlumnoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.apellidoNombre==null?"":it.apellidoNombre)+'","'+(it.tipoDocumento.name==null?"":it.tipoDocumento.name)+'","'+(it.numeroDocumento==null?"":it.numeroDocumento)+'","'+(it.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.fechaNacimiento))+'"]}'
 			 
 			flagaddcomilla=true
 		}

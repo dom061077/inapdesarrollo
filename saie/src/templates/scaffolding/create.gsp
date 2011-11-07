@@ -86,11 +86,12 @@
             <div class="ui-state-highlight ui-corner-all">\${flash.message}</div>
             </g:if>
             <g:hasErrors bean="\${${propertyName}}">
-            <div class="ui-state-error ui-corner-all">
+            <div class="ui-state-error ui-corner-all append-bottom">
                 <g:renderErrors bean="\${${propertyName}}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
+            		<div class="append-bottom">	
                         <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
                             persistentPropNames = domainClass.persistentProperties*.name
                             props = domainClass.properties.findAll { persistentPropNames.contains(it.name) && !excludedProps.contains(it.name) }
@@ -104,8 +105,8 @@
                                         display = (cp ? cp.display : true)
                                     }
                                     if (display) { %>
-							<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
-								<div class="ui-state-error ui-corner-all">
+							<g:hasErrors bean="\${${propertyName}}" field="${p.name}">
+								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
@@ -115,14 +116,15 @@
 								${renderEditor(p)}
 							</div>
 										
-							<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
-								<g:renderErrors bean="\$\{${propertyName}\}" as="list" field="${p.name}"/>
+							<g:hasErrors bean="\${${propertyName}}" field="${p.name}">
+								<g:renderErrors bean="\${${propertyName}}" as="list" field="${p.name}"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
 																	
                         <%  }   }   } %>
+				</div>                        
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="\${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

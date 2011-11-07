@@ -61,13 +61,19 @@
 								</li>
 								<li><span class="dir">Materias</span>
 									<ul>
-										<li><a href="${createLink(controller:'materia',action:'create')}">Alta de Materia</a></li>
-										<li><a href="${createLink(controller:'materia')}">Listado de Materias</a></li>
+										<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Alta de Clase de Requisito</a></li>
+										<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado de Clase de Requisitos</a></li>
 										<li class="divider last"><a href="./">Mas...</a></li>
 							
 									</ul>
 								</li>
-								<li><a href="./">Docentes</a></li>
+								<li><span class="dir">Académico</span>
+									<ul>
+									
+										<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Alta de Alumno</a></li>
+										<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Alta de Alumno</a></li>
+									</ul>
+								</li>
 								<li><a href="./">Cuotas</a></li>
 								<li><a href="./" class="dir">Contactenos</a>
 									<ul>

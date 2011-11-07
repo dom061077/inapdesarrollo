@@ -84,7 +84,7 @@
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="\${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">\${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all append-bottom">\${flash.message}</div>
             </g:if>
             <g:hasErrors bean="\${${propertyName}}">
             <div class="ui-state-error ui-corner-all">
@@ -92,6 +92,7 @@
             </div>
             </g:hasErrors>
             <g:form method="post" <%= multiPart ? ' enctype="multipart/form-data"' : '' %>>
+            	<div class="append-bottom">
                 <g:hiddenField name="id" value="\${${propertyName}?.id}" />
                 <g:hiddenField name="version" value="\${${propertyName}?.version}" />
 		                <%  excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
@@ -107,8 +108,8 @@
 		                            display = (cp ? cp.display : true)
 		                        }
 		                        if (display) { %>
-						<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
-							<div class="ui-state-error ui-corner-all">
+						<g:hasErrors bean="\${${propertyName}}" field="${p.name}">
+							<div class="ui-state-error ui-corner-all append-bottom">
 						</g:hasErrors>
 						
 						<div class="span-3 spanlabel">
@@ -118,8 +119,8 @@
 							${renderEditor(p)}
 						</div>
 									
-						<g:hasErrors bean="\$\{${propertyName}\}" field="${p.name}">
-							<g:renderErrors bean="\$\{${propertyName}\}" as="list" field="${p.name}"/>
+						<g:hasErrors bean="\${${propertyName}}" field="${p.name}">
+							<g:renderErrors bean="\${${propertyName}}" as="list" field="${p.name}"/>
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
@@ -129,6 +130,7 @@
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="\${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                </div>
                 </div>
             </g:form>
         </div>

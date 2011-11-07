@@ -45,7 +45,7 @@
 						
 						 
 					}, 						    
-				    caption:"Listado de xxxxxx"
+				    caption:"Listado de <%out<<"\${message(code: '${domainClass.propertyName}.label', default: '${className}')}" %>"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

@@ -2,7 +2,7 @@ security {
 
 	// see DefaultSecurityConfig.groovy for all settable/overridable properties
 
-	active = false
+	/*active = false
 
 	loginUserDomainClass = "com.medfire.User"
 	authorityDomainClass = "com.medfire.Role"
@@ -15,7 +15,7 @@ security {
 	userRequestMapDomainClass = true
 	afterLogoutUrl = '/login'
 	useLogger = true
-	cacheUsers = false
+	cacheUsers = false*/
 	
 	
 }

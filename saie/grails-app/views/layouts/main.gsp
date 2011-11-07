@@ -5,7 +5,7 @@
     	<link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'print.css')}" media="print">
     	<!--[if lt IE 9]><link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'ie.css')}" type="text/css" media="screen, projection"><![endif]-->
         
-         <link rel="stylesheet" href="${resource(dir:'css/pepper-grinder',file:'jquery-ui-1.8.16.custom.css')}" />
+         <link rel="stylesheet" href="${resource(dir:'css/blitzer',file:'jquery-ui-1.8.16.custom.css')}" />
          <link rel="stylesheet" href="${resource(dir:'css',file:'custom.css')}" />
          <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'helper.css')}" /> 
          <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'default.ultimate.linear.css')}" />         
@@ -20,7 +20,12 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery-ui',file:'jquery-ui-i18n.js')}"></script>
         
 		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.dropdown.js')}"></script>
-
+		<script type="text/javascript">
+			$(function(){
+				$( "input:submit" ).button();
+			});
+		
+		</script>
 
         
          

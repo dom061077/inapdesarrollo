@@ -17,12 +17,12 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Apellido y Nombre','Tipo Documento','Número de Documento','Fecha Nacimiento','Ver'],
+					colNames:['Id','Apellido y Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.','Ver'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
 				   		{name:'apellidoNombre',index:'apellidoNombre', width:92,search:true,sortable:true},
-				   		{name:'tipoDocumento',index:'tipoDocumento', width:100,search:false},
+				   		{name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
 				   		{name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sortable:true,searchoptions:{sopt:['eq']}},
 				   		{name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}

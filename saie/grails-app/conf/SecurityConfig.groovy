@@ -4,7 +4,7 @@ security {
 
 	active = false
 
-	/*loginUserDomainClass = "com.medfire.User"
+	loginUserDomainClass = "com.medfire.User"
 	authorityDomainClass = "com.medfire.Role"
 	requestMapClass = "com.medfire.Requestmap"
 	
@@ -15,7 +15,7 @@ security {
 	userRequestMapDomainClass = true
 	afterLogoutUrl = '/login'
 	useLogger = true
-	cacheUsers = false*/
+	cacheUsers = false
 	
 	
 }

@@ -27,9 +27,9 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all append-bottom">${flash.message}</div>
             </g:if>
             <g:hasErrors bean="${claseRequisitoInstance}">
             <div class="ui-state-error ui-corner-all">
@@ -37,18 +37,19 @@
             </div>
             </g:hasErrors>
             <g:form method="post" >
+            	<div class="append-bottom">
                 <g:hiddenField name="id" value="${claseRequisitoInstance?.id}" />
                 <g:hiddenField name="version" value="${claseRequisitoInstance?.version}" />
 		                
 						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
-							<div class="ui-state-error ui-corner-all">
+							<div class="ui-state-error ui-corner-all append-bottom">
 						</g:hasErrors>
 						
 						<div class="span-3 spanlabel">
 							<label for="codigo"><g:message code="claseRequisito.codigo.label" default="Codigo" /></label>
 						</div>
 						<div class="span-5">
-							<g:textField name="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
+							<g:textField id="codigoId" name="codigo" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
 						</div>
 									
 						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
@@ -60,14 +61,14 @@
 																
 		            
 						<g:hasErrors bean="${claseRequisitoInstance}" field="descripcion">
-							<div class="ui-state-error ui-corner-all">
+							<div class="ui-state-error ui-corner-all append-bottom">
 						</g:hasErrors>
 						
 						<div class="span-3 spanlabel">
 							<label for="descripcion"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></label>
 						</div>
 						<div class="span-5">
-							<g:textField name="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.descripcion}" />
+							<g:textField id="descripcionId" name="descripcion" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.descripcion}" />
 						</div>
 									
 						<g:hasErrors bean="${claseRequisitoInstance}" field="descripcion">
@@ -77,7 +78,7 @@
 					   <div class="clear"></div>
 		
 																
-		            
+                </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>

@@ -15,22 +15,22 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-        		$('#claseRequisitoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
+        		$('#claseRequisitoId').lookupfield({source:'<%out << createLink(controller:"claseRequisito",action:"listsearchjson")%>',
+ 				 title:'Clase de Requisito' 
+				,colNames:['Id','Código','Descripción'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'claseRequisitoId' 
+ 				,{name:'codigo',index:'codigo', width:100,  sortable:true,search:true} 
+ 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
+ 				,hiddenid:'claseRequisitoIdId' 
  				,descid:'claseRequisitoId' 
  				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+ 				,descfield:['codigo','descripcion']}); 
 
-		$('#claseRequisitoId' ).autocomplete({source: 'colocar aqui la url',
+		$('#claseRequisitoId' ).autocomplete({source: '<%out << createLink(controller:"claseRequisito",action:"listjsonautocomplete")%>',
  				 minLength: 2, 
   				 select: function( event, ui ) {
  					 if(ui.item){ 
- 						 $('#claseRequisitoId').val(ui.item.id) 
+ 						 $('#claseRequisitoIdId').val(ui.item.id) 
 					 } 
 					}, 
  				 open: function() { 
@@ -72,7 +72,7 @@
 								<label for="codigo"><g:message code="requisito.codigo.label" default="Codigo" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.codigo}" />
+								<g:textField name="codigo" id="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.codigo}" />
 							</div>
 										
 							<g:hasErrors bean="${requisitoInstance}" field="codigo">
@@ -91,7 +91,7 @@
 								<label for="descripcion"><g:message code="requisito.descripcion.label" default="Descripcion" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.descripcion}" />
+								<g:textField name="descripcion" id="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.descripcion}" />
 							</div>
 										
 							<g:hasErrors bean="${requisitoInstance}" field="descripcion">
@@ -109,9 +109,9 @@
 							<div class="span-3 spanlabel">
 								<label for="claseRequisito"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></label>
 							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="claseRequisitoId" name="claseRequisitoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="claseRequisitoIdId" name="claseRequisito.id" value="${claseRequisito?.id}" />
+							<div class="span-7">
+								<g:textField class="ui-widget ui-corner-all ui-widget-content searchinput" id="claseRequisitoId" name="claseRequisitoDesc"  value="${requisitoInstance?.claseRequisito?.descripcion}" /> 
+ 								<g:hiddenField id="claseRequisitoIdId" name="claseRequisito.id" value="${requisitoInstance?.claseRequisito?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
@@ -130,7 +130,11 @@
 								<label for="estado"><g:message code="requisito.estado.label" default="Estado" /></label>
 							</div>
 							<div class="span-5">
-								<g:checkBox name="estado" value="${requisitoInstance?.estado}" />
+								<g:select id="tipoDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" 
+										from="${com.educacion.enums.EstadoRequisitoEnum?.values()}" 
+										keys="${com.educacion.enums.EstadoRequisitoEnum?.values()*.name()}" 
+										value="${alumnoInstance?.estado?.name()}"  
+										optionValue="name"/>
 							</div>
 										
 							<g:hasErrors bean="${requisitoInstance}" field="estado">

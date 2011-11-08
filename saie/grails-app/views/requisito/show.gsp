@@ -46,14 +46,14 @@
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></td>
                             
-                            <td valign="top" class="value"><g:link controller="claseRequisito" action="show" id="${requisitoInstance?.claseRequisito?.id}">${requisitoInstance?.claseRequisito?.encodeAsHTML()}</g:link></td>
+                            <td valign="top" class="value"><g:link controller="claseRequisito" action="show" id="${requisitoInstance?.claseRequisito?.id}">${requisitoInstance?.claseRequisito?.descripcion?.encodeAsHTML()}</g:link></td>
                             
                         </tr>
                     
                         <tr class="prop">
                             <td valign="top" class="name"><g:message code="requisito.estado.label" default="Estado" /></td>
                             
-                            <td valign="top" class="value"><g:formatBoolean boolean="${requisitoInstance?.estado}" /></td>
+                            <td valign="top" class="value">${requisitoInstance?.estado?.name?.encodeAsHTML()}</td>
                             
                         </tr>
                     

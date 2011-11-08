@@ -36,7 +36,7 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-            	<div class="append-bottom">
+            		<div class="append-bottom">	
                         
 							<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
 								<div class="ui-state-error ui-corner-all append-bottom">
@@ -46,7 +46,7 @@
 								<label for="codigo"><g:message code="claseRequisito.codigo.label" default="Codigo" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
+								<g:textField id="codigoId" name="codigo" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
 							</div>
 										
 							<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
@@ -65,7 +65,7 @@
 								<label for="descripcion"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.descripcion}" />
+								<g:textField id="descripcionId" name="descripcion" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.descripcion}" />
 							</div>
 										
 							<g:hasErrors bean="${claseRequisitoInstance}" field="descripcion">
@@ -75,7 +75,8 @@
 						   <div class="clear"></div>
 
 																	
-                </div>        
+                        
+				</div>                        
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

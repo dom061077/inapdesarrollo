@@ -67,80 +67,80 @@
                 <g:hiddenField name="id" value="${requisitoInstance?.id}" />
                 <g:hiddenField name="version" value="${requisitoInstance?.version}" />
 		                
-						<g:hasErrors bean="${requisitoInstance}" field="codigo">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="codigo"><g:message code="requisito.codigo.label" default="Codigo" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField name="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.codigo}" />
-						</div>
-									
-						<g:hasErrors bean="${requisitoInstance}" field="codigo">
-							<g:renderErrors bean="${requisitoInstance}" as="list" field="codigo"/>
+							<g:hasErrors bean="${requisitoInstance}" field="codigo">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="codigo"><g:message code="requisito.codigo.label" default="Codigo" /></label>
 							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${requisitoInstance}" field="descripcion">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="descripcion"><g:message code="requisito.descripcion.label" default="Descripcion" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField name="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.descripcion}" />
-						</div>
-									
-						<g:hasErrors bean="${requisitoInstance}" field="descripcion">
-							<g:renderErrors bean="${requisitoInstance}" as="list" field="descripcion"/>
+							<div class="span-5">
+								<g:textField name="codigo" id="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.codigo}" />
 							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="claseRequisito"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="claseRequisitoId" name="claseRequisitoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="claseRequisitoIdId" name="claseRequisito.id" value="${claseRequisito?.id}" />
-						</div>
-									
-						<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
-							<g:renderErrors bean="${requisitoInstance}" as="list" field="claseRequisito"/>
+										
+							<g:hasErrors bean="${requisitoInstance}" field="codigo">
+								<g:renderErrors bean="${requisitoInstance}" as="list" field="codigo"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="${requisitoInstance}" field="descripcion">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="descripcion"><g:message code="requisito.descripcion.label" default="Descripcion" /></label>
 							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${requisitoInstance}" field="estado">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="estado"><g:message code="requisito.estado.label" default="Estado" /></label>
-						</div>
-						<div class="span-5">
-							<g:checkBox name="estado" value="${requisitoInstance?.estado}" />
-						</div>
-									
-						<g:hasErrors bean="${requisitoInstance}" field="estado">
-							<g:renderErrors bean="${requisitoInstance}" as="list" field="estado"/>
+							<div class="span-5">
+								<g:textField name="descripcion" id="descripcionId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.descripcion}" />
 							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
+										
+							<g:hasErrors bean="${requisitoInstance}" field="descripcion">
+								<g:renderErrors bean="${requisitoInstance}" as="list" field="descripcion"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="claseRequisito"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></label>
+							</div>
+							<div class="span-7">
+								<g:textField class="ui-widget ui-corner-all ui-widget-content searchinput" id="claseRequisitoId" name="claseRequisitoDesc"  value="${requisitoInstance?.claseRequisito?.descripcion}" /> 
+ 								<g:hiddenField id="claseRequisitoIdId" name="claseRequisito.id" value="${requisitoInstance?.claseRequisito?.id}" />
+							</div>
+										
+							<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
+								<g:renderErrors bean="${requisitoInstance}" as="list" field="claseRequisito"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
+																	
+                        
+							<g:hasErrors bean="${requisitoInstance}" field="estado">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="estado"><g:message code="requisito.estado.label" default="Estado" /></label>
+							</div>
+							<div class="span-5">
+								<g:checkBox name="estado" value="${requisitoInstance?.estado}" />
+							</div>
+										
+							<g:hasErrors bean="${requisitoInstance}" field="estado">
+								<g:renderErrors bean="${requisitoInstance}" as="list" field="estado"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
 		
 																
 		            

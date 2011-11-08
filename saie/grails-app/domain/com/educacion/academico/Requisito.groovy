@@ -1,10 +1,12 @@
 package com.educacion.academico
 
+import com.educacion.enums.EstadoRequisitoEnum
+
 class Requisito {
 	String codigo
 	ClaseRequisito claseRequisito
 	String descripcion
-	boolean estado=false
+	EstadoRequisitoEnum estado=EstadoRequisitoEnum.ESTADOREQUISITO_ACTIVO
 	
 	static hasMany= [subRequisitos:Requisito]
 	

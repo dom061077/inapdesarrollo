@@ -601,7 +601,7 @@
 								<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 							</div>
 							<div class="span-9">
-								<g:textField readonly="true" class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
+								<g:textField  class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
 								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
 							</div>
 							

@@ -13,5 +13,9 @@ h1,h2{
 
 .geoinput{
 	width:300px;
-	readonly:true;
+}
+
+.searchinput{
+	width:250px;
+	
 }

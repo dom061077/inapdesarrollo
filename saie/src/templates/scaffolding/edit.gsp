@@ -17,11 +17,11 @@
         	\$(document).ready(function(){
         <% 
 			private renderLookupField(property){
-				return "\t\t\$('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n \t\t\t\t title:'Poner aqui titulo de busqueda' \n\t\t\t\t,colNames:['Prop.Id','Prop 1','Prop 2'] \n\t\t\t\t,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n \t\t\t\t,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n \t\t\t\t,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n \t\t\t\t,hiddenid:'${property.name+"Id"}' \n \t\t\t\t,descid:'${property.name+"Id"}' \n \t\t\t\t,hiddenfield:'id' \n \t\t\t\t,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
+				return "\t\t\$('#${property.name+"Id"}').lookupfield({source:'colocar aqui la url',\n \t\t\t\t title:'Poner aqui titulo de busqueda' \n\t\t\t\t,colNames:['Prop.Id','Prop 1','Prop 2'] \n\t\t\t\t,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} \n \t\t\t\t,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} \n \t\t\t\t,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] \n \t\t\t\t,hiddenid:'${property.name+"IdId"}' \n \t\t\t\t,descid:'${property.name+"Id"}' \n \t\t\t\t,hiddenfield:'id' \n \t\t\t\t,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); \n"
 			}
 			
 			private renderAutocompleField(property){
-				return "\t\t\$('#${property.name}Id' ).autocomplete({source: 'colocar aqui la url',\n \t\t\t\t minLength: 2, \n  \t\t\t\t select: function( event, ui ) {\n \t\t\t\t\t if(ui.item){ \n \t\t\t\t\t\t \$('#${property.name+"Id"}').val(ui.item.id) \n\t\t\t\t\t } \n\t\t\t\t	}, \n \t\t\t\t open: function() { \n \t\t\t\t\t\$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); \n \t\t\t\t }, \n \t\t\t\t close: function() {\n \t\t\t\t\t \$( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); \n \t\t\t\t } \n  \t\t\t\t}); \n"
+				return "\t\t\$('#${property.name}Id' ).autocomplete({source: 'colocar aqui la url',\n \t\t\t\t minLength: 2, \n  \t\t\t\t select: function( event, ui ) {\n \t\t\t\t\t if(ui.item){ \n \t\t\t\t\t\t \$('#${property.name+"IdId"}').val(ui.item.id) \n\t\t\t\t\t } \n\t\t\t\t	}, \n \t\t\t\t open: function() { \n \t\t\t\t\t\$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); \n \t\t\t\t }, \n \t\t\t\t close: function() {\n \t\t\t\t\t \$( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); \n \t\t\t\t } \n  \t\t\t\t}); \n"
 			}
 			excludedProps = Event.allEvents.toList() << 'version' << 'id' << 'dateCreated' << 'lastUpdated'
 			persistentPropNames = domainClass.persistentProperties*.name
@@ -82,7 +82,7 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="\${flash.message}">
             <div class="ui-state-highlight ui-corner-all append-bottom">\${flash.message}</div>
             </g:if>
@@ -127,10 +127,10 @@
 		
 																
 		            <%  }   }   } %>
+                </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="\${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="\${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('\${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
                 </div>
             </g:form>
         </div>

@@ -47,7 +47,8 @@
                 else {
                     def sb = new StringBuffer("<g:")
                     cp.password ? sb << "passwordField " : sb << "textField "
-                    sb << "name=\"${property.name+"Id"}\" "
+                    sb << "id=\"${property.name}Id\" "
+                    sb << "name=\"${property.name}\" "
                     sb << "class=\"ui-widget ui-corner-all ui-widget-content\" "
                     if (cp.maxSize) sb << "maxlength=\"${cp.maxSize}\" "
                     if (!cp.editable) sb << "readonly=\"readonly\" "

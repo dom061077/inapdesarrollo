@@ -17,12 +17,12 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Código','Descripción','Ver'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'codigo',index:'codigo', width:92,sortable:false},
+				   		{name:'descripcion',index:'descripcion', width:100,search:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -39,13 +39,13 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='margin: 3px 3px 3px 10px'  ></span></a>";
+							be = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='margin: 3px 3px 3px 10px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
 						
 						 
 					}, 						    
-				    caption:"Listado de Clase de Requisito"
+				    caption:"Listado de ${message(code: 'claseRequisito.label', default: 'ClaseRequisito')}"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

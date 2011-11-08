@@ -43,6 +43,7 @@ class ClaseRequisitoController {
             redirect(action: "show", id: claseRequisitoInstance.id)
         }
         else {
+			log.debug "ERRORES DE VALIDACION: "+claseRequisitoInstance.errors.allErrors
             render(view: "create", model: [claseRequisitoInstance: claseRequisitoInstance])
         }
     }
@@ -152,7 +153,7 @@ class ClaseRequisitoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -165,12 +166,12 @@ class ClaseRequisitoController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = ClaseRequisito.createCriteria().list(){
-				like('nombre','%'+params.term+'%')
+				like('descripcion','%'+params.term+'%')
 		}
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
-					claserequisito id:obj.id,label:obj.nombre,value:obj.nombre
+					claserequisito id:obj.id,label:obj.descripcion,value:obj.descripcion
 				}
 			}
 			
@@ -198,7 +199,7 @@ class ClaseRequisitoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
 			 
 			flagaddcomilla=true
 		}

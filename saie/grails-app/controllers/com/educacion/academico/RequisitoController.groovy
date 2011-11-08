@@ -152,7 +152,7 @@ class RequisitoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'","'+(it.estado.name==null?"":it.estado.name)+'"]}'
 			 
 			flagaddcomilla=true
 		}

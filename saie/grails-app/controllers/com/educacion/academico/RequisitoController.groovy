@@ -43,7 +43,7 @@ class RequisitoController {
             redirect(action: "show", id: requisitoInstance.id)
         }
         else {
-            render(view: "create", model: [requisitoInstance: requisitoInstance])
+            render(view: "create", model: [requisitoInstance: requisitoInstance,subRequisitosJson:params.subRequisitosJson])
         }
     }
 
@@ -198,7 +198,7 @@ class RequisitoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -207,6 +207,15 @@ class RequisitoController {
 
 	}
 
+	def editsubrequisitos = {
+		log.info "INGRESANDO AL CLOSURE editsubrequisitos"
+		log.info "PARAMETROS: $params"
+		render(contentType:"text/json"){
+			array{
+				
+			}
+		}
+	}
 
 
 	

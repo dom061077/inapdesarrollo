@@ -7,9 +7,9 @@
         
          <link rel="stylesheet" href="${resource(dir:'css/blitzer',file:'jquery-ui-1.8.16.custom.css')}" />
          <link rel="stylesheet" href="${resource(dir:'css',file:'custom.css')}" />
-         <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'helper.css')}" /> 
-         <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'default.ultimate.linear.css')}" />         
-         <link rel="stylesheet" href="${resource(dir:'css/menu',file:'dropdown.linear.css')}" />    
+         <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'helper.css')}" />
+         <link rel="stylesheet" href="${resource(dir:'css/menu',file:'dropdown.css')}" />    
+         <link rel="stylesheet" href="${resource(dir:'css/menu/flickr',file:'default.ultimate.css')}" />         
          
         
         <link rel="shortcut icon" href="${resource(dir:'images',file:'favicon.ico')}" type="image/x-icon" />
@@ -39,55 +39,65 @@
     </head>
     <body>
     	<div class="container">
+    	
     		<div  class="span-24">
 			        <div class="span-24 prepend-top append-bottom">
 			            <img src="${resource(dir:'images',file:'cabecera1.png')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
 			        </div>
-			        <div class="clear"></div>
-			        <div style="height:50"  class="span-22">
+			       
 
-							<ul id="nav" class="dropdown dropdown-linear">
-								<li><span class="dir">Ayuda</span>
-							
+					<ul id="nav" class="dropdown dropdown-horizontal">
+						<li><span class="dir">Ayuda</span>
+					
+							<ul>
+								<li><a href="./">Acerca de...</a></li>
+							</ul>
+						</li>
+						<li><span class="dir">Alumnos</span>
+							<ul>
+								<li><a href="${createLink(controller:'alumno',action:'create')}">Alta de Alumno</a></li>
+								<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
+							</ul>
+						</li>
+						<li><span class="dir">Materias</span>
+					
+						</li>
+											
+						<li><span class="dir">Académico</span>
+							<ul>
+								<li><span class="dir">Requisitos</span>
 									<ul>
-										<li><a href="./">Acerca de...</a></li>
-									</ul>
-								</li>
-								<li><span class="dir">Alumnos</span>
-									<ul>
-										<li><a href="${createLink(controller:'alumno',action:'create')}">Alta de Alumno</a></li>
-										<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
-									</ul>
-								</li>
-								<li><span class="dir">Materias</span>
-							
-								</li>
-								<li><span class="dir">Académico</span>
-									<ul>
-									
 										<li><a href="${createLink(controller:'requisito',action:'create')}">Alta de Requisito</a></li>
 										<li><a href="${createLink(controller:'requisito',action:'list')}">Listado de Requisitos</a></li>
+									</ul>
+								</li>
+								<li><span class="dir">Clase Requisitos</span>
+									<ul>
 										<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Alta de Clase de Requisito</a></li>
 										<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado de Clase de Requisitos</a></li>
-										<li class="divider last"><a href="./">Mas...</a></li>
-										
 									</ul>
 								</li>
-								<li><a href="./">Cuotas</a></li>
-								<li><a href="./" class="dir">Contactenos</a>
+								<li><span class="dir">Carreras</span>
 									<ul>
-							
-										<li><a href="./">Incidencias</a></li>
-										<li class="divider last"><a href="./">Mas...</a></li>
+										<li><a href="${createLink(controller:'carrera',action:'create')}">Alta de Clase de Requisito</a></li>
+										<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Clase de Requisitos</a></li>
 									</ul>
 								</li>
-							
+							</ul>	
+						</li>
+						<li><a href="./">Cuotas</a></li>
+						<li><a href="./" class="dir">Contactenos</a>
+							<ul>
+					
+								<li><a href="./">Incidencias</a></li>
+								<li class="divider last"><a href="./">Mas...</a></li>
 							</ul>
-
+						</li>
+					
+					</ul>
 
     
-					</div>
-			        <div class="clear"></div>
+			        <div class="clear append-bottom"></div>
 			        <div class="span-20 prepend-2">
 			        	<g:layoutBody />
 			        </div>

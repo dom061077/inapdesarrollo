@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+<!--        <meta name="layout" content="main" />-->
         <g:set var="entityName" value="${message(code: 'requisito.label', default: 'Requisito')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />

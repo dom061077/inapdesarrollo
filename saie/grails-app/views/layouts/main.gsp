@@ -3,7 +3,7 @@
         <title><g:layoutTitle default="Grails" /></title>
 	    <link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'screen.css')}" type="text/css" media="screen, projection">
     	<link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'print.css')}" media="print">
-    	<!--[if lt IE 9]><link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'ie.css')}" type="text/css" media="screen, projection"><![endif]-->
+    	<!--[if lt IE 10]><link rel="stylesheet" href="${resource(dir:'css/blueprint',file:'ie.css')}" type="text/css" media="screen, projection"><![endif]-->
         
          <link rel="stylesheet" href="${resource(dir:'css/blitzer',file:'jquery-ui-1.8.16.custom.css')}" />
          <link rel="stylesheet" href="${resource(dir:'css',file:'custom.css')}" />
@@ -45,7 +45,7 @@
 			            <img src="${resource(dir:'images',file:'cabecera1.png')}" alt="${message(code:'spinner.alt',default:'Loading...')}" />
 			        </div>
 			       
-
+					<div class="clear"></div>
 					<ul id="nav" class="dropdown dropdown-horizontal">
 						<li><span class="dir">Ayuda</span>
 					
@@ -98,7 +98,7 @@
 
     
 			        <div class="clear append-bottom"></div>
-			        <div class="span-20 prepend-2">
+			        <div class="span-20 prepend-2 last">
 			        	<g:layoutBody />
 			        </div>
 			        <div class="clear"></div>

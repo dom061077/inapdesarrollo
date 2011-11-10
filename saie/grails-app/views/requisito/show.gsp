@@ -6,6 +6,35 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'requisito.label', default: 'Requisito')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function(){
+				//----subrequisitos---
+				jQuery("#subrequisitosId").jqGrid({ 
+					url:'<%out << createLink(controller:'requisito',action:'listsubrequisitos',params:[id:requisitoInstance.id])%>'
+					,editurl:'editsubrequisitos'
+					,datatype: "json"
+					,width:600
+					,rownumbers:true
+					,colNames:['Id','Código', 'Descripción']
+					,colModel:[ 
+						{name:'id',index:'id', width:30,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}
+						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+					]
+					//, rowNum:10, rowList:[10,20,30]
+					, pager: '#pagerSubrequisitos'
+					, sortname: 'id'
+					, viewrecords: true, sortorder: "desc"
+					, caption:"Subrequisitos",  height:210
+				}); 
+            	
+            });
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -19,61 +48,64 @@
             <div class="message">${flash.message}</div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.id.label" default="Id" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.codigo.label" default="Codigo" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "codigo")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.descripcion.label" default="Descripcion" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "descripcion")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></td>
-                            
-                            <td valign="top" class="value"><g:link controller="claseRequisito" action="show" id="${requisitoInstance?.claseRequisito?.id}">${requisitoInstance?.claseRequisito?.descripcion?.encodeAsHTML()}</g:link></td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.estado.label" default="Estado" /></td>
-                            
-                            <td valign="top" class="value">${requisitoInstance?.estado?.name?.encodeAsHTML()}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="requisito.subRequisitos.label" default="Sub Requisitos" /></td>
-                            
-                            <td valign="top" style="text-align: left;" class="value">
-                                <ul>
-                                <g:each in="${requisitoInstance.subRequisitos}" var="s">
-                                    <li><g:link controller="requisito" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-                        </tr>
-                    
-                    </tbody>
-                </table>
+            	<div class="span-10">
+	                <table>
+	                    <tbody>
+	                    
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="requisito.id.label" default="Id" /></td>
+	                            
+	                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "id")}</td>
+	                            
+	                        </tr>
+	                    
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="requisito.codigo.label" default="Codigo" /></td>
+	                            
+	                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "codigo")}</td>
+	                            
+	                        </tr>
+	                    
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="requisito.descripcion.label" default="Descripcion" /></td>
+	                            
+	                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "descripcion")}</td>
+	                            
+	                        </tr>
+	                    
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="requisito.claseRequisito.label" default="Clase Requisito" /></td>
+	                            
+	                            <td valign="top" class="value"><g:link controller="claseRequisito" action="show" id="${requisitoInstance?.claseRequisito?.id}">${requisitoInstance?.claseRequisito?.descripcion?.encodeAsHTML()}</g:link></td>
+	                            
+	                        </tr>
+	                    
+	                        <tr class="prop">
+	                            <td valign="top" class="name"><g:message code="requisito.estado.label" default="Estado" /></td>
+	                            
+	                            <td valign="top" class="value">${requisitoInstance?.estado?.name?.encodeAsHTML()}</td>
+	                            
+	                        </tr>
+	                    
+	                    
+	                    </tbody>
+	                </table>
+                </div>
+			   <div class="clear"></div>
+			   <div class="span-10">
+				   <fieldset>
+				   		<legend>Sub Requisitos</legend>
+						<g:hiddenField id="subRequisitosSerializedId" name="subRequisitosSerialized" value="${subRequisitosSerialized}"/>
+	         				<div class="clear"></div>
+	                         <div class="span-18">
+	                         	<table id="subrequisitosId"></table>
+	                         </div>
+	                         <div id="pagerSubrequisitos">	</div>						   		
+				   </fieldset>
+			   </div>                
             </div>
-            <div class="buttons">
+            <div class="clear"></div>
+            <div class="span-10">
                 <g:form>
                     <g:hiddenField name="id" value="${requisitoInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>

@@ -1,13 +1,11 @@
 package com.educacion.academico
 
 
-import com.educacion.util.GUtilDomainClass 
-
+import com.educacion.util.GUtilDomainClass
 import java.text.SimpleDateFormat 
-
 import java.text.DateFormat 
-
-import java.text.ParseException 
+import java.text.ParseException
+import org.springframework.transaction.TransactionStatus
 
 
 
@@ -36,15 +34,26 @@ class RequisitoController {
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+		def subRequisitosJson 
+		if(params.subRequisitosSerialized)
+			subRequisitosJson = grails.converters.JSON.parse(params.subRequisitosSerialized)
 
         def requisitoInstance = new Requisito(params)
-        if (requisitoInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
-            redirect(action: "show", id: requisitoInstance.id)
-        }
-        else {
-            render(view: "create", model: [requisitoInstance: requisitoInstance,subRequisitosJson:params.subRequisitosJson])
-        }
+		Requisito.withTransaction{TransactionStatus status ->
+			def subRequisitoInstance
+			subRequisitosJson.each{
+				subRequisitoInstance = Requisito.load(it.id.toLong())
+				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
+			}
+	        if (requisitoInstance.save(flush: true)) {
+	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
+	            redirect(action: "show", id: requisitoInstance.id)
+	        }
+	        else {
+				status.setRollbackOnly()
+	            render(view: "create", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:params.subRequisitosSerialized])
+	        }
+		}
     }
 
     def show = {
@@ -68,38 +77,88 @@ class RequisitoController {
 
 			
         def requisitoInstance = Requisito.get(params.id)
+		def subRequisitosSerialized="["
+		def flagcoma=false
+		
         if (!requisitoInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'requisito.label', default: 'Requisito'), params.id])}"
             redirect(action: "list")
         }
         else {
-            return [requisitoInstance: requisitoInstance]
+			requisitoInstance.subRequisitos.each{
+				if(flagcoma){
+					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+				}else{
+					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					flagcoma=true
+				}
+			}
+			subRequisitosSerialized = subRequisitosSerialized+"]"
+            return [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized]
         }
     }
 
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def subRequisitosJson
+		def subRequisitosSerialized=params.subRequisitosSerialized
+		def flagcoma=false
 		
+		if(params.subRequisitosSerialized)
+			subRequisitosJson = grails.converters.JSON.parse(params.subRequisitosSerialized)
+
+			//[{"id":"2","codigo":"OORR-6","descripcion":"requisito 6"},{"id":"1","codigo":"OORR-3","descripcion":"REQUISITO 3"}]
         def requisitoInstance = Requisito.get(params.id)
         if (requisitoInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (requisitoInstance.version > version) {
-                    
-                    requisitoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'requisito.label', default: 'Requisito')] as Object[], "Another user has updated this Requisito while you were editing")
-                    render(view: "edit", model: [requisitoInstance: requisitoInstance])
-                    return
-                }
-            }
-            requisitoInstance.properties = params
-            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
-                redirect(action: "show", id: requisitoInstance.id)
-            }
-            else {
-                render(view: "edit", model: [requisitoInstance: requisitoInstance])
-            }
+			if(!subRequisitosSerialized){
+				subRequisitosSerialized="["
+				requisitoInstance.subRequisitos.each{
+					if(flagcoma){
+						subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					}else{
+						subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+						flagcoma=true
+					}
+				}
+				subRequisitosSerialized=subRequisitosSerialized+"]"
+			}
+			
+			Requisito.withTransaction{TransactionStatus status ->
+	            if (params.version) {
+	                def version = params.version.toLong()
+	                if (requisitoInstance.version > version) {
+						status.setRollbackOnly()
+	                    requisitoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'requisito.label', default: 'Requisito')] as Object[], "Another user has updated this Requisito while you were editing")
+	                    render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
+	                    return
+	                }
+	            }
+				def arraySubrequisitos = []
+				requisitoInstance.subRequisitos.each{
+					arraySubrequisitos.add(it.id)
+				}
+				def subRequisitoInstance
+				arraySubrequisitos.each { 
+					subRequisitoInstance = Requisito.load(it)
+					requisitoInstance.removeFromSubRequisitos(subRequisitoInstance)	
+				}
+				
+				
+				subRequisitosJson.each{
+					subRequisitoInstance = Requisito.load(it.id.toLong())
+					requisitoInstance.addToSubRequisitos(subRequisitoInstance)
+				}
+	            requisitoInstance.properties = params
+	            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
+	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
+	                redirect(action: "show", id: requisitoInstance.id)
+	            }
+	            else {
+					status.setRollbackOnly()
+	                render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
+	            }
+			}
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'requisito.label', default: 'Requisito'), params.id])}"
@@ -217,6 +276,36 @@ class RequisitoController {
 		}
 	}
 
+	def listsubrequisitos = {
+		log.info "INGRESANDO AL CLOSURE listsubrequisitos"
+		log.info "PARAMETROS: $params"
+		def requisitoInstance
+		
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
 
+		if(params.id){
+			requisitoInstance = Requisito.load(params.id.toLong())
+			 result='{"page":1,"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+			 flagaddcomilla=false
+			 requisitoInstance.subRequisitos.each{
+				 
+				 if (flagaddcomilla)
+					 result=result+','
+				 
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+				  
+				 flagaddcomilla=true
+			 }
+	 
+			 result=result+']}'
+			 render result
+	 	}else{
+		 	render '{page:1,"total":"1","records":0,"rows":[]}'
+		 }
+
+	}
 	
 }

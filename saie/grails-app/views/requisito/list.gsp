@@ -6,9 +6,9 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'requisito.label', default: 'Requisito')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">
@@ -47,15 +47,13 @@
 						
 						 
 					}, 						    
-				    caption:"Listado de ${message(code: 'requisito.label', default: 'Requisito')}"
+				    caption:"Listado de <% out<< "${message(code: 'requisito.label', default: 'Requisito')}" %>"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
 				jQuery("#list").jqGrid('navButtonAdd','#pager',{
 				       caption:"Informe", 
 				       onClickButton : function () { 
-				           //jQuery("#list").excelExport();
-				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
 				       } 
 				});
 
@@ -75,7 +73,7 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
             </g:if>
-			<table style="z-index:1"  id="list"></table>
+			<table  id="list"></table>
 			<div id="pager" ></div>
         </div>
     </body>

@@ -25,7 +25,6 @@
 	        function bindrequisitos(){
 	        	var names = ["id", "codigo", "descripcion"];
 	        	var griddata = [];
-	        	alert($("#subRequisitosSerializedId").val().replace(/&quot;/,''));
 	        	var data = jQuery.parseJSON($("#subRequisitosSerializedId").val().replace(/&quot;/,''));
 	        	
 	        	if(data==null)
@@ -36,6 +35,7 @@
 	        	        griddata[i][names[j]] = data[i][j];
 	        	    }*/
 	        	    griddata[i]["id"] = data[i].id;
+	        	    griddata[i]["idid"] = data[i].id;	        	    
 	        	    griddata[i]["codigo"] = data[i].codigo;
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
 	        	}
@@ -81,11 +81,12 @@
 			,datatype: "json"
 			,width:600
 			,rownumbers:true
-			,colNames:['Id','Código', 'Descripción']
+			,colNames:['Id','IdId','Código', 'Descripción']
 			,colModel:[ 
-				{name:'id',index:'id', width:30,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}
-				, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-				, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+				{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+				,{name:'idid',index:'idid', width:30,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}				
+				, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
+				, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
 			]
 			//, rowNum:10, rowList:[10,20,30]
 			, pager: '#pagerSubrequisitos'
@@ -99,7 +100,7 @@
 					, recreateForm:true
 					,editCaption:'Modificar Subrequisitos'
 					, beforeShowForm:function(form){
-						$('#tr_id').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+						$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
 						$('#searchlinkformgridId').bind('click',function(){
 			            	$('#busquedaRequisitoDialogId').dialog({
 			            		title:'Buscar',
@@ -124,7 +125,7 @@
 					}
 					,beforeShowForm:function(form){
 						//$('#tr_nombreComercial').after('<a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a>');
-						$('#tr_id').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+						$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
 						$('#codigo').attr('disabled',true);
 						$('#descripcion').attr('disabled',true);
 						$('#searchlinkformgridId').bind('click',function(){
@@ -166,7 +167,7 @@
 			],
 			ondblClickRow: function(id){
 					var obj=$('#tablaBusquedaRequisitoId').getRowData(id);
-					$('#id').val(obj.id)
+					$('#idid').val(obj.id)
 					$('#codigo').val(obj.codigo);
 					$('#descripcion').val(obj.descripcion);
 					$('#busquedaRequisitoDialogId').dialog("close");
@@ -188,7 +189,7 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all append-bottom">${flash.message}</div>
             </g:if>
@@ -249,7 +250,7 @@
 							</div>
 							<div class="span-7">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content searchinput" id="claseRequisitoId" name="claseRequisitoDesc"  value="${requisitoInstance?.claseRequisito?.descripcion}" /> 
- 								<g:hiddenField id="claseRequisitoIdId" name="claseRequisito.id" value="${requisitoInstance?.claseRequisito?.id}" />
+ 								<g:hiddenField id="claseRequisitoIdId" name="claseRequisitoId" value="${requisitoInstance?.claseRequisito?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${requisitoInstance}" field="claseRequisito">
@@ -298,6 +299,10 @@
                 </div>
                 </div>
             </g:form>
+		<div style="display:none" id="busquedaRequisitoDialogId">
+			<table id="tablaBusquedaRequisitoId"></table><div id="pagerBusquedaRequisitoId"></div>
+		</div>
+            
         </div>
     </body>
 </html>

@@ -20,9 +20,10 @@
 					,datatype: "json"
 					,width:600
 					,rownumbers:true
-					,colNames:['Id','Código', 'Descripción']
+					,colNames:['Id','Id','Código', 'Descripción']
 					,colModel:[ 
-						{name:'id',index:'id', width:30,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}
+						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+						, {name:'id',index:'id', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 					]

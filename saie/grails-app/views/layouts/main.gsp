@@ -83,8 +83,8 @@
 								</li>
 								<li><span class="dir">Carreras</span>
 									<ul>
-										<li><a href="${createLink(controller:'carrera',action:'create')}">Alta de Clase de Requisito</a></li>
-										<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Clase de Requisitos</a></li>
+										<li><a href="${createLink(controller:'carrera',action:'create')}">Alta de Carrera</a></li>
+										<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Carrera</a></li>
 									</ul>
 								</li>
 							</ul>	

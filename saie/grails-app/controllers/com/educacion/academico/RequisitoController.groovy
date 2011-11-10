@@ -42,7 +42,7 @@ class RequisitoController {
 		Requisito.withTransaction{TransactionStatus status ->
 			def subRequisitoInstance
 			subRequisitosJson.each{
-				subRequisitoInstance = Requisito.load(it.id.toLong())
+				subRequisitoInstance = Requisito.load(it.idid.toLong())
 				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 			}
 	        if (requisitoInstance.save(flush: true)) {
@@ -87,9 +87,9 @@ class RequisitoController {
         else {
 			requisitoInstance.subRequisitos.each{
 				if(flagcoma){
-					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
 				}else{
-					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
 					flagcoma=true
 				}
 			}
@@ -115,9 +115,9 @@ class RequisitoController {
 				subRequisitosSerialized="["
 				requisitoInstance.subRequisitos.each{
 					if(flagcoma){
-						subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+						subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
 					}else{
-						subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+						subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
 						flagcoma=true
 					}
 				}
@@ -149,6 +149,11 @@ class RequisitoController {
 					subRequisitoInstance = Requisito.load(it.id.toLong())
 					requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 				}
+				if(params.claseRequisitoId)
+					requisitoInstance.claseRequisito = ClaseRequisito.load(params.claseRequisitoId.toLong())	
+				else
+					requisitoInstance.claseRequisito = null
+					
 	            requisitoInstance.properties = params
 	            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
 	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
@@ -288,14 +293,14 @@ class RequisitoController {
 
 		if(params.id){
 			requisitoInstance = Requisito.load(params.id.toLong())
-			 result='{"page":1,"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+			 result='{"page":1,"total":"'+1+'","records":"'+requisitoInstance.subRequisitos.size()+'","rows":['
 			 flagaddcomilla=false
 			 requisitoInstance.subRequisitos.each{
 				 
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
 				  
 				 flagaddcomilla=true
 			 }
@@ -303,7 +308,7 @@ class RequisitoController {
 			 result=result+']}'
 			 render result
 	 	}else{
-		 	render '{page:1,"total":"1","records":0,"rows":[]}'
+		 	render '{page:0,"total":"0","records":0,"rows":[]}'
 		 }
 
 	}

@@ -24,7 +24,6 @@
 	        }
 
 	        function bindrequisitos(){
-	        	var names = ["id", "codigo", "descripcion"];
 	        	var griddata = [];
 	        	
 	        	var data = jQuery.parseJSON($("#subRequisitosSerializedId").val());
@@ -36,6 +35,7 @@
 	        	        griddata[i][names[j]] = data[i][j];
 	        	    }*/
 	        	    griddata[i]["id"] = data[i].id;
+	        	    griddata[i]["idid"] = data[i].idid;	        	    
 	        	    griddata[i]["codigo"] = data[i].codigo;
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
 	        	}
@@ -49,7 +49,7 @@
         		$('#claseRequisitoId').lookupfield({source:'<%out << createLink(controller:"claseRequisito",action:"listsearchjson")%>',
  				 title:'Clase de Requisito' 
 				,colNames:['Id','Código','Descripción'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
  				,{name:'codigo',index:'codigo', width:100,  sortable:true,search:true} 
  				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
  				,hiddenid:'claseRequisitoIdId' 
@@ -79,9 +79,10 @@
 					,datatype: "json"
 					,width:600
 					,rownumbers:true
-					,colNames:['Id','Código', 'Descripción']
+					,colNames:['Id','Id','Código', 'Descripción']
 					,colModel:[ 
-						{name:'id',index:'id', width:30,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}
+						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+						, {name:'idid',index:'idid', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 					]
@@ -97,7 +98,7 @@
 							, recreateForm:true
 							,editCaption:'Modificar Subrequisitos'
 							, beforeShowForm:function(form){
-								$('#tr_id').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+								$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
 								$('#searchlinkformgridId').bind('click',function(){
 					            	$('#busquedaRequisitoDialogId').dialog({
 					            		title:'Buscar',
@@ -122,9 +123,7 @@
 							}
 							,beforeShowForm:function(form){
 								//$('#tr_nombreComercial').after('<a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a>');
-								$('#tr_id').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-								$('#codigo').attr('disabled',true);
-								$('#descripcion').attr('disabled',true);
+								$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
 								$('#searchlinkformgridId').bind('click',function(){
 					            	$('#busquedaRequisitoDialogId').dialog({
 					            		title:'Buscar',
@@ -164,7 +163,7 @@
 					],
 					ondblClickRow: function(id){
 							var obj=$('#tablaBusquedaRequisitoId').getRowData(id);
-							$('#id').val(obj.id)
+							$('#idid').val(obj.id)
 							$('#codigo').val(obj.codigo);
 							$('#descripcion').val(obj.descripcion);
 							$('#busquedaRequisitoDialogId').dialog("close");

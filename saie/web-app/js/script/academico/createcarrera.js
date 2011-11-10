@@ -6,10 +6,11 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id', 'Código','Descripción','Clase Requisito']
+		,colNames:['Id','Id', 'Código','Descripción','Clase Requisito']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			, {name:'codigo',index:'codigo', width:100, align:"right",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}			
+			, {name:'codigo',index:'codigo', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 		]
@@ -90,19 +91,20 @@ $(document).ready(function(){
 			{name:'claseRequisito.descripcion',index:'claseRequisito.descripcion',width:100,sorttype:'text',sortable:true}
 	],
 	ondblClickRow: function(id){
-			var obj=$('#tablaBusquedaVademecumId').getRowData(id);
+			var obj=$('#tablaBusquedaRequisitoId').getRowData(id);
+			$('#idid').val(obj.id)
 			$('#codigo').val(obj.nombreComercial);
 			$('#descripcion').val(obj.principio_principioActivo);
 			$('#claseRequisito_descripcion').val(obj.presentacion)
-			$('#busquedaVademecumDialogId').dialog("close");
+			$('#busquedaRequisitoDialogId').dialog("close");
 		} 
 	});
-	jQuery("#tablaBusquedaVademecumId").jqGrid('navGrid','#pagerBusquedaVademecumId',{search:false,edit:false,add:false,del:false,pdf:true});
-	jQuery('#tablaBusquedaVademecumId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-	jQuery("#tablaBusquedaVademecumId").jqGrid('navButtonAdd','#pagerBusquedaVademecumId',{
+	jQuery("#tablaBusquedaRequisitoId").jqGrid('navGrid','#pagerBusquedaRequisitoId',{search:false,edit:false,add:false,del:false,pdf:true});
+	jQuery('#tablaBusquedaRequisitoId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+	jQuery("#tablaBusquedaRequisitoId").jqGrid('navButtonAdd','#pagerBusquedaRequisitoId',{
 	       caption:"Informe", 
 	       onClickButton : function () {
-	    	   var id = jQuery('#tablaBusquedaVademecumId').jqGrid('getGridParam','selrow');
+	    	   var id = jQuery('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
 	    	   if(id)
 	    		   window.location = locvademecdetalle+'?target=_blank&id='+id;
 	    	   else

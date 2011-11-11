@@ -42,7 +42,7 @@
                 <g:renderErrors bean="${carreraInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <form onSubmit="initsubmit();return true;" method="post" >
+            <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${carreraInstance?.id}" />
                 <g:hiddenField name="version" value="${carreraInstance?.version}" />
@@ -197,7 +197,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </form>
+            </g:form>
         </div>
     </body>
 </html>

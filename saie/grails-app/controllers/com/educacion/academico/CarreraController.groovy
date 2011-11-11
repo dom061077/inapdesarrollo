@@ -106,6 +106,8 @@ class CarreraController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
+		log.debug "ID DE ENVIADO: "+params.id
+		
 		def requisitosJson
 		def requisitosSerialized=params.requisitosSerialized
 		def flagcoma=false

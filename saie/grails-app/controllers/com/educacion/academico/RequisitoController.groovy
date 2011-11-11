@@ -42,7 +42,7 @@ class RequisitoController {
 		Requisito.withTransaction{TransactionStatus status ->
 			def subRequisitoInstance
 			subRequisitosJson.each{
-				subRequisitoInstance = Requisito.load(it.idid.toLong())
+				subRequisitoInstance = new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estado}")
 				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 			}
 	        if (requisitoInstance.save(flush: true)) {
@@ -300,7 +300,7 @@ class RequisitoController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.codigo+'","'+it.descripcion+'","'+it.estado.name+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

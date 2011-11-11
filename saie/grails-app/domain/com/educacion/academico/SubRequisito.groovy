@@ -1,20 +1,19 @@
 package com.educacion.academico
 
-import com.educacion.enums.EstadoRequisitoEnum
+import com.educacion.enums.EstadoRequisitoEnum;
 
-class Requisito {
+class SubRequisito {
+
 	String codigo
-	ClaseRequisito claseRequisito
 	String descripcion
 	EstadoRequisitoEnum estado=EstadoRequisitoEnum.ESTADOREQUISITO_ACTIVO
 	
-	static hasMany= [subRequisitos:SubRequisito]
-	
-	
+	static belongsTo=[requisito:Requisito]
+
 	
     static constraints = {
 		codigo(nullable:false,blank:false)
 		descripcion(nullable:false,blank:false)
-		claseRequisito(nullable:false,blank:false)
+
     }
 }

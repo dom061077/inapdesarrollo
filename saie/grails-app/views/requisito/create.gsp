@@ -18,7 +18,6 @@
 	        function initsubmit(){
 	    		var gridData = jQuery("#subrequisitosId").getRowData();
 	        	var postData = JSON.stringify(gridData);
-	        	//$('#submitButtonId').attr('disabled','true')
 	        	$("#subRequisitosSerializedId").val(postData);
 	        	
 	        }
@@ -31,13 +30,10 @@
 		        		data=[];
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
-	        	    /*for (var j = 0; j < data[i].length; j++) {
-	        	        griddata[i][names[j]] = data[i][j];
-	        	    }*/
 	        	    griddata[i]["id"] = data[i].id;
-	        	    griddata[i]["idid"] = data[i].idid;	        	    
 	        	    griddata[i]["codigo"] = data[i].codigo;
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
+	        	    griddata[i]["estado"] = data[i].estado;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -79,14 +75,15 @@
 					,datatype: "json"
 					,width:600
 					,rownumbers:true
-					,colNames:['Id','Id','Código', 'Descripción']
+					,colNames:['Id','Código', 'Descripción','Estado Valor','Estado']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'idid',index:'idid', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						, {name:'estadoValue',index:'estadoValue',hidden:true, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
+						, {name:'estado',index:'estado', width:100, align:"left",editable:true,editoptions:{size:30,value:'ESTADOREQUISITO_ACTIVO:Activo;ESTADOREQUISITO_INACTIVO:Inactivo'},edittype:'select'
+							,editrules:{required:true}, sortable:false}
 					]
-					//, rowNum:10, rowList:[10,20,30]
 					, pager: '#pagerSubrequisitos'
 					, sortname: 'id'
 					, viewrecords: true, sortorder: "desc"
@@ -97,20 +94,9 @@
 						{height:280,width:310,reloadAfterSubmit:false
 							, recreateForm:true
 							,editCaption:'Modificar Subrequisitos'
-							, beforeShowForm:function(form){
-								$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-								$('#searchlinkformgridId').bind('click',function(){
-					            	$('#busquedaRequisitoDialogId').dialog({
-					            		title:'Buscar',
-					            		modal:true,
-					            		resizable:false,
-					            		autoOpen:true,
-					            		width : 600,
-					            		height: 'auto',
-					            		minHeight:350,
-					            		position:'center'
-					            	});
-								});
+							, beforeSubmit:function(postData,formId){
+								postData.estadoValue = $("#estado").val();
+								return [true,'']
 							}
 						
 						}, // edit options 
@@ -118,24 +104,12 @@
 							,recreateForm:true
 							,addCaption:'Agregar Subrequisito'
 							,beforeSubmit: function(postData,formId){
-								//postData.imprimirPorValue= $("#imprimirPor").val();
+								alert($("#estado").val());
+								postData.estadoValue= $("#estado").val();
 								return [true,'']
 							}
 							,beforeShowForm:function(form){
-								//$('#tr_nombreComercial').after('<a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a>');
-								$('#tr_idid').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-								$('#searchlinkformgridId').bind('click',function(){
-					            	$('#busquedaRequisitoDialogId').dialog({
-					            		title:'Buscar',
-					            		modal:true,
-					            		resizable:false,
-					            		autoOpen:true,
-					            		width : 600,
-					            		height: 'auto',
-					            		minHeight:350,
-					            		position:'center'
-					            	});
-								});
+								alert('HOLA');
 							}
 						
 						}, // add options 
@@ -143,34 +117,6 @@
 						{} // search options 
 					);	
 		
-				//---------------inicializacion de la grilla de busqueda del vademecum para sugerir las prescripciones
-				$('#tablaBusquedaRequisitoId').jqGrid({
-					caption:'Búsqueda de Requisito',
-					width:380,
-					url:'listsearchjson',
-					mtype:'POST',
-					width:550,
-					rownumbers:true,
-					pager:'pagerBusquedaRequisitoId',
-					datatype:'json',
-					colNames:['Id','Código','Descripción','Clase'],
-					colModel:[
-							{name:'id',index:'id',width:30,hidden:false},
-							{name:'codigo',index:'codigo',width:100,sorttype:'text',sortable:true},
-							{name:'descripcion',index:'descripcion',width:100,sorttype:'text',sortable:true},
-							{name:'claseRequesito_descripcion',index:'claseRequesito_descripcion',width:100,sorttype:'text',sortable:true}
-							
-					],
-					ondblClickRow: function(id){
-							var obj=$('#tablaBusquedaRequisitoId').getRowData(id);
-							$('#idid').val(obj.id)
-							$('#codigo').val(obj.codigo);
-							$('#descripcion').val(obj.descripcion);
-							$('#busquedaRequisitoDialogId').dialog("close");
-						} 
-					});
-					jQuery("#tablaBusquedaRequisitoId").jqGrid('navGrid','#pagerBusquedaVademecumId',{search:false,edit:false,add:false,del:false,pdf:true});
-					jQuery('#tablaBusquedaRequisitoId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 
 	        		bindrequisitos();
 					
@@ -295,9 +241,6 @@
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
-		<div style="display:none" id="busquedaRequisitoDialogId">
-			<table id="tablaBusquedaRequisitoId"></table><div id="pagerBusquedaRequisitoId"></div>
-		</div>
             
         </div>
     </body>

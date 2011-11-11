@@ -48,7 +48,7 @@ class CarreraController {
 			def requisitoInstance
 			requisitosJson.each{
 				requisitoInstance = Requisito.load(it.idid.toLong())
-				requisitoInstance.addToRequisitos(requisitoInstance)
+				carreraInstance.addToRequisitos(requisitoInstance)
 			}
 	        if (carreraInstance.save(flush: true)) {
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
@@ -98,7 +98,7 @@ class CarreraController {
 			}
 			requisitosSerialized = requisitosSerialized+"]"
 
-            return [carreraInstance: carreraInstance]
+            return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized]
         }
     }
 
@@ -106,7 +106,6 @@ class CarreraController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
-		log.debug "ID DE ENVIADO: "+params.id
 		
 		def requisitosJson
 		def requisitosSerialized=params.requisitosSerialized
@@ -116,7 +115,7 @@ class CarreraController {
 			requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
 
 		
-        def carreraInstance = Carrera.get(params.id)
+        def carreraInstance = Carrera.get(params.idCarrera)
         if (carreraInstance) {
 			
 			if(!requisitosSerialized){

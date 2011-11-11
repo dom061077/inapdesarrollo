@@ -33,7 +33,7 @@
 $(document).ready(function(){
 	jQuery("#listRequisitosId").jqGrid({ 
 		url:'listrequisitos'
-		,editurl:'editrequisitos'
+		,editurl:loceditrequisito
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
@@ -41,9 +41,9 @@ $(document).ready(function(){
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}			
-			, {name:'codigo',index:'codigo', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+			, {name:'codigo',index:'codigo', width:100, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
+			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
+			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListRequisitosId'
@@ -114,11 +114,12 @@ $(document).ready(function(){
 	rownumbers:true,
 	pager:'pagerBusquedaRequisitoId',
 	datatype:'json',
-	colNames:['Id','Código','Descripción','Clase'],
+	colNames:['Id','Código','Descripción','Estado','Clase'],
 	colModel:[
 			{name:'id',index:'id',width:10,hidden:true},
 			{name:'codigo',index:'codigo',width:100,sorttype:'text',sortable:true},
 			{name:'descripcion',index:'descripcion',width:100,sorttype:'text',sortable:true},
+			{name:'estado',index:'estado',width:50,sorttype:'text',sortable:true},			
 			{name:'claseRequisito_descripcion',index:'claseRequisito_descripcion',width:100,sorttype:'text',sortable:true}
 	],
 	ondblClickRow: function(id){

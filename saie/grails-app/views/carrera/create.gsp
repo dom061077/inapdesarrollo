@@ -37,7 +37,7 @@
                 <g:renderErrors bean="${carreraInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form onSubmit="initsubmit();return true;" action="save" >
             		<div class="span-18 append-bottom">	
 							<g:hasErrors bean="${carreraInstance}" field="campoOcupacional">
 								<div class="ui-state-error ui-corner-all append-bottom">
@@ -168,8 +168,10 @@
 								<g:renderErrors bean="${carreraInstance}" as="list" field="validezTitulo"/>
 								</div>
 						   </g:hasErrors>
+						   <div class="clear"></div>
 							   <fieldset>
 							   		<legend>Requisitos</legend>
+							   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
 							   		<table id="listRequisitosId"></table>
 							   		<div id="pagerListRequisitosId"></div>	
 							   </fieldset>	

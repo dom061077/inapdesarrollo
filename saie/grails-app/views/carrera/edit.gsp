@@ -10,11 +10,17 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/script/academico',file:'editcarrera.js')}"></script>        
+                 
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+        	var locrequisito = '<%out << createLink(controller:"requisito",action:"listjson")%>';
+        	var loceditrequisito = '<%out << createLink(controller:"carrera",action:"editrequisitos")%>'; 
+        
         	$(document).ready(function(){
+            	
         
         	});
 		</script>
@@ -36,7 +42,7 @@
                 <g:renderErrors bean="${carreraInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${carreraInstance?.id}" />
                 <g:hiddenField name="version" value="${carreraInstance?.version}" />
@@ -171,6 +177,18 @@
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
+					   <fieldset>
+					   		<legend>Requisitos</legend>
+					   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
+					   		<table id="listRequisitosId"></table>
+					   		<div id="pagerListRequisitosId"></div>	
+					   </fieldset>	
+						<div class="clear"></div>										
+		
+			            <div style="display:none" id="busquedaRequisitoDialogId">
+				            <table id="tablaBusquedaRequisitoId"></table>
+				            <div id="pagerBusquedaRequisitoId"></div>
+			            </div>
 		
 																
 		            
@@ -179,7 +197,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

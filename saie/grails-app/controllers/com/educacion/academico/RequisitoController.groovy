@@ -216,7 +216,7 @@ class RequisitoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'","'+(it.estado.name==null?"":it.estado.name)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'","'+(it.estado.name==null?"":it.estado.name)+'","'+(it.claseRequisito?.descripcion==null?"":it.claseRequisito?.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}

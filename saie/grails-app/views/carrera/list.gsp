@@ -17,12 +17,12 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Denomicación','Campo Ocupacional','Ver'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'denominacion',index:'denominacion', width:92,sortable:false},
+				   		{name:'campoOcupacional',index:'campoOcupacional', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -73,7 +73,7 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
             </g:if>
-			<table style="z-index:1"  id="list"></table>
+			<table   id="list"></table>
 			<div id="pager" ></div>
         </div>
     </body>

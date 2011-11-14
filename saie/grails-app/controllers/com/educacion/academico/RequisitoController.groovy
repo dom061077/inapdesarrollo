@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
-
+import com.educacion.enums.EstadoRequisitoEnum
 
 
 class RequisitoController {
@@ -41,8 +41,11 @@ class RequisitoController {
         def requisitoInstance = new Requisito(params)
 		Requisito.withTransaction{TransactionStatus status ->
 			def subRequisitoInstance
+			log.debug "CANTIDAD DE SUBREQUISITOS: ${subRequisitosJson.size()}"
 			subRequisitosJson.each{
-				subRequisitoInstance = new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estado}")
+				log.debug "ESTADO VALUE: "+it.estadoValue
+				log.debug "ESTADO: "+it.estado
+				subRequisitoInstance = new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}")
 				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 			}
 	        if (requisitoInstance.save(flush: true)) {
@@ -87,9 +90,9 @@ class RequisitoController {
         else {
 			requisitoInstance.subRequisitos.each{
 				if(flagcoma){
-					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
 				}else{
-					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
 					flagcoma=true
 				}
 			}
@@ -140,14 +143,18 @@ class RequisitoController {
 				}
 				def subRequisitoInstance
 				arraySubrequisitos.each { 
-					subRequisitoInstance = Requisito.load(it)
-					requisitoInstance.removeFromSubRequisitos(subRequisitoInstance)	
+					try{
+						subRequisitoInstance = SubRequisito.load(it)
+						requisitoInstance.removeFromSubRequisitos(subRequisitoInstance)
+						subRequisitoInstance.delete()
+					}catch(org.hibernate.ObjectNotFoundException e){
+						
+					}	
 				}
 				
 				
 				subRequisitosJson.each{
-					subRequisitoInstance = Requisito.load(it.id.toLong())
-					requisitoInstance.addToSubRequisitos(subRequisitoInstance)
+					requisitoInstance.addToSubRequisitos(new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}"))
 				}
 				if(params.claseRequisitoId)
 					requisitoInstance.claseRequisito = ClaseRequisito.load(params.claseRequisitoId.toLong())	
@@ -300,7 +307,7 @@ class RequisitoController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.codigo+'","'+it.descripcion+'","'+it.estado.name+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'","'+it.estado.name+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

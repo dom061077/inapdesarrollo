@@ -34,6 +34,7 @@
 	        	    griddata[i]["codigo"] = data[i].codigo;
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
 	        	    griddata[i]["estado"] = data[i].estado;
+	        	    griddata[i]["estadoValue"] = data[i].estadoValue;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -80,7 +81,7 @@
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-						, {name:'estadoValue',index:'estadoValue',hidden:true, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
+						, {name:'estadoValue',index:'estadoValue',hidden:true, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
 						, {name:'estado',index:'estado', width:100, align:"left",editable:true,editoptions:{size:30,value:'ESTADOREQUISITO_ACTIVO:Activo;ESTADOREQUISITO_INACTIVO:Inactivo'},edittype:'select'
 							,editrules:{required:true}, sortable:false}
 					]
@@ -104,14 +105,11 @@
 							,recreateForm:true
 							,addCaption:'Agregar Subrequisito'
 							,beforeSubmit: function(postData,formId){
-								alert($("#estado").val());
 								postData.estadoValue= $("#estado").val();
 								return [true,'']
 							}
 							,beforeShowForm:function(form){
-								alert('HOLA');
 							}
-						
 						}, // add options 
 						{reloadAfterSubmit:false}, // del options 
 						{} // search options 

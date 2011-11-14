@@ -16,4 +16,8 @@ class SubRequisito {
 		descripcion(nullable:false,blank:false)
 
     }
+	
+	static mapping = {
+		
+	}
 }

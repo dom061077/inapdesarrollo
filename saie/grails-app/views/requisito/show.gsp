@@ -20,12 +20,12 @@
 					,datatype: "json"
 					,width:600
 					,rownumbers:true
-					,colNames:['Id','Id','Código', 'Descripción']
+					,colNames:['Id','Código', 'Descripción','Estado']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'id',index:'id', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						, {name:'estado',index:'estado', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 					]
 					//, rowNum:10, rowList:[10,20,30]
 					, pager: '#pagerSubrequisitos'

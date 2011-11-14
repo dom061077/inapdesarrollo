@@ -69,3 +69,5 @@ grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.educacion
 grails.plugins.springsecurity.authority.className = 'com.educacion.seguridad.Role'
 grails.plugins.springsecurity.requestMap.className = 'com.educacion.seguridad.Requestmap'
 grails.plugins.springsecurity.securityConfigType = 'Requestmap'
+
+

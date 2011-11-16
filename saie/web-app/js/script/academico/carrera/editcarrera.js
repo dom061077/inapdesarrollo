@@ -1,3 +1,6 @@
+			var arrayDeletedNiveles = [];
+			
+			
 
 	        function initsubmit(){
 	    		var gridData = jQuery("#listRequisitosId").getRowData();
@@ -28,6 +31,24 @@
 	        	    jQuery("#listRequisitosId").jqGrid('addRowData', i + 1, griddata[i]);
 	        	}
 	        }
+	        
+	        function bindniveles(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#nivelesSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    griddata[i]["id"] = data[i].id 
+	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
+	        	}
+
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#listNivelesId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
+	        }
+	        
 
 
 $(document).ready(function(){
@@ -145,5 +166,55 @@ $(document).ready(function(){
 	       } 
 	});	
 	bindrequisitos();
+	
+	//-----------------------------------------------------------------------------------------
+	jQuery("#listNivelesId").jqGrid({ 
+		url:'listniveles'
+		,editurl:'editniveles'
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','Descripción de Nivel']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagerListNivelesId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Niveles",  
+		height:130
+	}); 
+	
+	jQuery("#listNivelesId").jqGrid('navGrid','#pagerListNivelesId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Niveles'
+			
+			}, // edit options 
+			{height:280,width:310,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,addCaption:'Agregar Nivel'
+				,beforeSubmit: function(postData,formId){
+					return [true,'']
+				}
+			
+			}, // add options 
+			{reloadAfterSubmit:false
+				,beforeSubmit:function(postData,formId){
+					arrayDeletedNiveles.push({id:postData});
+					return [true,'']
+				}
+			}, // del options agregar una validacion ajax para saber si se puede eliminar
+			{} // search options 
+		);	
+	
+	bindniveles();
+	
+	$('#tabs').tabs();
+	
 	
 });

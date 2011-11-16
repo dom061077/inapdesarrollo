@@ -39,9 +39,12 @@ class CarreraController {
 		log.info "PARAMETROS: $params"
 		
 		def requisitosJson
+		def nivelesJson
 		if(params.requisitosSerialized)
 			requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
-
+		if(params.nivelesSerialized)
+			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)	
+			
         def carreraInstance = new Carrera(params)
 		
 		Carrera.withTransaction{TransactionStatus status ->
@@ -50,12 +53,15 @@ class CarreraController {
 				requisitoInstance = Requisito.load(it.idid.toLong())
 				carreraInstance.addToRequisitos(requisitoInstance)
 			}
+			nivelesJson.each{
+				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
+			}
 	        if (carreraInstance.save(flush: true)) {
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
 	            redirect(action: "show", id: carreraInstance.id)
 	        }
 	        else {
-	            render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized])
+	            render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized,nivelesSerialized:params.nivelesSerialized])
 	        }
 		}
     }
@@ -80,6 +86,7 @@ class CarreraController {
 		log.info "PARAMETROS: $params"
 
 		def carreraInstance = Carrera.get(params.id)
+		def nivelesSerialized = "["
 		def requisitosSerialized="["
 		def flagcoma=false
 			
@@ -96,9 +103,19 @@ class CarreraController {
 					flagcoma=true
 				}
 			}
+			flagcoma=false
+			carreraInstance.niveles.each{
+				if(flagcoma){
+					nivelesSerialized = nivelesSerialized + ',' + '{"id":' + it.id + ',"descripcion":"' + it.descripcion +'"}' 
+				}else{
+					nivelesSerialized = nivelesSerialized + '' + '{"id":'+it.id+',"descripcion":"' + it.descripcion + '"}'
+					flagcoma = true
+				}
+			}
 			requisitosSerialized = requisitosSerialized+"]"
+			nivelesSerialized = nivelesSerialized + "]"
 
-            return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized]
+            return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized]
         }
     }
 
@@ -307,6 +324,47 @@ class CarreraController {
 	}
 	
 	def editrequisitos = {
+		render(contentType:"text/json"){
+			array{
+				
+			}
+		}
+
+	}
+	
+	def listniveles = {
+		log.info "INGRESANDO AL CLOSURE listniveles"
+		log.info "PARAMETROS $params"
+		def carreraInstance
+		
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+
+		if(params.id){
+			carreraInstance = Carrera.load(params.id.toLong())
+			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.niveles.size()+'","rows":['
+			 flagaddcomilla=false
+			 carreraInstance.niveles.each{
+				 
+				 if (flagaddcomilla)
+					 result=result+','
+				 
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
+				  
+				 flagaddcomilla=true
+			 }
+	 
+			 result=result+']}'
+			 render result
+		 }else{
+			 render '{page:1,"total":"1","records":0,"rows":[]}'
+		 }
+
+	}
+	
+	def editniveles = {
 		render(contentType:"text/json"){
 			array{
 				

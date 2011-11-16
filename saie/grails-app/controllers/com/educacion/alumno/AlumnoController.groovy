@@ -12,7 +12,7 @@ import java.text.ParseException
 
 
 class AlumnoController {
-
+	def imageUploadService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -72,6 +72,8 @@ class AlumnoController {
 
         if (alumnoInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
+			if(!alumnoInstance.photo.isEmpty())
+				imageUploadService.save(alumnoInstance)
             redirect(action: "show", id: alumnoInstance.id)
         }
         else {

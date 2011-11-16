@@ -1,10 +1,30 @@
 
 	        function initsubmit(){
-	    		var gridData = jQuery("#listRequisitosId").getRowData();
-	        	var postData = JSON.stringify(gridData);
-	        	//$('#submitButtonId').attr('disabled','true')
-	        	$("#requisitosSerializedId").val(postData);
+	    		var gridDataRequisitos = jQuery("#listRequisitosId").getRowData();
+	        	var postDataRequisitos = JSON.stringify(gridDataRequisitos);
+	        	$("#requisitosSerializedId").val(postDataRequisitos);
 	        	
+	    		var gridDataNiveles = jQuery("#listNivelesId").getRowData();
+	        	var postDataNiveles = JSON.stringify(gridDataNiveles);
+	        	$("#nivelesSerializedId").val(postDataNiveles);
+	        	
+	        }
+	        
+	        function bindniveles(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#nivelesSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    griddata[i]["id"] = data[i].id 
+	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
+	        	}
+
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#listNivelesId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
 	        }
 
 	        function bindrequisitos(){
@@ -40,10 +60,10 @@ $(document).ready(function(){
 		,colNames:['Id','Id', 'Código','Descripción','Clase Requisito']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}			
-			, {name:'codigo',index:'codigo', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+			, {name:'codigo',index:'codigo', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:true}, sortable:false}
+			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:true}, sortable:false}
+			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{readOnly:true,size:30},editrules:{required:true}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListRequisitosId'
@@ -145,4 +165,47 @@ $(document).ready(function(){
 	});	
 	bindrequisitos();
 	
+	//-----------------------------------------------------------------------------------------
+	jQuery("#listNivelesId").jqGrid({ 
+		url:'listniveles'
+		,editurl:'editniveles'
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','Descripción de Nivel']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagerListNivelesId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Niveles",  
+		height:130
+	}); 
+	
+	jQuery("#listNivelesId").jqGrid('navGrid','#pagerListNivelesId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Niveles'
+			
+			}, // edit options 
+			{height:280,width:310,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,addCaption:'Agregar Nivel'
+				,beforeSubmit: function(postData,formId){
+					return [true,'']
+				}
+			
+			}, // add options 
+			{reloadAfterSubmit:false}, // del options 
+			{} // search options 
+		);	
+	
+	bindniveles();
+	
+	$('#tabs').tabs();
 });

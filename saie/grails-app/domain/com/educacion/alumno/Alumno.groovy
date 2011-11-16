@@ -5,7 +5,10 @@ import com.educacion.enums.TipoDocumentoEnum
 import com.educacion.enums.SexoEnum
 import com.educacion.geografico.Localidad
 import com.educacion.enums.SituacionAcademicaEnum
+import pl.burningice.plugins.image.ast.FileImageContainer
 
+
+@FileImageContainer(field = 'photo')
 class Alumno {
 	//Datos Personales
 	Long numeroDocumento

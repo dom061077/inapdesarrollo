@@ -7,9 +7,9 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'alumno.label', default: 'Alumno')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
@@ -475,7 +475,7 @@
                 <g:renderErrors bean="${alumnoInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="save" method="post" enctype="multipart/form-data" >
             	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>
@@ -1385,6 +1385,15 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
+						   
+	                        <div class="clear"></div>
+	                        <div class="span-3 spanlabel">            	
+	                                    <label for="photo"><g:message code="profesional.photo.label" default="Foto:" /></label>
+							</div>		                
+							<div class="span-4">                    
+	                                    <input class="ui-widget ui-corner-all ui-widget-content" type="file" name="photo" />
+	            			</div>
+						   
 						   
                     
                     </div> <%--end tab-datos otros --%>   

@@ -32,6 +32,26 @@
 					, viewrecords: true, sortorder: "desc"
 					, caption:"Requisitos",  height:210
 				}); 
+
+				//-----niveles----
+				jQuery("#nivelesId").jqGrid({ 
+					url:'<%out << createLink(controller:'carrera',action:'listniveles',params:[id:carreraInstance.id])%>'
+					,editurl:'editniveles'
+					,datatype: "json"
+					,width:600
+					,rownumbers:true
+					,colNames:['Id','Descripción de Nivel']
+					,colModel:[ 
+						{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+					]
+					, pager: '#pagerNiveles'
+					, sortname: 'id'
+					, viewrecords: true, sortorder: "desc"
+					, caption:"Niveles",  
+					height:130
+				}); 
+				$('#tabs').tabs();
             	
             });
         </script>
@@ -48,7 +68,7 @@
             <g:if test="${flash.message}">
             <div class="message">${flash.message}</div>
             </g:if>
-            <div class="dialog">
+            <div class="append-bottom">
             	<div class="span-16">
 		                <table>
 		                    <tbody>
@@ -89,19 +109,6 @@
 		                        </tr>
 		                    
 		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.niveles.label" default="Niveles" /></td>
-		                            
-		                            <td valign="top" style="text-align: left;" class="value">
-		                                <ul>
-		                                <g:each in="${carreraInstance.niveles}" var="n">
-		                                    <li><g:link controller="nivel" action="show" id="${n.id}">${n?.encodeAsHTML()}</g:link></li>
-		                                </g:each>
-		                                </ul>
-		                            </td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
 		                            <td valign="top" class="name"><g:message code="carrera.perfilEgresado.label" default="Perfil Egresado" /></td>
 		                            
 		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "perfilEgresado")}</td>
@@ -127,15 +134,19 @@
 		                </table>
 				</div>	
 			   <div class="clear"></div>
-			   <div class="span-10">
-				   <fieldset>
-				   		<legend>Requisitos</legend>
-         				<div class="clear"></div>
-                         <div class="span-18">
+			   <div id="tabs" >
+			   		<ul>
+			   			<li><a href="#tabs-requisitos">Requisitos</a></li>
+		   				<li><a href="#tabs-niveles">Niveles</a></li>
+			   		</ul>
+				   <div id="tabs-requisitos">
                          	<table id="requisitosId"></table>
-                         </div>
                          <div id="pagerRequisitos">	</div>						   		
-				   </fieldset>
+				   </div>
+				   <div id="tabs-niveles">
+                         	<table id="nivelesId"></table>
+                         <div id="pagerNiveles">	</div>						   		
+				   </div>
 			   </div>                
             </div>
             <div class="clear"></div>

@@ -11,7 +11,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/script/academico',file:'createcarrera.js')}"></script>        
+         <script type="text/javascript" src="${g.resource(dir:'js/script/academico/carrera',file:'createcarrera.js')}"></script>        
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
@@ -169,12 +169,22 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-							   <fieldset>
-							   		<legend>Requisitos</legend>
-							   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
-							   		<table id="listRequisitosId"></table>
-							   		<div id="pagerListRequisitosId"></div>	
-							   </fieldset>	
+						   		<div id="tabs">
+						   			<ul>
+						   				<li><a href="#tabs-requisitos">Requisitos</a></li>
+						   				<li><a href="#tabs-niveles">Niveles</a></li>						   				
+						   			</ul>
+							   		<div id="tabs-requisitos">
+								   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
+								   		<table id="listRequisitosId"></table>
+								   		<div id="pagerListRequisitosId"></div>
+								   	</div>
+								   	<div id="tabs-niveles">
+								   		<g:hiddenField id="nivelesSerializedId" name="nivelesSerialized" value="${nivelesSerialized}"/>
+								   		<table id="listNivelesId"></table>
+								   		<div id="pagerListNivelesId"></div>
+								   	</div>
+							   	</div>		
 							<div class="clear"></div>										
 						   
                         

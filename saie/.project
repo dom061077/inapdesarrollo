@@ -104,6 +104,46 @@
 			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jasper-1.2.2/src/groovy</locationURI>
 		</link>
 		<link>
+			<name>jquery-1.6.1.1-grails-app-conf</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-1.6.1.1/grails-app/conf</locationURI>
+		</link>
+		<link>
+			<name>jquery-1.6.1.1-grails-app-i18n</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-1.6.1.1/grails-app/i18n</locationURI>
+		</link>
+		<link>
+			<name>jquery-1.6.1.1-grails-app-services</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-1.6.1.1/grails-app/services</locationURI>
+		</link>
+		<link>
+			<name>jquery-1.6.1.1-grails-app-taglib</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-1.6.1.1/grails-app/taglib</locationURI>
+		</link>
+		<link>
+			<name>jquery-1.6.1.1-src-groovy</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-1.6.1.1/src/groovy</locationURI>
+		</link>
+		<link>
+			<name>jquery-ui-1.8.15-grails-app-conf</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-ui-1.8.15/grails-app/conf</locationURI>
+		</link>
+		<link>
+			<name>jquery-ui-1.8.15-grails-app-i18n</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-ui-1.8.15/grails-app/i18n</locationURI>
+		</link>
+		<link>
+			<name>jquery-ui-1.8.15-grails-app-taglib</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/jquery-ui-1.8.15/grails-app/taglib</locationURI>
+		</link>
+		<link>
 			<name>log4j-xml-0.2-grails-app-conf</name>
 			<type>2</type>
 			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/log4j-xml-0.2/grails-app/conf</locationURI>
@@ -154,14 +194,14 @@
 			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/mail-1.0-SNAPSHOT/src/groovy</locationURI>
 		</link>
 		<link>
-			<name>release-1.0.0.RC3-src-groovy</name>
+			<name>release-1.0.0.M2-src-groovy</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/release-1.0.0.RC3/src/groovy</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/release-1.0.0.M2/src/groovy</locationURI>
 		</link>
 		<link>
-			<name>release-1.0.0.RC3-src-java</name>
+			<name>release-1.0.0.M2-src-java</name>
 			<type>2</type>
-			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/release-1.0.0.RC3/src/java</locationURI>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/release-1.0.0.M2/src/java</locationURI>
 		</link>
 		<link>
 			<name>spring-security-core-1.2.4-grails-app-conf</name>
@@ -192,6 +232,51 @@
 			<name>spring-security-core-1.2.4-src-java</name>
 			<type>2</type>
 			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-core-1.2.4/src/java</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-conf</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/conf</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-controllers</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/controllers</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-domain</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/domain</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-i18n</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/i18n</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-services</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/services</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-taglib</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/taglib</locationURI>
+		</link>
+		<link>
+			<name>spring-security-ui-0.1.2-grails-app-views</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/spring-security-ui-0.1.2/grails-app/views</locationURI>
+		</link>
+		<link>
+			<name>svn-1.0.0.M1-grails-app-conf</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/svn-1.0.0.M1/grails-app/conf</locationURI>
+		</link>
+		<link>
+			<name>svn-1.0.0.M1-src-groovy</name>
+			<type>2</type>
+			<locationURI>GRAILS_ROOT/1.3.5/projects/saie/plugins/svn-1.0.0.M1/src/groovy</locationURI>
 		</link>
 		<link>
 			<name>tomcat-1.3.5-src-groovy</name>

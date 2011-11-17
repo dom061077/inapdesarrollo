@@ -72,3 +72,29 @@ grails.plugins.springsecurity.requestMap.className = 'com.educacion.seguridad.Re
 grails.plugins.springsecurity.securityConfigType = 'Requestmap'
 
 
+grails.plugins.springsecurity.useSecurityEventListener = true
+
+grails.plugins.springsecurity.onInteractiveAuthenticationSuccessEvent = { e, appCtx -> 
+	// handle InteractiveAuthenticationSuccessEvent 
+}
+	
+grails.plugins.springsecurity.onAbstractAuthenticationFailureEvent = { e, appCtx -> 
+	// handle AbstractAuthenticationFailureEvent
+	System.out.println "Error en autenticacion: "+e.getAuthentication().getPrincipal().properties
+	System.out.println "Propiedades: "+e.getAuthentication().properties
+	System.out.println "EXCEPTION: "+e.getException().getMessage()
+}
+
+grails.plugins.springsecurity.onAuthenticationSuccessEvent = { e, appCtx -> 
+	// handle AuthenticationSuccessEvent 
+}
+	
+grails.plugins.springsecurity.onAuthenticationSwitchUserEvent = { e, appCtx -> 
+	// handle AuthenticationSwitchUserEvent 
+}
+	
+grails.plugins.springsecurity.onAuthorizationEvent = { e, appCtx -> 
+	// handle AuthorizationEvent 
+}
+
+

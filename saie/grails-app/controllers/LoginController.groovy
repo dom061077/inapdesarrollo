@@ -40,6 +40,8 @@ class LoginController {
 	 * Show the login page.
 	 */
 	def auth = {
+		log.info "INGRESANDO AL CLOSURE: auth"
+		log.info "PARAMETROS: $params"
 
 		def config = SpringSecurityUtils.securityConfig
 

@@ -1,166 +1,127 @@
+<%@ page import="org.codehaus.groovy.grails.plugins.PluginManagerHolder" %>
 
+<sec:ifNotSwitched>
+	<sec:ifAllGranted roles='ROLE_SWITCH_USER'>
+	<g:if test='${user.username}'>
+	<g:set var='canRunAs' value='${true}'/>
+	</g:if>
+	</sec:ifAllGranted>
+</sec:ifNotSwitched>
 
-<%@ page import="com.educacion.seguridad.User" %>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'user.label', default: 'User')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
-        
-        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
-        <script type="text/javascript">
-        	$(document).ready(function(){
-        
-        	});
-		</script>
-        
-    </head>
-    <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
-        </div>
-        <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
-            <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all append-bottom">${flash.message}</div>
-            </g:if>
-            <g:hasErrors bean="${userInstance}">
-            <div class="ui-state-error ui-corner-all">
-                <g:renderErrors bean="${userInstance}" as="list" />
-            </div>
-            </g:hasErrors>
-            <g:form method="post" >
-            	<div class="append-bottom">
-                <g:hiddenField name="id" value="${userInstance?.id}" />
-                <g:hiddenField name="version" value="${userInstance?.version}" />
-		                
-						<g:hasErrors bean="${userInstance}" field="username">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="username"><g:message code="user.username.label" default="Username" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField id="usernameId" name="username" class="ui-widget ui-corner-all ui-widget-content" value="${userInstance?.username}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="username">
-							<g:renderErrors bean="${userInstance}" as="list" field="username"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${userInstance}" field="password">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="password"><g:message code="user.password.label" default="Password" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField id="passwordId" name="password" class="ui-widget ui-corner-all ui-widget-content" value="${userInstance?.password}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="password">
-							<g:renderErrors bean="${userInstance}" as="list" field="password"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${userInstance}" field="accountExpired">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="accountExpired"><g:message code="user.accountExpired.label" default="Account Expired" /></label>
-						</div>
-						<div class="span-5">
-							<g:checkBox name="accountExpired" value="${userInstance?.accountExpired}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="accountExpired">
-							<g:renderErrors bean="${userInstance}" as="list" field="accountExpired"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${userInstance}" field="accountLocked">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="accountLocked"><g:message code="user.accountLocked.label" default="Account Locked" /></label>
-						</div>
-						<div class="span-5">
-							<g:checkBox name="accountLocked" value="${userInstance?.accountLocked}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="accountLocked">
-							<g:renderErrors bean="${userInstance}" as="list" field="accountLocked"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${userInstance}" field="enabled">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="enabled"><g:message code="user.enabled.label" default="Enabled" /></label>
-						</div>
-						<div class="span-5">
-							<g:checkBox name="enabled" value="${userInstance?.enabled}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="enabled">
-							<g:renderErrors bean="${userInstance}" as="list" field="enabled"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${userInstance}" field="passwordExpired">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="passwordExpired"><g:message code="user.passwordExpired.label" default="Password Expired" /></label>
-						</div>
-						<div class="span-5">
-							<g:checkBox name="passwordExpired" value="${userInstance?.passwordExpired}" />
-						</div>
-									
-						<g:hasErrors bean="${userInstance}" field="passwordExpired">
-							<g:renderErrors bean="${userInstance}" as="list" field="passwordExpired"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-                </div>
-                <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
-                </div>
-            </g:form>
-        </div>
-    </body>
-</html>
+<head>
+	<meta name='layout' content='springSecurityUI'/>
+	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
+	<title><g:message code="default.edit.label" args="[entityName]"/></title>
+</head>
+
+<body>
+
+<h3><g:message code="default.edit.label" args="[entityName]"/></h3>
+
+<g:form action="update" name='userEditForm' class="button-style">
+<g:hiddenField name="id" value="${user?.id}"/>
+<g:hiddenField name="version" value="${user?.version}"/>
+
+<%
+def tabData = []
+tabData << [name: 'userinfo', icon: 'icon_user', messageCode: 'spring.security.ui.user.info']
+tabData << [name: 'roles',    icon: 'icon_role', messageCode: 'spring.security.ui.user.roles']
+boolean isOpenId = PluginManagerHolder.pluginManager.hasGrailsPlugin('springSecurityOpenid')
+if (isOpenId) {
+	tabData << [name: 'openIds', icon: 'icon_role', messageCode: 'spring.security.ui.user.openIds']
+}
+%>
+
+<s2ui:tabs elementId='tabs' height='375' data="${tabData}">
+
+	<s2ui:tab name='userinfo' height='275'>
+		<table>
+		<tbody>
+
+			<s2ui:textFieldRow name='username' labelCode='user.username.label' bean="${user}"
+                            labelCodeDefault='Username' value="${user?.username}"/>
+
+			<s2ui:passwordFieldRow name='password' labelCode='user.password.label' bean="${user}"
+                                labelCodeDefault='Password' value="${user?.password}"/>
+
+			<s2ui:checkboxRow name='enabled' labelCode='user.enabled.label' bean="${user}"
+                           labelCodeDefault='Enabled' value="${user?.enabled}"/>
+
+			<s2ui:checkboxRow name='accountExpired' labelCode='user.accountExpired.label' bean="${user}"
+                           labelCodeDefault='Account Expired' value="${user?.accountExpired}"/>
+
+			<s2ui:checkboxRow name='accountLocked' labelCode='user.accountLocked.label' bean="${user}"
+                           labelCodeDefault='Account Locked' value="${user?.accountLocked}"/>
+
+			<s2ui:checkboxRow name='passwordExpired' labelCode='user.passwordExpired.label' bean="${user}"
+                           labelCodeDefault='Password Expired' value="${user?.passwordExpired}"/>
+		</tbody>
+		</table>
+	</s2ui:tab>
+
+	<s2ui:tab name='roles' height='275'>
+		<g:each var="entry" in="${roleMap}">
+		<div>
+			<g:checkBox name="${entry.key.authority}" value="${entry.value}"/>
+			<g:link controller='role' action='edit' id='${entry.key.id}'>${entry.key.authority.encodeAsHTML()}</g:link>
+		</div>
+		</g:each>
+	</s2ui:tab>
+
+	<g:if test='${isOpenId}'>
+	<s2ui:tab name='openIds' height='275'>
+	<g:if test='${user?.openIds}'>
+		<ul>
+		<g:each var="openId" in="${user.openIds}">
+		<li>${openId.url}</li>
+		</g:each>
+		</ul>
+	</g:if>
+	<g:else>
+	No OpenIDs registered
+	</g:else>
+	</s2ui:tab>
+	</g:if>
+
+</s2ui:tabs>
+
+<div style='float:left; margin-top: 10px;'>
+<s2ui:submitButton elementId='update' form='userEditForm' messageCode='default.button.update.label'/>
+
+<g:if test='${user}'>
+<s2ui:deleteButton />
+</g:if>
+
+<g:if test='${canRunAs}'>
+<a id="runAsButton">${message(code:'spring.security.ui.runas.submit')}</a>
+</g:if>
+
+</div>
+
+</g:form>
+
+<g:if test='${user}'>
+<s2ui:deleteButtonForm instanceId='${user.id}'/>
+</g:if>
+
+<g:if test='${canRunAs}'>
+	<form name='runAsForm' action='${request.contextPath}/j_spring_security_switch_user' method='POST'>
+		<g:hiddenField name='j_username' value="${user.username}"/>
+		<input type='submit' class='s2ui_hidden_button' />
+	</form>
+</g:if>
+
+<script>
+$(document).ready(function() {
+	$('#username').focus();
+
+	<s2ui:initCheckboxes/>
+
+	$("#runAsButton").button();
+	$('#runAsButton').bind('click', function() {
+	   document.forms.runAsForm.submit();
+	});
+});
+</script>
+
+</body>

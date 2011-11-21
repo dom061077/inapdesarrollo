@@ -1,13 +1,13 @@
 package com.educacion.academico
 
 
-import com.educacion.util.GUtilDomainClass 
+import com.educacion.util.GUtilDomainClass
 
-import java.text.SimpleDateFormat 
+import java.text.SimpleDateFormat
 
-import java.text.DateFormat 
+import java.text.DateFormat
 
-import java.text.ParseException 
+import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
 
 
@@ -15,26 +15,26 @@ import org.springframework.transaction.TransactionStatus
 class CarreraController {
 
 	
-    static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
+	static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index = {
-        redirect(action: "list", params: params)
-    }
+	def index = {
+		redirect(action: "list", params: params)
+	}
 
-    def list = {
+	def list = {
 		log.info "INGRESANDO AL CLOSURE list"
 		log.info "PARAMETROS: $params"
-     }
+	 }
 
-    def create = {
+	def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-        def carreraInstance = new Carrera()
-        carreraInstance.properties = params
-        return [carreraInstance: carreraInstance]
-    }
+		def carreraInstance = new Carrera()
+		carreraInstance.properties = params
+		return [carreraInstance: carreraInstance]
+	}
 
-    def save = {
+	def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 		
@@ -43,9 +43,9 @@ class CarreraController {
 		if(params.requisitosSerialized)
 			requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
 		if(params.nivelesSerialized)
-			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)	
+			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)
 			
-        def carreraInstance = new Carrera(params)
+		def carreraInstance = new Carrera(params)
 		
 		Carrera.withTransaction{TransactionStatus status ->
 			def requisitoInstance
@@ -56,45 +56,45 @@ class CarreraController {
 			nivelesJson.each{
 				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
 			}
-	        if (carreraInstance.save(flush: true)) {
-	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
-	            redirect(action: "show", id: carreraInstance.id)
-	        }
-	        else {
-	            render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized,nivelesSerialized:params.nivelesSerialized])
-	        }
+			if (carreraInstance.save(flush: true)) {
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
+				redirect(action: "show", id: carreraInstance?.id)
+			}
+			else {
+				render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized,nivelesSerialized:params.nivelesSerialized])
+			}
 		}
-    }
+	}
 
-    def show = {
+	def show = {
 		log.info "INGRESANDO AL CLOSURE show"
 		log.info "PARAMETROS: $params"
 
 		
-        def carreraInstance = Carrera.get(params.id)
-        if (!carreraInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            [carreraInstance: carreraInstance]
-        }
-    }
+		def carreraInstance = Carrera.get(params.id)
+		if (!carreraInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
+			[carreraInstance: carreraInstance]
+		}
+	}
 
-    def edit = {
+	def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
 
 		def carreraInstance = Carrera.get(params.id)
-		def nivelesSerialized = "["
 		def requisitosSerialized="["
+		def nivelesSerialized="["
 		def flagcoma=false
 			
-        if (!carreraInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
+		if (!carreraInstance) {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
+			redirect(action: "list")
+		}
+		else {
 			carreraInstance.requisitos.each{
 				if(flagcoma){
 					requisitosSerialized = requisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
@@ -106,36 +106,44 @@ class CarreraController {
 			flagcoma=false
 			carreraInstance.niveles.each{
 				if(flagcoma){
-					nivelesSerialized = nivelesSerialized + ',' + '{"id":' + it.id + ',"descripcion":"' + it.descripcion +'"}' 
+					nivelesSerialized = nivelesSerialized+','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
 				}else{
-					nivelesSerialized = nivelesSerialized + '' + '{"id":'+it.id+',"descripcion":"' + it.descripcion + '"}'
-					flagcoma = true
+					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
+					flagcoma=true
 				}
 			}
+			
 			requisitosSerialized = requisitosSerialized+"]"
-			nivelesSerialized = nivelesSerialized + "]"
+			nivelesSerialized = nivelesSerialized+"]"
 
-            return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized]
-        }
-    }
+			return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized]
+		}
+	}
 
-    def update = {
+	def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
 		
 		def requisitosJson
 		def requisitosSerialized=params.requisitosSerialized
+		def nivelesJson
+		def nivelesSerialized = params.nivelesSerialized
+		def nivelesDeletedJson
 		def flagcoma=false
 		
 		if(params.requisitosSerialized)
 			requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
-
+		if(params.nivelesSerialized)
+			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)
+		if(params.nivelesDeletedSerialized)
+			nivelesDeletedJson= grails.converters.JSON.parse(params.nivelesDeletedSerialized)
 		
-        def carreraInstance = Carrera.get(params.idCarrera)
-        if (carreraInstance) {
+		
+		def carreraInstance = Carrera.get(params.carrerId)
+		if (carreraInstance) {
 			
-			if(!requisitosSerialized){
+			/*if(!requisitosSerialized){
 				requisitosSerialized="["
 				carreraInstance.requisitos.each{
 					if(flagcoma){
@@ -146,19 +154,21 @@ class CarreraController {
 					}
 				}
 				requisitosSerialized=requisitosSerialized+"]"
-			}
+			}*/
+			
 
-			Carrera.withTransaction(){
-	            if (params.version) {
-	                def version = params.version.toLong()
-	                if (carreraInstance.version > version) {
-	                    
-	                    carreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'carrera.label', default: 'Carrera')] as Object[], "Another user has updated this Carrera while you were editing")
-	                    render(view: "edit", model: [carreraInstance: carreraInstance])
-	                    return
-	                }
-	            }
-				
+
+			Carrera.withTransaction(){TransactionStatus status ->
+				if (params.version) {
+					def version = params.version.toLong()
+					if (carreraInstance.version > version) {
+						
+						carreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'carrera.label', default: 'Carrera')] as Object[], "Another user has updated this Carrera while you were editing")
+						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized])
+						return
+					}
+				}
+				//-------requisitos.----------
 				def arrayRequisitos = []
 				carreraInstance.requisitos.each{
 					arrayRequisitos.add(it.id)
@@ -168,51 +178,75 @@ class CarreraController {
 					requisitoInstance = Requisito.load(it)
 					carreraInstance.removeFromRequisitos(requisitoInstance)
 				}
-				
-				
 				requisitosJson.each{
 					requisitoInstance = Requisito.load(it.id.toLong())
 					carreraInstance.addToRequisitos(requisitoInstance)
 				}
 
-	            carreraInstance.properties = params
-	            if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
-	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
-	                redirect(action: "show", id: carreraInstance.id)
-	            }
-	            else {
-	                render(view: "edit", model: [carreraInstance: carreraInstance])
-	            }
+				//--------niveles------------
+				def nivelInstance
+				nivelesDeletedJson.each{
+					try{
+						nivelInstance = Nivel.load(it.id.toLong())
+						carreraInstance.removeFromNiveles(nivelInstance)
+						nivelInstance.delete()
+						log.debug "NIVEL ELIMINADO: "+it
+					}catch(org.hibernate.ObjectNotFoundException e){
+						log.debug "NO SE PUDO ELIMINAR EL NIVEL "+it
+					}
+				}
+				
+				nivelesJson.each {
+					 nivelInstance = Nivel.get(it.idNivel)
+					 if(nivelInstance){
+						 nivelInstance.descripcion=it.descripcion
+						nivelInstance.save()
+						log.debug "ENCUENTRA EL NIVEL Y LO MODIFICA"
+					 }else{
+						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
+						log.debug "NO ENCUENTRA EL NIVEL Y LO AGREGA"
+					 }
+				}
+				
+				carreraInstance.properties = params
+				if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
+					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
+					redirect(action: "show", id: carreraInstance.id)
+				}
+				else {
+					status.setRollbackOnly()
+					render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized])
+				}
 			}
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
-            redirect(action: "list")
-        }
-    }
+		}
+		else {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
+			redirect(action: "list")
+		}
+	}
 
-    def delete = {
+	def delete = {
 		log.info "INGRESANDO AL CLOSURE delete"
 		log.info "PARAMETROS: $params"
 
 		
-        def carreraInstance = Carrera.get(params.id)
-        if (carreraInstance) {
-            try {
-                carreraInstance.delete(flush: true)
-                flash.message = "${message(code:'default.record.label',args:[message(code: 'default.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
-                redirect(action: "show", id: params.id)
-            }
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
-            redirect(action: "list")
-        }
-    }
+		def carreraInstance = Carrera.get(params.idCarrera)
+		if (carreraInstance) {
+			try {
+				carreraInstance.delete(flush: true)
+				flash.message = "${message(code:'default.record.label',args:[message(code: 'default.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])])}"
+				redirect(action: "list")
+			}
+			catch (org.springframework.dao.DataIntegrityViolationException e) {
+				flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
+				redirect(action: "show", id: params.idCarrera)
+			}
+		}
+		else {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
+			redirect(action: "list")
+		}
+	}
 	
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
@@ -317,8 +351,8 @@ class CarreraController {
 	 
 			 result=result+']}'
 			 render result
-	 	}else{
-		 	render '{page:0,"total":"0","records":0,"rows":[]}'
+		 }else{
+			 render '{page:0,"total":"0","records":0,"rows":[]}'
 		 }
 
 	}
@@ -331,10 +365,10 @@ class CarreraController {
 		}
 
 	}
-	
+
 	def listniveles = {
 		log.info "INGRESANDO AL CLOSURE listniveles"
-		log.info "PARAMETROS $params"
+		log.info "PARAMETROS: $params"
 		def carreraInstance
 		
 		def result
@@ -344,14 +378,14 @@ class CarreraController {
 
 		if(params.id){
 			carreraInstance = Carrera.load(params.id.toLong())
-			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.niveles.size()+'","rows":['
+			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.requisitos.size()+'","rows":['
 			 flagaddcomilla=false
 			 carreraInstance.niveles.each{
 				 
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'"]}'
 				  
 				 flagaddcomilla=true
 			 }
@@ -359,7 +393,7 @@ class CarreraController {
 			 result=result+']}'
 			 render result
 		 }else{
-			 render '{page:1,"total":"1","records":0,"rows":[]}'
+			 render '{page:0,"total":"0","records":0,"rows":[]}'
 		 }
 
 	}
@@ -373,5 +407,6 @@ class CarreraController {
 
 	}
 
+	
 	
 }

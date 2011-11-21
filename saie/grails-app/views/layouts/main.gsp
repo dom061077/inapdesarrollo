@@ -64,6 +64,10 @@
 							</ul>
 						</li>
 						<li><span class="dir">Materias</span>
+							<ul>
+								<li><a href="${createLink(controller:'materia',action:'create')}">Alta de materia</a></li>
+								<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
+							</ul>
 					
 						</li>
 											

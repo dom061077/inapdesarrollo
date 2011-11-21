@@ -1,10 +1,10 @@
 
-<%@ page import="com.educacion.academico.ClaseRequisito" %>
+<%@ page import="com.educacion.academico.DuracionMateria" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'claseRequisito.label', default: 'ClaseRequisito')}" />
+        <g:set var="entityName" value="${message(code: 'duracionMateria.label', default: 'DuracionMateria')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     </head>
     <body>
@@ -22,33 +22,24 @@
                 <table>
                     <tbody>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.id.label" default="Id" /></td>
+                            <div class="span-4 spanlabel"><g:message code="duracionMateria.id.label" default="Id" /></div>
                             
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "id")}</td>
+                            <div class="span-4">${fieldValue(bean: duracionMateriaInstance, field: "id")}</div>
                             
-                        </tr>
+							<div class="clear"></div>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.codigo.label" default="Codigo" /></td>
+                            <div class="span-4 spanlabel"><g:message code="duracionMateria.descripcion.label" default="Descripcion" /></div>
                             
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "codigo")}</td>
+                            <div class="span-4">${fieldValue(bean: duracionMateriaInstance, field: "descripcion")}</div>
                             
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "descripcion")}</td>
-                            
-                        </tr>
+							<div class="clear"></div>
                     
                     </tbody>
                 </table>
             </div>
             <div class="buttons">
                 <g:form>
-                    <g:hiddenField name="id" value="${claseRequisitoInstance?.id}" />
+                    <g:hiddenField name="id" value="${duracionMateriaInstance?.id}" />
                     <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>

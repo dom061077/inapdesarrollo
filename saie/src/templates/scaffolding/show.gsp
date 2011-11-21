@@ -16,7 +16,7 @@
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="\${flash.message}">
-            <div class="message">\${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><H2>\${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
                 <table>
@@ -26,12 +26,11 @@
                         props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
                         Collections.sort(props, comparator.constructors[0].newInstance([domainClass] as Object[]))
                         props.each { p -> %>
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></td>
+                            <div class="span-4 spanlabel"><g:message code="${domainClass.propertyName}.${p.name}.label" default="${p.naturalName}" /></div>
                             <%  if (p.isEnum()) { %>
-                            <td valign="top" class="value">\${${propertyName}?.${p.name}?.encodeAsHTML()}</td>
+                            <div class="span-4">\${${propertyName}?.${p.name}?.encodeAsHTML()}</div>
                             <%  } else if (p.oneToMany || p.manyToMany) { %>
-                            <td valign="top" style="text-align: left;" class="value">
+                            <div class="span-4">
                                 <ul>
                                 <g:each in="\${${propertyName}.${p.name}}" var="${p.name[0]}">
                                     <li><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${p.name[0]}.id}">\${${p.name[0]}?.encodeAsHTML()}</g:link></li>
@@ -39,15 +38,15 @@
                                 </ul>
                             </td>
                             <%  } else if (p.manyToOne || p.oneToOne) { %>
-                            <td valign="top" class="value"><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${propertyName}?.${p.name}?.id}">\${${propertyName}?.${p.name}?.encodeAsHTML()}</g:link></td>
+                            <div class="span-4"><g:link controller="${p.referencedDomainClass?.propertyName}" action="show" id="\${${propertyName}?.${p.name}?.id}">\${${propertyName}?.${p.name}?.encodeAsHTML()}</g:link></div>
                             <%  } else if (p.type == Boolean.class || p.type == boolean.class) { %>
-                            <td valign="top" class="value"><g:formatBoolean boolean="\${${propertyName}?.${p.name}}" /></td>
+                            <div class="span-4"><g:formatBoolean boolean="\${${propertyName}?.${p.name}}" /></div>
                             <%  } else if (p.type == Date.class || p.type == java.sql.Date.class || p.type == java.sql.Time.class || p.type == Calendar.class) { %>
-                            <td valign="top" class="value"><g:formatDate date="\${${propertyName}?.${p.name}}" /></td>
+                            <div class="span-4"><g:formatDate date="\${${propertyName}?.${p.name}}" /></div>
                             <%  } else if(!p.type.isArray()) { %>
-                            <td valign="top" class="value">\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</td>
+                            <div class="span-4">\${fieldValue(bean: ${propertyName}, field: "${p.name}")}</div>
                             <%  } %>
-                        </tr>
+							<div class="clear"></div>
                     <%  } %>
                     </tbody>
                 </table>

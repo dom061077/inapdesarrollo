@@ -39,8 +39,9 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='margin: 3px 3px 3px 10px'  ></span></a>";
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
+							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";							
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}
 						
 						 
@@ -71,7 +72,7 @@
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
 			<table style="z-index:1"  id="list"></table>
 			<div id="pager" ></div>

@@ -189,8 +189,19 @@ class GUtilDomainClass{
 								searchValue=parseValue(it.data,metaProperty,params)
 								if(it.field.contains("_")){
 									fieldToken = it.field.tokenize("_")
-									criteria."${fieldToken[0]}"{
-										criteria."${searchOper}"(fieldToken[1],searchValue)
+									switch(fieldToken.size()){
+										case 2:
+											criteria."${fieldToken[0]}"{
+												criteria."${searchOper}"(fieldToken[1],searchValue)
+											}
+											break;
+										case 3:
+											criteria."${fieldToken[0]}"{
+												criteria."${fieldToken[1]}"{
+													criteria."${searchOper}"(fieldToken[2],searchValue)
+												}
+											}
+											break;
 									}
 								}else{
 									criteria."${searchOper}"(it.field,searchValue)
@@ -210,9 +221,22 @@ class GUtilDomainClass{
 								searchValue=parseValue(it.data,metaProperty,params)
 								if(it.field.contains("_")){
 									fieldToken = it.field.tokenize("_")
-									criteria."${fieldToken[0]}"{
-										criteria."${searchOper}"(fieldToken[1],searchValue)
+									switch(fieldToken.size()){
+										case 2:
+											criteria."${fieldToken[0]}"{
+												criteria."${searchOper}"(fieldToken[1],searchValue)
+											}
+											break;
+										case 3:
+											criteria."${fieldToken[0]}"{
+												criteria."${fieldToken[1]}"{
+													criteria."${searchOper}"(fieldToken[2],searchValue)
+												}
+											}
+											break;
 									}
+									
+									
 								}else{
 									criteria."${searchOper}"(it.field,searchValue)
 								}

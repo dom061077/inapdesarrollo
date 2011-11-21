@@ -135,7 +135,7 @@
         <div  class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><h2>${flash.message}</h2></div>
             </g:if>
             <g:hasErrors bean="${requisitoInstance}">
             <div class="ui-state-error ui-corner-all append-bottom">

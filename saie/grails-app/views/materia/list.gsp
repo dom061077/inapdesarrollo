@@ -1,10 +1,10 @@
 
-<%@ page import="com.educacion.academico.Requisito" %>
+<%@ page import="com.educacion.academico.Materia" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'requisito.label', default: 'Requisito')}" />
+        <g:set var="entityName" value="${message(code: 'materia.label', default: 'Materia')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
@@ -17,14 +17,13 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Código','Descripción','Estado','Clase Requisito','Ver'],
+					colNames:['Id','Nombre','Nivel','Carrera','Operaciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,hidden:true},
-				   		{name:'codigo',index:'codigo', width:92,sortable:false},
-				   		{name:'descripcion',index:'descripcion', width:92,sortable:false},				   		
-				   		{name:'estado',index:'estado', width:100,search:true},
-				   		{name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,search:true},				   		
+				   		{name:'id',index:'id', width:40},
+				   		{name:'nombre',index:'nombre', width:92,sortable:false},
+				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
+				   		{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -48,13 +47,15 @@
 						
 						 
 					}, 						    
-				    caption:"Listado de <% out<< "${message(code: 'requisito.label', default: 'Requisito')}" %>"
+				    caption:"Listado de ${message(code: 'materia.label', default: 'Materia')}"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
 				jQuery("#list").jqGrid('navButtonAdd','#pager',{
 				       caption:"Informe", 
 				       onClickButton : function () { 
+				           //jQuery("#list").excelExport();
+				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
 				       } 
 				});
 
@@ -72,9 +73,9 @@
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message}</H2> </div>
             </g:if>
-			<table  id="list"></table>
+			<table style="z-index:1"  id="list"></table>
 			<div id="pager" ></div>
         </div>
     </body>

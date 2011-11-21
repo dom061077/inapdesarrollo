@@ -3,10 +3,17 @@
 			
 
 	        function initsubmit(){
-	    		var gridData = jQuery("#listRequisitosId").getRowData();
-	        	var postData = JSON.stringify(gridData);
+	    		var gridDataRequisitos = jQuery("#listRequisitosId").getRowData();
+	        	var postDataRequisitos = JSON.stringify(gridDataRequisitos);
 	        	//$('#submitButtonId').attr('disabled','true')
-	        	$("#requisitosSerializedId").val(postData);
+	        	$("#requisitosSerializedId").val(postDataRequisitos);
+				
+	        	var gridDataNiveles = jQuery("#listNivelesId").getRowData();
+	        	var postDataNiveles = JSON.stringify(gridDataNiveles);
+	        	$("#nivelesSerializedId").val(postDataNiveles);
+	        	
+	        	$("#nivelesDeletedSerializedId").val(JSON.stringify(arrayDeletedNiveles));
+	        	
 	        	
 	        }
 
@@ -40,7 +47,8 @@
 		        		data=[];
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
-	        	    griddata[i]["id"] = data[i].id 
+	        	    griddata[i]["id"] = data[i].id
+	        	    griddata[i]["idNivel"] = data[i].id
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
 	        	}
 
@@ -174,9 +182,10 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Descripción de Nivel']
+		,colNames:['Id','Id Nivel','Descripción de Nivel']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'idNivel',index:'idNivel', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10},editrules:{required:true}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
@@ -199,13 +208,15 @@ $(document).ready(function(){
 				,modal:false
 				,addCaption:'Agregar Nivel'
 				,beforeSubmit: function(postData,formId){
+					$('#idReq').val(0);
 					return [true,'']
 				}
 			
 			}, // add options 
 			{reloadAfterSubmit:false
 				,beforeSubmit:function(postData,formId){
-					arrayDeletedNiveles.push({id:postData});
+					var row = $("#listNivelesId").getRowData(postData);
+					arrayDeletedNiveles.push({id:row.idNivel});
 					return [true,'']
 				}
 			}, // del options agregar una validacion ajax para saber si se puede eliminar

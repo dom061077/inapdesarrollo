@@ -1,11 +1,11 @@
 
 
-<%@ page import="com.educacion.academico.ClaseRequisito" %>
+<%@ page import="com.educacion.academico.DuracionMateria" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'claseRequisito.label', default: 'ClaseRequisito')}" />
+        <g:set var="entityName" value="${message(code: 'duracionMateria.label', default: 'DuracionMateria')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
@@ -29,55 +29,37 @@
         <div class="body">
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all append-bottom"><h2>${flash.message}</h2></div>
+            <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
             </g:if>
-            <g:hasErrors bean="${claseRequisitoInstance}">
+            <g:hasErrors bean="${duracionMateriaInstance}">
             <div class="ui-state-error ui-corner-all">
-                <g:renderErrors bean="${claseRequisitoInstance}" as="list" />
+                <g:renderErrors bean="${duracionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
             <g:form method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="id" value="${claseRequisitoInstance?.id}" />
-                <g:hiddenField name="version" value="${claseRequisitoInstance?.version}" />
+                <g:hiddenField name="id" value="${duracionMateriaInstance?.id}" />
+                <g:hiddenField name="version" value="${duracionMateriaInstance?.version}" />
 		                
-						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
+						<g:hasErrors bean="${duracionMateriaInstance}" field="descripcion">
 							<div class="ui-state-error ui-corner-all append-bottom">
 						</g:hasErrors>
 						
 						<div class="span-3 spanlabel">
-							<label for="codigo"><g:message code="claseRequisito.codigo.label" default="Codigo" /></label>
+							<label for="descripcion"><g:message code="duracionMateria.descripcion.label" default="Descripcion" /></label>
 						</div>
 						<div class="span-5">
-							<g:textField id="codigoId" name="codigo" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
+							<g:textField id="descripcionId" name="descripcion" class="ui-widget ui-corner-all ui-widget-content" value="${duracionMateriaInstance?.descripcion}" />
 						</div>
 									
-						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
-							<g:renderErrors bean="${claseRequisitoInstance}" as="list" field="codigo"/>
+						<g:hasErrors bean="${duracionMateriaInstance}" field="descripcion">
+							<g:renderErrors bean="${duracionMateriaInstance}" as="list" field="descripcion"/>
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
 		
 																
 		            
-						<g:hasErrors bean="${claseRequisitoInstance}" field="descripcion">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="descripcion"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField id="descripcionId" name="descripcion" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.descripcion}" />
-						</div>
-									
-						<g:hasErrors bean="${claseRequisitoInstance}" field="descripcion">
-							<g:renderErrors bean="${claseRequisitoInstance}" as="list" field="descripcion"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

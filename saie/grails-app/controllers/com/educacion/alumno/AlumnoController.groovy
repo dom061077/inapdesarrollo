@@ -152,6 +152,34 @@ class AlumnoController {
                     return
                 }
             }
+			if(params.localidadDomicilioId)
+			alumnoInstance.localidadDomicilio = Localidad.load(params.localidadDomicilioId.toLong())
+			else
+				alumnoInstance.localidadDomicilio = null
+				
+			if(params.localidadgGaranteId)
+				alumnoInstance.localidadGarante = Localidad.load(params.localidadGaranteId.toLong())
+			else
+				alumnoInstance.localidadGarante = null
+				
+			if(params.localidadLaboralId)
+				alumnoInstance.localidadLaboral = Localidad.load(params.localidadLaboralId.toLong())
+			else
+				alumnoInstance.localidadLaboral = null
+				
+			if(params.localidadNacId)
+				alumnoInstance.localidadNac = Localidad.load(params.localidadNacId.toLong())
+			else
+				alumnoInstance.localidadNac = null
+	
+				
+			if(params.localidadTutorId)
+				alumnoInstance.localidadTutor = Localidad.load(params.localidadTutorId.toLong())
+			else
+				alumnoInstance.localidadTutor = null
+
+			
+
             alumnoInstance.properties = params
 			if(fechaNacimientoError){
 				alumnoInstance.validate()

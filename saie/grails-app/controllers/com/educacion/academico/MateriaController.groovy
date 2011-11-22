@@ -158,7 +158,7 @@ class MateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -204,7 +204,7 @@ class MateriaController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?'':it.denominacion)+'","'+(it.descripcion==null?'':it.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}

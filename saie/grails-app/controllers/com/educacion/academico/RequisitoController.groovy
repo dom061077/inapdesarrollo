@@ -112,7 +112,7 @@ class RequisitoController {
 			subRequisitosJson = grails.converters.JSON.parse(params.subRequisitosSerialized)
 
 			//[{"id":"2","codigo":"OORR-6","descripcion":"requisito 6"},{"id":"1","codigo":"OORR-3","descripcion":"REQUISITO 3"}]
-        def requisitoInstance = Requisito.get(params.id)
+        def requisitoInstance = Requisito.get(params.requisitoId)
         if (requisitoInstance) {
 			if(!subRequisitosSerialized){
 				subRequisitosSerialized="["

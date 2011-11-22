@@ -71,8 +71,8 @@
 	
 			//----subrequisitos---
 			jQuery("#subrequisitosId").jqGrid({ 
-				url:'listsubrequisitos'
-				,editurl:'editsubrequisitos'
+				url:'<%out<< createLink(controller:"requisito",action:"listsubrequisitos")%>'
+				,editurl:'<%out << createLink(controller:"requisito",editsubrequisitos:"editsubrequisitos")%>'
 				,datatype: "json"
 				,width:600
 				,rownumbers:true
@@ -141,7 +141,7 @@
             </g:hasErrors>
             <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-			                <g:hiddenField name="id" value="${requisitoInstance?.id}" />
+			                <g:hiddenField name="requisitoId" value="${requisitoInstance?.id}" />
 			                <g:hiddenField name="version" value="${requisitoInstance?.version}" />
 		                
 							<g:hasErrors bean="${requisitoInstance}" field="codigo">

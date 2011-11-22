@@ -18,7 +18,7 @@ class BootStrap {
 			new Requestmap(url: '/images/**', configAttribute: 'IS_AUTHENTICATED_ANONYMOUSLY').save(failOnError:true)
 			new Requestmap(url: '/login/**', configAttribute: 'IS_AUTHENTICATED_ANONYMOUSLY').save(failOnError:true)
 			new Requestmap(url: '/logout/**', configAttribute: 'IS_AUTHENTICATED_ANONYMOUSLY').save(failOnError:true)
-			new Requestmap(url: '/*', configAttribute:'IS_AUTHENTICATED_ANONYMOUSLY').save(failOnError:true)
+			new Requestmap(url: '/*', configAttribute:'IS_AUTHENTICATED_REMEMBERED').save(failOnError:true)
 			new Requestmap(url: '/j_spring_security_switch_user',configAttribute: 'ROLE_SWITCH_USER,IS_AUTHENTICATED_FULLY').save(failOnError:true)
 			new Requestmap(url: '/carrera/**',configAttribute:'ROLE_ADMIN').save(failOnError:true)
 			if (!user.authorities.contains(adminRole)) {

@@ -15,10 +15,12 @@ $(document).ready(function(){
 		                hiddenfield:'id',
 		                descfield:['descripcion'],
 		                onSelected :function(){},
+		                onKeyup: function(){},
 		                postData:{}
 		            };
 		            function showgriddialog(dialog){
 						//$('#searchDialogId').add(grid);
+		            	
 		            	$('#'+dialog).dialog('open');
 		            }
 		            var settings = $.extend(defaults, settings);
@@ -53,6 +55,7 @@ $(document).ready(function(){
 									 ],*/
 							//colnames:settings.colnames,
 							//colModel:settings.colModel,
+							//hiddengrid:true,
 							colNames:settings.colNames,
 							colModel:settings.colModel,
 							postData: settings.postData,
@@ -92,8 +95,9 @@ $(document).ready(function(){
 		                $(this).css('float','left');
 		                $(this).keyup(function(){
 		                	if($.trim($(this).val())==""){
-		                		$('#'+settings.hiddenid).val("")
+		                		$('#'+settings.hiddenid).val("");
 		                	}
+		                	settings.onKeyup();
 		                });
 		                $('#'+searchLinkId).click(function(){
 		                	showgriddialog(searchDialogId);

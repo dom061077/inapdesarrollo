@@ -21,7 +21,7 @@
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
-				   		{name:'nombre',index:'nombre', width:92,sortable:false},
+				   		{name:'denominacion',index:'denominacion', width:92,sortable:false},
 				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
 				   		{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}

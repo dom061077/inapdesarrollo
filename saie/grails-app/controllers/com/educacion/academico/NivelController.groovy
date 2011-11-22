@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
-
+import grails.converters.JSON
 
 
 class NivelController {
@@ -180,6 +180,12 @@ class NivelController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
+		def filtersJson = JSON.parse(params.altfilters)
+		if(filtersJson.rules?.size()==0){
+			render '{"page":1,"total":0,"records":0,"rows":[]}'
+			return
+		}
+		
 		def gud=new GUtilDomainClass(Nivel,params,grailsApplication)
 		list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)

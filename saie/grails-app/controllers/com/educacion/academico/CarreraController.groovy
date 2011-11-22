@@ -288,7 +288,7 @@ class CarreraController {
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
-					carrera id:obj.id,label:obj.nombre,value:obj.nombre
+					carrera id:obj.id,label:obj.denominacion,value:obj.denominacion
 				}
 			}
 			
@@ -316,7 +316,7 @@ class CarreraController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
 			 
 			flagaddcomilla=true
 		}

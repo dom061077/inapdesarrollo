@@ -18,6 +18,57 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
+		
+
+        		$('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',
+    				 title:'Búsqueda de Carreras' 
+	   				,colNames:['Id','Denominación'] 
+	   				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+    				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}] 
+    				,hiddenid:'carreraIdId' 
+    				,descid:'carreraId' 
+    				,hiddenfield:'id' 
+    				,descfield:['denominacion']
+        			,onSelected:function(){
+    					var filter = { groupOp: "AND", rules: []};
+	    				filter.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
+	    				var grid = $('#nivelIdtablesearchId') 
+	    				grid[0].p.search = filter.rules.length>0;
+	    				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+	    				grid.trigger("reloadGrid",[{page:1}]);
+    				}
+					,onKeyup:function(){
+						if($.trim($('#carreraId').val())==""){
+							var filter = { groupOp: "AND", rules: []};
+		    				filter.rules.push({field:"carrera_id",op:"eq",data:0});
+		    				var grid = $('#nivelIdtablesearchId') 
+		    				grid[0].p.search = filter.rules.length>0;
+		    				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+		    				grid.trigger("reloadGrid",[{page:1}]);
+		    				$('#nivelId').val('');
+		    				$('#nivelIdId').val('');
+	                	}
+					}
+				}); 
+
+		   		$('#carreraId' ).autocomplete({source: '<%out<<createLink(controller:'carrera',action:'listautocomplejson')%>',
+    				 minLength: 2, 
+     				 select: function( event, ui ) {
+    					 if(ui.item){ 
+    						 $('#carreraIdId').val(ui.item.id) 
+   					 } 
+   					}, 
+    				 open: function() { 
+    					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+    				 }, 
+    				 close: function() {
+    					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+    				 } 
+   				}); 
+
+   				
+  //---------------------------------- 
+            	
 		$('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
  				 title:'Búsqueda de niveles' 
 				,colNames:['Id','Descripcion'] 
@@ -42,6 +93,7 @@
  					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
  				 } 
   				}); 
+		
 //---------------------------------- 
 		$('#pcaId').lookupfield({source:'<%out<< createLink(controller:'materia',action:'listsearchjson')%>',
  				 title:'Materia aprobada para Cursar' 
@@ -264,6 +316,16 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
+									
+							<div class="span-3 spanlabel">
+								<label for="carreraDesc"><g:message code="materia.carrera.label" default="Carrera" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="${materiaInstance?.nivel?.carrera?.descripcion}" /> 
+ 								<g:hiddenField id="carreraIdId" name="carrera.id" value="${materiaInstance?.nivel?.carrera?.id}" />
+							</div>
+						   <div class="clear"></div>
+									
 																	
                         
 							<g:hasErrors bean="${materiaInstance}" field="nivel">
@@ -274,8 +336,8 @@
 								<label for="nivel"><g:message code="materia.nivel.label" default="Nivel" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="nivelId" name="nivelDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="nivelIdId" name="nivel.id" value="${nivel?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="nivelId" name="nivelDesc"  value="${materiaInstance?.nivel?.descripcion}" /> 
+ 								<g:hiddenField id="nivelIdId" name="nivel.id" value="${materiaInstance?.nivel?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="nivel">
@@ -294,8 +356,8 @@
 								<label for="pca"><g:message code="materia.pca.label" default="Pca" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcaId" name="pcaDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="pcaIdId" name="pca.id" value="${pca?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcaId" name="pcaDesc"  value="${materiaInstance?.pca?.denominacion}" /> 
+ 								<g:hiddenField id="pcaIdId" name="pca.id" value="${materiaInstance?.pca?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="pca">
@@ -314,8 +376,8 @@
 								<label for="pcr"><g:message code="materia.pcr.label" default="Pcr" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcrId" name="pcrDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="pcrIdId" name="pcr.id" value="${pcr?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcrId" name="pcrDesc"  value="${materiaInstance?.pcr?.denominacion}" /> 
+ 								<g:hiddenField id="pcrIdId" name="pcr.id" value="${materiaInstance?.pcr?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="pcr">
@@ -334,8 +396,8 @@
 								<label for="pra"><g:message code="materia.pra.label" default="Pra" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="praId" name="praDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="praIdId" name="pra.id" value="${pra?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="praId" name="praDesc"  value="${materiaInstance?.pra?.denominacion}" /> 
+ 								<g:hiddenField id="praIdId" name="pra.id" value="${materiaInstance?.pra?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="pra">
@@ -357,7 +419,7 @@
 								<label for="prr"><g:message code="materia.prr.label" default="Prr" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="prrId" name="prrDesc"  value="colocar el valor del field descripcion" /> 
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="prrId" name="prrDesc"  value="${materiaInstance?.prr?.denominacion}" /> 
 								<g:hiddenField id="prrIdId" name="prr.id" value="${prr?.id}" />
 							</div>
 										

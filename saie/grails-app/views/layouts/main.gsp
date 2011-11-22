@@ -93,15 +93,18 @@
 								</li>
 							</ul>	
 						</li>
-						<li><a href="./">Cuotas</a></li>
-						<li><a href="./" class="dir">Contactenos</a>
+						<li><span class="dir">Contactenos</span>
 							<ul>
-					
 								<li><a href="./">Incidencias</a></li>
 								<li class="divider last"><a href="./">Mas...</a></li>
 							</ul>
 						</li>
 					
+						<li><span class="dir">Usuario</span>
+							<ul>
+								<li><a href="${createLink(controller:'logout',action:'index')}">Cerrar Sesión</a></li>
+							</ul>
+						</li>
 					</ul>
 
     

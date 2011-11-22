@@ -468,14 +468,14 @@
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <g:hasErrors bean="${alumnoInstance}">
             <div class="ui-state-error ui-corner-all">
                 <g:renderErrors bean="${alumnoInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" method="post" enctype="multipart/form-data" >
+            <g:form action="save" >
             	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>
@@ -1385,15 +1385,6 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-						   
-	                        <div class="clear"></div>
-	                        <div class="span-3 spanlabel">            	
-	                                    <label for="photo"><g:message code="profesional.photo.label" default="Foto:" /></label>
-							</div>		                
-							<div class="span-4">                    
-	                                    <input class="ui-widget ui-corner-all ui-widget-content" type="file" name="photo" />
-	            			</div>
-						   
 						   
                     
                     </div> <%--end tab-datos otros --%>   

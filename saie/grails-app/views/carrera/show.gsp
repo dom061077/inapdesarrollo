@@ -33,26 +33,26 @@
 					, caption:"Requisitos",  height:210
 				}); 
 
-				//-----niveles----
 				jQuery("#nivelesId").jqGrid({ 
 					url:'<%out << createLink(controller:'carrera',action:'listniveles',params:[id:carreraInstance.id])%>'
-					,editurl:'editniveles'
+					,editurl:'editrequisitos'
 					,datatype: "json"
 					,width:600
 					,rownumbers:true
-					,colNames:['Id','Descripción de Nivel']
+					,colNames:['Id','Id', 'Descripción']
 					,colModel:[ 
-						{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+						,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}						
+						,{name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 					]
+					//, rowNum:10, rowList:[10,20,30]
 					, pager: '#pagerNiveles'
 					, sortname: 'id'
 					, viewrecords: true, sortorder: "desc"
-					, caption:"Niveles",  
-					height:130
+					, caption:"Niveles",  height:210
 				}); 
 				$('#tabs').tabs();
-            	
+				
             });
         </script>
         
@@ -66,9 +66,9 @@
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><h2>${flash.message}</h2></div>
             </g:if>
-            <div class="append-bottom">
+            <div class="dialog">
             	<div class="span-16">
 		                <table>
 		                    <tbody>
@@ -108,6 +108,7 @@
 		                            
 		                        </tr>
 		                    
+		                    
 		                        <tr class="prop">
 		                            <td valign="top" class="name"><g:message code="carrera.perfilEgresado.label" default="Perfil Egresado" /></td>
 		                            
@@ -134,21 +135,22 @@
 		                </table>
 				</div>	
 			   <div class="clear"></div>
-			   <div id="tabs" >
-			   		<ul>
-			   			<li><a href="#tabs-requisitos">Requisitos</a></li>
-		   				<li><a href="#tabs-niveles">Niveles</a></li>
-			   		</ul>
-				   <div id="tabs-requisitos">
-                         	<table id="requisitosId"></table>
-                         <div id="pagerRequisitos">	</div>						   		
-				   </div>
-				   <div id="tabs-niveles">
-                         	<table id="nivelesId"></table>
-                         <div id="pagerNiveles">	</div>						   		
+			   <div id="tabs">
+				   		<ul>
+				   			<li><a href="#tabs-requisitos">Requisitos</a></li>
+				   			<li><a href="#tabs-niveles">Niveles</a></li>
+				   		</ul>
+         				<div class="clear"></div>
+         				<div id="tabs-requisitos">
+                       		<table id="requisitosId"></table>
+                         	<div id="pagerRequisitos">	</div>
+                         </div>
+         				<div id="tabs-niveles">
+                       		<table id="nivelesId"></table>
+                         	<div id="pagerNiveles">	</div>
+                         </div>						   		
 				   </div>
 			   </div>                
-            </div>
             <div class="clear"></div>
             <div class="span-16">
                 <g:form>

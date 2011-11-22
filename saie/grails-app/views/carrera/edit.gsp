@@ -35,16 +35,16 @@
         <div class="body">
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all append-bottom">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all append-bottom"><h2>${flash.message}</h2></div>
             </g:if>
             <g:hasErrors bean="${carreraInstance}">
             <div class="ui-state-error ui-corner-all">
                 <g:renderErrors bean="${carreraInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form onSubmit="initsubmit();return true;" method="post" >
+            <form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="idCarrera" value="${carreraInstance?.id}" />
+                <g:hiddenField name="carrerId" value="${carreraInstance?.id}" />
                 <g:hiddenField name="version" value="${carreraInstance?.version}" />
 		                
 						<g:hasErrors bean="${carreraInstance}" field="campoOcupacional">
@@ -178,22 +178,24 @@
 					   </g:hasErrors>
 					   <div class="clear"></div>
 					   <div id="tabs">
-				   			<ul>
-				   				<li><a href="#tabs-requisitos">Requisitos</a></li>
-				   				<li><a href="#tabs-niveles">Niveles</a></li>						   				
-				   			</ul>
+					   		<ul>
+					   			<li><a href="#tabs-requisitos">Requisitos</a></li>
+					   			<li><a href="#tabs-niveles">Niveles</a></li>
+					   		</ul>
 					   		<div id="tabs-requisitos">
 						   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
 						   		<table id="listRequisitosId"></table>
 						   		<div id="pagerListRequisitosId"></div>
-					   		</div>	
+						   	</div>
 					   		<div id="tabs-niveles">
 						   		<g:hiddenField id="nivelesSerializedId" name="nivelesSerialized" value="${nivelesSerialized}"/>
-						   		<g:hiddenField id="nivelesDeletedSerializedId" name="nivelesDeletedSerialized" value="${nivelesDeletedSerialized}"/>
+						   		<g:hiddenField id="nivelesDeletedSerializedId" name="nivelesDeletedSerialized" value="${nivelesDeletedSerialized}"></g:hiddenField>
 						   		<table id="listNivelesId"></table>
 						   		<div id="pagerListNivelesId"></div>
-					   		</div>
-					   </div>	
+						   	</div>		
+						</div>	
+					   
+					   	
 						<div class="clear"></div>										
 		
 			            <div style="display:none" id="busquedaRequisitoDialogId">
@@ -208,7 +210,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

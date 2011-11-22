@@ -30,7 +30,7 @@
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="ui-state-highlight ui-corner-all">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <g:hasErrors bean="${carreraInstance}">
             <div class="ui-state-error ui-corner-all append-bottom">
@@ -169,22 +169,22 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-						   		<div id="tabs">
-						   			<ul>
-						   				<li><a href="#tabs-requisitos">Requisitos</a></li>
-						   				<li><a href="#tabs-niveles">Niveles</a></li>						   				
-						   			</ul>
-							   		<div id="tabs-requisitos">
-								   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
-								   		<table id="listRequisitosId"></table>
-								   		<div id="pagerListRequisitosId"></div>
-								   	</div>
-								   	<div id="tabs-niveles">
-								   		<g:hiddenField id="nivelesSerializedId" name="nivelesSerialized" value="${nivelesSerialized}"/>
-								   		<table id="listNivelesId"></table>
-								   		<div id="pagerListNivelesId"></div>
-								   	</div>
+						   <div id="tabs">
+						   		<ul>
+						   			<li><a href="#tabs-requisitos">Requisitos</a></li>
+						   			<li><a href="#tabs-niveles">Niveles</a></li>
+						   		</ul>
+						   		<div id="tabs-requisitos">
+							   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
+							   		<table id="listRequisitosId"></table>
+							   		<div id="pagerListRequisitosId"></div>
+							   	</div>
+						   		<div id="tabs-niveles">
+							   		<g:hiddenField id="nivelesSerializedId" name="nivelesSerialized" value="${nivelesSerialized}"/>
+							   		<table id="listNivelesId"></table>
+							   		<div id="pagerListNivelesId"></div>
 							   	</div>		
+							</div>	
 							<div class="clear"></div>										
 						   
                         

@@ -51,12 +51,21 @@
 					}
 				}); 
 
-		   		$('#carreraId' ).autocomplete({source: '<%out<<createLink(controller:'carrera',action:'listautocomplejson')%>',
+		   		$('#carreraId' ).autocomplete({source: '<%out<<createLink(controller:'carrera',action:'listjsonautocomplete')%>',
     				 minLength: 2, 
      				 select: function( event, ui ) {
     					 if(ui.item){ 
     						 $('#carreraIdId').val(ui.item.id) 
-   					 } 
+    						 
+							var filter = { groupOp: "AND", rules: []};
+							filter.rules.push({field:"carrera_id",op:"eq",data:ui.item.id});
+							var grid = $('#nivelIdtablesearchId') 
+							grid[0].p.search = filter.rules.length>0;
+							$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+							grid.trigger("reloadGrid",[{page:1}]);
+							$('#nivelId').val('');
+							$('#nivelIdId').val('');
+   					 	} 
    					}, 
     				 open: function() { 
     					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
@@ -79,8 +88,31 @@
  				,hiddenfield:'id' 
  				,descfield:['descripcion']}); 
 
-		$('#nivelId' ).autocomplete({source: '<%out<<createLink(controller:'nivel',action:'listautocomplejson')%>',
- 				 minLength: 2, 
+		$('#nivelId' ).autocomplete({
+				source: function( request, response ) {
+							$.ajax({
+								url: '<%out<<createLink(controller:'nivel',action:'listjsonautocomplete')%>',
+								//dataType: "jsonp",
+								data: {
+									carreraId:$('#carreraIdId').val(),
+									term: request.term
+								},
+								success: function( data ) {
+									response( $.map( data, function( item ) {
+										return {
+											label: item.label,
+											value: item.value,
+											id: item.id
+										}
+									}));
+								},
+								error:function(jqXHR, textStatus, errorThrown){
+									alert('ERROR');									
+								}
+							});
+						}
+				,
+ 				 minLength: 2,
   				 select: function( event, ui ) {
  					 if(ui.item){ 
  						 $('#nivelIdId').val(ui.item.id) 
@@ -106,7 +138,7 @@
  				,hiddenfield:'id' 
  				,descfield:['denominacion']}); 
 
-		$('#pcaId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listautocompletejson')%>',
+		$('#pcaId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
  				 minLength: 2, 
   				 select: function( event, ui ) {
  					 if(ui.item){ 
@@ -132,7 +164,7 @@
 	 				,hiddenfield:'id' 
 	 				,descfield:['denominacion']}); 
 
-		$('#pcrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listautocompletejson')%>',
+		$('#pcrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
  				 minLength: 2, 
   				 select: function( event, ui ) {
  					 if(ui.item){ 
@@ -158,7 +190,7 @@
 	 				,hiddenfield:'id' 
 	 				,descfield:['denominacion']});  
 
-		$('#praId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listautocompletejson')%>',
+		$('#praId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
  				 minLength: 2, 
   				 select: function( event, ui ) {
  					 if(ui.item){ 
@@ -184,7 +216,7 @@
 	 				,hiddenfield:'id' 
 	 				,descfield:['denominacion']});  
 
-		$('#prrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listautocompletejson')%>',
+		$('#prrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
  				 minLength: 2, 
   				 select: function( event, ui ) {
  					 if(ui.item){ 
@@ -287,7 +319,7 @@
 								<label for="duracion"><g:message code="materia.duracion.label" default="Duracion" /></label>
 							</div>
 							<div class="span-5">
-								<g:select name="user.company.id" from="${DuracionMateria.list()}"	value="${materiaInstance?.duracion?.id}"
+								<g:select name="duracion.id" from="${DuracionMateria.list()}"	value="${materiaInstance?.duracion?.id}"
 								optionKey="id" optionValue="descripcion" />
 							</div>
 										
@@ -321,8 +353,8 @@
 								<label for="carreraDesc"><g:message code="materia.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="${materiaInstance?.nivel?.carrera?.descripcion}" /> 
- 								<g:hiddenField id="carreraIdId" name="carrera.id" value="${materiaInstance?.nivel?.carrera?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="${materiaInstance?.nivel?.carrera?.denominacion}" /> 
+ 								<g:hiddenField id="carreraIdId" name="carreraId" value="${materiaInstance?.nivel?.carrera?.id}" />
 							</div>
 						   <div class="clear"></div>
 									

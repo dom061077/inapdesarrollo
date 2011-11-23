@@ -166,7 +166,13 @@ class NivelController {
 		log.info "PARAMETROS: ${params}"
 		def list = Nivel.createCriteria().list(){
 				like('descripcion','%'+params.term+'%')
+				if(params.carreraId){
+					//carrera{
+					//	eq("id",params.carreraId.toLong())
+					//}
+				}
 		}
+		log.debug "CANTIDAD DE NIVELES: "+list.size()
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
@@ -180,10 +186,12 @@ class NivelController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
-		def filtersJson = JSON.parse(params.altfilters)
-		if(filtersJson.rules?.size()==0){
-			render '{"page":1,"total":0,"records":0,"rows":[]}'
-			return
+		if(params.altfilters){
+			def filtersJson = JSON.parse(params.altfilters)
+			if(filtersJson.rules?.size()==0){
+				render '{"page":1,"total":0,"records":0,"rows":[]}'
+				return
+			}
 		}
 		
 		def gud=new GUtilDomainClass(Nivel,params,grailsApplication)

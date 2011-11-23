@@ -48,7 +48,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="materia.duracion.label" default="Duracion" /></div>
                             
-                            <div class="span-4"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.descripcion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
@@ -57,10 +57,17 @@
                             <div class="span-4">${materiaInstance?.estado?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
+							
+                            <div class="span-4 spanlabel"><g:message code="materia.nivel.carrera.label" default="Carrera" /></div>
+                            
+                            <div class="span-4"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+                            
+							<div class="clear"></div>
+							
                     
                             <div class="span-4 spanlabel"><g:message code="materia.nivel.label" default="Nivel" /></div>
                             
-                            <div class="span-4"><g:link controller="nivel" action="show" id="${materiaInstance?.nivel?.id}">${materiaInstance?.nivel?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4"><g:link controller="nivel" action="show" id="${materiaInstance?.nivel?.id}">${materiaInstance?.nivel?.descripcion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     

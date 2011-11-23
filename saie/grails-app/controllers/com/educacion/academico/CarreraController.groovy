@@ -283,7 +283,7 @@ class CarreraController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Carrera.createCriteria().list(){
-				like('nombre','%'+params.term+'%')
+				like('denominacion','%'+params.term+'%')
 		}
 		render(contentType:"text/json"){
 			array{

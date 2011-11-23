@@ -173,6 +173,7 @@
 						   		<ul>
 						   			<li><a href="#tabs-requisitos">Requisitos</a></li>
 						   			<li><a href="#tabs-niveles">Niveles</a></li>
+						   			<li><a href="#tabs-aniolectivo">Años Lectivos</a></li>
 						   		</ul>
 						   		<div id="tabs-requisitos">
 							   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
@@ -183,7 +184,12 @@
 							   		<g:hiddenField id="nivelesSerializedId" name="nivelesSerialized" value="${nivelesSerialized}"/>
 							   		<table id="listNivelesId"></table>
 							   		<div id="pagerListNivelesId"></div>
-							   	</div>		
+							   	</div>	
+							   	<div id="tabs-aniolectivo">
+							   		<g:hiddenField id="aniosSerializedId" name="aniosSerialized" value="${nivelesSerialized}"/>
+							   		<table id="listAniosId"></table>
+							   		<div id="pagerListAniosId"></div>
+							   	</div>	
 							</div>	
 							<div class="clear"></div>										
 						   

@@ -209,12 +209,12 @@ class RequisitoController {
 		def totalregistros=gud.listrefactor(true)
 		
 		//---------para testear los closures de un controller
-		grailsApplication.controllerClasses.each{
+		/*grailsApplication.controllerClasses.each{
 			log.debug "CLOSURE: "+it.fullName
 			it.URIs.each{
 				log.debug "				URIs: "+it
 			}
-		}
+		}*/
 		
 		
 		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))

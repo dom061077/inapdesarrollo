@@ -186,12 +186,9 @@ class NivelController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
-		if(params.altfilters){
-			def filtersJson = JSON.parse(params.altfilters)
-			if(filtersJson.rules?.size()==0){
+		if(!params.altfilters){
 				render '{"page":1,"total":0,"records":0,"rows":[]}'
 				return
-			}
 		}
 		
 		def gud=new GUtilDomainClass(Nivel,params,grailsApplication)

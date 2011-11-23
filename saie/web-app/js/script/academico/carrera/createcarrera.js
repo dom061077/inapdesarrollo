@@ -8,7 +8,30 @@
 	        	var postDataNiveles = JSON.stringify(gridDataNiveles);
 	        	$("#nivelesSerializedId").val(postDataNiveles);
 	        	
+	    		var gridDataAnios = jQuery("#listAniosId").getRowData();
+	        	var postDataAnios = JSON.stringify(gridDataAnios);
+	        	$("#aniosSerializedId").val(postDataAnios);
+	        	
+	        	
 	        }
+	        
+	        function bindanios(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#aniosSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    griddata[i]["id"] = data[i].id 
+	        	    griddata[i]["anio"] = data[i].descripcion;	        	    	        	    
+	        	}
+
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#listAniosId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
+	        }
+	        
 	        
 	        function bindniveles(){
 	        	var griddata = [];
@@ -206,6 +229,56 @@ $(document).ready(function(){
 		);	
 	
 	bindniveles();
+	
+	//-----------------------------------------------------------------------------------------
+	jQuery("#listAniosId").jqGrid({ 
+		url:'listanios'
+		,editurl:'editanios'
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','Año Lectivo','Cupo','Cupo Suplentes','Costo Matricula','Fecha Inicio','Fecha Fin']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'anioLectivo',index:'anioLectivo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{minValue:2012,integer:true,required:true}, sortable:false}
+			, {name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
+			, {name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
+			, {name:'costoMatricula',index:'costoMatricula', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{number:true,required:true}, sortable:false}
+			, {name:'fechaInicio',index:'fechaInicio', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},datefmt:'dd/MM/yyyy',editrules:{date:true,required:true}, sortable:false}
+			, {name:'fechaFin',index:'fechaFin', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},datefmt:'dd/MM/yyyy',editrules:{date:true,required:true}, sortable:false}			
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagerListAniosId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Años Lectivos",  
+		height:130
+	}); 
+	
+	jQuery("#listAniosId").jqGrid('navGrid','#pagerListAniosId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Año Lectivo'
+				,bSubmit:'Agregar'
+			
+			}, // edit options 
+			{height:280,width:310,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,bSubmit:'Agregar'
+				,addCaption:'Agregar Año Lectivo'
+				,beforeSubmit: function(postData,formId){
+					return [true,'']
+				}
+			
+			}, // add options 
+			{reloadAfterSubmit:false}, // del options 
+			{} // search options 
+		);	
+	
+	bindanios();
+	
 	
 	$('#tabs').tabs();
 });

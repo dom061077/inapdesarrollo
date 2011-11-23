@@ -9,7 +9,7 @@ import java.text.DateFormat
 
 import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
-
+import java.text.SimpleDateFormat;
 
 
 class CarreraController {
@@ -40,10 +40,14 @@ class CarreraController {
 		
 		def requisitosJson
 		def nivelesJson
+		def aniosJson
 		if(params.requisitosSerialized)
 			requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
 		if(params.nivelesSerialized)
 			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)
+		if(params.aniosSerialized)
+			aniosJson = grails.converters.JSON.parse(params.aniosSerialized)
+
 			
 		def carreraInstance = new Carrera(params)
 		
@@ -55,6 +59,15 @@ class CarreraController {
 			}
 			nivelesJson.each{
 				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
+			}
+			java.sql.Date fechaInicio
+			def fechaFin
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
+			aniosJson.each{
+				fechaInicio = sdf.parse(it.fechaInicio)
+				fechaFin = sdf.parse(it.fechaFin)
+				carreraInstance.addToAnios(new AnioLectivo(anioLectivo:it.anioLectivo
+					,cupo:it.cupo,cupoSuplentes:it.cupoSuplentes,costoMatricula:it.costoMatricula,fechaInicio:fechaInicio,fechaFin:fechaFin))
 			}
 			if (carreraInstance.save(flush: true)) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
@@ -406,7 +419,47 @@ class CarreraController {
 		}
 
 	}
-
 	
+	def listanios ={
+		log.info "INGREANDO AL CLOSURE listanios"
+		log.info "PARAMETROS: $params"
+		def carreraInstance
+		
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+
+		if(params.id){
+			carreraInstance = Carrera.load(params.id.toLong())
+			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.anios.size()+'","rows":['
+			 flagaddcomilla=false
+			 carreraInstance.anios.each{
+				 
+				 if (flagaddcomilla)
+					 result=result+','
+				 
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.anioLectivo+'","'+it.cupo+'","'+it.cupoSuplentes+'","'+it.costoMatricula+'","'+it.fechaInicio+'","'+it.fechaFin+'"]}'
+				  
+				 flagaddcomilla=true
+			 }
+	 
+			 result=result+']}'
+			 render result
+		 }else{
+			 render '{page:0,"total":"0","records":0,"rows":[]}'
+		 }
+
+	}
+
+	def editanios = {
+		render(contentType:"text/json"){
+			array{
+				
+			}
+		}
+
+	}
+
 	
 }

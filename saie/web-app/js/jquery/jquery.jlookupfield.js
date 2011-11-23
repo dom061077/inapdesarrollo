@@ -16,12 +16,16 @@ $(document).ready(function(){
 		                descfield:['descripcion'],
 		                onSelected :function(){},
 		                onKeyup: function(){},
-		                postData:{}
+		                postData:{},
+		                onShowgrid:function(){
+		                	
+		                }
 		            };
 		            function showgriddialog(dialog){
 						//$('#searchDialogId').add(grid);
 		            	
 		            	$('#'+dialog).dialog('open');
+		            	settings.onShowgrid();
 		            }
 		            var settings = $.extend(defaults, settings);
 		 

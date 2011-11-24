@@ -11,4 +11,8 @@ class Localidad {
 
     static constraints = {
     }
+	static mapping = {
+		provincia lazy:false
+	}
+
 }

@@ -10,7 +10,10 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>   
+        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'thickbox.js')}"></script>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'css',file:'thickbox.css')}" />
+              
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
@@ -452,6 +455,29 @@
 				,descfield:['descripcion']}); 
 
 //---------------------------------- 
+			    	$('.cambiarlink').live('click',function(){
+				    	if($(this).attr('inputactivo')=='false'){
+					    	$(this).attr('inputactivo','true');
+					    	var link = $(this);
+					    	$('#image').fadeOut(function(){
+					    		$('#inputimage').fadeIn('slow',function(){
+					    			link.html('Cancelar');
+						    	});
+					    				
+						    });
+					    }else{
+					    	$(this).attr('inputactivo','false');
+					    	var link = $(this);
+					    	$('#inputimage').fadeOut(function(){
+						    	$('#image').fadeIn('slow',function(){
+						    		link.html('Cambiar Imagen');
+							    });
+						    	
+						    });
+						}
+			    	});
+
+					$('#inputimage').hide();
 
 
 				$("#tabs").tabs();
@@ -476,7 +502,7 @@
                 <g:renderErrors bean="${alumnoInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <form method="post" enctype="multipart/form-data">
                 <g:hiddenField name="id" value="${alumnoInstance?.id}" />
                 <g:hiddenField name="version" value="${alumnoInstance?.version}" />
 		                
@@ -1390,9 +1416,20 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-						   <div class="span-5">
-								<input type="file" class="ui-widget ui-corner-all ui-widget-content" id="photoId" name="photo"/>
-						   </div>
+	                   		<div class="span-3 spanlabel">            	
+	                                    <label for="photo"><g:message code="alumno.photo.label" default="Foto:" /></label>
+							</div>
+	            			<div id="image" class="span-4 colborder">
+	            					<a class="thickbox" href="${g.resourceimgext(size:'large', bean:alumnoInstance)}"><img src="${g.resourceimgext(size:'small', bean:alumnoInstance)}"  alt=""> </img></a>
+	            			</div>
+							<div id="inputimage" class="span-4 colborder">                    
+	                                    <input class="ui-widget ui-corner-all ui-widget-content" type="file" name="photo" />
+	            			</div>
+	            			<div  class="span-4">
+	            					<span>
+	            						<a  class="cambiarlink" inputactivo="false" href="" onclick="return false;">Cambiar Imagen</a>
+	            					</span>
+	            			</div>
 						   <div class="clear"></div>						   
                     
                     </div> <%--end tab-datos otros --%>   
@@ -1405,7 +1442,7 @@
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

@@ -47,6 +47,12 @@
     <listener>
         <listener-class>org.codehaus.groovy.grails.web.util.Log4jConfigListener</listener-class>
     </listener>
+	
+	<!-- Listener para obtener los usuarios logueados-->
+		<listener>
+		    <listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+		</listener>
+
 
     <listener>
         <listener-class>org.codehaus.groovy.grails.web.context.GrailsContextLoaderListener</listener-class>

@@ -10,7 +10,7 @@ import com.educacion.enums.EstadoRequisitoEnum
 
 
 class RequisitoController {
-
+	def sessionRegistry
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -43,8 +43,6 @@ class RequisitoController {
 			def subRequisitoInstance
 			log.debug "CANTIDAD DE SUBREQUISITOS: ${subRequisitosJson.size()}"
 			subRequisitosJson.each{
-				log.debug "ESTADO VALUE: "+it.estadoValue
-				log.debug "ESTADO: "+it.estado
 				subRequisitoInstance = new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}")
 				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 			}
@@ -207,7 +205,13 @@ class RequisitoController {
 		def gud=new GUtilDomainClass(Requisito,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
+		def cnt = 0
 		
+		log.debug "CANTIDAD DE PRINCIPALS: "+sessionRegistry.getAllPrincipals().size()
+		sessionRegistry.getAllPrincipals().each{
+			cnt += sessionRegistry.getAllSessions(it, false).size()
+			log.debug "Principal: "+it
+		}
 		//---------para testear los closures de un controller
 		/*grailsApplication.controllerClasses.each{
 			log.debug "CLOSURE: "+it.fullName

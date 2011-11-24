@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
-
+import org.springframework.transaction.TransactionStatus
 
 
 class AlumnoController {
@@ -143,62 +143,73 @@ class AlumnoController {
 		
         def alumnoInstance = Alumno.get(params.id)
         if (alumnoInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (alumnoInstance.version > version) {
-                    
-                    alumnoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'alumno.label', default: 'Alumno')] as Object[], "Another user has updated this Alumno while you were editing")
-                    render(view: "edit", model: [alumnoInstance: alumnoInstance])
-                    return
-                }
-            }
-			if(params.localidadDomicilioId)
-			alumnoInstance.localidadDomicilio = Localidad.load(params.localidadDomicilioId.toLong())
-			else
-				alumnoInstance.localidadDomicilio = null
-				
-			if(params.localidadgGaranteId)
-				alumnoInstance.localidadGarante = Localidad.load(params.localidadGaranteId.toLong())
-			else
-				alumnoInstance.localidadGarante = null
-				
-			if(params.localidadLaboralId)
-				alumnoInstance.localidadLaboral = Localidad.load(params.localidadLaboralId.toLong())
-			else
-				alumnoInstance.localidadLaboral = null
-				
-			if(params.localidadNacId)
-				alumnoInstance.localidadNac = Localidad.load(params.localidadNacId.toLong())
-			else
-				alumnoInstance.localidadNac = null
-	
-				
-			if(params.localidadTutorId)
-				alumnoInstance.localidadTutor = Localidad.load(params.localidadTutorId.toLong())
-			else
-				alumnoInstance.localidadTutor = null
-
+			Alumno.withTransaction{TransactionStatus status->
+		            if (params.version) {
+		                def version = params.version.toLong()
+		                if (alumnoInstance.version > version) {
+		                    
+		                    alumnoInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'alumno.label', default: 'Alumno')] as Object[], "Another user has updated this Alumno while you were editing")
+							status.setRollbackOnly()
+		                    render(view: "edit", model: [alumnoInstance: alumnoInstance])
+		                    return
+		                }
+		            }
+					if(params.localidadDomicilioId)
+					alumnoInstance.localidadDomicilio = Localidad.load(params.localidadDomicilioId.toLong())
+					else
+						alumnoInstance.localidadDomicilio = null
+						
+					if(params.localidadgGaranteId)
+						alumnoInstance.localidadGarante = Localidad.load(params.localidadGaranteId.toLong())
+					else
+						alumnoInstance.localidadGarante = null
+						
+					if(params.localidadLaboralId)
+						alumnoInstance.localidadLaboral = Localidad.load(params.localidadLaboralId.toLong())
+					else
+						alumnoInstance.localidadLaboral = null
+						
+					if(params.localidadNacId)
+						alumnoInstance.localidadNac = Localidad.load(params.localidadNacId.toLong())
+					else
+						alumnoInstance.localidadNac = null
 			
-
-            alumnoInstance.properties = params
-			if(fechaNacimientoError){
-				alumnoInstance.validate()
-				alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
-				log.debug "ERRORES DE VALIDACION: "
-				alumnoInstance.errors.allErrors.each{
-					log.debug "						  "+it
-				}
-				render(view: "edit", model: [alumnoInstance: alumnoInstance])
-				return
+						
+					if(params.localidadTutorId)
+						alumnoInstance.localidadTutor = Localidad.load(params.localidadTutorId.toLong())
+					else
+						alumnoInstance.localidadTutor = null
+		
+					
+		
+					if(fechaNacimientoError){
+						alumnoInstance.validate()
+						alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
+						log.debug "ERRORES DE VALIDACION: "
+						alumnoInstance.errors.allErrors.each{
+							log.debug "						  "+it
+						}
+						status.setRollbackOnly()
+						render(view: "edit", model: [alumnoInstance: alumnoInstance])
+						return
+					}
+					alumnoInstance.properties = params
+					
+		            if (!alumnoInstance.hasErrors() && alumnoInstance.save(flush: true)) {
+						if(!params.photo.isEmpty())
+							imageUploadService.save(alumnoInstance)
+		                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
+		                redirect(action: "show", id: alumnoInstance.id)
+		            }
+		            else {
+						alumnoInstance.errors.allErrors.each{
+							log.debug "CODE ERROR: "+it
+						}
+						status.setRollbackOnly()
+						
+		                render(view: "edit", model: [alumnoInstance: alumnoInstance])
+		            }
 			}
-	
-            if (!alumnoInstance.hasErrors() && alumnoInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
-                redirect(action: "show", id: alumnoInstance.id)
-            }
-            else {
-                render(view: "edit", model: [alumnoInstance: alumnoInstance])
-            }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"

@@ -6,7 +6,6 @@ import com.educacion.seguridad.UserRole
 class BootStrap {
 	def springSecurityService
 	
-	
 	void createUsers(){
 		def user = User.findByUsername('admin')
 		if(!user){

@@ -61,11 +61,11 @@ class CarreraController {
 				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
 			}
 			java.sql.Date fechaInicio
-			def fechaFin
+			java.sql.Date fechaFin
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
 			aniosJson.each{
-				fechaInicio = sdf.parse(it.fechaInicio)
-				fechaFin = sdf.parse(it.fechaFin)
+				fechaInicio = new java.sql.Date(sdf.parse(it.fechaInicio).getTime())
+				fechaFin = new java.sql.Date(sdf.parse(it.fechaFin).getTime())
 				carreraInstance.addToAnios(new AnioLectivo(anioLectivo:it.anioLectivo
 					,cupo:it.cupo,cupoSuplentes:it.cupoSuplentes,costoMatricula:it.costoMatricula,fechaInicio:fechaInicio,fechaFin:fechaFin))
 			}
@@ -74,7 +74,8 @@ class CarreraController {
 				redirect(action: "show", id: carreraInstance?.id)
 			}
 			else {
-				render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized,nivelesSerialized:params.nivelesSerialized])
+				render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized
+						,nivelesSerialized:params.nivelesSerialized,aniosSerialized:params.aniosSerialized])
 			}
 		}
 	}
@@ -101,6 +102,7 @@ class CarreraController {
 		def carreraInstance = Carrera.get(params.id)
 		def requisitosSerialized="["
 		def nivelesSerialized="["
+		def aniosSerialized="["
 		def flagcoma=false
 			
 		if (!carreraInstance) {
@@ -119,17 +121,28 @@ class CarreraController {
 			flagcoma=false
 			carreraInstance.niveles.each{
 				if(flagcoma){
-					nivelesSerialized = nivelesSerialized+','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
+					nivelesSerialized  = nivelesSerialized +','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
 				}else{
 					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
 					flagcoma=true
 				}
 			}
+			flagcoma = false
+			carreraInstance.anios.each{
+				if(flagcoma){
+					aniosSerialized = aniosSerialized +','+ '{"id":'+it.id+',"idid":'+it.id+',"anioLectivo":"'+it.anioLectivo+'","cupo":"'+it.cupo+'","cupoSuplentes":"'+it.cupoSuplentes+'","costoMatricula":"'+it.costoMatricula+'","fechaInicio":"'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaInicio)+'","fechaFin":"'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaFin)+'"}'
+				}else{
+					aniosSerialized = aniosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"anioLectivo":"'+it.anioLectivo+'","cupo":"'+it.cupo+'","cupoSuplentes":"'+it.cupoSuplentes+'","costoMatricula":"'+it.costoMatricula+'","fechaInicio":"'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaInicio)+'","fechaFin":"'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaFin)+'"}'
+					flagcoma=true
+				}
+			}
+
 			
 			requisitosSerialized = requisitosSerialized+"]"
 			nivelesSerialized = nivelesSerialized+"]"
+			aniosSerialized=aniosSerialized+"]"
 
-			return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized]
+			return [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized]
 		}
 	}
 
@@ -143,6 +156,10 @@ class CarreraController {
 		def nivelesJson
 		def nivelesSerialized = params.nivelesSerialized
 		def nivelesDeletedJson
+		def aniosJson
+		def aniosSerialized = params.aniosSerialized
+		def aniosDeletedJson
+		
 		def flagcoma=false
 		
 		if(params.requisitosSerialized)
@@ -151,7 +168,10 @@ class CarreraController {
 			nivelesJson = grails.converters.JSON.parse(params.nivelesSerialized)
 		if(params.nivelesDeletedSerialized)
 			nivelesDeletedJson= grails.converters.JSON.parse(params.nivelesDeletedSerialized)
-		
+		if(params.aniosSerialized)
+			aniosJson = grails.converters.JSON.parse(params.aniosSerialized)
+		if(params.aniosDeletedSerialized)
+			aniosDeletedJson = grails.converters.JSON.parse(params.aniosDeletedSerialized)	
 		
 		def carreraInstance = Carrera.get(params.carrerId)
 		if (carreraInstance) {
@@ -196,7 +216,7 @@ class CarreraController {
 					carreraInstance.addToRequisitos(requisitoInstance)
 				}
 
-				//--------niveles------------
+				//--------niveles--------------------------------
 				def nivelInstance
 				nivelesDeletedJson.each{
 					try{
@@ -220,7 +240,44 @@ class CarreraController {
 						log.debug "NO ENCUENTRA EL NIVEL Y LO AGREGA"
 					 }
 				}
-				
+
+				//--------anios lectivos--------------------------------
+				def anioLectivoInstance
+				aniosDeletedJson.each{
+					try{
+						anioLectivoInstance = AnioLectivo.load(it.id.toLong())
+						carreraInstance.removeFromAnios(anioLectivoInstance)
+						anioLectivoInstance.delete()
+						log.debug "ANIO LECTIVO ELIMINADO: "+it
+					}catch(org.hibernate.ObjectNotFoundException e){
+						log.debug "NO SE PUDO ELIMINAR EL ANIO LECTIVO "+it
+					}
+				}
+				java.sql.Date fechaInicio
+				java.sql.Date fechaFin
+				SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy")
+
+				aniosJson.each {
+					 anioLectivoInstance = AnioLectivo.get(it.idid)
+					 fechaInicio = new java.sql.Date(sdf.parse(it.fechaInicio).getTime())
+					 fechaFin = new java.sql.Date(sdf.parse(it.fechaFin).getTime())
+					 if(anioLectivoInstance){
+						anioLectivoInstance.anioLectivo=it.anioLectivo.toInteger()
+						anioLectivoInstance.cupo=it.cupo.toInteger()
+						anioLectivoInstance.cupoSuplentes=it.cupoSuplentes.toInteger()
+						anioLectivoInstance.costoMatricula=it.costoMatricula.toDouble()
+						anioLectivoInstance.fechaInicio=fechaInicio
+						anioLectivoInstance.fechaFin=fechaFin
+						anioLectivoInstance.save()
+						log.debug "ENCUENTRA EL ANIO LECTIVO Y LO MODIFICA"
+					 }else{
+		 
+						 carreraInstance.addToAnios(new AnioLectivo(anioLectivo:it.anioLectivo,cupo:it.cupo,cupoSuplentes:it.cupoSuplentes,costoMatricula:it.costoMatricula,fechaInicio:fechaInicio,fechaFin:fechaFin))
+						 log.debug "NO ENCUENTRA EL ANIO LECTIVO Y LO AGREGA"
+					 }
+				}
+
+								
 				carreraInstance.properties = params
 				if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
 					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
@@ -228,7 +285,7 @@ class CarreraController {
 				}
 				else {
 					status.setRollbackOnly()
-					render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized])
+					render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
 				}
 			}
 		}

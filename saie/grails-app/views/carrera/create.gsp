@@ -186,7 +186,7 @@
 							   		<div id="pagerListNivelesId"></div>
 							   	</div>	
 							   	<div id="tabs-aniolectivo">
-							   		<g:hiddenField id="aniosSerializedId" name="aniosSerialized" value="${nivelesSerialized}"/>
+							   		<g:hiddenField id="aniosSerializedId" name="aniosSerialized" value="${aniosSerialized}"/>
 							   		<table id="listAniosId"></table>
 							   		<div id="pagerListAniosId"></div>
 							   	</div>	

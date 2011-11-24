@@ -475,7 +475,7 @@
                 <g:renderErrors bean="${alumnoInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <form action="save" method="post" enctype="multipart/form-data" >
             	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>
@@ -1386,6 +1386,13 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
+						   <div class="span-3 spanlabel">
+						   		<label for="photo"> <g:message code="alumno.photo.label" default="Foto"/></label>
+						   </div>
+						   <div class="span-5">
+								<input type="file" class="ui-widget ui-corner-all ui-widget-content" id="photoId" name="photo"/>
+						   </div>
+						   <div class="clear"></div>
                     
                     </div> <%--end tab-datos otros --%>   
 																	
@@ -1395,7 +1402,7 @@
                 <div class="span-4 append-bottom">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

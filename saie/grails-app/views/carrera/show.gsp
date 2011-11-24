@@ -51,6 +51,31 @@
 					, viewrecords: true, sortorder: "desc"
 					, caption:"Niveles",  height:210
 				}); 
+
+				jQuery("#aniosId").jqGrid({
+						url:'<%out << createLink(controller:'carrera',action:'listanios',params:[id:carreraInstance.id])%>'
+						,datatype: "json"
+						,width:600
+						,rownumbers:true
+						,colNames:['Id','Id','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula', 'Fecha Inicio','Fecha Fin']
+						,colModel:[ 
+							{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+							,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}							
+							,{name:'anioLectivo',index:'anioLectivo', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}						
+							,{name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'costoMatricula',index:'costoMatricula', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'fechaInicio',index:'fechaInicio', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'fechaFin',index:'fechaFin', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						]
+						//, rowNum:10, rowList:[10,20,30]
+						, pager: '#pagerAnios'
+						, sortname: 'id'
+						, viewrecords: true, sortorder: "desc"
+						, caption:"Años Lectivos",  height:210
+
+					});
+				
 				$('#tabs').tabs();
 				
             });
@@ -139,6 +164,7 @@
 				   		<ul>
 				   			<li><a href="#tabs-requisitos">Requisitos</a></li>
 				   			<li><a href="#tabs-niveles">Niveles</a></li>
+				   			<li><a href="#tabs-anios">Años Lectivos</a></li>
 				   		</ul>
          				<div class="clear"></div>
          				<div id="tabs-requisitos">
@@ -148,7 +174,12 @@
          				<div id="tabs-niveles">
                        		<table id="nivelesId"></table>
                          	<div id="pagerNiveles">	</div>
+                         </div>
+         				<div id="tabs-anios">
+                       		<table id="aniosId"></table>
+                         	<div id="pagerAnios">	</div>
                          </div>						   		
+                         						   		
 				   </div>
 			   </div>                
             <div class="clear"></div>

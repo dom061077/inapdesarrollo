@@ -24,7 +24,12 @@
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
 	        	    griddata[i]["id"] = data[i].id 
-	        	    griddata[i]["anio"] = data[i].descripcion;	        	    	        	    
+	        	    griddata[i]["anioLectivo"] = data[i].anioLectivo;	        	    	        	    
+	        	    griddata[i]["cupo"] = data[i].cupo;
+	        	    griddata[i]["cupoSuplentes"] = data[i].cupoSuplentes;
+	        	    griddata[i]["costoMatricula"] = data[i].costoMatricula;
+	        	    griddata[i]["fechaInicio"] = data[i].fechaInicio;
+	        	    griddata[i]["fechaFin"] = data[i].fechaFin;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -117,6 +122,7 @@ $(document).ready(function(){
 		            	});
 					});
 				}
+				,bSubmit:'Modificar'
 			
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
@@ -141,6 +147,7 @@ $(document).ready(function(){
 		            	});
 					});
 				}
+				,bSubmit:'Agregar'
 			
 			}, // add options 
 			{reloadAfterSubmit:false}, // del options 
@@ -213,7 +220,7 @@ $(document).ready(function(){
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Niveles'
-			
+				,bSubmit:'Modificar'
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
 				,recreateForm:true
@@ -222,7 +229,7 @@ $(document).ready(function(){
 				,beforeSubmit: function(postData,formId){
 					return [true,'']
 				}
-			
+				,bSumit:'Agregar'
 			}, // add options 
 			{reloadAfterSubmit:false}, // del options 
 			{} // search options 
@@ -260,7 +267,7 @@ $(document).ready(function(){
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Año Lectivo'
-				,bSubmit:'Agregar'
+				,bSubmit:'Modificar'
 			
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
@@ -271,6 +278,7 @@ $(document).ready(function(){
 				,beforeSubmit: function(postData,formId){
 					return [true,'']
 				}
+				,bSubmit:'Agregar'
 			
 			}, // add options 
 			{reloadAfterSubmit:false}, // del options 

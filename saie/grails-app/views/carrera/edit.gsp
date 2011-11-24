@@ -17,7 +17,9 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	var locrequisito = '<%out << createLink(controller:"requisito",action:"listjson")%>';
-        	var loceditrequisito = '<%out << createLink(controller:"carrera",action:"editrequisitos")%>'; 
+        	var loceditrequisito = '<%out << createLink(controller:"carrera",action:"editrequisitos")%>';
+        	var loceditnivel = '<%out << createLink(controller:"carrera",action:"editniveles")%>';
+        	var loceditanio = '<%out << createLink(controller:"carrera",action:"editanios")%>';
         
         	$(document).ready(function(){
             	
@@ -181,6 +183,7 @@
 					   		<ul>
 					   			<li><a href="#tabs-requisitos">Requisitos</a></li>
 					   			<li><a href="#tabs-niveles">Niveles</a></li>
+					   			<li><a href="#tabs-anios">Años Lectivos</a></li>
 					   		</ul>
 					   		<div id="tabs-requisitos">
 						   		<g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}"/>
@@ -192,7 +195,14 @@
 						   		<g:hiddenField id="nivelesDeletedSerializedId" name="nivelesDeletedSerialized" value="${nivelesDeletedSerialized}"></g:hiddenField>
 						   		<table id="listNivelesId"></table>
 						   		<div id="pagerListNivelesId"></div>
+						   	</div>
+					   		<div id="tabs-anios">
+						   		<g:hiddenField id="aniosSerializedId" name="aniosSerialized" value="${aniosSerialized}"/>
+						   		<g:hiddenField id="aniosDeletedSerializedId" name="aniosDeletedSerialized" value="${aniosDeletedSerialized}"></g:hiddenField>
+						   		<table id="listAniosId"></table>
+						   		<div id="pagerListAniosId"></div>
 						   	</div>		
+						   			
 						</div>	
 					   
 					   	

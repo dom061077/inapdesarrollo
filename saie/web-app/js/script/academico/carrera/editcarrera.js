@@ -1,4 +1,5 @@
 			var arrayDeletedNiveles = [];
+			var arrayDeletedAnios = [];
 			
 			
 
@@ -11,8 +12,12 @@
 	        	var gridDataNiveles = jQuery("#listNivelesId").getRowData();
 	        	var postDataNiveles = JSON.stringify(gridDataNiveles);
 	        	$("#nivelesSerializedId").val(postDataNiveles);
-	        	
 	        	$("#nivelesDeletedSerializedId").val(JSON.stringify(arrayDeletedNiveles));
+
+	        	var gridDataAnios = jQuery("#listAniosId").getRowData();
+	        	var postDataAnios = JSON.stringify(gridDataAnios);
+	        	$("#aniosSerializedId").val(postDataAnios);
+	        	$("#aniosDeletedSerializedId").val(JSON.stringify(arrayDeletedAnios));
 	        	
 	        	
 	        }
@@ -56,8 +61,30 @@
 	        	    jQuery("#listNivelesId").jqGrid('addRowData', i + 1, griddata[i]);
 	        	}
 	        }
-	        
 
+	        function bindanios(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#aniosSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    griddata[i]["id"] = data[i].id
+	        	    griddata[i]["idid"] = data[i].idid
+	        	    griddata[i]["anioLectivo"] = data[i].anioLectivo;	        	    	        	    
+	        	    griddata[i]["cupo"] = data[i].cupo;	        	    
+	        	    griddata[i]["cupoSuplentes"] = data[i].cupoSuplentes;
+	        	    griddata[i]["costoMatricula"] = data[i].costoMatricula;	        	    
+	        	    griddata[i]["fechaInicio"] = data[i].fechaInicio;
+	        	    griddata[i]["fechaFin"] = data[i].fechaFin;
+	        	}
+
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#listAniosId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
+	        }
+	        
 
 $(document).ready(function(){
 	jQuery("#listRequisitosId").jqGrid({ 
@@ -103,7 +130,7 @@ $(document).ready(function(){
 		            	});
 					});
 				}
-			
+				,bSubmit:'Modificar'
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
 				,recreateForm:true
@@ -127,7 +154,7 @@ $(document).ready(function(){
 		            	});
 					});
 				}
-			
+				,bSubmit:'Agregar'
 			}, // add options 
 			{reloadAfterSubmit:false}, // del options 
 			{} // search options 
@@ -178,7 +205,7 @@ $(document).ready(function(){
 	//-----------------------------------------------------------------------------------------
 	jQuery("#listNivelesId").jqGrid({ 
 		url:'listniveles'
-		,editurl:'editniveles'
+		,editurl:loceditnivel
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
@@ -201,6 +228,7 @@ $(document).ready(function(){
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Niveles'
+				,bSubmit:'Modificar'
 			
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
@@ -211,6 +239,7 @@ $(document).ready(function(){
 					$('#idReq').val(0);
 					return [true,'']
 				}
+				,bSubmit:'Agregar'
 			
 			}, // add options 
 			{reloadAfterSubmit:false
@@ -224,6 +253,64 @@ $(document).ready(function(){
 		);	
 	
 	bindniveles();
+	
+	
+	//-----------------------------------------------------------------------------------------
+	jQuery("#listAniosId").jqGrid({ 
+		url:'listanios'
+		,editurl:loceditanio
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','IdId','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula','Fecha Inicio','Fecha Fin']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'idid',index:'idid', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10},editrules:{required:true}, sortable:false}
+			, {name:'anioLectivo',index:'anioLectivo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'costoMatricula',index:'costoMatricula', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'fechaInicio',index:'fechaInicio', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'fechaFin',index:'fechaFin', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}			
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagerListAniosId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Niveles",  
+		height:130
+	}); 
+	
+	jQuery("#listAniosId").jqGrid('navGrid','#pagerListAniosId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Años Lectivos'
+				,bSubmit:'Modificar'
+			
+			}, // edit options 
+			{height:280,width:310,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,addCaption:'Agregar Año Lectivo'
+				,bSubmit:'Agregar'
+				,beforeSubmit: function(postData,formId){
+					$('#idReq').val(0);
+					return [true,'']
+				}
+			
+			}, // add options 
+			{reloadAfterSubmit:false
+				,beforeSubmit:function(postData,formId){
+					var row = $("#listAniosId").getRowData(postData);
+					arrayDeletedAnios.push({id:row.idid});
+					return [true,'']
+				}
+			}, // del options agregar una validacion ajax para saber si se puede eliminar
+			{} // search options 
+		);	
+	
+	bindanios();
 	
 	$('#tabs').tabs();
 	

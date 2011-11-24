@@ -49,7 +49,7 @@
 								<label for="numeroDocumento"><g:message code="alumno.numeroDocumento.label" default="Numero Documento" /></label>
 							</div>
 							<div class="span-5">
-								${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}"
+								${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}
 							</div>
 						   <div class="clear"></div>
 						   
@@ -57,7 +57,7 @@
 								<label for="apellidoNombre"><g:message code="alumno.apellidoNombre.label" default="Apellido Nombre" /></label>
 							</div>
 							<div class="span-5">
-								${alumnoInstance?.apellidoNombre}"
+								${alumnoInstance?.apellidoNombre}
 							</div>
 						   <div class="clear"></div>
 						   
@@ -104,8 +104,8 @@
 							<div class="span-3 spanlabel">
 								<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 							</div>
-							<div class="span-9">
-								${alumnoInstance?.localidadNac?.nombre}" 
+							<div class="span-9 spanlabel">
+								${alumnoInstance?.localidadNac?.nombre} 
 							</div>
 							<div class="clear"></div>
 					
@@ -173,7 +173,7 @@
 												<label for="telefonoParticular"><g:message code="alumno.telefonoParticular.label" default="Telefono Particular" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="telefonoParticularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoParticular}" />
+												${alumnoInstance?.telefonoParticular}
 											</div>
 										   <div class="clear"></div>
 					
@@ -546,6 +546,17 @@
 							<div class="span-5">
 								${alumnoInstance?.situacionAdministrativa?.descripcion} 
 							</div>
+						   <div class="clear"></div>
+						   
+						   
+						   <div class="span-3 spanlabel">
+						   		<label for="photo"> <g:message code="alumno.photo.label" default="Foto"/></label>
+						   </div>
+						   <div class="span-5">
+								<bi:hasImage bean="${alumnoInstance}">
+									<a class="thickbox" href="${g.resourceimgext(size:'large', bean:alumnoInstance)}"><img src="${g.resourceimgext(size:'small', bean:alumnoInstance)}"  alt=""> </img></a>
+								</bi:hasImage>						   
+						   </div>
 						   <div class="clear"></div>
 						   
                     

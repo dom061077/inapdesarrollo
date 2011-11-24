@@ -1390,6 +1390,10 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
+						   <div class="span-5">
+								<input type="file" class="ui-widget ui-corner-all ui-widget-content" id="photoId" name="photo"/>
+						   </div>
+						   <div class="clear"></div>						   
                     
                     </div> <%--end tab-datos otros --%>   
 																	

@@ -35,12 +35,15 @@
 				    sortorder: "desc",
 					gridComplete: function(){ 
 						var ids = jQuery("#list").jqGrid('getDataIDs');
-						var obj; 
+						var obj;
+						var se;
+						var be; 
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
-							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='margin: 3px 3px 3px 10px'  ></span></a>";
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
+							obj = jQuery("#list").getRowData(ids[i]);
+							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
+							se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}
 						
 						 

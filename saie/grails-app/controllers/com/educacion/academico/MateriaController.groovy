@@ -40,7 +40,7 @@ class MateriaController {
         def materiaInstance = new Materia(params)
         if (materiaInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
-            redirect(action: "show", id: materiaInstance.id)
+            redirect(controller:'materia',action: "show", id: materiaInstance.id)
         }
         else {
             render(view: "create", model: [materiaInstance: materiaInstance])
@@ -101,7 +101,7 @@ class MateriaController {
             materiaInstance.properties = params
             if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
-                redirect(action: "show", id: materiaInstance.id)
+                redirect(controller:'materia',action: "show", id: materiaInstance.id)
             }
             else {
                 render(view: "edit", model: [materiaInstance: materiaInstance])
@@ -127,7 +127,7 @@ class MateriaController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'materia.label', default: 'Materia'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(controller:"materia",action: "show", id: params.id)
             }
         }
         else {

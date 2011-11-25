@@ -71,7 +71,7 @@ class CarreraController {
 			}
 			if (carreraInstance.save(flush: true)) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
-				redirect(action: "show", id: carreraInstance?.id)
+				redirect(controller:'carrera',action: "show", id: carreraInstance?.id)
 			}
 			else {
 				render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized
@@ -173,7 +173,7 @@ class CarreraController {
 		if(params.aniosDeletedSerialized)
 			aniosDeletedJson = grails.converters.JSON.parse(params.aniosDeletedSerialized)	
 		
-		def carreraInstance = Carrera.get(params.carrerId)
+		def carreraInstance = Carrera.get(params.idCarrera)
 		if (carreraInstance) {
 			
 			/*if(!requisitosSerialized){
@@ -281,7 +281,7 @@ class CarreraController {
 				carreraInstance.properties = params
 				if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
 					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
-					redirect(action: "show", id: carreraInstance.id)
+					redirect(controller:'carrera',action: "show", id: carreraInstance.id)
 				}
 				else {
 					status.setRollbackOnly()
@@ -290,7 +290,7 @@ class CarreraController {
 			}
 		}
 		else {
-			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.id])}"
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
 			redirect(action: "list")
 		}
 	}
@@ -308,8 +308,9 @@ class CarreraController {
 				redirect(action: "list")
 			}
 			catch (org.springframework.dao.DataIntegrityViolationException e) {
+				log.info "ERROR DE INTEGRIDAD"
 				flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
-				redirect(action: "show", id: params.idCarrera)
+				redirect(action: "show", id: params.id)
 			}
 		}
 		else {

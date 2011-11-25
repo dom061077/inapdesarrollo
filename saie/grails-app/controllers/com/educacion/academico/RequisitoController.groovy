@@ -48,7 +48,7 @@ class RequisitoController {
 			}
 	        if (requisitoInstance.save(flush: true)) {
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
-	            redirect(action: "show", id: requisitoInstance.id)
+	            redirect(controller:"requisito",action: "show", id: requisitoInstance.id)
 	        }
 	        else {
 				status.setRollbackOnly()
@@ -162,7 +162,7 @@ class RequisitoController {
 	            requisitoInstance.properties = params
 	            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
 	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
-	                redirect(action: "show", id: requisitoInstance.id)
+	                redirect(controller:"requisito",action: "show", id: requisitoInstance.id)
 	            }
 	            else {
 					status.setRollbackOnly()
@@ -190,7 +190,7 @@ class RequisitoController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'requisito.label', default: 'Requisito'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(controller:"requisito",action: "show", id: params.id)
             }
         }
         else {

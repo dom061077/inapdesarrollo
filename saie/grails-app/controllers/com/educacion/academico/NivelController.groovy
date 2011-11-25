@@ -40,7 +40,7 @@ class NivelController {
         def nivelInstance = new Nivel(params)
         if (nivelInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'nivel.label', default: 'Nivel'), nivelInstance.id])}"
-            redirect(action: "show", id: nivelInstance.id)
+            redirect(controller:"nivel",action: "show", id: nivelInstance.id)
         }
         else {
             render(view: "create", model: [nivelInstance: nivelInstance])
@@ -95,7 +95,7 @@ class NivelController {
             nivelInstance.properties = params
             if (!nivelInstance.hasErrors() && nivelInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'nivel.label', default: 'Nivel'), nivelInstance.id])}"
-                redirect(action: "show", id: nivelInstance.id)
+                redirect(controller:"nivel",action: "show", id: nivelInstance.id)
             }
             else {
                 render(view: "edit", model: [nivelInstance: nivelInstance])
@@ -121,7 +121,7 @@ class NivelController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'nivel.label', default: 'Nivel'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(controller:"nivel",action: "show", id: params.id)
             }
         }
         else {

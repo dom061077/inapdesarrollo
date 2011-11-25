@@ -96,7 +96,7 @@ class ClaseRequisitoController {
             claseRequisitoInstance.properties = params
             if (!claseRequisitoInstance.hasErrors() && claseRequisitoInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'claseRequisito.label', default: 'ClaseRequisito'), claseRequisitoInstance.id])}"
-                redirect(action: "show", id: claseRequisitoInstance.id)
+                redirect(controller:'claseRequisito',action: "show", id: claseRequisitoInstance.id)
             }
             else {
                 render(view: "edit", model: [claseRequisitoInstance: claseRequisitoInstance])
@@ -122,7 +122,7 @@ class ClaseRequisitoController {
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'claseRequisito.label', default: 'ClaseRequisito'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(controller:"claseRequisito",action: "show", id: params.id)
             }
         }
         else {

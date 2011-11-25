@@ -40,7 +40,7 @@ class DuracionMateriaController {
         def duracionMateriaInstance = new DuracionMateria(params)
         if (duracionMateriaInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'duracionMateria.label', default: 'DuracionMateria'), duracionMateriaInstance.id])}"
-            redirect(action: "show", id: duracionMateriaInstance.id)
+            redirect(controller:'duracionMateria',action: "show", id: duracionMateriaInstance.id)
         }
         else {
             render(view: "create", model: [duracionMateriaInstance: duracionMateriaInstance])
@@ -95,7 +95,7 @@ class DuracionMateriaController {
             duracionMateriaInstance.properties = params
             if (!duracionMateriaInstance.hasErrors() && duracionMateriaInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'duracionMateria.label', default: 'DuracionMateria'), duracionMateriaInstance.id])}"
-                redirect(action: "show", id: duracionMateriaInstance.id)
+                redirect(controller:'duracionMateria',action: "show", id: duracionMateriaInstance.id)
             }
             else {
                 render(view: "edit", model: [duracionMateriaInstance: duracionMateriaInstance])

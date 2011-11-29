@@ -63,6 +63,7 @@ environments {
 
 }
 
+documentocarrerafolder = 'documentocarrera'
 
 // Added by the Spring Security Core plugin:
 grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.educacion.seguridad.User'
@@ -115,3 +116,19 @@ bi.Alumno = [
 		contentType:['image/gif', 'image/png' , 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/x-png']
 	]
 ]
+
+bi.CarreraDocumento = [
+	outputDir: 'carreradocumentacion',
+	images: ['large':[scale:[width:700, height:500, type:ScaleType.APPROXIMATE]
+					  //,watermark:[sign:'images/watermark.png', offset:[top:10, left:10]]
+					  ],
+			 'small':[scale:[width:25, height:25, type:ScaleType.ACCURATE]
+					  //,watermark:[sign:'images/watermark.png', offset:[top:10, left:10]]
+					  ],
+				  ],
+	constraints:[
+		nullable:true,
+		maxSize:1024*250,
+		contentType:['image/gif', 'image/png' , 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/x-png']
+	]
+] 

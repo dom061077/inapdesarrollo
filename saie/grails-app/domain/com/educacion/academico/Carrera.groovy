@@ -13,7 +13,7 @@ class Carrera {
 	String campoOcupacional
 	
 	
-	static hasMany= [requisitos:Requisito,niveles:Nivel,anios:AnioLectivo]
+	static hasMany= [requisitos:Requisito,niveles:Nivel,anios:AnioLectivo, documentos:DocumentoCarrera]
 	
     static constraints = {
     }

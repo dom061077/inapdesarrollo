@@ -89,6 +89,7 @@
 									<ul>
 										<li><a href="${createLink(controller:'carrera',action:'create')}">Alta de Carrera</a></li>
 										<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Carrera</a></li>
+										<li><a href="${createLink(controller:'documentoCarrera',action:'create')}">Documentación de Carrera</a></li>
 									</ul>
 								</li>
 							</ul>	

@@ -12,29 +12,35 @@ class UploadDocService implements ApplicationContextAware{
  
     boolean transactional = true
 	
-	def savedocimg(def documentoCarreraInstance,def grailsApplication){
+	def savedocimg(def documentoCarreraInstance,def grailsApplication, def params){
 		log.info("INGRESANDO AL METODO savedoc")
-		def uploadedDocument = documentoCarreraInstance.documento
+		def uploadedDocument = params.archivodocumento
 		log.debug("ContentType: "+uploadedDocument.contentType)
 		log.debug("fileName: "+uploadedDocument.originalFilename)
 		log.debug("Tama�o: "+uploadedDocument.size)
-		StringTokenizer tokenizer = new StringTokenizer(uploadedDocument.contentType)
+		StringTokenizer tokenizer = new StringTokenizer(uploadedDocument.contentType,"/")
 		def token
 		while(tokenizer.hasMoreTokens()){
 			token = tokenizer.nextToken() 
 		}
-		
+		documentoCarreraInstance.nombreOriginalDocumento = uploadedDocument.originalFilename
 		if(!token.toUpperCase().equals('PDF')){
+			log.debug "TOKEN COMPARADO: $token"
 			documentoCarreraInstance.errors.rejectValue("documento", "documentoCarrera.documento.error","Tipo de archivo incorrecto para la documentación. Solo pueden ser archivos .PDF")
 			return documentoCarreraInstance
 		}
-
+		
+		if(uploadedDocument.size>1024*500){
+			documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.sizeerror","El tamaño máximo del PDF es de 500 Kb")
+			return documentoCarreraInstance
+		}
 		def documentoCarreraInstanceSaved = documentoCarreraInstance.save()
 		if(documentoCarreraInstanceSaved){ 
-			moveFile(uploadedDocument,grailsApplication.config.documentocarrerafolder,documentoCarreraInstanceSaved.id.toString()+".pdf")
-			if(!documentoCarreraInstance.photo?.isEmpty()){
+			if(moveFile(uploadedDocument,grailsApplication.config.documentocarrerafolder,documentoCarreraInstanceSaved.id.toString()+".pdf"))
+				documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.error","Error al subir el archivo intente más tarde")
+			if(!params.photo.isEmpty())
 				imageUploadService.save(documentoCarreraInstance)
-			}
+			documentoCarreraInstanceSaved.documento = documentoCarreraInstanceSaved.id.toString()+".pdf" 	
 		}else{
 			return documentoCarreraInstanceSaved
 		}
@@ -57,7 +63,7 @@ class UploadDocService implements ApplicationContextAware{
 		*/
 		
 		
-		def size = uploadedFile.size
+		//def size = uploadedFile.size
         try {
             file.transferTo(new File(getAbsolutePath(folderRelativePath, fileName)))
             return true

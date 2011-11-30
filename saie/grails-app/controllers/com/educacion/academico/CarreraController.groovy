@@ -519,5 +519,37 @@ class CarreraController {
 
 	}
 
+	def listdocumentos ={
+		log.info "INGRESANDO AL CLOSURE listdocumentos"
+		log.info "PARAMETROS: $params"
+		def carreraInstance
+		
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+
+		if(params.id){
+			carreraInstance = Carrera.load(params.id.toLong())
+			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.documentos.size()+'","rows":['
+			 flagaddcomilla=false
+			 carreraInstance.documentos.each{
+				 
+				 if (flagaddcomilla)
+					 result=result+','
+				 
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.anioLectivo+'","'+it.cupo+'","'+it.cupoSuplentes+'","'+it.costoMatricula+'","'+it.fechaInicio+'","'+it.fechaFin+'"]}'
+				  
+				 flagaddcomilla=true
+			 }
+	 
+			 result=result+']}'
+			 render result
+		 }else{
+			 render '{page:0,"total":"0","records":0,"rows":[]}'
+		 }
+
+	}
+	
 	
 }

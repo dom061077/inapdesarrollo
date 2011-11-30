@@ -40,13 +40,14 @@ class DocumentoCarreraController {
 		log.info "PARAMETROS: $params"
 
         def documentoCarreraInstance = new DocumentoCarrera(params)
-		uploadDocService.savedoc(documentoCarreraInstance)
-        if (documentoCarreraInstance.save(flush: true)) {
+		def retorno = uploadDocService.savedocimg(documentoCarreraInstance,grailsApplication,params)
+        if (retorno instanceof Long) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), documentoCarreraInstance.id])}"
-            redirect(action: "show", id: documentoCarreraInstance.id)
+            redirect(action: "show", id: retorno)
         }
         else {
-            render(view: "create", model: [documentoCarreraInstance: documentoCarreraInstance])
+			log.debug "ERRORES EN DOCUMENTO CARRERA: "+documentoCarreraInstance.errors.allErrors
+            render(view: "create", model: [documentoCarreraInstance: retorno])
         }
     }
 

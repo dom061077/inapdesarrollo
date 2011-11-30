@@ -209,7 +209,7 @@ class NivelController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.carrera.denominacion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.carrera?.denominacion+'"]}'
 			 
 			flagaddcomilla=true
 		}

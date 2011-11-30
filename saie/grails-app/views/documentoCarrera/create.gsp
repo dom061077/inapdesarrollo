@@ -70,7 +70,7 @@
 								<label for="documento"><g:message code="documentoCarrera.documento.label" default="Documento" /></label>
 							</div>
 							<div class="span-5">
-								<input class="ui-widget ui-corner-all ui-widget-content" type="file" id="documentoId" name="documento" class="ui-widget ui-corner-all ui-widget-content" value="${documentoCarreraInstance?.documento}" />
+								<input class="ui-widget ui-corner-all ui-widget-content" type="file" id="documentoId" name="archivodocumento" class="ui-widget ui-corner-all ui-widget-content" value="${documentoCarreraInstance?.documento}" />
 							</div>
 							<g:hasErrors bean="${documentoCarreraInstance}" field="documento">
 								<g:renderErrors bean="${documentoCarreraInstance}" as="list" field="documento"/>

@@ -37,17 +37,52 @@
 						var ids = jQuery("#list").jqGrid('getDataIDs');
 						var obj;
 						var se;
-						var be; 
+						var be;
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]);
-							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
-							se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+							be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
+							se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
-							}
-						
-						 
-					}, 						    
+						}
+					}
+					,subGrid:true
+					,subGridRowExpanded: function(subgrid_id, row_id) {
+						var subgrid_table_id, pager_id;
+						subgrid_table_id = subgrid_id+"_t";
+						pager_id = "p_"+subgrid_table_id;
+						var obj=$('#list').getRowData(row_id);
+						$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+						jQuery("#"+subgrid_table_id).jqGrid({
+							url:'<%out<<createLink(controller:"carrera",action:"")%>',
+							datatype: "json",
+							mtype:'POST',
+							colNames: ['Id','Documento PDF','Imagen'],
+							colModel: [
+								{name:"id",index:"id",width:80,key:true,hidden:true},				           
+								{name:"nombreOriginalDocumento",index:"nombreOriginalDocumento",width:80},
+								{name:"imagen",index:"imagen",width:70},
+								{name:'operaciones',index:'operaciones',width:75,sorttype:'text',sortable:false,search:false}
+							],
+						   	rowNum:20,
+						   	pager: pager_id,
+						    height: '100%',
+						    gridComplete: function(){
+								var ids = jQuery('#'+subgrid_table_id).jqGrid('getDataIDs');
+								var be;
+								var row
+								for(var i=0;i < ids.length;i++){ 
+									var cl = ids[i];
+									row = jQuery('#'+subgrid_table_id).getRowData(cl);
+									be = "<a href='show/"+ids[i]+"'><span style='float:left' class='ui-icon ui-icon-pencil'></span></a>";
+									se = "<a href='show/"+ids[i]+"'><span style='float:left' class='ui-icon ui-icon-trash'></span></a>";
+									jQuery("#"+subgrid_table_id).jqGrid('setRowData',ids[i],{operaciones:be}); 
+									} 
+						    }
+						});
+						jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+						//jQuery("#"+subgrid_table_id).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+					},
 				    caption:"Listado de ${message(code: 'carrera.label', default: 'Carrera')}"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});

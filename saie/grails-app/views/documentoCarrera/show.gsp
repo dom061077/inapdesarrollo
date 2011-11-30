@@ -24,25 +24,25 @@
                     
                             <div class="span-4 spanlabel"><g:message code="documentoCarrera.id.label" default="Id" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: documentoCarreraInstance, field: "id")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: documentoCarreraInstance, field: "id")}</div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="documentoCarrera.documento.label" default="Documento" /></div>
+                            <div class="span-4 spanlabel"><g:message code="documentoCarrera.nombreOriginalDocumento.label" default="Documento" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: documentoCarreraInstance, field: "documento")}</div>
+                            <div class="span-4 spanlabel"><a href="${g.resource(dir:grailsApplication.config.documentocarrerafolder,file:documentoCarreraInstance.nombreOriginalDocumento)}">${fieldValue(bean: documentoCarreraInstance, field: "nombreOriginalDocumento")}</a></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="documentoCarrera.imageExtension.label" default="Image Extension" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: documentoCarreraInstance, field: "imageExtension")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: documentoCarreraInstance, field: "imageExtension")}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="documentoCarrera.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-4"><g:link controller="carrera" action="show" id="${documentoCarreraInstance?.carrera?.id}">${documentoCarreraInstance?.carrera?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${documentoCarreraInstance?.carrera?.id}">${documentoCarreraInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     

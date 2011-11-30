@@ -5,11 +5,15 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 @FileImageContainer(field = 'imagen')
 class DocumentoCarrera {
-	CommonsMultipartFile documento
-	
+	String nombreOriginalDocumento
+	String documento
+	Carrera carrera
 	static belongsTo = [carrera:Carrera]
 	
     static constraints = {
 		documento(nullable:true,blank:true)
+		nombreOriginalDocumento(nullable:true,blank:true)
+		carrera(nullable:false,blank:false)
+		
     }
 }

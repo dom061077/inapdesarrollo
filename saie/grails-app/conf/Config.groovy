@@ -110,6 +110,7 @@ bi.Alumno = [
 					  //,watermark:[sign:'images/watermark.png', offset:[top:10, left:10]]
 					  ],
 				  ],
+			  
 	constraints:[
 		nullable:true,
 		maxSize:1024*250,

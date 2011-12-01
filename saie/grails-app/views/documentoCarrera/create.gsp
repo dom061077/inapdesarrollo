@@ -46,10 +46,6 @@
 		
     </head>
     <body>
-        <div class="nav">
-            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
-        </div>
         <div class="body">
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
@@ -82,7 +78,7 @@
 
 							
 							<div class="span-3 spanlabel">
-								<label for="photo"><g:message code="documentoCarrera.photo.label" default="Imagen" /></label>
+								<label for="photo"><g:message code="documentoCarrera.imagen.label" default="Imagen" /></label>
 							</div>
 							<div class="span-5">
 								<input class="ui-widget ui-corner-all ui-widget-content" type="file" id="photoId" name="photo" class="ui-widget ui-corner-all ui-widget-content" />

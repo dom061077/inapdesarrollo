@@ -12,6 +12,25 @@ class UploadDocService implements ApplicationContextAware{
  
     boolean transactional = true
 	
+	def updatedocimg(def grailsApplication, def params){
+		log.info "INGRESANDO AL METODO updatedocimg"
+		def documentoCarreraInstance = DocumentoCarrera.get(params.id)
+		if (documentoCarreraInstance) {
+			if (params.version) {
+				def version = params.version.toLong()
+				if (documentoCarreraInstance.version > version) {
+					
+					documentoCarreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera')] as Object[], "Another user has updated this DocumentoCarrera while you were editing")
+					return documentoCarreraInstance
+				}
+			}
+
+		}else
+			return "${message(code: 'default.not.found.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), params.id])}"	
+		
+		def uploadedDocument = params.archivodocumento
+	}
+	
 	def savedocimg(def documentoCarreraInstance,def grailsApplication, def params){
 		log.info("INGRESANDO AL METODO savedoc")
 		def uploadedDocument = params.archivodocumento
@@ -42,7 +61,7 @@ class UploadDocService implements ApplicationContextAware{
 				imageUploadService.save(documentoCarreraInstance)
 			documentoCarreraInstanceSaved.documento = documentoCarreraInstanceSaved.id.toString()+".pdf" 	
 		}else{
-			return documentoCarreraInstanceSaved
+			return documentoCarreraInstance
 		}
 		
 		
@@ -52,7 +71,7 @@ class UploadDocService implements ApplicationContextAware{
 
 	}
  
-    def moveFile(file, folderRelativePath, fileName) {
+    private def moveFile(file, folderRelativePath, fileName) {
 		/*con este codigo debo detectar el tipo de archivo y se trata de imagen usar el burning image
 		 * pero si se trata de otro tipo de archivo como un pdf, usar este service UploadDocService y almacenarlo de otra manera
 		 * 

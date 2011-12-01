@@ -118,7 +118,7 @@ bi.Alumno = [
 	]
 ]
 
-bi.CarreraDocumento = [
+bi.DocumentoCarrera = [
 	outputDir: 'carreradocumentacion',
 	images: ['large':[scale:[width:700, height:500, type:ScaleType.APPROXIMATE]
 					  //,watermark:[sign:'images/watermark.png', offset:[top:10, left:10]]

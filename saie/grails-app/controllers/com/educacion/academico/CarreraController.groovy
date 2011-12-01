@@ -533,12 +533,28 @@ class CarreraController {
 			carreraInstance = Carrera.load(params.id.toLong())
 			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.documentos.size()+'","rows":['
 			 flagaddcomilla=false
+			 def urlimg
+			 def urllargeimg
+			 def urlDocPdf
+			 def nameDocPdf
 			 carreraInstance.documentos.each{
-				 
+				 urlimg = bi.resource(size:'small',bean:it)
+				 urllargeimg = bi.resource(size:'large',bean:it)
+				  if(urlimg.contains(".null")){
+					 urlimg = g.resource(dir:'images',file:'noDisponible.jpg')
+					 urllargeimg = g.resource(dir:'images',file:'noDisponibleLarge.jpg')
+				 }
 				 if (flagaddcomilla)
 					 result=result+','
-				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.anioLectivo+'","'+it.cupo+'","'+it.cupoSuplentes+'","'+it.costoMatricula+'","'+it.fechaInicio+'","'+it.fechaFin+'"]}'
+				 urlDocPdf=	 grailsApplication.config.documentocarrerafolder+'/'+it.id.toString()+'.pdf'
+				 if (grailsApplication.mainContext.getResource(urlDocPdf).exists()){
+				 	urlDocPdf = g.resource(dir:grailsApplication.config.documentocarrerafolder,file:it.id.toString()+'.pdf')
+					nameDocPdf = it.nombreOriginalDocumento   
+				 }else{
+				 	urlDocPdf = ""
+					nameDocPdf = ""
+				 }
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+nameDocPdf+'","'+urlDocPdf+'","'+urlimg+'","'+urllargeimg+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

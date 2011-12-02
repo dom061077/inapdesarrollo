@@ -78,10 +78,10 @@
 
 							
 							<div class="span-3 spanlabel">
-								<label for="photo"><g:message code="documentoCarrera.imagen.label" default="Imagen" /></label>
+								<label for="imagen"><g:message code="documentoCarrera.imagen.label" default="Imagen" /></label>
 							</div>
 							<div class="span-5">
-								<input class="ui-widget ui-corner-all ui-widget-content" type="file" id="photoId" name="photo" class="ui-widget ui-corner-all ui-widget-content" />
+								<input class="ui-widget ui-corner-all ui-widget-content" type="file" id="photoId" name="imagen" class="ui-widget ui-corner-all ui-widget-content" />
 							</div>
 						   <div class="clear"></div>
 

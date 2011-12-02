@@ -109,10 +109,12 @@
                 <g:renderErrors bean="${documentoCarreraInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <form method="post" method="post" enctype="multipart/form-data" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${documentoCarreraInstance?.id}" />
                 <g:hiddenField name="version" value="${documentoCarreraInstance?.version}" />
+                <g:hiddenField id="documentoId" name="documento" value="${documentoCarreraInstance?.documento}"/>
+                <g:hiddenField name="nombreOriginalDocumento" value="${documentoCarreraInstance?.nombreOriginalDocumento}"/>
 		                
 						<g:hasErrors bean="${documentoCarreraInstance}" field="documento">
 							<div class="ui-state-error ui-corner-all append-bottom">
@@ -182,7 +184,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

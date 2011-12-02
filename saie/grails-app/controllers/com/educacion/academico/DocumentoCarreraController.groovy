@@ -84,31 +84,46 @@ class DocumentoCarreraController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def retorno = uploadDocService.updatedocimg(grailsApplication,params)
+		log.debug "RETORNO: "+retorno
+		if(retorno instanceof DocumentoCarrera ){
+			log.debug "ERRORES: "+retorno.errors.allErrors
+			render(view: "edit", model: [documentoCarreraInstance: retorno])
+		}
+		if(retorno instanceof Long){
+			flash.message = "${message(code: 'default.updated.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), retorno])}"
+			redirect(action: "show", id: retorno)
+		}
 		
-        def documentoCarreraInstance = DocumentoCarrera.get(params.id)
-        if (documentoCarreraInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (documentoCarreraInstance.version > version) {
-                    
-                    documentoCarreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera')] as Object[], "Another user has updated this DocumentoCarrera while you were editing")
-                    render(view: "edit", model: [documentoCarreraInstance: documentoCarreraInstance])
-                    return
-                }
-            }
-            documentoCarreraInstance.properties = params
-            if (!documentoCarreraInstance.hasErrors() && documentoCarreraInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), documentoCarreraInstance.id])}"
-                redirect(action: "show", id: documentoCarreraInstance.id)
-            }
-            else {
-                render(view: "edit", model: [documentoCarreraInstance: documentoCarreraInstance])
-            }
-        }
-        else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), params.id])}"
+		if(retorno instanceof String){
+            flash.message = retorno
             redirect(action: "list")
-        }
+		} 
+		
+//        def documentoCarreraInstance = DocumentoCarrera.get(params.id)
+//        if (documentoCarreraInstance) {
+//            if (params.version) {
+//                def version = params.version.toLong()
+//                if (documentoCarreraInstance.version > version) {
+//                    
+//                    documentoCarreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera')] as Object[], "Another user has updated this DocumentoCarrera while you were editing")
+//                    render(view: "edit", model: [documentoCarreraInstance: documentoCarreraInstance])
+//                    return
+//                }
+//            }
+//            documentoCarreraInstance.properties = params
+//            if (!documentoCarreraInstance.hasErrors() && documentoCarreraInstance.save(flush: true)) {
+//                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), documentoCarreraInstance.id])}"
+//                redirect(action: "show", id: documentoCarreraInstance.id)
+//            }
+//            else {
+//                render(view: "edit", model: [documentoCarreraInstance: documentoCarreraInstance])
+//            }
+//        }
+//        else {
+//            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), params.id])}"
+//            redirect(action: "list")
+//        }
     }
 
     def delete = {

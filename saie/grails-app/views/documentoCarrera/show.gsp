@@ -30,7 +30,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="documentoCarrera.nombreOriginalDocumento.label" default="Documento" /></div>
                             
-                            <div class="span-4 spanlabel"><a href="${g.resource(dir:grailsApplication.config.documentocarrerafolder,file:documentoCarreraInstance.nombreOriginalDocumento)}">${fieldValue(bean: documentoCarreraInstance, field: "nombreOriginalDocumento")}</a></div>
+                            <div class="span-4 spanlabel"><a href="${g.resource(dir:grailsApplication.config.documentocarrerafolder,file:documentoCarreraInstance.documento)}">${fieldValue(bean: documentoCarreraInstance, field: "nombreOriginalDocumento")}</a></div>
                             
 							<div class="clear"></div>
                     

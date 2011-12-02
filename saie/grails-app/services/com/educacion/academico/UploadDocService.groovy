@@ -14,6 +14,7 @@ class UploadDocService implements ApplicationContextAware{
 	
 	def updatedocimg(def grailsApplication, def params){
 		log.info "INGRESANDO AL METODO updatedocimg"
+		def savepdf=true
 		def documentoCarreraInstance = DocumentoCarrera.get(params.id)
 		if (documentoCarreraInstance) {
 			if (params.version) {
@@ -24,11 +25,54 @@ class UploadDocService implements ApplicationContextAware{
 					return documentoCarreraInstance
 				}
 			}
-
-		}else
-			return "${message(code: 'default.not.found.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), params.id])}"	
+		}else{
+			log.debug "SALE POR EL MENSAJE DE QUE NO SE ENCUENTRA EL OBJETO"
+			return "${message(code: 'default.not.found.message', args: [message(code: 'documentoCarrera.label', default: 'DocumentoCarrera'), params.id])}"
+		}	
 		
 		def uploadedDocument = params.archivodocumento
+		
+		
+		StringTokenizer tokenizer = new StringTokenizer(uploadedDocument.contentType,"/")
+		def token
+		while(tokenizer.hasMoreTokens()){
+			token = tokenizer.nextToken()
+		}
+		if(!uploadedDocument || uploadedDocument.isEmpty())
+			savepdf=false
+		if(!uploadedDocument.isEmpty()&&!token.toUpperCase().equals('PDF')){
+			savepdf=false
+			documentoCarreraInstance.errors.rejectValue("documento", "documentoCarrera.documento.error","Tipo de archivo incorrecto para la documentación. Solo pueden ser archivos .PDF")
+			log.debug "SALE POR EL TOKEN DEL PDF" 
+			return documentoCarreraInstance
+		}
+		
+		if(uploadedDocument.size>1024*5000){ 
+			savepdf=false
+			documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.sizeerror","El tamaño máximo del PDF es de 500 Kb")
+			log.debug "SALE POR EL UPLOADEDDOCUMENT DE TAMA�O"
+			return documentoCarreraInstance
+		}
+		def documentoCarreraInstanceSaved = documentoCarreraInstance.save()
+		if(documentoCarreraInstanceSaved){
+			if(savepdf)
+				if(!moveFile(uploadedDocument,grailsApplication.config.documentocarrerafolder,documentoCarreraInstanceSaved.id.toString()+".pdf")){
+					documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.error","Error al subir el archivo intente más tarde")
+				}else{
+					documentoCarreraInstanceSaved.nombreOriginalDocumento = uploadedDocument.originalFilename
+					documentoCarreraInstanceSaved.save()
+				}
+			if(params.imagen)	
+				if(!params.imagen.isEmpty()){
+					log.debug "SALVAR IMAGEN"
+					documentoCarreraInstanceSaved.imagen = params.imagen
+					imageUploadService.save(documentoCarreraInstanceSaved)
+				}
+		}else{
+			log.debug "DOCUMENTO CARRERA ERRORES EN SERVICE: "+documentoCarreraInstance.errors.allErrors
+			return documentoCarreraInstance
+		}
+		return documentoCarreraInstanceSaved.id
 	}
 	
 	def savedocimg(def documentoCarreraInstance,def grailsApplication, def params){
@@ -39,27 +83,37 @@ class UploadDocService implements ApplicationContextAware{
 		log.debug("Tama�o: "+uploadedDocument.size)
 		StringTokenizer tokenizer = new StringTokenizer(uploadedDocument.contentType,"/")
 		def token
+		def savepdf=true
 		while(tokenizer.hasMoreTokens()){
 			token = tokenizer.nextToken() 
 		}
-		documentoCarreraInstance.nombreOriginalDocumento = uploadedDocument.originalFilename
-		if(!token.toUpperCase().equals('PDF')){
-			log.debug "TOKEN COMPARADO: $token"
+		if(!uploadedDocument || uploadedDocument.isEmpty())
+			savepdf=false
+
+		if(!uploadedDocument.isEmpty()&&!token.toUpperCase().equals('PDF')){
+			savepdf=false
 			documentoCarreraInstance.errors.rejectValue("documento", "documentoCarrera.documento.error","Tipo de archivo incorrecto para la documentación. Solo pueden ser archivos .PDF")
+			log.debug "SALE POR EL TOKEN DEL PDF"
 			return documentoCarreraInstance
 		}
+	
+		documentoCarreraInstance.nombreOriginalDocumento = uploadedDocument.originalFilename
 		
-		if(uploadedDocument.size>1024*500){
+		if(uploadedDocument.size>1024*5000){
 			documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.sizeerror","El tamaño máximo del PDF es de 500 Kb")
 			return documentoCarreraInstance
 		}
 		def documentoCarreraInstanceSaved = documentoCarreraInstance.save()
-		if(documentoCarreraInstanceSaved){ 
-			if(moveFile(uploadedDocument,grailsApplication.config.documentocarrerafolder,documentoCarreraInstanceSaved.id.toString()+".pdf"))
-				documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.error","Error al subir el archivo intente más tarde")
-			if(!params.photo.isEmpty())
+		if(documentoCarreraInstanceSaved){
+			if(!params.imagen.isEmpty())
 				imageUploadService.save(documentoCarreraInstance)
-			documentoCarreraInstanceSaved.documento = documentoCarreraInstanceSaved.id.toString()+".pdf" 	
+
+			if(moveFile(uploadedDocument,grailsApplication.config.documentocarrerafolder,documentoCarreraInstanceSaved.id.toString()+".pdf")){
+				documentoCarreraInstanceSaved.documento = documentoCarreraInstanceSaved.id.toString()+".pdf"
+				documentoCarreraInstanceSaved.save()
+			}else
+				documentoCarreraInstance.errors.rejectValue("documento","documentoCarrera.documento.error","Error al subir el archivo intente más tarde")
+			 	
 		}else{
 			return documentoCarreraInstance
 		}

@@ -8,6 +8,8 @@ import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
 import com.educacion.enums.EstadoRequisitoEnum
 
+import com.educacion.annotations.SecuredRequest;
+
 
 class RequisitoController {
 	def sessionRegistry
@@ -17,12 +19,14 @@ class RequisitoController {
     def index = {
         redirect(action: "list", params: params)
     }
-
+	
+	@SecureRequest
     def list = {
 		log.info "INGRESANDO AL CLOSURE list"
 		log.info "PARAMETROS: $params"
      }
 
+	@SecuredRequest
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"

@@ -31,9 +31,23 @@ environments {
         }
     }
     production {
-        dataSource {
+         dataSource {
+			pooled = true
+			driverClassName = "com.mysql.jdbc.Driver"
+			username = "inapcom_rootsaie"
+			password = "SkibyPomoDom2012"
             dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+            url = "jdbc:mysql://localhost/inapcom_saie"
+			properties {
+				maxActive = 50
+				maxIdle = 25
+				minIdle = 5
+				initialSize = 5
+				minEvictableIdleTimeMillis = 60000
+				timeBetweenEvictionRunsMillis = 60000
+				maxWait = 10000
+				validationQuery = "select 1"
+			}
         }
     }
 }

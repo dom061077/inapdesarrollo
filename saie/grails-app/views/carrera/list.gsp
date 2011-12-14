@@ -30,7 +30,7 @@
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',
@@ -44,7 +44,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]);
-							be = "<a title='Editar' href='"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
+							be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
 							se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 						}
@@ -84,8 +84,8 @@
 								for(var i=0;i < ids.length;i++){ 
 									var cl = ids[i];
 									row = jQuery('#'+subgrid_table_id).getRowData(cl);
-									be = "<a href='<%out << createLink(controller:"documentoCarrera",action:"edit")%>/"+row.id+"'><span style='float:left' class='ui-icon ui-icon-pencil'></span></a>";
-									image = "<a class='thickbox' href='"+row.largeImage+"'><img src='"+row.image+"'/></a>";
+									be = "<a title='Editar' href='<%out << createLink(controller:"documentoCarrera",action:"edit")%>/"+row.id+"'><span style='float:left' class='ui-icon ui-icon-pencil'></span></a>";
+									image = "<a  class='thickbox' href='"+row.largeImage+"'><img src='"+row.image+"'/></a>";
 									documentoPDF = "<a href='"+row.urlDocumentoPDF+"'>"+row.nombreOriginalDocumento+"</a>";
 									jQuery("#"+subgrid_table_id).jqGrid('setRowData',ids[i],{operaciones:be,documentoImagen:image,documentoPDF:documentoPDF}); 
 								} 

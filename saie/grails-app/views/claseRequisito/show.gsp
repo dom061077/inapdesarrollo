@@ -18,34 +18,18 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.id.label" default="Id" /></td>
+            <div class="span-9 append-bottom">
+                   <div class="span-2"><g:message code="claseRequisito.id.label" default="Id" /></div>
+                   
+                   <div class="span-2">${fieldValue(bean: claseRequisitoInstance, field: "id")}</div>
+                   <div class="clear"></div>
+                   
+                   <div class="span-2"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></div>
+                   
+                   <div class="span-6 ">${fieldValue(bean: claseRequisitoInstance, field: "descripcion")}</div>
                             
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "id")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.codigo.label" default="Codigo" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "codigo")}</td>
-                            
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="claseRequisito.descripcion.label" default="Descripcion" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: claseRequisitoInstance, field: "descripcion")}</td>
-                            
-                        </tr>
-                    
-                    </tbody>
-                </table>
             </div>
+            <div class="clear"></div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${claseRequisitoInstance?.id}" />

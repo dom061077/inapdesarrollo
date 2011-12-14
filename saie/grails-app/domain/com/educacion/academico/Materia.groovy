@@ -12,14 +12,14 @@ class Materia {
 	Nivel nivel
 	TipoMateriaEnum tipo
 	String codigo
-	Materia pcr
-	Materia pca
-	Materia prr
-	Materia pra
 	
 	static belongsTo =[nivel:Nivel]
 	
+	static hasMany = [matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia]
+	
     static constraints = {
+		denominacion(nullable:false,blank:false)
+		codigo(nullable:false,blank:false)
     }
 }
 

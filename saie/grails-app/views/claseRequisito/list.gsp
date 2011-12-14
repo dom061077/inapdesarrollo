@@ -17,17 +17,16 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Código','Descripción','Ver'],
+					colNames:['Id','Descripción','Ver'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'codigo',index:'codigo', width:92,sortable:false},
+				   		{name:'id',index:'id', width:40,hidden:true},
 				   		{name:'descripcion',index:'descripcion', width:100,search:false},
-				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+				   		{name:'operaciones',index:'operaciones', width:15,search:false,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',
@@ -39,8 +38,8 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";							
+							be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a title='Mostrar' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";							
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}
 						

@@ -24,86 +24,86 @@
                     
                             <div class="span-4 spanlabel"><g:message code="materia.id.label" default="Id" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: materiaInstance, field: "id")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "id")}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.codigo.label" default="Codigo" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: materiaInstance, field: "codigo")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "codigo")}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.denominacion.label" default="Denominacion" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: materiaInstance, field: "denominacion")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "denominacion")}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.descripcion.label" default="Descripcion" /></div>
                             
-                            <div class="span-4">${fieldValue(bean: materiaInstance, field: "descripcion")}</div>
+                            <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "descripcion")}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.duracion.label" default="Duracion" /></div>
                             
-                            <div class="span-4"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.descripcion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.descripcion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.estado.label" default="Estado" /></div>
                             
-                            <div class="span-4">${materiaInstance?.estado?.encodeAsHTML()}</div>
+                            <div class="span-4 spanlabel">${materiaInstance?.estado?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
 							
                             <div class="span-4 spanlabel"><g:message code="materia.nivel.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-4"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
 							
                     
                             <div class="span-4 spanlabel"><g:message code="materia.nivel.label" default="Nivel" /></div>
                             
-                            <div class="span-4"><g:link controller="nivel" action="show" id="${materiaInstance?.nivel?.id}">${materiaInstance?.nivel?.descripcion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.descripcion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.pca.label" default="Pca" /></div>
                             
-                            <div class="span-4"><g:link controller="materia" action="show" id="${materiaInstance?.pca?.id}">${materiaInstance?.pca?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pca?.id}">${materiaInstance?.pca?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.pcr.label" default="Pcr" /></div>
                             
-                            <div class="span-4"><g:link controller="materia" action="show" id="${materiaInstance?.pcr?.id}">${materiaInstance?.pcr?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pcr?.id}">${materiaInstance?.pcr?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.pra.label" default="Pra" /></div>
                             
-                            <div class="span-4"><g:link controller="materia" action="show" id="${materiaInstance?.pra?.id}">${materiaInstance?.pra?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pra?.id}">${materiaInstance?.pra?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.promocional.label" default="Promocional" /></div>
                             
-                            <div class="span-4"><g:formatBoolean boolean="${materiaInstance?.promocional}" /></div>
+                            <div class="span-4 spanlabel"><g:formatBoolean true="Si" false="No" boolean="${materiaInstance?.promocional}" /></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.prr.label" default="Prr" /></div>
                             
-                            <div class="span-4"><g:link controller="materia" action="show" id="${materiaInstance?.prr?.id}">${materiaInstance?.prr?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.prr?.id}">${materiaInstance?.prr?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.tipo.label" default="Tipo" /></div>
                             
-                            <div class="span-4">${materiaInstance?.tipo?.encodeAsHTML()}</div>
+                            <div class="span-4 spanlabel">${materiaInstance?.tipo?.name?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
                     

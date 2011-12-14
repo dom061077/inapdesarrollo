@@ -10,9 +10,13 @@ class SecuredClosureAnnotationsHelper {
 	static def listRequestmap(def grailsApplication_,def log){
 		log.info "INGRESANDO AL METODO: listRequestmap"
 		def requests = []
+		def map
 		grailsApplication_.controllerClasses.each{
 			def clazz = it.getClazz()
-			requests.add(findAnnotatedClosures(clazz,SecuredRequest))
+			map = findAnnotatedClosures(clazz,SecuredRequest)
+			log.debug "MAP DEVUELTO PARA INDAGAR SUS ANOTACIONES"
+			if(map)
+				requests.add(map)
 		}
 		log.debug "CANTIDAD DE REQUESTS: "+requests.size()
 		return requests

@@ -17,11 +17,10 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Código','Descripción','Estado','Clase Requisito','Ver'],
+					colNames:['Id','Descripción','Estado','Clase Requisito','Ver'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40,hidden:true},
-				   		{name:'codigo',index:'codigo', width:92,sortable:false},
 				   		{name:'descripcion',index:'descripcion', width:92,sortable:false},				   		
 				   		{name:'estado',index:'estado', width:100,search:true},
 				   		{name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,search:true},				   		
@@ -29,7 +28,7 @@
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',
@@ -41,14 +40,38 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a title='Mostrar' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}
 						
 						 
-					}, 						    
-				    caption:"Listado de <% out<< "${message(code: 'requisito.label', default: 'Requisito')}" %>"
+					}
+				    ,subGrid:true
+					,subGridRowExpanded: function(subgrid_id, row_id) {
+						var subgrid_table_id, pager_id;
+						subgrid_table_id = subgrid_id+"_t";
+						pager_id = "p_"+subgrid_table_id;
+						var obj=$('#list').getRowData(row_id);
+						$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+						jQuery("#"+subgrid_table_id).jqGrid({
+							url:'<%out<<createLink(controller:"requisito",action:"listsubrequisitos")%>?id='+obj.id,
+							datatype: "json",
+							mtype:'POST',
+							colNames: ['Id','Descripcion','Estado'],
+							colModel: [
+								{name:"id",index:"id",width:80,key:true,hidden:true},				           
+								{name:"descripcion",index:"descripcion",width:180},
+								{name:"descripcion",index:"descripcion",width:100}
+							],
+						   	rowNum:20,
+						   	pager: pager_id,
+						    height: '100%',
+						    width: 600
+						});
+						jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+					}
+				    ,caption:"Listado de <% out<< "${message(code: 'subrequisito.label', default: 'Subrequisito')}" %>"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

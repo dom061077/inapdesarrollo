@@ -201,10 +201,10 @@
                 </div>
             </g:form>
             
-            <div style="display:none" id="busquedaRequisitoDialogId">
+        </div>
+        <div style="display:none" id="busquedaRequisitoId">
 	            <table id="tablaBusquedaRequisitoId"></table>
 	            <div id="pagerBusquedaRequisitoId"></div>
-            </div>
         </div>
     </body>
 </html>

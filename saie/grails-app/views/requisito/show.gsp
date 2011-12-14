@@ -19,11 +19,10 @@
 					,editurl:'editsubrequisitos'
 					,datatype: "json"
 					,width:600
-					,rownumbers:true
-					,colNames:['Id','Código', 'Descripción','Estado']
+					//,rownumbers:true
+					,colNames:['Id', 'Descripción','Estado']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'estado',index:'estado', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 					]
@@ -31,7 +30,8 @@
 					, pager: '#pagerSubrequisitos'
 					, sortname: 'id'
 					, viewrecords: true, sortorder: "desc"
-					, caption:"Subrequisitos",  height:210
+					, caption:"Subrequisitos"
+					, height:140
 				}); 
             	
             });
@@ -60,12 +60,6 @@
 	                            
 	                        </tr>
 	                    
-	                        <tr class="prop">
-	                            <td valign="top" class="name"><g:message code="requisito.codigo.label" default="Codigo" /></td>
-	                            
-	                            <td valign="top" class="value">${fieldValue(bean: requisitoInstance, field: "codigo")}</td>
-	                            
-	                        </tr>
 	                    
 	                        <tr class="prop">
 	                            <td valign="top" class="name"><g:message code="requisito.descripcion.label" default="Descripcion" /></td>

@@ -41,22 +41,6 @@
                 <g:hiddenField name="id" value="${claseRequisitoInstance?.id}" />
                 <g:hiddenField name="version" value="${claseRequisitoInstance?.version}" />
 		                
-						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="codigo"><g:message code="claseRequisito.codigo.label" default="Codigo" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField id="codigoId" name="codigo" class="ui-widget ui-corner-all ui-widget-content" value="${claseRequisitoInstance?.codigo}" />
-						</div>
-									
-						<g:hasErrors bean="${claseRequisitoInstance}" field="codigo">
-							<g:renderErrors bean="${claseRequisitoInstance}" as="list" field="codigo"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
 		
 																
 		            

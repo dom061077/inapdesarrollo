@@ -31,7 +31,6 @@
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
 	        	    griddata[i]["id"] = data[i].id;
-	        	    griddata[i]["codigo"] = data[i].codigo;
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
 	        	    griddata[i]["estado"] = data[i].estado;
 	        	    griddata[i]["estadoValue"] = data[i].estadoValue;
@@ -45,16 +44,15 @@
         	$(document).ready(function(){
         		$('#claseRequisitoId').lookupfield({source:'<%out << createLink(controller:"claseRequisito",action:"listsearchjson")%>',
  				 title:'Clase de Requisito' 
-				,colNames:['Id','Código','Descripción'] 
+				,colNames:['Id','Descripción'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
- 				,{name:'codigo',index:'codigo', width:100,  sortable:true,search:true} 
  				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
  				,hiddenid:'claseRequisitoIdId' 
  				,descid:'claseRequisitoId' 
  				,hiddenfield:'id' 
- 				,descfield:['codigo','descripcion']}); 
+ 				,descfield:['descripcion']}); 
 
-				$('#claseRequisitosId' ).autocomplete({source: '<%out << createLink(controller:"claseRequisito",action:"listjsonautocomplete")%>',
+				$('#claseRequisitoId' ).autocomplete({source: '<%out << createLink(controller:"claseRequisito",action:"listjsonautocomplete")%>',
 		 				 minLength: 2, 
 		  				 select: function( event, ui ) {
 		 					 if(ui.item){ 
@@ -75,11 +73,10 @@
 					,editurl:'editsubrequisitos'
 					,datatype: "json"
 					,width:600
-					,rownumbers:true
-					,colNames:['Id','Código', 'Descripción','Estado Valor','Estado']
+					//,rownumbers:true
+					,colNames:['Id', 'Descripción','Estado Valor','Estado']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'codigo',index:'codigo', width:30,editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 						, {name:'estadoValue',index:'estadoValue',hidden:true, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
 						, {name:'estado',index:'estado', width:100, align:"left",editable:true,editoptions:{size:30,value:'ESTADOREQUISITO_ACTIVO:Activo;ESTADOREQUISITO_INACTIVO:Inactivo'},edittype:'select'
@@ -88,27 +85,34 @@
 					, pager: '#pagerSubrequisitos'
 					, sortname: 'id'
 					, viewrecords: true, sortorder: "desc"
-					, caption:"Subrequisitos",  height:210
+					, caption:"Subrequisitos"
+					, height:140
 				}); 
 				
 				jQuery("#subrequisitosId").jqGrid('navGrid','#pagerSubrequisitos', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
 						{height:280,width:310,reloadAfterSubmit:false
 							, recreateForm:true
+							,modal:true
 							,editCaption:'Modificar Subrequisitos'
 							, beforeSubmit:function(postData,formId){
 								postData.estadoValue = $("#estado").val();
 								return [true,'']
 							}
+							,beforeShowForm:function(form){
+								$('#descripcion').focus();
+							}
 						
 						}, // edit options 
 						{height:280,width:310,reloadAfterSubmit:false
 							,recreateForm:true
+							,modal:true
 							,addCaption:'Agregar Subrequisito'
 							,beforeSubmit: function(postData,formId){
 								postData.estadoValue= $("#estado").val();
 								return [true,'']
 							}
 							,beforeShowForm:function(form){
+								$('#descripcion').focus();
 							}
 						}, // add options 
 						{reloadAfterSubmit:false}, // del options 
@@ -145,22 +149,6 @@
             <g:form onSubmit="initsubmit();return true;" action="save">
             		<div class="append-bottom">	
                         
-							<g:hasErrors bean="${requisitoInstance}" field="codigo">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="codigo"><g:message code="requisito.codigo.label" default="Codigo" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField name="codigo" id="codigoId" class="ui-widget ui-corner-all ui-widget-content" value="${requisitoInstance?.codigo}" />
-							</div>
-										
-							<g:hasErrors bean="${requisitoInstance}" field="codigo">
-								<g:renderErrors bean="${requisitoInstance}" as="list" field="codigo"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
 
 																	
                         

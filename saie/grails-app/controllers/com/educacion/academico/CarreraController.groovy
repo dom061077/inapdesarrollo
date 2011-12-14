@@ -29,6 +29,10 @@ class CarreraController {
 	def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
+		if(Requisito.count()==0){
+			redirect(controller:"carrera",action:"list")
+			return
+		}
 		def carreraInstance = new Carrera()
 		carreraInstance.properties = params
 		return [carreraInstance: carreraInstance]
@@ -112,9 +116,9 @@ class CarreraController {
 		else {
 			carreraInstance.requisitos.each{
 				if(flagcoma){
-					requisitosSerialized = requisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					requisitosSerialized = requisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.descripcion+'","claseRequisito_descripcion":"'+it.claseRequisito?.descripcion+'"}'
 				}else{
-					requisitosSerialized = requisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+					requisitosSerialized = requisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.descripcion+'","claseRequisito_descripcion":"'+it.claseRequisito?.descripcion+'"}'
 					flagcoma=true
 				}
 			}
@@ -302,15 +306,26 @@ class CarreraController {
 		
 		def carreraInstance = Carrera.get(params.idCarrera)
 		if (carreraInstance) {
-			try {
-				carreraInstance.delete(flush: true)
-				flash.message = "${message(code:'default.record.label',args:[message(code: 'default.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])])}"
-				redirect(action: "list")
-			}
-			catch (org.springframework.dao.DataIntegrityViolationException e) {
-				log.info "ERROR DE INTEGRIDAD"
-				flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
-				redirect(action: "show", id: params.id)
+			Carrera.withTransaction{TransactionStatus status ->
+				try {
+					def requisitos = []
+					carreraInstance.requisitos.each{
+						requisitos.add(it)
+					}
+					
+					requisitos.each {
+						carreraInstance.removeFromRequisitos(it) 
+					}
+					carreraInstance.delete(flush: true)
+					flash.message = "${message(code:'default.record.label',args:[message(code: 'default.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])])}"
+					redirect(action: "list")
+				}
+				catch (org.springframework.dao.DataIntegrityViolationException e) {
+					status.setRollbackOnly()
+					log.info "ERROR DE INTEGRIDAD"
+					flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
+					redirect(action: "show", id: params.id)
+				}
 			}
 		}
 		else {
@@ -415,7 +430,7 @@ class CarreraController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

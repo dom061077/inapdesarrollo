@@ -153,7 +153,7 @@ class ClaseRequisitoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.descripcion==null?"":it.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -199,7 +199,7 @@ class ClaseRequisitoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
 			 
 			flagaddcomilla=true
 		}

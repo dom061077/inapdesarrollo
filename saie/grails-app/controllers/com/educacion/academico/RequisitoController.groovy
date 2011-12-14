@@ -9,6 +9,7 @@ import org.springframework.transaction.TransactionStatus
 import com.educacion.enums.EstadoRequisitoEnum
 
 import com.educacion.annotations.SecuredRequest;
+import com.educacion.util.SecuredClosureAnnotationsHelper;
 
 
 class RequisitoController {
@@ -20,7 +21,7 @@ class RequisitoController {
         redirect(action: "list", params: params)
     }
 	
-	@SecureRequest
+	@SecuredRequest
     def list = {
 		log.info "INGRESANDO AL CLOSURE list"
 		log.info "PARAMETROS: $params"
@@ -30,6 +31,11 @@ class RequisitoController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
+		if(ClaseRequisito.count()==0){
+			flash.message = "Debe cargar las Clases de Requisitos para poder cargar Requisitos"
+			redirect(controller:"requisito",action:"list")
+			return
+		}
         def requisitoInstance = new Requisito()
         requisitoInstance.properties = params
         return [requisitoInstance: requisitoInstance]
@@ -47,7 +53,7 @@ class RequisitoController {
 			def subRequisitoInstance
 			log.debug "CANTIDAD DE SUBREQUISITOS: ${subRequisitosJson.size()}"
 			subRequisitosJson.each{
-				subRequisitoInstance = new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}")
+				subRequisitoInstance = new SubRequisito(descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}")
 				requisitoInstance.addToSubRequisitos(subRequisitoInstance)
 			}
 	        if (requisitoInstance.save(flush: true)) {
@@ -92,9 +98,9 @@ class RequisitoController {
         else {
 			requisitoInstance.subRequisitos.each{
 				if(flagcoma){
-					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":'+it.id+',"estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
 				}else{
-					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
+					subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"estadoValue":"'+it.estado+'","estado":"'+it.estado.name+'","descripcion":"'+it.descripcion+'"}'
 					flagcoma=true
 				}
 			}
@@ -120,9 +126,9 @@ class RequisitoController {
 				subRequisitosSerialized="["
 				requisitoInstance.subRequisitos.each{
 					if(flagcoma){
-						subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+						subRequisitosSerialized = subRequisitosSerialized+','+ '{"id":'+it.id+',"idid":"'+it.id+'","descripcion":"'+it.descripcion+'"}'
 					}else{
-						subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
+						subRequisitosSerialized = subRequisitosSerialized+ '{"id":'+it.id+',"idid":"'+it.id+'","descripcion":"'+it.descripcion+'"}'
 						flagcoma=true
 					}
 				}
@@ -156,7 +162,7 @@ class RequisitoController {
 				
 				
 				subRequisitosJson.each{
-					requisitoInstance.addToSubRequisitos(new SubRequisito(codigo:it.codigo,descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}"))
+					requisitoInstance.addToSubRequisitos(new SubRequisito(descripcion:it.descripcion,estado:EstadoRequisitoEnum."${it.estadoValue}"))
 				}
 				if(params.claseRequisitoId)
 					requisitoInstance.claseRequisito = ClaseRequisito.load(params.claseRequisitoId.toLong())	
@@ -224,6 +230,10 @@ class RequisitoController {
 			}
 		}*/
 		
+		SecuredClosureAnnotationsHelper.listRequestmap(grailsApplication,log)?.each{
+			log.debug "OBJETO DEVUELTO PARA LOS SECURED REQUEST"
+		}
+		
 		
 		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
 		if (totalpaginas>0 && totalpaginas<1)
@@ -240,7 +250,7 @@ class RequisitoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.codigo==null?"":it.codigo)+'","'+(it.descripcion==null?"":it.descripcion)+'","'+(it.estado.name==null?"":it.estado.name)+'","'+(it.claseRequisito?.descripcion==null?"":it.claseRequisito?.descripcion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.descripcion==null?"":it.descripcion)+'","'+(it.estado?.name==null?"":it.estado?.name)+'","'+(it.claseRequisito?.descripcion==null?"":it.claseRequisito?.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -253,12 +263,12 @@ class RequisitoController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Requisito.createCriteria().list(){
-				like('nombre','%'+params.term+'%')
+				like('descripcion','%'+params.term+'%')
 		}
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
-					requisito id:obj.id,label:obj.nombre,value:obj.nombre
+					requisito id:obj.id,label:obj.descripcion,value:obj.descripcion
 				}
 			}
 			
@@ -286,7 +296,7 @@ class RequisitoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -324,7 +334,7 @@ class RequisitoController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+it.descripcion+'","'+it.estado.name+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.estado.name+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

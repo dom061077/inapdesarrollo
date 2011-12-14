@@ -4,7 +4,6 @@ import com.educacion.enums.EstadoRequisitoEnum;
 
 class SubRequisito {
 
-	String codigo
 	String descripcion
 	EstadoRequisitoEnum estado=EstadoRequisitoEnum.ESTADOREQUISITO_ACTIVO
 	
@@ -12,7 +11,6 @@ class SubRequisito {
 
 	
     static constraints = {
-		codigo(nullable:false,blank:false)
 		descripcion(nullable:false,blank:false)
 
     }

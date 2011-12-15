@@ -16,7 +16,9 @@
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'js/script/academico/materia',file:'createmateria.js')}"></script>
         <script type="text/javascript">
+        	var locmateria = '<%out << createLink(controller:"materia",action:"listjson")%>';
         	$(document).ready(function(){
 		
 
@@ -146,7 +148,7 @@
                 <g:renderErrors bean="${materiaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form onSubmit="initsubmit();return true;" action="save" >
             		<div class="append-bottom">	
                         
 							<g:hasErrors bean="${materiaInstance}" field="codigo">
@@ -311,25 +313,41 @@
 
 						   <div id="tabs">
 						   		<ul>
-						   			<li><a href="#tabs-matregcursar"></a> </li>
-						   			<li><a href="#tabs-mataprobcursar"></a></li>
-						   			<li><a href="#tabs-matregrendir"></a></li>
-						   			<li><a href="#tabs-mataprobrendir"></a></li>
+						   			<li><a href="#tabs-matregcursar">Mat. Regulares para Cursar</a></li>
+						   			<li><a href="#tabs-mataprobcursar">Mat. Aprobadas para Cursar</a></li>
+						   			<li><a href="#tabs-matregrendir">Mat. Regulares para Rendir</a></li>
+						   			<li><a href="#tabs-mataprobrendir">Mat. Aprobadas para Rendir</a></li>
 						   		</ul>
 						   		<div id="tabs-matregcursar">
+						   			<g:hiddenField id="matregcursarSerializedId" name="matregcursarSerialized" value="${matregcursarSerialized}"/>
+						   			<table id="matregcursarId"></table>
+						   			<div id="pagermatregcursarId"></div>
 						   		</div>
+
+						   		<div id="tabs-mataprobcursar">
+						   			<g:hiddenField id="mataprobcursarSerializedId" name="mataprobcursarSerialized"/>
+						   			<table id="mataprobcursarId"></table>
+						   			<div id="pagermataprobcursarId"></div>
+						   		</div>
+
 						   		
 						   		<div id="tabs-matregrendir">
+						   			<g:hiddenField id="matregrendirSerializedId" name="matregrendirSerialized"/>
+						   			<table id="matregrendirId"></table>
+						   			<div id="pagermatregrendirId"></div>
 						   		</div>
 						   		
-						   		<div id="tabs-mataprobcursar">
-						   		</div>
 						   		
 						   		<div id="tabs-mataprobrendir">
+						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized"/>
+						   			<table id="mataprobrenderId"></table>
+						   			<div id="pagermataprobrenderId"></div>
 						   		</div>
 						   		
 						   </div>
-																	
+						   <table id="tablaBusquedaMateriaId"></table>
+						   <div id="pagerBusquedaMateriaId"></div>	
+						   										
                         
 				</div>                        
                 <div class="buttons">

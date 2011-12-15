@@ -78,6 +78,7 @@ class CarreraController {
 				redirect(controller:'carrera',action: "show", id: carreraInstance?.id)
 			}
 			else {
+				status.setRollbackOnly()
 				render(view: "create", model: [carreraInstance: carreraInstance,requisitosSerialized:params.requisitosSerialized
 						,nivelesSerialized:params.nivelesSerialized,aniosSerialized:params.aniosSerialized])
 			}

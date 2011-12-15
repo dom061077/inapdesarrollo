@@ -9,6 +9,8 @@ import java.text.DateFormat
 
 import java.text.ParseException 
 
+import org.springframework.transaction.TransactionStatus
+
 
 
 class MateriaController {
@@ -36,15 +38,32 @@ class MateriaController {
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+		
+		def matregcursarJson
+		
+		if(params.matregcursarSerialized)
+			matregcursarJson = grails.converters.JSON.parse(params.matregcursarSerialized)
 
-        def materiaInstance = new Materia(params)
-        if (materiaInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
-            redirect(controller:'materia',action: "show", id: materiaInstance.id)
-        }
-        else {
-            render(view: "create", model: [materiaInstance: materiaInstance])
-        }
+
+
+		
+		def materiaInstance = new Materia(params)
+			
+		Materia.withTransaction{TransactionStatus status ->
+			
+			matregcursarJson.each{
+				materiaInstance = Materia.load(it.idid.toLong())
+				materiaInstance.addToMatregcursar(materiaInstance)
+			}
+	        if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
+	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
+	            redirect(controller:'materia',action: "show", id: materiaInstance.id)
+	        }
+	        else {
+				status.setRollbackOnly()
+	            render(view: "create", model: [materiaInstance: materiaInstance, matregcursarSerialized:params.matregcursarSerialized])
+	        }
+		}
     }
 
     def show = {
@@ -212,7 +231,14 @@ class MateriaController {
 		render result
 
 	}
-
+	
+	def editmat = {//dummy closure para la materia
+		render(contentType:"text/json"){
+			array{
+				
+			}
+		}
+	}
 
 
 	

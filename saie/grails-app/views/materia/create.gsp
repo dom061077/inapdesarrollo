@@ -324,29 +324,29 @@
 						   			<div id="pagermatregcursarId"></div>
 						   		</div>
 
-						   		<div id="tabs-mataprobcursar">
-						   			<g:hiddenField id="mataprobcursarSerializedId" name="mataprobcursarSerialized"/>
+						   		<div id="tabs-mataprobcursar"> 
+						   			<g:hiddenField id="mataprobcursarSerializedId" name="mataprobcursarSerialized" value="${mataprobcursarSerialized}"/>
 						   			<table id="mataprobcursarId"></table>
 						   			<div id="pagermataprobcursarId"></div>
 						   		</div>
 
 						   		
 						   		<div id="tabs-matregrendir">
-						   			<g:hiddenField id="matregrendirSerializedId" name="matregrendirSerialized"/>
+						   			<g:hiddenField id="matregrendirSerializedId" name="matregrendirSerialized" value="${matregrendirSerialized}"/>
 						   			<table id="matregrendirId"></table>
 						   			<div id="pagermatregrendirId"></div>
 						   		</div>
 						   		
 						   		
 						   		<div id="tabs-mataprobrendir">
-						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized"/>
+						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized" value="${mataprobrendirSerialized}"/>
 						   			<table id="mataprobrenderId"></table>
 						   			<div id="pagermataprobrenderId"></div>
 						   		</div>
 						   		
 						   </div>
-						   <table id="tablaBusquedaMateriaId"></table>
-						   <div id="pagerBusquedaMateriaId"></div>	
+<!--						   <table id="tablaBusquedaMateriaId"></table>-->
+<!--						   <div id="pagerBusquedaMateriaId"></div>	-->
 						   										
                         
 				</div>                        

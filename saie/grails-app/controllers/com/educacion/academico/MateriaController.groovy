@@ -40,28 +40,57 @@ class MateriaController {
 		log.info "PARAMETROS: $params"
 		
 		def matregcursarJson
+		def mataprobcursarJson
+		def matregrendirJson
+		def mataprobrendirJson
 		
 		if(params.matregcursarSerialized)
 			matregcursarJson = grails.converters.JSON.parse(params.matregcursarSerialized)
+			
+		if(params.mataprobcursarSerialized)
+			mataprobcursarJson = grails.converters.JSON.parse(params.mataprobcursarSerialized)
 
+		if(params.mataregrendirSerialized)
+			matregrendirJson = grails.converters.JSON.parse(params.matregrendirSerialized)
 
+		if(params.mataaprobrendirSerialized)
+			mataprobrendirJson = grails.converters.JSON.parse(params.mataprobrendirSerialized)
 
 		
 		def materiaInstance = new Materia(params)
+		def materiaInstanceSearch
 			
 		Materia.withTransaction{TransactionStatus status ->
 			
 			matregcursarJson.each{
-				materiaInstance = Materia.load(it.idid.toLong())
-				materiaInstance.addToMatregcursar(materiaInstance)
+				materiaInstanceSearch = Materia.load(it.idid.toLong())
+				materiaInstance.addToMatregcursar(materiaInstanceSearch)
 			}
+			mataprobcursarJson.each{
+				materiaInstanceSearch = Materia.load(it.idid.toLong())
+				materiaInstance.addToMataprobcursar(materiaInstanceSearch)
+			}
+			matregrendirJson.each{
+				materiaInstanceSearch = Materia.load(it.idid.toLong())
+				materiaInstance.addToMatregrendir(materiaInstanceSearch)
+			}
+			mataprobrendirJson.each{
+				materiaInstanceSearch = Materia.load(it.idid.toLong())
+				materiaInstance.addToMataprobrendir(materiaInstanceSearch)
+			}
+
+			materiaInstance.validate()
 	        if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
 	            redirect(controller:'materia',action: "show", id: materiaInstance.id)
 	        }
 	        else {
 				status.setRollbackOnly()
-	            render(view: "create", model: [materiaInstance: materiaInstance, matregcursarSerialized:params.matregcursarSerialized])
+	            render(view: "create", model: [materiaInstance: materiaInstance, matregcursarSerialized:params.matregcursarSerialized
+						,mataprobcursarSerialized:params.mataprobcursarSerialized
+						,matregrendirSerialized:params.matregrendirSerialized
+						,mataprobrendirSerialized:params.mataprobrendirSerialized
+						])
 	        }
 		}
     }

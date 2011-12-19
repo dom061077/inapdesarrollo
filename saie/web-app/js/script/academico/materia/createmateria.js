@@ -2,6 +2,17 @@
 		var gridDataMatregcursar = jQuery("#matregcursarId").getRowData();
     	var postDataMatregcursar = JSON.stringify(gridDataMatregcursar);
     	$("#matregcursarSerializedId").val(postDataMatregcursar);
+    	
+    	//mataprobcursarSerializedId
+		var gridDataMataprobcursar = jQuery("#mataprobcursarId").getRowData();
+    	var postDataMataprobcursar = JSON.stringify(gridDataMataprobcursar);
+    	$("#mataprobcursarSerializedId").val(postDataMataprobcursar);
+    	
+	   	//mataregrendirSerializedId
+		var gridDataMataprobcursar = jQuery("#matregrendirId").getRowData();
+    	var postDataMataprobcursar = JSON.stringify(gridDataMataprobcursar);
+    	$("#matregrendirSerializedId").val(postDataMataprobcursar);
+    	
     }
 
 
@@ -31,18 +42,83 @@ $(document).ready(function(){
     	for (var i = 0; i <= griddata.length; i++) {
     	    jQuery("#matregcursarId").jqGrid('addRowData', i + 1, griddata[i]);
     	}
+    	
+    	//mataprobcursarSerializedId
+    	var data = jQuery.parseJSON($("#mataprobcursarSerializedId").val());
+    	if(data==null)
+        		data=[];
+    	for (var i = 0; i < data.length; i++) {
+    	    griddata[i] = {};
+    	    /*for (var j = 0; j < data[i].length; j++) {
+    	        griddata[i][names[j]] = data[i][j];
+    	    }*/
+    	    griddata[i]["id"] = data[i].id;
+    	    griddata[i]["idid"] = data[i].idid;	        	    
+    	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+    	    griddata[i]["nivel"] = data[i].nivel;
+    	    griddata[i]["carrera"] = data[i].carrera;
+    	}
+
+    	for (var i = 0; i <= griddata.length; i++) {
+    	    jQuery("#mataprobcursarId").jqGrid('addRowData', i + 1, griddata[i]);
+    	}
+    	
+    	//matregrendirSerializedId
+    	var data = jQuery.parseJSON($("#matregrendirSerializedId").val());
+    	if(data==null)
+        		data=[];
+    	for (var i = 0; i < data.length; i++) {
+    	    griddata[i] = {};
+    	    /*for (var j = 0; j < data[i].length; j++) {
+    	        griddata[i][names[j]] = data[i][j];
+    	    }*/
+    	    griddata[i]["id"] = data[i].id;
+    	    griddata[i]["idid"] = data[i].idid;	        	    
+    	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+    	    griddata[i]["nivel"] = data[i].nivel;
+    	    griddata[i]["carrera"] = data[i].carrera;
+    	}
+
+    	for (var i = 0; i <= griddata.length; i++) {
+    	    jQuery("#matregrendirId").jqGrid('addRowData', i + 1, griddata[i]);
+    	}
+    	
+    	//mataprobrendirSerializedId
+    	var data = jQuery.parseJSON($("#mataprobrendirSerializedId").val());
+    	if(data==null)
+        		data=[];
+    	for (var i = 0; i < data.length; i++) {
+    	    griddata[i] = {};
+    	    /*for (var j = 0; j < data[i].length; j++) {
+    	        griddata[i][names[j]] = data[i][j];
+    	    }*/
+    	    griddata[i]["id"] = data[i].id;
+    	    griddata[i]["idid"] = data[i].idid;	        	    
+    	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+    	    griddata[i]["nivel"] = data[i].nivel;
+    	    griddata[i]["carrera"] = data[i].carrera;
+    	}
+
+    	for (var i = 0; i <= griddata.length; i++) {
+    	    jQuery("#mataprobrendirId").jqGrid('addRowData', i + 1, griddata[i]);
+    	}
+    	
+    	
+    	
     }
 	
 	
-	function initGridBusquedaMaterias(){
+	function initGridBusquedaMaterias(tabid,pagerid){
 		//---------------inicializacion de la grilla de busqueda de Materias para sugerir las Materias
-		$('#tablaBusquedaMateriaId').jqGrid({
+		var tablaId ='#'+tabid;
+		var pagerId ='#'+pagerid; 
+		$(tablaId).jqGrid({
 			caption:'Búsqueda de Materias',
 			url:locmateria,
 		mtype:'POST',
 		width:400,
 		rownumbers:true,
-		pager:'pagerBusquedaMateriaId',
+		pager:pagerId,
 		datatype:'json',
 		colNames:['Id','Denominación','Nivel','Carrera'],
 		colModel:[
@@ -52,19 +128,8 @@ $(document).ready(function(){
 				{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion',width:100,sorttype:'text',sortable:true}				
 		]
 		});
-		jQuery("#tablaBusquedaMateriaId").jqGrid('navGrid','#pagerBusquedaRequisitoId',{search:false,edit:false,add:false,del:false,pdf:true});
-		jQuery('#tablaBusquedaMateriaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-		jQuery("#tablaBusquedaMateriaId").jqGrid('navButtonAdd','#pagerBusquedaMateriaId',{
-		       caption:"Informe", 
-		       onClickButton : function () {
-		    	   var id = jQuery('#tablaBusquedaMateriaId').jqGrid('getGridParam','selrow');
-		    	   if(id)
-		    		   window.location = locvademecdetalle+'?target=_blank&id='+id;
-		    	   else
-		    		   $('<div>Seleccione una fila para activar esta opción</div>').dialog({title:'Mensaje',modal: true});
-		    	   
-		       } 
-		});	
+		jQuery(tablaId).jqGrid('navGrid',pagerId,{refresh:true,search:false,edit:false,add:false,del:false,pdf:true});
+		jQuery(tablaId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 		
 		//-----------------------------------------------------------------------------------------
 		
@@ -89,7 +154,7 @@ $(document).ready(function(){
 		, pager: '#pagermatregcursarId'
 		, sortname: 'id'
 		, viewrecords: true, sortorder: "desc"
-		, caption:"Materias Regulares para Rendir"  
+		, caption:"Materias Regulares para Cursar"  
 		, height:130
 	}); 
 	
@@ -121,7 +186,7 @@ $(document).ready(function(){
 			{height:450,width:450,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
-				,addCaption:'Agregar Materias Regulares para Rendir'
+				,addCaption:'Agregar Materias Regulares para Cursar'
 				/*,onclickSubmit: function(eparams){
 						var obj=$('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
 						if(obj){
@@ -134,13 +199,13 @@ $(document).ready(function(){
 
 					var gridDataMatregcursar = jQuery("#matregcursarId").getRowData();
 					var retornar=false;
-					var id = $('#tablaBusquedaMateriaId').jqGrid('getGridParam','selrow');
+					var id = $('#tablaBusquedaMateriaMatRegCursarId').jqGrid('getGridParam','selrow');
 					var obj;
 					if(!id){
 						alert('Seleccione un Materia de la Grilla');
 						return [false,''];
 					}else{
-						obj = $('#tablaBusquedaMateriaId').getRowData(id);
+						obj = $('#tablaBusquedaMateriaMatRegCursarId').getRowData(id);
 						$.each( gridDataMatregcursar, function(i, row){
 	   						 if(obj.id==row.idid){
 	   						 	retornar=true;
@@ -175,8 +240,90 @@ $(document).ready(function(){
 					});*/
 					$('#TblGrid_matregcursarId').hide();
 					//$('#busquedaRequisitoId').show();
-					$('#FrmGrid_matregcursarId').append('<table id="tablaBusquedaMateriaId"></table><div id="pagerBusquedaMateriaId"></div>');
-					initGridBusquedaMaterias();
+					$('#FrmGrid_matregcursarId').append('<table id="tablaBusquedaMateriaMatRegCursarId"></table><div id="pagerBusquedaMateriaMatRegCursarId"></div>');
+					initGridBusquedaMaterias('tablaBusquedaMateriaMatRegCursarId','pagerBusquedaMateriaMatRegCursarId');
+					
+				}
+				,bSubmit:'Agregar'
+			
+			}, // add options 
+			{reloadAfterSubmit:false}, // del options 
+			{} // search options 
+		);
+		
+	//---------------------------------------------------------------------------
+	jQuery("#mataprobcursarId").jqGrid({ 
+		url:'listmatregcursar'
+		,editurl:'editmat'
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','Id','Denominación','Nivel','Carrera']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+			, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+			, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+			, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagermataprobcursarId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Materias Aprobadas para Cursar"  
+		, height:130
+	}); 
+		
+		
+		
+	jQuery("#mataprobcursarId").jqGrid('navGrid','#pagermataprobcursarId', {add:true,edit:false,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Materias'
+				, beforeShowForm:function(form){
+					}
+				,bSubmit:'Modificar'
+			
+			}, // edit options 
+			{height:450,width:450,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,addCaption:'Agregar Materias Aprobadas para Cursar'
+				,beforeSubmit: function(postData,formId){
+
+					var gridDataMatregcursar = jQuery("#mataprobcursarId").getRowData();
+					var retornar=false;
+					var id = $('#tablaBusquedaMateriaMatAprobCursarId').jqGrid('getGridParam','selrow');
+					var obj;
+					if(!id){
+						alert('Seleccione un Materia de la Grilla');
+						return [false,''];
+					}else{
+						obj = $('#tablaBusquedaMateriaMatAprobCursarId').getRowData(id);
+						$.each( gridDataMatregcursar, function(i, row){
+	   						 if(obj.id==row.idid){
+	   						 	retornar=true;
+	   						 	return;
+	   						 }
+						});
+						if(retornar){
+							alert('Ya agregó esta materia');
+							return [false,'YA EXISTE LA MATERIA AGREGADA'];
+						}
+						
+						postData.idid = obj.id;
+						postData.denominacion = obj.denominacion;
+						postData.nivel = obj.nivel_descripcion;
+						postData.carrera = obj.nivel_carrera_denominacion;						
+						return [true,''];
+					}
+				}
+				,beforeShowForm:function(form){
+					$('#TblGrid_mataprobcursarId').hide();
+					//$('#busquedaRequisitoId').show();
+					$('#FrmGrid_mataprobcursarId').append('<table id="tablaBusquedaMateriaMatAprobCursarId"></table><div id="pagerBusquedaMateriaMatAprobCursarId"></div>');
+					initGridBusquedaMaterias('tablaBusquedaMateriaMatAprobCursarId','pagerBusquedaMateriaMatAprobCursarId');
 					
 				}
 				,bSubmit:'Agregar'
@@ -185,5 +332,90 @@ $(document).ready(function(){
 			{reloadAfterSubmit:false}, // del options 
 			{} // search options 
 		);	
+	//-------------------------------------------------------------------	
+		
+	jQuery("#matregrendirId").jqGrid({ 
+		url:'listmatregcursar'
+		,editurl:'editmat'
+		,datatype: "json"
+		,width:600
+		,rownumbers:true
+		,colNames:['Id','Id','Denominación','Nivel','Carrera']
+		,colModel:[ 
+			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+			, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+			, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+			, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+		]
+		//, rowNum:10, rowList:[10,20,30]
+		, pager: '#pagermatregrendirId'
+		, sortname: 'id'
+		, viewrecords: true, sortorder: "desc"
+		, caption:"Materias Regulares para Rendir"  
+		, height:130
+	}); 
+		
+		
+		
+	jQuery("#matregrendirId").jqGrid('navGrid','#pagermatregrendirId', {add:true,edit:false,del:true,search:false,refresh:false}, //options 
+			{height:280,width:310,reloadAfterSubmit:false
+				, recreateForm:true
+				,modal:false
+				,editCaption:'Modificar Materias'
+				, beforeShowForm:function(form){
+					}
+				,bSubmit:'Modificar'
+			
+			}, // edit options 
+			{height:450,width:450,reloadAfterSubmit:false
+				,recreateForm:true
+				,modal:false
+				,addCaption:'Agregar Materias Regulares para Rendir'
+				,beforeSubmit: function(postData,formId){
+
+					var gridDataMatregcursar = jQuery("#matregrendirId").getRowData();
+					var retornar=false;
+					var id = $('#tablaBusquedaMateriaMatRegRendirId').jqGrid('getGridParam','selrow');
+					var obj;
+					if(!id){
+						alert('Seleccione un Materia de la Grilla');
+						return [false,''];
+					}else{
+						obj = $('#tablaBusquedaMateriaMatRegRendirId').getRowData(id);
+						$.each( gridDataMatregcursar, function(i, row){
+	   						 if(obj.id==row.idid){
+	   						 	retornar=true;
+	   						 	return;
+	   						 }
+						});
+						if(retornar){
+							alert('Ya agregó esta materia');
+							return [false,'YA EXISTE LA MATERIA AGREGADA'];
+						}
+						
+						postData.idid = obj.id;
+						postData.denominacion = obj.denominacion;
+						postData.nivel = obj.nivel_descripcion;
+						postData.carrera = obj.nivel_carrera_denominacion;						
+						return [true,''];
+					}
+				}
+				,beforeShowForm:function(form){
+					$('#TblGrid_matregrendirId').hide();
+					//$('#busquedaRequisitoId').show();
+					$('#FrmGrid_matregrendirId').append('<table id="tablaBusquedaMateriaMatRegRendirId"></table><div id="pagerBusquedaMateriaMatRegRendirId"></div>');
+					initGridBusquedaMaterias('tablaBusquedaMateriaMatRegRendirId','pagerBusquedaMateriaMatRegRendirId');
+					
+				}
+				,bSubmit:'Agregar'
+			
+			}, // add options 
+			{reloadAfterSubmit:false}, // del options 
+			{} // search options 
+		);	
+	//-------------------------------------------------------------------	
+		
+		
 	bindmaterias();
 });

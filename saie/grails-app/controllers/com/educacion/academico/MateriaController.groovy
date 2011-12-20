@@ -50,10 +50,10 @@ class MateriaController {
 		if(params.mataprobcursarSerialized)
 			mataprobcursarJson = grails.converters.JSON.parse(params.mataprobcursarSerialized)
 
-		if(params.mataregrendirSerialized)
+		if(params.matregrendirSerialized)
 			matregrendirJson = grails.converters.JSON.parse(params.matregrendirSerialized)
 
-		if(params.mataaprobrendirSerialized)
+		if(params.mataprobrendirSerialized)
 			mataprobrendirJson = grails.converters.JSON.parse(params.mataprobrendirSerialized)
 
 		
@@ -67,14 +67,18 @@ class MateriaController {
 				materiaInstance.addToMatregcursar(materiaInstanceSearch)
 			}
 			mataprobcursarJson.each{
+				log.debug "MATERIA APROBADA PARA CURSAR: "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMataprobcursar(materiaInstanceSearch)
 			}
 			matregrendirJson.each{
+				log.debug "MATERIA REGULAR PARA RENDIR "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMatregrendir(materiaInstanceSearch)
+				
 			}
 			mataprobrendirJson.each{
+				log.debug "MATERIA APROBADA PARA RENDIR: "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMataprobrendir(materiaInstanceSearch)
 			}
@@ -252,7 +256,7 @@ class MateriaController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?'':it.denominacion)+'","'+(it.descripcion==null?'':it.descripcion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -268,7 +272,108 @@ class MateriaController {
 			}
 		}
 	}
+	
+	def listmatregcursar = {
+		log.debug "INGRESANDO AL CLOSURE listmatregcursar"
+		log.debug "PARAMETROS: $params"
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+		
+		
+		if(params.id){
+			def materiaInstance = Materia.load(params.id.toString())
+			result='{"page":1,"total":"'+1+'","records":"'+materiaInstance.matregcursar?.size()+'","rows":['
+			materiaInstance.matregcursar.each{
+				if (flagaddcomilla)
+					result=result+','
+				result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+				flagaddcomilla=true
+			}
+			result=result+']}'
+			render result
+		}else{
+			render '{page:0,"total":"0","records":0,"rows":[]}'
+		}
+	}
 
 
+	def listmataprobcursar = {
+		log.debug "INGRESANDO AL CLOSURE listmatregcursar"
+		log.debug "PARAMETROS: $params"
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+		
+		
+		if(params.id){
+			def materiaInstance = Materia.load(params.id.toString())
+			result='{"page":1,"total":"'+1+'","records":"'+materiaInstance.mataprobcursar?.size()+'","rows":['
+			materiaInstance.mataprobcursar.each{
+				if (flagaddcomilla)
+					result=result+','
+				result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+				flagaddcomilla=true
+			}
+			result=result+']}'
+			render result
+		}else{
+			render '{page:0,"total":"0","records":0,"rows":[]}'
+		}
+	}
+
+	def listmatregrendir = {
+		log.debug "INGRESANDO AL CLOSURE listmatregcursar"
+		log.debug "PARAMETROS: $params"
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+		
+		
+		if(params.id){
+			def materiaInstance = Materia.load(params.id.toString())
+			result='{"page":1,"total":"'+1+'","records":"'+materiaInstance.matregrendir?.size()+'","rows":['
+			materiaInstance.matregrendir.each{
+				if (flagaddcomilla)
+					result=result+','
+				result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+				flagaddcomilla=true
+			}
+			result=result+']}'
+			render result
+		}else{
+			render '{page:0,"total":"0","records":0,"rows":[]}'
+		}
+	}
+
+	def listmataprobrendir = {
+		log.debug "INGRESANDO AL CLOSURE listmatregcursar"
+		log.debug "PARAMETROS: $params"
+		def result
+		def flagaddcomilla
+		def totalpaginas
+		def totalregistros
+		
+		
+		if(params.id){
+			def materiaInstance = Materia.load(params.id.toString())
+			result='{"page":1,"total":"'+1+'","records":"'+materiaInstance.mataprobrendir?.size()+'","rows":['
+			materiaInstance.matregrendir.each{
+				if (flagaddcomilla)
+					result=result+','
+				result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+				flagaddcomilla=true
+			}
+			result=result+']}'
+			render result
+		}else{
+			render '{page:0,"total":"0","records":0,"rows":[]}'
+		}
+	}
+
+	
 	
 }

@@ -122,7 +122,7 @@
 							}
 						});
 					}
-			,
+				 ,
 				 minLength: 2,
 				 select: function( event, ui ) {
 					 if(ui.item){ 
@@ -138,110 +138,7 @@
 				}); 
 	
 //---------------------------------- 
-	$('#pcaId').lookupfield({source:'<%out<< createLink(controller:'materia',action:'listsearchjson')%>',
-				 title:'Materia aprobada para Cursar' 
-			,colNames:['Id','Denominación','Descripción'] 
-			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
-				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
-				,hiddenid:'pcaIdId' 
-				,descid:'pcaId' 
-				,hiddenfield:'id' 
-				,descfield:['denominacion']}); 
-
-	$('#pcaId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
-				 minLength: 2, 
-				 select: function( event, ui ) {
-					 if(ui.item){ 
-						 $('#pcaIdId').val(ui.item.id) 
-				 } 
-				}, 
-				 open: function() { 
-					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 }, 
-				 close: function() {
-					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 } 
-				}); 
-//---------------------------------- 
-	$('#pcrId').lookupfield({source:'<%out<< createLink(controller:'materia',action:'listsearchjson')%>',
-		 title:'Materia aprobada para Cursar' 
-				,colNames:['Id','Denominación','Descripción'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
- 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'pcaIdId' 
- 				,descid:'pcaId' 
- 				,hiddenfield:'id' 
- 				,descfield:['denominacion']}); 
-
-	$('#pcrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
-				 minLength: 2, 
-				 select: function( event, ui ) {
-					 if(ui.item){ 
-						 $('#pcrIdId').val(ui.item.id) 
-				 } 
-				}, 
-				 open: function() { 
-					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 }, 
-				 close: function() {
-					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 } 
-				}); 
-//---------------------------------- 
-	$('#praId').lookupfield({source:'<%out<< createLink(controller:'materia',action:'listsearchjson')%>',
-		 title:'Materia aprobada para Cursar' 
-				,colNames:['Id','Denominación','Descripción'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
- 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'pcaIdId' 
- 				,descid:'pcaId' 
- 				,hiddenfield:'id' 
- 				,descfield:['denominacion']});  
-
-	$('#praId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
-				 minLength: 2, 
-				 select: function( event, ui ) {
-					 if(ui.item){ 
-						 $('#praIdId').val(ui.item.id) 
-				 } 
-				}, 
-				 open: function() { 
-					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 }, 
-				 close: function() {
-					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 } 
-				}); 
-//---------------------------------- 
-	$('#prrId').lookupfield({source:'<%out<< createLink(controller:'materia',action:'listsearchjson')%>',
-		 title:'Materia aprobada para Cursar' 
-				,colNames:['Id','Denominación','Descripción'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
- 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'pcaIdId' 
- 				,descid:'pcaId' 
- 				,hiddenfield:'id' 
- 				,descfield:['denominacion']});  
-
-	$('#prrId' ).autocomplete({source: '<%out<< createLink(controller:'materia',action:'listjsonautocomplete')%>',
-				 minLength: 2, 
-				 select: function( event, ui ) {
-					 if(ui.item){ 
-						 $('#prrIdId').val(ui.item.id) 
-				 } 
-				}, 
-				 open: function() { 
-					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 }, 
-				 close: function() {
-					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 } 
-				}); 
-//---------------------------------- 
+			$('#tabs').tabs();
     	});
 	</script>
         
@@ -393,87 +290,6 @@
 
 																	
                         
-							<g:hasErrors bean="${materiaInstance}" field="pca">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="pca"><g:message code="materia.pca.label" default="Pca" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcaId" name="pcaDesc"  value="${materiaInstance?.pca?.denominacion}" /> 
- 								<g:hiddenField id="pcaIdId" name="pca.id" value="${materiaInstance?.pca?.id}" />
-							</div>
-										
-							<g:hasErrors bean="${materiaInstance}" field="pca">
-								<g:renderErrors bean="${materiaInstance}" as="list" field="pca"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-
-																	
-                        
-							<g:hasErrors bean="${materiaInstance}" field="pcr">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="pcr"><g:message code="materia.pcr.label" default="Pcr" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="pcrId" name="pcrDesc"  value="${materiaInstance?.pcr?.denominacion}" /> 
- 								<g:hiddenField id="pcrIdId" name="pcr.id" value="${materiaInstance?.pcr?.id}" />
-							</div>
-										
-							<g:hasErrors bean="${materiaInstance}" field="pcr">
-								<g:renderErrors bean="${materiaInstance}" as="list" field="pcr"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-
-																	
-                        
-							<g:hasErrors bean="${materiaInstance}" field="pra">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="pra"><g:message code="materia.pra.label" default="Pra" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="praId" name="praDesc"  value="${materiaInstance?.pra?.denominacion}" /> 
- 								<g:hiddenField id="praIdId" name="pra.id" value="${materiaInstance?.pra?.id}" />
-							</div>
-										
-							<g:hasErrors bean="${materiaInstance}" field="pra">
-								<g:renderErrors bean="${materiaInstance}" as="list" field="pra"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-
-																	
-                        
-
-																	
-                        
-							<g:hasErrors bean="${materiaInstance}" field="prr">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="prr"><g:message code="materia.prr.label" default="Prr" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="prrId" name="prrDesc"  value="${materiaInstance?.prr?.denominacion}" /> 
-								<g:hiddenField id="prrIdId" name="prr.id" value="${prr?.id}" />
-							</div>
-										
-							<g:hasErrors bean="${materiaInstance}" field="prr">
-								<g:renderErrors bean="${materiaInstance}" as="list" field="prr"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-
 								
 							<g:hasErrors bean="${materiaInstance}" field="promocional">
 								<div class="ui-state-error ui-corner-all append-bottom">
@@ -510,6 +326,40 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 		
+						   <div id="tabs">
+						   		<ul>
+						   			<li><a href="#tabs-matregcursar">Mat. Regulares para Cursar</a></li>
+						   			<li><a href="#tabs-mataprobcursar">Mat. Aprobadas para Cursar</a></li>
+						   			<li><a href="#tabs-matregrendir">Mat. Regulares para Rendir</a></li>
+						   			<li><a href="#tabs-mataprobrendir">Mat. Aprobadas para Rendir</a></li>
+						   		</ul>
+						   		<div id="tabs-matregcursar">
+						   			<g:hiddenField id="matregcursarSerializedId" name="matregcursarSerialized" value="${matregcursarSerialized}"/>
+						   			<table id="matregcursarId"></table>
+						   			<div id="pagermatregcursarId"></div>
+						   		</div>
+
+						   		<div id="tabs-mataprobcursar"> 
+						   			<g:hiddenField id="mataprobcursarSerializedId" name="mataprobcursarSerialized" value="${mataprobcursarSerialized}"/>
+						   			<table id="mataprobcursarId"></table>
+						   			<div id="pagermataprobcursarId"></div>
+						   		</div>
+
+						   		
+						   		<div id="tabs-matregrendir">
+						   			<g:hiddenField id="matregrendirSerializedId" name="matregrendirSerialized" value="${matregrendirSerialized}"/>
+						   			<table id="matregrendirId"></table>
+						   			<div id="pagermatregrendirId"></div>
+						   		</div>
+						   		
+						   		
+						   		<div id="tabs-mataprobrendir">
+						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized" value="${mataprobrendirSerialized}"/>
+						   			<table id="mataprobrenderId"></table>
+						   			<div id="pagermataprobrenderId"></div>
+						   		</div>
+						   		
+						   </div>		
 																
 		            
                 </div>

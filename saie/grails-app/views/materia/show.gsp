@@ -6,6 +6,102 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'materia.label', default: 'Materia')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function(){
+        		$("#matregcursarId").jqGrid({ 
+        			url:'<%out << createLink(controller:"materia",action:"listmatregcursar",params:[id:materiaInstance.id])%>'
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Denominación','Nivel','Carrera']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        							
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagermatregcursarId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Materias Regulares para Cursar"  
+        			, height:130
+        		});
+
+        		$("#mataprobcursarId").jqGrid({ 
+        			url:'<%out << createLink(controller:"materia",action:"listmataprobcursar",params:[id:materiaInstance.id])%>'
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Denominación','Nivel','Carrera']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        							
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagermatregcursarId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Materias Regulares para Cursar"  
+        			, height:130
+        		}); 
+
+        		$("#matregrendirId").jqGrid({ 
+        			url:'<%out << createLink(controller:"materia",action:"listmatregrendir",params:[id:materiaInstance.id])%>'
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Denominación','Nivel','Carrera']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        							
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagermatregcursarId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Materias Regulares para Cursar"  
+        			, height:130
+        		}); 
+
+        		$("#mataprobrendirId").jqGrid({ 
+        			url:'<%out << createLink(controller:"materia",action:"listmataprobrendir",params:[id:materiaInstance.id])%>'
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Denominación','Nivel','Carrera']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'nivel',index:'nivel', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'carrera',index:'carrera', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        							
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagermatregcursarId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Materias Regulares para Cursar"  
+        			, height:130
+        		}); 
+
+        		
+        		 
+            	$('#tabs').tabs();
+            });
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -19,9 +115,6 @@
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
                             <div class="span-4 spanlabel"><g:message code="materia.id.label" default="Id" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "id")}</div>
@@ -71,44 +164,41 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="materia.pca.label" default="Pca" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pca?.id}">${materiaInstance?.pca?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="materia.pcr.label" default="Pcr" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pcr?.id}">${materiaInstance?.pcr?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="materia.pra.label" default="Pra" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.pra?.id}">${materiaInstance?.pra?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="materia.promocional.label" default="Promocional" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:formatBoolean true="Si" false="No" boolean="${materiaInstance?.promocional}" /></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="materia.prr.label" default="Prr" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${materiaInstance?.prr?.id}">${materiaInstance?.prr?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.tipo.label" default="Tipo" /></div>
                             
                             <div class="span-4 spanlabel">${materiaInstance?.tipo?.name?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
-                    
-                    </tbody>
-                </table>
+						   <div id="tabs">
+						   		<ul>
+						   			<li><a href="#tabs-matregcursar">Mat. Regulares para Cursar</a></li>
+						   			<li><a href="#tabs-mataprobcursar">Mat. Aprobadas para Cursar</a></li>
+						   			<li><a href="#tabs-matregrendir">Mat. Regulares para Rendir</a></li>
+						   			<li><a href="#tabs-mataprobrendir">Mat. Aprobadas para Rendir</a></li>
+						   		</ul>
+						   		<div id="tabs-matregcursar">
+						   			<table id="matregcursarId"></table>
+						   			<div id="pagermatregcursarId"></div>
+						   		</div>
+
+						   		<div id="tabs-mataprobcursar"> 
+						   			<table id="mataprobcursarId"></table>
+						   			<div id="pagermataprobcursarId"></div>
+						   		</div>
+
+						   		
+						   		<div id="tabs-matregrendir">
+						   			<table id="matregrendirId"></table>
+						   			<div id="pagermatregrendirId"></div>
+						   		</div>
+						   		
+						   		
+						   		<div id="tabs-mataprobrendir">
+						   			<table id="mataprobrendirId"></table>
+						   			<div id="pagermataprobrendirId"></div>
+						   		</div>
+						   </div>
             </div>
             <div class="buttons">
                 <g:form>

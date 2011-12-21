@@ -90,10 +90,10 @@
         							
         			]
         			//, rowNum:10, rowList:[10,20,30]
-        			, pager: '#pagermatregcursarId'
+        			, pager: '#pagermataprobrendirId'
         			, sortname: 'id'
         			, viewrecords: true, sortorder: "desc"
-        			, caption:"Materias Regulares para Cursar"  
+        			, caption:"Materias Aprobadas para Cursar"  
         			, height:130
         		}); 
 

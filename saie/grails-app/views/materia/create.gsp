@@ -31,6 +31,25 @@
     				,descid:'carreraId' 
     				,hiddenfield:'id' 
     				,descfield:['denominacion']
+					,onShowgrid:function(){
+							if(($("#matregcursarId").getRowData().length>0)
+									 || 
+									   ($("#mataprobcursarId").getRowData().length>0)||
+									   ($("#matregrendirId").getRowData().length>0) ||
+									   ($("#mataprobcursarId").getRowData().length>0)
+								){
+					   			$("<div>Recuerde de que si cargo algunas materias en alguna grilla de abajo al cambiar de carrera se limpiaran dichas grillas</div>").dialog({
+					   				resizable: false,
+					   				height:140,
+					   				modal: true,
+					   				buttons: {
+					   					Ok: function() {
+					   						$( this ).dialog( "close" );
+					   					}
+					   				}
+					   			});
+					   		}
+						}
         			,onSelected:function(){
     					var filter = { groupOp: "AND", rules: []};
 	    				filter.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
@@ -38,6 +57,12 @@
 	    				grid[0].p.search = filter.rules.length>0;
 	    				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
 	    				grid.trigger("reloadGrid",[{page:1}]);
+	    				$('#nivelId').val('');
+						$('#nivelIdId').val('');
+						$('#matregcursarId').clearGridData();
+						$('#mataprobcursarId').clearGridData();
+						$('#matregrendirId').clearGridData();
+						$('#mataprobrendirId').clearGridData();						
     				}
 					,onKeyup:function(){
 						if($.trim($('#carreraId').val())==""){
@@ -67,6 +92,11 @@
 							grid.trigger("reloadGrid",[{page:1}]);
 							$('#nivelId').val('');
 							$('#nivelIdId').val('');
+							$('#matregcursarId').clearGridData();
+							$('#mataprobcursarId').clearGridData();
+							$('#matregrendirId').clearGridData();
+							$('#mataprobrendirId').clearGridData();						
+							
    					 	} 
    					}, 
     				 open: function() { 
@@ -88,7 +118,35 @@
  				,hiddenid:'nivelIdId' 
  				,descid:'nivelId' 
  				,hiddenfield:'id' 
- 				,descfield:['descripcion']}); 
+ 				,descfield:['descripcion']
+				,onShowgrid:function(){
+					if(($("#matregcursarId").getRowData().length>0)
+							 || 
+							   ($("#mataprobcursarId").getRowData().length>0)||
+							   ($("#matregrendirId").getRowData().length>0) ||
+							   ($("#mataprobcursarId").getRowData().length>0)
+						){
+			   			$("<div>Recuerde de que si cargo algunas materias en alguna grilla de abajo al cambiar de carrera se limpiaran dichas grillas</div>").dialog({
+			   				resizable: false,
+			   				height:140,
+			   				modal: true,
+			   				buttons: {
+			   					Ok: function() {
+			   						$( this ).dialog( "close" );
+			   					}
+			   				}
+			   			});
+			   		}
+				}
+				,onSelected:function(){
+					$('#matregcursarId').clearGridData();
+					$('#mataprobcursarId').clearGridData();
+					$('#matregrendirId').clearGridData();
+					$('#mataprobrendirId').clearGridData();						
+				}
+		
+			
+ 				}); 
 
 		$('#nivelId' ).autocomplete({
 				source: function( request, response ) {
@@ -117,7 +175,12 @@
  				 minLength: 2,
   				 select: function( event, ui ) {
  					 if(ui.item){ 
- 						 $('#nivelIdId').val(ui.item.id) 
+ 						 $('#nivelIdId').val(ui.item.id);
+ 						$('#matregcursarId').clearGridData();
+						$('#mataprobcursarId').clearGridData();
+						$('#matregrendirId').clearGridData();
+						$('#mataprobrendirId').clearGridData();						
+ 						  
 					 } 
 					}, 
  				 open: function() { 
@@ -340,8 +403,8 @@
 						   		
 						   		<div id="tabs-mataprobrendir">
 						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized" value="${mataprobrendirSerialized}"/>
-						   			<table id="mataprobrenderId"></table>
-						   			<div id="pagermataprobrenderId"></div>
+						   			<table id="mataprobrendirId"></table>
+						   			<div id="pagermataprobrendirId"></div>
 						   		</div>
 						   		
 						   </div>

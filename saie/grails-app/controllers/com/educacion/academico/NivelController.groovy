@@ -167,9 +167,9 @@ class NivelController {
 		def list = Nivel.createCriteria().list(){
 				like('descripcion','%'+params.term+'%')
 				if(params.carreraId){
-					//carrera{
-					//	eq("id",params.carreraId.toLong())
-					//}
+					carrera{
+						eq("id",params.carreraId.toLong())
+					}
 				}
 		}
 		log.debug "CANTIDAD DE NIVELES: "+list.size()

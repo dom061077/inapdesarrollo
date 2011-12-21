@@ -13,31 +13,55 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
+        <script type="text/javascript" src="${resource(dir:'js/script/academico/materia',file:'createmateria.js')}"></script>
         <script type="text/javascript">
-    	$(document).ready(function(){
-    		
-
+        var locmateria = '<%out << createLink(controller:"materia",action:"listjson")%>';
+        $(document).ready(function(){
+        	
     		$('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',
 				 title:'Búsqueda de Carreras' 
-   				,colNames:['Id','Denominación'] 
-   				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+  				,colNames:['Id','Denominación'] 
+  				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
 				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}] 
 				,hiddenid:'carreraIdId' 
 				,descid:'carreraId' 
 				,hiddenfield:'id' 
 				,descfield:['denominacion']
-    			,onSelected:function(){
-					//var filter = { groupOp: "AND", rules: []};
-    				//filter.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
-    				//var grid = $('#nivelIdtablesearchId') 
-    				//grid[0].p.search = filter.rules.length>0;
-    				//$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
-    				//grid.trigger("reloadGrid",[{page:1}]);
-    				$('#nivelId').val('');
+				,onShowgrid:function(){
+						if(($("#matregcursarId").getRowData().length>0)
+								 || 
+								   ($("#mataprobcursarId").getRowData().length>0)||
+								   ($("#matregrendirId").getRowData().length>0) ||
+								   ($("#mataprobcursarId").getRowData().length>0)
+							){
+				   			$("<div>Recuerde de que si cargo algunas materias en alguna grilla de abajo al cambiar de carrera se limpiaran dichas grillas</div>").dialog({
+				   				resizable: false,
+				   				height:140,
+				   				modal: true,
+				   				buttons: {
+				   					Ok: function() {
+				   						$( this ).dialog( "close" );
+				   					}
+				   				}
+				   			});
+				   		}
+					}
+   			,onSelected:function(){
+					var filter = { groupOp: "AND", rules: []};
+   				filter.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
+   				var grid = $('#nivelIdtablesearchId') 
+   				grid[0].p.search = filter.rules.length>0;
+   				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+   				grid.trigger("reloadGrid",[{page:1}]);
+   				$('#nivelId').val('');
 					$('#nivelIdId').val('');
+					$('#matregcursarId').clearGridData();
+					$('#mataprobcursarId').clearGridData();
+					$('#matregrendirId').clearGridData();
+					$('#mataprobrendirId').clearGridData();						
 				}
 				,onKeyup:function(){
 					if($.trim($('#carreraId').val())==""){
@@ -49,13 +73,13 @@
 	    				grid.trigger("reloadGrid",[{page:1}]);
 	    				$('#nivelId').val('');
 	    				$('#nivelIdId').val('');
-                	}
+               	}
 				}
 			}); 
 
 	   		$('#carreraId' ).autocomplete({source: '<%out<<createLink(controller:'carrera',action:'listjsonautocomplete')%>',
 				 minLength: 2, 
- 				 select: function( event, ui ) {
+				 select: function( event, ui ) {
 					 if(ui.item){ 
 						 $('#carreraIdId').val(ui.item.id) 
 						 
@@ -67,6 +91,11 @@
 						grid.trigger("reloadGrid",[{page:1}]);
 						$('#nivelId').val('');
 						$('#nivelIdId').val('');
+						$('#matregcursarId').clearGridData();
+						$('#mataprobcursarId').clearGridData();
+						$('#matregrendirId').clearGridData();
+						$('#mataprobrendirId').clearGridData();						
+						
 					 	} 
 					}, 
 				 open: function() { 
@@ -79,25 +108,44 @@
 
 				
 //---------------------------------- 
-        	
+       	
 	$('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
-				 title:'Búsqueda de niveles' 
+			 title:'Búsqueda de niveles' 
 			,colNames:['Id','Descripcion'] 
 			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
-				,hiddenid:'nivelIdId' 
-				,descid:'nivelId' 
-				,hiddenfield:'id' 
-				,descfield:['descripcion']
+			,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}] 
+			,hiddenid:'nivelIdId' 
+			,descid:'nivelId' 
+			,hiddenfield:'id' 
+			,descfield:['descripcion']
 			,onShowgrid:function(){
-				var filter = { groupOp: "AND", rules: []};
-				filter.rules.push({field:"carrera_id",op:"eq",data:$("#carreraIdId").val()});
-				var grid = $('#nivelIdtablesearchId') 
-				grid[0].p.search = filter.rules.length>0;
-				$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
-				grid.trigger("reloadGrid",[{page:1}]);
-			}	
-	}); 
+				if(($("#matregcursarId").getRowData().length>0)
+						 || 
+						   ($("#mataprobcursarId").getRowData().length>0)||
+						   ($("#matregrendirId").getRowData().length>0) ||
+						   ($("#mataprobcursarId").getRowData().length>0)
+					){
+		   			$("<div>Recuerde de que si cargo algunas materias en alguna grilla de abajo al cambiar de carrera se limpiaran dichas grillas</div>").dialog({
+		   				resizable: false,
+		   				height:140,
+		   				modal: true,
+		   				buttons: {
+		   					Ok: function() {
+		   						$( this ).dialog( "close" );
+		   					}
+		   				}
+		   			});
+		   		}
+			}
+			,onSelected:function(){
+				$('#matregcursarId').clearGridData();
+				$('#mataprobcursarId').clearGridData();
+				$('#matregrendirId').clearGridData();
+				$('#mataprobrendirId').clearGridData();						
+			}
+	
+		
+			}); 
 
 	$('#nivelId' ).autocomplete({
 			source: function( request, response ) {
@@ -122,25 +170,28 @@
 							}
 						});
 					}
-				 ,
-				 minLength: 2,
+			,
+			 minLength: 2,
 				 select: function( event, ui ) {
-					 if(ui.item){ 
-						 $('#nivelIdId').val(ui.item.id) 
+				 if(ui.item){ 
+					 $('#nivelIdId').val(ui.item.id);
+					$('#matregcursarId').clearGridData();
+					$('#mataprobcursarId').clearGridData();
+					$('#matregrendirId').clearGridData();
+					$('#mataprobrendirId').clearGridData();						
+					  
 				 } 
 				}, 
-				 open: function() { 
-					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 }, 
-				 close: function() {
-					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 } 
+			 open: function() { 
+				$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+			 }, 
+			 close: function() {
+				 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+			 } 
 				}); 
-	
-//---------------------------------- 
-			$('#tabs').tabs();
-    	});
-	</script>
+		//---------------------------------- 
+        });
+		</script>
         
     </head>
     <body>
@@ -355,8 +406,8 @@
 						   		
 						   		<div id="tabs-mataprobrendir">
 						   			<g:hiddenField id="mataprobrendirSerializedId" name="mataprobrendirSerialized" value="${mataprobrendirSerialized}"/>
-						   			<table id="mataprobrenderId"></table>
-						   			<div id="pagermataprobrenderId"></div>
+						   			<table id="mataprobrendirId"></table>
+						   			<div id="pagermataprobrendirId"></div>
 						   		</div>
 						   		
 						   </div>		

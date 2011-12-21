@@ -117,7 +117,13 @@ class MateriaController {
     def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
-
+		
+		def matregcursarSerialized="["
+		def mataprobcursarSerialized="["
+		def matregrendirSerialized="["
+		def mataprobrendirSerialized="["
+		def flagaddcomilla=false
+		
 			
         def materiaInstance = Materia.get(params.id)
         if (!materiaInstance) {
@@ -125,7 +131,44 @@ class MateriaController {
             redirect(action: "list")
         }
         else {
-            return [materiaInstance: materiaInstance]
+			materiaInstance.matregcursar.each{
+				if (flagaddcomilla)
+					matregcursarSerialized=matregcursarSerialized+','
+				matregcursarSerialized=matregcursarSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
+				flagaddcomilla=true
+			}
+			
+			materiaInstance.mataprobcursar.each{
+				if (flagaddcomilla)
+					mataprobcursarSerialized=mataprobcursarSerialized+','
+				mataprobcursarSerialized=mataprobcursarSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
+				flagaddcomilla=true
+			}
+
+			materiaInstance.matregrendir.each{
+				if (flagaddcomilla)
+					matregrendirSerialized=matregrendirSerialized+','
+				matregrendirSerialized=matregrendirSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
+				flagaddcomilla=true
+			}
+
+			materiaInstance.mataprobrendir.each{
+				if (flagaddcomilla)
+					mataprobrendirSerialized=mataprobrendirSerialized+','
+				mataprobrendirSerialized=mataprobrendirSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
+				flagaddcomilla=true
+			}
+
+			
+			matregcursarSerialized=matregcursarSerialized+"]"
+			mataprobcursarSerialized=mataprobcursarSerialized+"]"
+			matregrendirSerialized=matregrendirSerialized+"]"
+			mataprobrendirSerialized=mataprobrendirSerialized+"]"
+	
+            return [materiaInstance: materiaInstance,matregcursarSerialized:matregcursarSerialized
+				,mataprobcursarSerialized:mataprobcursarSerialized
+				,matregrendirSerialized:matregrendirSerialized
+				,mataprobrendirSerialized:mataprobrendirSerialized]
         }
     }
 
@@ -191,6 +234,11 @@ class MateriaController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+		if(params.nivel_id){
+			params._search="true"
+			params.altfilters='{"groupOp":"AND","rules":[{"field":"nivel_id","op":"eq","data":"'+params.nivel_id+'"}]}'
+		}
+		
 		def gud=new GUtilDomainClass(Materia,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
@@ -361,7 +409,7 @@ class MateriaController {
 		if(params.id){
 			def materiaInstance = Materia.load(params.id.toString())
 			result='{"page":1,"total":"'+1+'","records":"'+materiaInstance.mataprobrendir?.size()+'","rows":['
-			materiaInstance.matregrendir.each{
+			materiaInstance.mataprobrendir.each{
 				if (flagaddcomilla)
 					result=result+','
 				result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'

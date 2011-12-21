@@ -152,8 +152,8 @@ $(document).ready(function(){
 	
 
 	jQuery("#matregcursarId").jqGrid({ 
-		url:'listmatregcursar'
-		,editurl:'editmat'
+		url:locmatregcursar
+		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
@@ -267,8 +267,8 @@ $(document).ready(function(){
 		
 	//---------------------------------------------------------------------------
 	jQuery("#mataprobcursarId").jqGrid({ 
-		url:'listmatregcursar'
-		,editurl:'editmat'
+		url:locmatregcursar
+		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
@@ -349,8 +349,8 @@ $(document).ready(function(){
 	//-------------------------------------------------------------------	
 		
 	jQuery("#matregrendirId").jqGrid({ 
-		url:'listmatregcursar'
-		,editurl:'editmat'
+		url:locmatregcursar
+		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
@@ -432,8 +432,8 @@ $(document).ready(function(){
 		
 
 	jQuery("#mataprobrendirId").jqGrid({ 
-		url:'listmatregcursar'
-		,editurl:'editmat'
+		url:locmatregcursar
+		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
 		,rownumbers:true

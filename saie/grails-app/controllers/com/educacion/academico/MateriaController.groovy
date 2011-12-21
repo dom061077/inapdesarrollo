@@ -67,18 +67,15 @@ class MateriaController {
 				materiaInstance.addToMatregcursar(materiaInstanceSearch)
 			}
 			mataprobcursarJson.each{
-				log.debug "MATERIA APROBADA PARA CURSAR: "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMataprobcursar(materiaInstanceSearch)
 			}
 			matregrendirJson.each{
-				log.debug "MATERIA REGULAR PARA RENDIR "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMatregrendir(materiaInstanceSearch)
 				
 			}
 			mataprobrendirJson.each{
-				log.debug "MATERIA APROBADA PARA RENDIR: "+it
 				materiaInstanceSearch = Materia.load(it.idid.toLong())
 				materiaInstance.addToMataprobrendir(materiaInstanceSearch)
 			}
@@ -137,7 +134,7 @@ class MateriaController {
 				matregcursarSerialized=matregcursarSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
 				flagaddcomilla=true
 			}
-			
+			flagaddcomilla=false
 			materiaInstance.mataprobcursar.each{
 				if (flagaddcomilla)
 					mataprobcursarSerialized=mataprobcursarSerialized+','
@@ -145,6 +142,7 @@ class MateriaController {
 				flagaddcomilla=true
 			}
 
+			flagaddcomilla=false
 			materiaInstance.matregrendir.each{
 				if (flagaddcomilla)
 					matregrendirSerialized=matregrendirSerialized+','
@@ -152,6 +150,7 @@ class MateriaController {
 				flagaddcomilla=true
 			}
 
+			flagaddcomilla=false
 			materiaInstance.mataprobrendir.each{
 				if (flagaddcomilla)
 					mataprobrendirSerialized=mataprobrendirSerialized+','
@@ -175,32 +174,78 @@ class MateriaController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def matregcursarJson
+		def mataprobcursarJson
+		def matregrendirJson
+		def mataprobrendirJson
+		
+		if(params.matregcursarSerialized)
+			matregcursarJson = grails.converters.JSON.parse(params.matregcursarSerialized)
+			
+		if(params.mataprobcursarSerialized)
+			mataprobcursarJson = grails.converters.JSON.parse(params.mataprobcursarSerialized)
+
+		if(params.matregrendirSerialized)
+			matregrendirJson = grails.converters.JSON.parse(params.matregrendirSerialized)
+
+		if(params.mataprobrendirSerialized)
+			mataprobrendirJson = grails.converters.JSON.parse(params.mataprobrendirSerialized)
+
+		
 		
         def materiaInstance = Materia.get(params.id)
+		def materiaInstanceSearch
         if (materiaInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (materiaInstance.version > version) {
-                    
-                    materiaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'materia.label', default: 'Materia')] as Object[], "Another user has updated this Materia while you were editing")
-                    render(view: "edit", model: [materiaInstance: materiaInstance])
-                    return
-                }
-            }
-			if(params.nivelId){
-				def nivelInstance=Nivel.load(params.nivelId.toLong())
-				materiaInstance.nivel=nivelInstance
-			}else{
-				materiaInstance.nivel=null
+			Materia.withTransaction(){status->
+		            if (params.version) {
+		                def version = params.version.toLong()
+		                if (materiaInstance.version > version) {
+		                    
+		                    materiaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'materia.label', default: 'Materia')] as Object[], "Another user has updated this Materia while you were editing")
+		                    render(view: "edit", model: [materiaInstance: materiaInstance])
+		                    return
+		                }
+		            }
+					if(params.nivelId){
+						def nivelInstance=Nivel.load(params.nivelId.toLong())
+						materiaInstance.nivel=nivelInstance
+					}else{
+						materiaInstance.nivel=null
+					}
+		            materiaInstance.properties = params
+					materiaInstance.matregcursar.clear()
+					materiaInstance.mataprobcursar.clear()
+					materiaInstance.matregrendir.clear()
+					materiaInstance.mataprobrendir.clear()
+					
+					matregcursarJson.each{
+						materiaInstanceSearch = Materia.load(it.idid.toLong())
+						materiaInstance.addToMatregcursar(materiaInstanceSearch)
+					}
+					mataprobcursarJson.each{
+						materiaInstanceSearch = Materia.load(it.idid.toLong())
+						materiaInstance.addToMataprobcursar(materiaInstanceSearch)
+					}
+					matregrendirJson.each{
+						materiaInstanceSearch = Materia.load(it.idid.toLong())
+						materiaInstance.addToMatregrendir(materiaInstanceSearch)
+						
+					}
+					mataprobrendirJson.each{
+						materiaInstanceSearch = Materia.load(it.idid.toLong())
+						materiaInstance.addToMataprobrendir(materiaInstanceSearch)
+					}
+		
+					
+		            if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
+		                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
+		                redirect(controller:'materia',action: "show", id: materiaInstance.id)
+		            }
+		            else {
+						status.setRollbackOnly()
+		                render(view: "edit", model: [materiaInstance: materiaInstance])
+		            }
 			}
-            materiaInstance.properties = params
-            if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
-                redirect(controller:'materia',action: "show", id: materiaInstance.id)
-            }
-            else {
-                render(view: "edit", model: [materiaInstance: materiaInstance])
-            }
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'materia.label', default: 'Materia'), params.id])}"

@@ -19,6 +19,8 @@
         <script type="text/javascript" src="${resource(dir:'js/script/academico/materia',file:'createmateria.js')}"></script>
         <script type="text/javascript">
         var locmateria = '<%out << createLink(controller:"materia",action:"listjson")%>';
+        var loceditmateria = '<%out << createLink(controller:"materia",action:"editmat")%>';
+        var locmatregcursar = '<%out << createLink(controller:"materia",action:"listmatregcursar")%>';
         $(document).ready(function(){
         	
     		$('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',

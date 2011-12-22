@@ -212,7 +212,7 @@
                 <g:renderErrors bean="${materiaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${materiaInstance?.id}" />
                 <g:hiddenField name="version" value="${materiaInstance?.version}" />

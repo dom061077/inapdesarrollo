@@ -19,6 +19,7 @@
         <script type="text/javascript" src="${resource(dir:'js/script/academico/materia',file:'createmateria.js')}"></script>
         <script type="text/javascript">
         	var locmateria = '<%out << createLink(controller:"materia",action:"listjson")%>';
+        	var locmatregcursar = '<%out << createLink(controller:"materia",action:"listmatregcursar")%>';
         	var loceditmateria = '<%out << createLink(controller:"materia",action:"editmat")%>';
         	$(document).ready(function(){
 		

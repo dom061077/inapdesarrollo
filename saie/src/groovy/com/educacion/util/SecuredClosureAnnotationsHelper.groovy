@@ -10,26 +10,25 @@ class SecuredClosureAnnotationsHelper {
 	static def listRequestmap(def grailsApplication_,def log){
 		log.info "INGRESANDO AL METODO: listRequestmap"
 		def requests = []
-		def map
 		grailsApplication_.controllerClasses.each{
 			def clazz = it.getClazz()
-			map = findAnnotatedClosures(clazz,SecuredRequest)
-			log.debug "MAP DEVUELTO PARA INDAGAR SUS ANOTACIONES"
-			if(map)
-				requests.add(map)
+			if(findAnnotatedClosures(clazz,log,SecuredRequest))
+				requests.add(findAnnotatedClosures(com.educacion.academico.RequisitoController.class,log,SecuredRequest.class))
 		}
 		log.debug "CANTIDAD DE REQUESTS: "+requests.size()
 		return requests
 	}
 	
-	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz, Class... annotationClasses) {
+	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz,def log, Class annotationClass) {
 		def map = [:]
 		for (field in clazz.declaredFields) {
+		  log.debug "DENTRO DEL FOR field in clazz.declaredFields"
 		  def fieldAnnotations = []
-		  for (annotationClass in annotationClasses) {
-			if (field.isAnnotationPresent(annotationClass)) {
+		  log.debug "	Field Nombre: "+field
+		  
+		  if (field.isAnnotationPresent(SecuredRequest)) {
+			  log.debug "				TIENE UNA ANOTACION"
 			  fieldAnnotations << annotationClass
-			}
 		  }
 		  if (fieldAnnotations) {
 			map[field.name] = fieldAnnotations

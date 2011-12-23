@@ -4,75 +4,100 @@
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<subDataset name="Table Dataset 1"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\danielmedina\\Documents\\workspace-sts-2.6.0.SR1\\saie\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="denominacion" class="java.lang.String"/>
+	<field name="matregcursar" class="java.util.Collection"/>
+	<field name="mataprobcursar" class="java.util.Collection"/>
+	<field name="matregrendir" class="java.util.Collection"/>
+	<field name="mataprobrendir" class="java.util.Collection"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<columnHeader>
+		<band height="24">
+			<staticText>
+				<reportElement x="0" y="4" width="38" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Código]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="38" y="4" width="132" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="170" y="4" width="94" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Mat.Reg.Cursar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="262" y="4" width="98" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Mat.Aprob.Cursar]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="359" y="4" width="98" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Mat.Reg.Rendir]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="457" y="4" width="98" height="20"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9"/>
+				</textElement>
+				<text><![CDATA[Mat.Aprob.Rendir]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
 	<detail>
-		<band height="45" splitType="Stretch">
-			<componentElement>
-				<reportElement x="0" y="23" width="425" height="22"/>
-				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
-					<datasetRun subDataset="Table Dataset 1">
-						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.JREmptyDataSource(1)]]></dataSourceExpression>
-					</datasetRun>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-					<jr:column width="90">
-						<jr:tableHeader height="30" rowSpan="1"/>
-						<jr:tableFooter height="0" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1"/>
-						<jr:columnFooter height="30" rowSpan="1"/>
-						<jr:detailCell height="20" rowSpan="1"/>
-					</jr:column>
-				</jr:table>
-			</componentElement>
-			<staticText>
-				<reportElement x="0" y="10" width="60" height="13"/>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="38" height="20"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="9"/>
 				</textElement>
-				<text><![CDATA[Cod.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="83" y="10" width="60" height="13"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="49" y="0" width="121" height="20"/>
 				<textElement>
-					<font fontName="Arial"/>
+					<font fontName="Arial" size="9"/>
 				</textElement>
-				<text><![CDATA[Cod.]]></text>
-			</staticText>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="168" y="1" width="94" height="20"/>
+				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregcursar})]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_matregcursar.jasper")]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="262" y="1" width="97" height="20"/>
+				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobcursar})]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_mataprobcursar.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="363" y="1" width="94" height="20"/>
+				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregrendir})]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_matregrendir.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="457" y="1" width="98" height="20"/>
+				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></connectionExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_mataprobrendir.jasper"]]></subreportExpression>
+			</subreport>
 		</band>
 	</detail>
 </jasperReport>

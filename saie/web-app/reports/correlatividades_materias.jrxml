@@ -86,17 +86,17 @@
 			<subreport>
 				<reportElement x="262" y="1" width="97" height="20"/>
 				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobcursar})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_mataprobcursar.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_mataprobcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="363" y="1" width="94" height="20"/>
 				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregrendir})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_matregrendir.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_matregrendir.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="457" y="1" width="98" height="20"/>
 				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[$P{SUBREPORT_DIR} + "correlatividades_mataprobrendir.jasper"]]></subreportExpression>
+				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_mataprobrendir.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>

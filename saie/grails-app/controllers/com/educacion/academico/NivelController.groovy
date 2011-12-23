@@ -219,6 +219,19 @@ class NivelController {
 
 	}
 
+	def correlatividadesreport = {
+		if(params.id){
+			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/"))
+			params.put("_format","PDF")
+			params.put("_name","correlatividades")
+			params.put("_file","correlatividades")
+			chain(controller:'jasper',action:'index',model:[data:listReporte],params:params)
+		}else{
+			flash.message=flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'nivel.label', default: 'Carrera no encontrada'), params.carreraId])}"
+			redirect(controller:"nivel",action:"list")
+		}
+
+	}
 
 
 	

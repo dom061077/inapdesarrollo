@@ -3,7 +3,6 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<subDataset name="Table Dataset 1"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\danielmedina\\Documents\\workspace-sts-2.6.0.SR1\\saie\\web-app\\reports\\"]]></defaultValueExpression>
 	</parameter>
@@ -16,45 +15,51 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
+	<title>
+		<band height="3"/>
+	</title>
+	<pageHeader>
+		<band height="2"/>
+	</pageHeader>
 	<columnHeader>
-		<band height="24">
+		<band height="20">
 			<staticText>
-				<reportElement x="0" y="4" width="38" height="20"/>
+				<reportElement x="0" y="0" width="38" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Código]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="38" y="4" width="132" height="20"/>
+				<reportElement x="43" y="0" width="132" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Descripción]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="170" y="4" width="94" height="20"/>
+				<reportElement x="180" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Mat.Reg.Cursar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="262" y="4" width="98" height="20"/>
+				<reportElement x="265" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Mat.Aprob.Cursar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="359" y="4" width="98" height="20"/>
+				<reportElement x="350" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<text><![CDATA[Mat.Reg.Rendir]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="457" y="4" width="98" height="20"/>
+				<reportElement x="435" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9"/>
 				</textElement>
@@ -63,7 +68,7 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
 				<reportElement x="0" y="0" width="38" height="20"/>
 				<textElement>
@@ -72,32 +77,47 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="49" y="0" width="121" height="20"/>
+				<reportElement x="43" y="0" width="132" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="168" y="1" width="94" height="20"/>
-				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregcursar})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_matregcursar.jasper")]]></subreportExpression>
+				<reportElement x="180" y="0" width="80" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregcursar})]]></dataSourceExpression>
+				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="262" y="1" width="97" height="20"/>
-				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobcursar})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_mataprobcursar.jasper")]]></subreportExpression>
+				<reportElement x="265" y="0" width="80" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobcursar})]]></dataSourceExpression>
+				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="363" y="1" width="94" height="20"/>
-				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregrendir})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_matregrendir.jasper")]]></subreportExpression>
+				<reportElement x="350" y="0" width="80" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{matregrendir})]]></dataSourceExpression>
+				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregrendir.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="457" y="1" width="98" height="20"/>
-				<connectionExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></connectionExpression>
-				<subreportExpression class="java.lang.String"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias_mataprobrendir.jasper")]]></subreportExpression>
+				<reportElement x="435" y="0" width="80" height="20"/>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></dataSourceExpression>
+				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobrendir.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
+	<pageFooter>
+		<band height="3"/>
+	</pageFooter>
 </jasperReport>

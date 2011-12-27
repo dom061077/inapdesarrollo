@@ -3,6 +3,26 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<style name="table" isDefault="false">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" isDefault="false" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" isDefault="false" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" isDefault="false" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\danielmedina\\Documents\\workspace-sts-2.6.0.SR1\\saie\\web-app\\reports\\"]]></defaultValueExpression>
 	</parameter>
@@ -12,79 +32,103 @@
 	<field name="mataprobcursar" class="java.util.Collection"/>
 	<field name="matregrendir" class="java.util.Collection"/>
 	<field name="mataprobrendir" class="java.util.Collection"/>
+	<group name="codigogroup">
+		<groupExpression><![CDATA[$F{codigo}]]></groupExpression>
+		<groupHeader>
+			<band height="1">
+				<line>
+					<reportElement x="0" y="0" width="456" height="1"/>
+					<graphicElement>
+						<pen lineWidth="0.25"/>
+					</graphicElement>
+				</line>
+			</band>
+		</groupHeader>
+	</group>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<title>
-		<band height="3"/>
-	</title>
-	<pageHeader>
-		<band height="2"/>
-	</pageHeader>
 	<columnHeader>
 		<band height="20">
 			<staticText>
-				<reportElement x="0" y="0" width="38" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
+				<reportElement x="0" y="0" width="128" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Código]]></text>
+				<text><![CDATA[Materia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="43" y="0" width="132" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
-				</textElement>
-				<text><![CDATA[Descripción]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="180" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
+				<reportElement x="130" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Mat.Reg.Cursar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="265" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
+				<reportElement x="211" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Mat.Aprob.Cursar]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="350" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
+				<reportElement x="294" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Mat.Reg.Rendir]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="435" y="0" width="80" height="20"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9"/>
+				<reportElement x="376" y="0" width="80" height="20"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<text><![CDATA[Mat.Aprob.Rendir]]></text>
 			</staticText>
+			<line>
+				<reportElement x="130" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="211" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="294" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="376" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="38" height="20"/>
-				<textElement>
-					<font fontName="Arial" size="9"/>
+				<reportElement x="2" y="0" width="26" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="43" y="0" width="132" height="20"/>
-				<textElement>
-					<font fontName="Arial" size="9"/>
+				<reportElement x="30" y="0" width="100" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="180" y="0" width="80" height="20"/>
+				<reportElement x="130" y="0" width="80" height="20"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -92,7 +136,7 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="265" y="0" width="80" height="20"/>
+				<reportElement x="211" y="0" width="80" height="20"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -100,7 +144,7 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="350" y="0" width="80" height="20"/>
+				<reportElement x="294" y="0" width="80" height="20"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -108,16 +152,43 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregrendir.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="435" y="0" width="80" height="20"/>
+				<reportElement x="376" y="0" width="80" height="20"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobrendir.jasper")]]></subreportExpression>
 			</subreport>
+			<line>
+				<reportElement x="130" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="211" y="0" width="1" height="20">
+					<printWhenExpression><![CDATA[$F{mataprobcursar}.size()==0]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="294" y="0" width="1" height="20">
+					<printWhenExpression><![CDATA[$F{matregrendir}.size()==0]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="376" y="0" width="1" height="20">
+					<printWhenExpression><![CDATA[$F{mataprobrendir}.size()==0]]></printWhenExpression>
+				</reportElement>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="3"/>
-	</pageFooter>
 </jasperReport>

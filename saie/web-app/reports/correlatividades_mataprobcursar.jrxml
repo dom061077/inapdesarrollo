@@ -7,24 +7,21 @@
 	<background>
 		<band splitType="Stretch"/>
 	</background>
-	<columnHeader>
-		<band height="24" splitType="Stretch">
-			<staticText>
-				<reportElement x="0" y="4" width="124" height="20"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial"/>
-				</textElement>
-				<text><![CDATA[Código]]></text>
-			</staticText>
-		</band>
-	</columnHeader>
 	<detail>
-		<band height="21" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="1" width="124" height="20"/>
-				<textElement/>
+				<reportElement x="9" y="0" width="69" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="0" y="0" width="1" height="20"/>
+				<graphicElement>
+					<pen lineWidth="0.25"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 </jasperReport>

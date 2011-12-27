@@ -21,5 +21,13 @@ class Materia {
 		denominacion(nullable:false,blank:false)
 		codigo(nullable:false,blank:false)
     }
+	
+	static mapping = {
+		matregcursar lazy:false
+		mataprobcursar lazy:false
+		matregrendir lazy:false
+		mataprobrendir lazy:false
+	}
+	
 }
 

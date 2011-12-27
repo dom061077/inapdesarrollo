@@ -3,22 +3,22 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<style name="table" isDefault="false">
+	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="table_TH" isDefault="false" mode="Opaque" backcolor="#F0F8FF">
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="table_CH" isDefault="false" mode="Opaque" backcolor="#BFE1FF">
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
 	</style>
-	<style name="table_TD" isDefault="false" mode="Opaque" backcolor="#FFFFFF">
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
 		</box>
@@ -34,8 +34,8 @@
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\"]]></defaultValueExpression>
 	</parameter>
-	<field name="descripcion" class="java.lang.String"/>
-	<field name="materias" class="java.util.Collection"/>
+	<field name="denominacion" class="java.lang.String"/>
+	<field name="niveles" class="java.util.Collection"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -44,39 +44,28 @@
 			<staticText>
 				<reportElement x="79" y="54" width="137" height="20"/>
 				<textElement textAlignment="Center">
-					<font fontName="Arial" size="14" isBold="true"/>
+					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PLAN DE ESTUDIO]]></text>
 			</staticText>
 			<textField>
 				<reportElement x="230" y="54" width="311" height="20"/>
 				<textElement>
-					<font fontName="Arial" size="14"/>
+					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{carrera}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="0" y="74" width="555" height="91"/>
+				<reportElement x="8" y="74" width="541" height="91"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 1">
 						<datasetParameter name="SUBREPORT_DIR">
 							<datasetParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></datasetParameterExpression>
 						</datasetParameter>
-						<dataSourceExpression><![CDATA[$P{REPORT_DATA_SOURCE}]]></dataSourceExpression>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{niveles})]]></dataSourceExpression>
 					</datasetRun>
-					<jr:column width="115">
-						<jr:tableFooter height="30" rowSpan="1"/>
+					<jr:column width="553">
 						<jr:columnHeader height="30" rowSpan="1">
-							<box>
-								<pen lineWidth="0.25"/>
-								<topPen lineWidth="0.25"/>
-								<leftPen lineWidth="0.25"/>
-								<bottomPen lineWidth="0.25"/>
-								<rightPen lineWidth="0.25"/>
-							</box>
-						</jr:columnHeader>
-						<jr:columnFooter height="28" rowSpan="1"/>
-						<jr:detailCell height="64" rowSpan="1">
 							<box>
 								<pen lineWidth="0.25"/>
 								<topPen lineWidth="0.25"/>
@@ -85,24 +74,11 @@
 								<rightPen lineWidth="0.25"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="115" height="40"/>
+								<reportElement x="0" y="0" width="553" height="30"/>
 								<textElement/>
 								<textFieldExpression class="java.lang.String"><![CDATA[$F{descripcion}]]></textFieldExpression>
 							</textField>
-						</jr:detailCell>
-					</jr:column>
-					<jr:column width="439">
-						<jr:tableFooter height="30" rowSpan="1"/>
-						<jr:columnHeader height="30" rowSpan="1">
-							<box>
-								<pen lineWidth="0.25"/>
-								<topPen lineWidth="0.25"/>
-								<leftPen lineWidth="0.25"/>
-								<bottomPen lineWidth="0.25"/>
-								<rightPen lineWidth="0.25"/>
-							</box>
 						</jr:columnHeader>
-						<jr:columnFooter height="28" rowSpan="1"/>
 						<jr:detailCell height="64" rowSpan="1">
 							<box>
 								<pen lineWidth="0.25"/>
@@ -112,12 +88,13 @@
 								<rightPen lineWidth="0.25"/>
 							</box>
 							<subreport>
-								<reportElement style="table" x="0" y="0" width="438" height="64"/>
+								<reportElement x="0" y="0" width="553" height="64"/>
 								<subreportParameter name="SUBREPORT_DIR">
 									<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 								</subreportParameter>
-								<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{materias})]]></dataSourceExpression>
-								<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_materias.jasper")]]></subreportExpression>
+								<dataSourceExpression><![CDATA[
+new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{materias})]]></dataSourceExpression>
+								<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_niveles.jasper")]]></subreportExpression>
 							</subreport>
 						</jr:detailCell>
 					</jr:column>

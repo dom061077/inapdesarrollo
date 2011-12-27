@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="correlatividades_niveles" language="groovy" pageWidth="553" pageHeight="802" columnWidth="553" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Table Dataset 1">
+		<parameter name="SUBREPORT_DIR" class="java.lang.String"/>
+		<field name="denominacion" class="java.lang.String"/>
+		<field name="matregcursar" class="java.util.Collection"/>
+	</subDataset>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\danielmedina\\Documents\\workspace-sts-2.6.0.SR1\\saie\\web-app\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<field name="descripcion" class="java.lang.String"/>
+	<field name="materias" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<componentElement>
+				<reportElement x="0" y="0" width="553" height="125"/>
+				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
+					<datasetRun subDataset="Table Dataset 1">
+						<datasetParameter name="SUBREPORT_DIR">
+							<datasetParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></datasetParameterExpression>
+						</datasetParameter>
+						<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{materias})]]></dataSourceExpression>
+					</datasetRun>
+					<jr:column width="115">
+						<jr:detailCell height="29" rowSpan="1">
+							<textField>
+								<reportElement x="0" y="0" width="115" height="28"/>
+								<textElement>
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
+							</textField>
+						</jr:detailCell>
+					</jr:column>
+					<jr:column width="123">
+						<jr:columnHeader height="16" rowSpan="1">
+							<staticText>
+								<reportElement x="0" y="0" width="117" height="15"/>
+								<textElement textAlignment="Center">
+									<font fontName="Arial" size="8"/>
+								</textElement>
+								<text><![CDATA[Mat.Reg.Cursar]]></text>
+							</staticText>
+						</jr:columnHeader>
+						<jr:detailCell height="29" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="16" rowSpan="1"/>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="29" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="16" rowSpan="1"/>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="29" rowSpan="1"/>
+					</jr:column>
+					<jr:column width="90">
+						<jr:tableHeader height="30" rowSpan="1"/>
+						<jr:tableFooter height="30" rowSpan="1"/>
+						<jr:columnHeader height="16" rowSpan="1"/>
+						<jr:columnFooter height="30" rowSpan="1"/>
+						<jr:detailCell height="29" rowSpan="1"/>
+					</jr:column>
+				</jr:table>
+			</componentElement>
+		</band>
+	</detail>
+</jasperReport>

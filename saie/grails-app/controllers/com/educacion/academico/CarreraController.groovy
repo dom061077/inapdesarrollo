@@ -31,6 +31,7 @@ class CarreraController {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
 		if(Requisito.count()==0){
+			flash.message = "Antes de cargar carreras debe cargar los requisitos"
 			redirect(controller:"carrera",action:"list")
 			return
 		}
@@ -590,7 +591,7 @@ class CarreraController {
 		
 		if(params.id){
 			def carreraInstance = Carrera.load(params.id.toLong())
-			carreraInstance.niveles?.each{niv->
+			/*carreraInstance.niveles?.each{niv->
 				log.debug "Nivel: $niv"
 				niv.materias?.each{mat->
 					mat.matregcursar?.each{matregcur->
@@ -608,13 +609,15 @@ class CarreraController {
 
 				}
 				
-			}
+			}*/
 			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/"))
 			params.put("carrera",carreraInstance.denominacion)
 			params.put("_format","PDF")
 			params.put("_name","correlatividades")
 			params.put("_file","correlatividades")
-			chain(controller:'jasper',action:'index',model:[data:carreraInstance.niveles],params:params)
+			def listCarreras = new ArrayList()
+			listCarreras.add(carreraInstance)
+			chain(controller:'jasper',action:'index',model:[data:listCarreras],params:params)
 		}else{
 			flash.message=flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'nivel.label', default: 'Carrera no encontrada'), params.carreraId])}"
 			redirect(controller:"nivel",action:"list")

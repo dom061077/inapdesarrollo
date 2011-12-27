@@ -12,4 +12,11 @@ class Nivel {
     static constraints = {
 		descripcion(nullable:false,blank:false)
     }
+	
+	static mapping = {
+		carrera lazy:false
+		materias cascade: 'save-update'
+		materias lazy:false
+		materias sort:'denominacion'
+	}
 }

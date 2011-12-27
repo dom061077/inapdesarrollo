@@ -20,4 +20,10 @@ class Carrera {
 		denominacion(nullable:false,blank:false)
 		campoOcupacional(nullable:false,blank:false)
     }
+	
+	static mapping = {
+		niveles sort : 'descripcion'
+		niveles lazy: false
+
+	}
 }

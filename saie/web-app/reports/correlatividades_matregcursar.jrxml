@@ -16,6 +16,9 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
+			<line>
+				<reportElement x="92" y="0" width="1" height="20"/>
+			</line>
 		</band>
 	</detail>
 </jasperReport>

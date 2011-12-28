@@ -85,30 +85,6 @@
 				</textElement>
 				<text><![CDATA[Mat.Aprob.Rendir]]></text>
 			</staticText>
-			<line>
-				<reportElement x="130" y="0" width="1" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="211" y="0" width="1" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="294" y="0" width="1" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="376" y="0" width="1" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
 		</band>
 	</columnHeader>
 	<detail>
@@ -159,36 +135,6 @@
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{mataprobrendir})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobrendir.jasper")]]></subreportExpression>
 			</subreport>
-			<line>
-				<reportElement x="130" y="0" width="1" height="20"/>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="211" y="0" width="1" height="20">
-					<printWhenExpression><![CDATA[$F{mataprobcursar}.size()==0]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="294" y="0" width="1" height="20">
-					<printWhenExpression><![CDATA[$F{matregrendir}.size()==0]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
-			<line>
-				<reportElement x="376" y="0" width="1" height="20">
-					<printWhenExpression><![CDATA[$F{mataprobrendir}.size()==0]]></printWhenExpression>
-				</reportElement>
-				<graphicElement>
-					<pen lineWidth="0.25"/>
-				</graphicElement>
-			</line>
 		</band>
 	</detail>
 </jasperReport>

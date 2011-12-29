@@ -21,7 +21,7 @@ class RequisitoController {
         redirect(action: "list", params: params)
     }
 	
-	@SecuredRequest
+	@SecuredRequest(requestDesc="Lista los requisitos")
     def list = {
 		log.info "INGRESANDO AL CLOSURE list"
 		log.info "PARAMETROS: $params"
@@ -230,8 +230,12 @@ class RequisitoController {
 			}
 		}*/
 		
-		SecuredClosureAnnotationsHelper.listRequestmap(grailsApplication,log)?.each{
-			log.debug "OBJETO DEVUELTO PARA LOS SECURED REQUEST"
+		def securedRequest = SecuredClosureAnnotationsHelper.listRequestmap(grailsApplication,log)
+		securedRequest.each{
+			it.each{obj->
+				log.debug "key: "+obj.key
+				log.debug "		obj:"+obj.value.class
+			}  
 		}
 		
 		

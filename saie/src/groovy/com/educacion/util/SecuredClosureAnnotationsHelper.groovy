@@ -8,31 +8,39 @@ import com.educacion.annotations.SecuredRequest;
 
 class SecuredClosureAnnotationsHelper {
 	static def listRequestmap(def grailsApplication_,def log){
-		log.info "INGRESANDO AL METODO: listRequestmap"
 		def requests = []
+		def clazz
+		def returnedMap
 		grailsApplication_.controllerClasses.each{
-			def clazz = it.getClazz()
-			if(findAnnotatedClosures(clazz,log,SecuredRequest))
-				requests.add(findAnnotatedClosures(com.educacion.academico.RequisitoController.class,log,SecuredRequest.class))
+			clazz = it.getClazz()
+			returnedMap = findAnnotatedClosures(clazz,log,SecuredRequest)
+			if(returnedMap){
+				log.debug "URIS: "+it.URIs 
+				requests.add(returnedMap)
+			}
 		}
-		log.debug "CANTIDAD DE REQUESTS: "+requests.size()
 		return requests
 	}
 	
-	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz,def log, Class annotationClass) {
+	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz,def log, Class annotationClass,def controllerClass) {
 		def map = [:]
 		for (field in clazz.declaredFields) {
-		  log.debug "DENTRO DEL FOR field in clazz.declaredFields"
 		  def fieldAnnotations = []
-		  log.debug "	Field Nombre: "+field
 		  
 		  if (field.isAnnotationPresent(SecuredRequest)) {
 			  log.debug "				TIENE UNA ANOTACION"
-			  fieldAnnotations << annotationClass
+			  //fieldAnnotations << annotationClass
+			  log.debug "				ANOTACION: "+field.getAnnotation(SecuredRequest).requestDesc()				
+			  map[field.name]= field
 		  }
-		  if (fieldAnnotations) {
-			map[field.name] = fieldAnnotations
-		  }
+		  //if (fieldAnnotations) {
+		  //	map[field.name] = fieldAnnotations
+		  //}
 		}
+		return map
+	}
+	
+	private static def getRelatedUris(def controllerClass,def searchCriteria){
+		controllerClass.
 	}
 }

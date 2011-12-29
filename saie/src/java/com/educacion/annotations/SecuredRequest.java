@@ -20,4 +20,5 @@ public @interface SecuredRequest {
    * @return  <code>true</code> if an error should be shown
    */
   boolean secured() default false;
+  String requestDesc() default "Descripcion de seguridad";
 }

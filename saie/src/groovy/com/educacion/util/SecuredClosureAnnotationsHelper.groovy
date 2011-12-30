@@ -32,6 +32,7 @@ class SecuredClosureAnnotationsHelper {
 			  //fieldAnnotations << annotationClass
 			  log.debug "				ANOTACION: "+field.getAnnotation(SecuredRequest).requestDesc()				
 			  map[field.name]= field
+			  //aqui retorno directamente eluri para que sea agregado al array de requests de uris
 		  }
 		  //if (fieldAnnotations) {
 		  //	map[field.name] = fieldAnnotations
@@ -41,6 +42,14 @@ class SecuredClosureAnnotationsHelper {
 	}
 	
 	private static def getRelatedUris(def controllerClass,def searchCriteria){
-		controllerClass.
+		
+		def splits
+		controllerClass.URIs.each {
+			splits = it.split("/")
+			splits.each{ sp->
+				if(sp.equals(searchCriteria))
+					return sp
+			} 
+		}
 	}
 }

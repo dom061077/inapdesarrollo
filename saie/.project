@@ -194,14 +194,34 @@
 			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/mail-1.0-SNAPSHOT/src/groovy</location>
 		</link>
 		<link>
-			<name>release-1.0.0.M2-src-groovy</name>
+			<name>recaptcha-0.5.2-grails-app-services</name>
 			<type>2</type>
-			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/release-1.0.0.M2/src/groovy</location>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/recaptcha-0.5.2/grails-app/services</location>
 		</link>
 		<link>
-			<name>release-1.0.0.M2-src-java</name>
+			<name>recaptcha-0.5.2-grails-app-taglib</name>
 			<type>2</type>
-			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/release-1.0.0.M2/src/java</location>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/recaptcha-0.5.2/grails-app/taglib</location>
+		</link>
+		<link>
+			<name>recaptcha-0.5.2-grails-app-utils</name>
+			<type>2</type>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/recaptcha-0.5.2/grails-app/utils</location>
+		</link>
+		<link>
+			<name>recaptcha-0.5.2-src-groovy</name>
+			<type>2</type>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/recaptcha-0.5.2/src/groovy</location>
+		</link>
+		<link>
+			<name>release-1.0.0.RC3-src-groovy</name>
+			<type>2</type>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/release-1.0.0.RC3/src/groovy</location>
+		</link>
+		<link>
+			<name>release-1.0.0.RC3-src-java</name>
+			<type>2</type>
+			<location>C:/Users/Andrea/.grails/1.3.5/projects/saie/plugins/release-1.0.0.RC3/src/java</location>
 		</link>
 		<link>
 			<name>spring-security-core-1.2.4-grails-app-conf</name>

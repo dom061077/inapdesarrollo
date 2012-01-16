@@ -1397,7 +1397,11 @@
                     </div> <%--end tab-datos otros --%>   
 																	
                 </div>
-                <div class="clear"></div>
+                <div class="clear append-bottom"></div>
+                <recaptcha:ifEnabled>
+    				<recaptcha:recaptcha lang="es" theme="blackglass"/>
+				</recaptcha:ifEnabled>
+                <div class="clear append-bottom"></div>
                         
                 <div class="span-4 append-bottom">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

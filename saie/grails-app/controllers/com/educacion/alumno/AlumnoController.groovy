@@ -2,6 +2,7 @@ package com.educacion.alumno
 
 
 import com.educacion.util.GUtilDomainClass 
+import com.megatome.grails.RecaptchaService
 
 import java.text.SimpleDateFormat 
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.TransactionStatus
 
 class AlumnoController {
 	def imageUploadService
+	RecaptchaService recaptchaService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -37,6 +39,13 @@ class AlumnoController {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 		def fechaNacimientoError=false
+		def recaptchaOK = true
+		log.debug "REMOTE ADDRESS: "+request.getRemoteAddr()
+		//if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
+		if (!recaptchaService.verifyAnswer(session, "127.0.0.1", params)) {
+			 log.debug "INGRESE UN DIGITO VERIFICADOR CORRECTO"
+			 recaptchaOK = false
+		}
 		if (params.fechaNacimiento){
 			if (params.fechaNacimiento.length()<10){
 				fechaNacimientoError=true
@@ -62,15 +71,11 @@ class AlumnoController {
 		if(fechaNacimientoError){
 			alumnoInstance.validate()
 			alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
-			log.debug "ERRORES DE VALIDACION: "
-			alumnoInstance.errors.allErrors.each{
-				log.debug "						  "+it
-			}
 			render(view: "create", model: [alumnoInstance: alumnoInstance])
 			return
-		}
+		} 
 
-        if (alumnoInstance.save(flush: true)) {
+        if (recaptchaOK && alumnoInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
 			if(!alumnoInstance.photo.isEmpty())
 				imageUploadService.save(alumnoInstance)

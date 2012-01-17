@@ -27,6 +27,14 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
      }
 
+	def register = {
+		log.info "INGRESANDO AL CLOSURE register"
+		log.info "PARAMETROS: $params"
+		def alumnoInstance = new Alumno()
+		alumnoInstance.properties = params
+		return [alumnoInstance: alumnoInstance]
+	}
+	
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
@@ -35,17 +43,64 @@ class AlumnoController {
         return [alumnoInstance: alumnoInstance]
     }
 
-    def save = {
-		log.info "INGRESANDO AL CLOSURE save"
+	def saveregister = {
+		log.info "INGRESANDO AL CLOSURE saveregister"
 		log.info "PARAMETROS: $params"
 		def fechaNacimientoError=false
 		def recaptchaOK = true
 		log.debug "REMOTE ADDRESS: "+request.getRemoteAddr()
-		//if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
-		if (!recaptchaService.verifyAnswer(session, "127.0.0.1", params)) {
+		if (!recaptchaService.verifyAnswer(session, request.getRemoteAddr(), params)) {
+		//if (!recaptchaService.verifyAnswer(session, "127.0.0.1", params)) {
 			 log.debug "INGRESE UN DIGITO VERIFICADOR CORRECTO"
 			 recaptchaOK = false
 		}
+		if (params.fechaNacimiento){
+			if (params.fechaNacimiento.length()<10){
+				fechaNacimientoError=true
+			}else{
+				params.fechaNacimiento_year=params.fechaNacimiento.substring(6,10)
+				params.fechaNacimiento_month=params.fechaNacimiento.substring(3,5)
+				params.fechaNacimiento_day=params.fechaNacimiento.substring(0,2)
+				try{
+					if(params.fechaNacimiento_month.toInteger()>12)
+						fechaNacimientoError=true
+					if(params.fechaNacimiento_day.toInteger()>31){
+						fechaNacimientoError=true
+					}
+				}catch(NumberFormatException e){
+					fechaNacimientoError=true
+				}
+			}
+		}
+
+		
+		def alumnoInstance = new Alumno(params)
+		
+		if(fechaNacimientoError){
+			alumnoInstance.validate()
+			alumnoInstance.errors.rejectValue("fechaNacimiento","com.educacion.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correciÃ³n")
+			render(view: "register", model: [alumnoInstance: alumnoInstance])
+			return
+		}
+
+		if (recaptchaOK && alumnoInstance.save(flush: true)) {
+			flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
+			if(!alumnoInstance.photo.isEmpty())
+				imageUploadService.save(alumnoInstance)
+			redirect(action: "showregister", id: alumnoInstance.id , method:'post')
+		}
+		else {
+			if(!recaptchaOK)
+				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un código de pueba correcto al pie de la página")
+			render(view: "register", model: [alumnoInstance: alumnoInstance])
+		}
+	}
+
+	
+    def save = {
+		log.info "INGRESANDO AL CLOSURE save"
+		log.info "PARAMETROS: $params"
+		def fechaNacimientoError=false
 		if (params.fechaNacimiento){
 			if (params.fechaNacimiento.length()<10){
 				fechaNacimientoError=true
@@ -70,26 +125,33 @@ class AlumnoController {
 		
 		if(fechaNacimientoError){
 			alumnoInstance.validate()
-			alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correciÃ³n")
+			alumnoInstance.errors.rejectValue("fechaNacimiento","com.educacion.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correciÃ³n")
 			render(view: "create", model: [alumnoInstance: alumnoInstance])
 			return
 		} 
 
-        if (recaptchaOK && alumnoInstance.save(flush: true)) {
+        if (alumnoInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
 			if(!alumnoInstance.photo.isEmpty())
 				imageUploadService.save(alumnoInstance)
             redirect(action: "show", id: alumnoInstance.id)
         }
         else {
-			log.debug "ERRORES DE VALIDACION: "
-			alumnoInstance.errors.allErrors.each{
-				log.debug "						  "+it
-			}
-
             render(view: "create", model: [alumnoInstance: alumnoInstance])
         }
     }
+	
+	def showregister = {
+		log.info "INGRESANDO AL CLOSURE showregister"
+		log.info "PARAMETROS: $params"
+		def alumnoInstance = Alumno.get(params.id)
+		if(!alumnoInstance){
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'alumno.label', default: 'Alumno'), params.id])}"
+		}else{
+			flash.message = "${message(code: 'educacion.alumno.registracion.completa')}"
+			[alumnoInstance:alumnoInstance]
+		}
+	}
 
     def show = {
 		log.info "INGRESANDO AL CLOSURE show"

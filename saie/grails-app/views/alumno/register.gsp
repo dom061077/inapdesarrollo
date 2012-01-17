@@ -466,7 +466,7 @@
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1><g:message code="com.educacion.alumno.register" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
@@ -475,7 +475,7 @@
                 <g:renderErrors bean="${alumnoInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <form action="save" method="post" enctype="multipart/form-data" >
+            <form action="saveregister" method="post" enctype="multipart/form-data" >
             	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>
@@ -1397,6 +1397,10 @@
                     </div> <%--end tab-datos otros --%>   
 																	
                 </div>
+                <div class="clear append-bottom"></div>
+                <recaptcha:ifEnabled>
+    				<recaptcha:recaptcha lang="es" theme="blackglass"/>
+				</recaptcha:ifEnabled>
                 <div class="clear append-bottom"></div>
                         
                 <div class="span-4 append-bottom">

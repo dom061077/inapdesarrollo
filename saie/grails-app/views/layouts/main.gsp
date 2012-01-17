@@ -61,6 +61,7 @@
 							<ul>
 								<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización de Alumno</a></li>
 								<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
+								<li><a href="${createLink(controller:'alumno',action:'register')}">Registro Online de Alumno</a></li>
 							</ul>
 						</li>
 						<li><span class="dir">Materias</span>

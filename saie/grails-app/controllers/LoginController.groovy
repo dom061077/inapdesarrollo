@@ -60,6 +60,7 @@ class LoginController {
 	 * The redirect action for Ajax requests.
 	 */
 	def authAjax = {
+		log.debug "INGREANDO AL CLOSURE authAjax"
 		response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
 		response.sendError HttpServletResponse.SC_UNAUTHORIZED
 	}
@@ -68,6 +69,7 @@ class LoginController {
 	 * Show denied page.
 	 */
 	def denied = {
+		log.info "ACCESO DENEGADO"
 		if (springSecurityService.isLoggedIn() &&
 				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
@@ -131,6 +133,7 @@ class LoginController {
 	 * The Ajax denied redirect url.
 	 */
 	def ajaxDenied = {
+		log.info "AJAX CALL DENIED"
 		render([error: 'access denied'] as JSON)
 	}
 }

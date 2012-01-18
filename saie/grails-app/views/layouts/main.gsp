@@ -31,11 +31,11 @@
 		
 		</script>
 
+       <g:javascript library="application" />
         
          
         <g:layoutHead />
-        <g:javascript library="application" />
-        <style type="text/css">
+         <style type="text/css">
         	body{
         		font-size:65%
         	}

@@ -1,5 +1,5 @@
 <head>
-	<meta name='layout' content='main'/>
+	<meta name='layout' content='springSecurityUI'/>
 	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
 	<title><g:message code="default.create.label" args="[entityName]"/></title>
 </head>

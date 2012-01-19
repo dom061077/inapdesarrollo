@@ -9,6 +9,7 @@ import org.springframework.security.authentication.CredentialsExpiredException
 import org.springframework.security.authentication.DisabledException
 import org.springframework.security.authentication.LockedException
 import org.springframework.security.core.context.SecurityContextHolder as SCH
+//import org.springframework.security.ui.AbstractProcessingFilter as APF
 import org.springframework.security.web.WebAttributes
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 
@@ -60,7 +61,8 @@ class LoginController {
 	 * The redirect action for Ajax requests.
 	 */
 	def authAjax = {
-		log.debug "INGREANDO AL CLOSURE authAjax"
+		session.removeAttribute(WebAttributes.SAVED_REQUEST)
+		
 		response.setHeader 'Location', SpringSecurityUtils.securityConfig.auth.ajaxLoginFormUrl
 		response.sendError HttpServletResponse.SC_UNAUTHORIZED
 	}
@@ -134,6 +136,6 @@ class LoginController {
 	 */
 	def ajaxDenied = {
 		log.info "AJAX CALL DENIED"
-		render([error: 'access denied'] as JSON)
+		render([denied:true,error: 'access denied'] as JSON)
 	}
 }

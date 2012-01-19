@@ -25,6 +25,7 @@
         
 		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.dropdown.js')}"></script>
 		<script type="text/javascript">
+			var urlsesion = '<%out << createLink(controller:'login',action:'auth');%>';
 			$(function(){
 				$( "input:submit" ).button();
 			});

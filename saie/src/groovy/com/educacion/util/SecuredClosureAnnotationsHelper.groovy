@@ -13,7 +13,7 @@ class SecuredClosureAnnotationsHelper {
 		def returnedMap
 		grailsApplication_.controllerClasses.each{
 			clazz = it.getClazz()
-			returnedMap = findAnnotatedClosures(clazz,log,SecuredRequest)
+			returnedMap = findAnnotatedClosures(clazz,log)
 			if(returnedMap){
 				log.debug "URIS: "+it.URIs 
 				requests.add(returnedMap)
@@ -22,7 +22,7 @@ class SecuredClosureAnnotationsHelper {
 		return requests
 	}
 	
-	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz,def log, Class annotationClass,def controllerClass) {
+	private static Map<String, List<Class>> findAnnotatedClosures(Class clazz,def log) {
 		def map = [:]
 		for (field in clazz.declaredFields) {
 		  def fieldAnnotations = []

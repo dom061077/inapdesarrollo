@@ -4,6 +4,8 @@ class Role {
 
 	String authority
 
+	static hasMany=[requests:Requestmap]
+	
 	static mapping = {
 		cache true
 	}

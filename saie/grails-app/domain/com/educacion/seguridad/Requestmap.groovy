@@ -7,9 +7,10 @@ class Requestmap {
 	String descripcion
 	
 	RequestmapGroup requestmapGroup
+	Role role
 	
-	static belongsTo = [requestmapGroup:RequestmapGroup]
-	
+	static belongsTo = [requestmapGroup:RequestmapGroup,role:Role]
+	static hasMany =[roles:Role]
 	static mapping = {
 		cache true
 	}
@@ -20,5 +21,7 @@ class Requestmap {
 		configAttribute blank: true , nullable:true
 		descripcion blank: true, nullable:true
 		requestmapGroup blank: true, nullable:true
+		role blank:true,nullable:true
+		
 	}
 }

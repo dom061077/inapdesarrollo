@@ -18,6 +18,7 @@ class Requestmap {
 	static constraints = {
 		url blank: false, unique: true
 		configAttribute blank: true , nullable:true
-		descripcion blank: false
+		descripcion blank: true, nullable:true
+		requestmapGroup blank: true, nullable:true
 	}
 }

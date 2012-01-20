@@ -9,7 +9,7 @@ import org.springframework.dao.DataIntegrityViolationException
 class RoleController extends AbstractS2UiController {
 
 	def create = {
-		[role: lookupRoleClass().newInstance(params)]
+		[role: lookupRoleClass().newInstance(params),requestmaps:RequestmapGroup.list()]
 	}
 
 	def save = {

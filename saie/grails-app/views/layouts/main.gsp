@@ -105,7 +105,8 @@
 					
 						<li><span class="dir">Usuario</span>
 							<ul>
-								<li><a href="${createLink(controller:'logout',action:'index')}">Cerrar Sesión</a></li>
+								<li><a href="${createLink(controller:'role',action:'create')}">Actualización de Rol</a></li>
+								<li><a href="${createLink(controller:'logo',action:'index')}">Cerrar Sesión</a></li>
 							</ul>
 						</li>
 					</ul>

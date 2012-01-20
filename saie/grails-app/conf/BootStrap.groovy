@@ -1,10 +1,23 @@
 import com.educacion.seguridad.User
 import com.educacion.seguridad.Requestmap
+import com.educacion.seguridad.RequestmapGroup
 import com.educacion.seguridad.Role
 import com.educacion.seguridad.UserRole
 
 class BootStrap {
 	def springSecurityService
+	
+	void requestmapRegister(){
+		def requestmapGroup
+		if(!RequestmapGroup.findByDescripcion('REQUISITOS')){
+			requestmapGroup=new RequestmapGroup(descripcion:'REQUISITOS')
+			requestmapGroup.addToRequests(new Requestmap(url:'/requisito/create',descripcion:'ALTA'))
+			requestmapGroup.addToRequests(new Requestmap(url:'/requisito/delete',descripcion:'BAJA'))
+			requestmapGroup.addToRequests(new Requestmap(url:'/requisito/edit',descripcion:'MODIFICACION'))
+			requestmapGroup.addToRequests(new Requestmap(url:'/requisito/list',descripcion:'LISTAR'))
+			requestmapGroup.save(failOnError:true)
+		}
+	}
 	
 	void createUsers(){
 		def user = User.findByUsername('admin')
@@ -29,6 +42,7 @@ class BootStrap {
 	
     def init = { servletContext ->
 		createUsers()
+		requestmapRegister()
     }
     def destroy = {
     }

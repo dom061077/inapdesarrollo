@@ -5,5 +5,6 @@ class RequestmapGroup {
 	
 	static hasMany= [requests:Requestmap]
     static constraints = {
+		descripcion (unique:true)
     }
 }

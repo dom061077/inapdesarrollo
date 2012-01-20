@@ -4,6 +4,7 @@ class Requestmap {
 
 	String url
 	String configAttribute
+	String descripcion
 	
 	RequestmapGroup requestmapGroup
 	
@@ -16,6 +17,7 @@ class Requestmap {
 	
 	static constraints = {
 		url blank: false, unique: true
-		configAttribute blank: true
+		configAttribute blank: true , nullable:true
+		descripcion blank: false
 	}
 }

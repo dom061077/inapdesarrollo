@@ -120,7 +120,7 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="descripcion"><g:message code="requestmapGroup.descripcion.label" default="Descripcion" /></label>
+								<label for="descripcion"><g:message code="requestmapGroup.descripcion.label" default="Descripcion:" /></label>
 							</div>
 							<div class="span-5">
 								<g:textField id="descripcionId" name="descripcion" class="ui-widget ui-corner-all ui-widget-content" value="${requestmapGroupInstance?.descripcion}" />

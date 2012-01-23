@@ -15,7 +15,7 @@ class RoleController extends AbstractS2UiController {
 	def save = {
 		def role = lookupRoleClass().newInstance(params)
 		if (!role.save(flush: true)) {
-         render view: 'create', model: [role: role]
+         render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list()]
          return
 		}
 

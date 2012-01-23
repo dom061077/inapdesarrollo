@@ -40,14 +40,14 @@ class RequestmapGroupController {
 		def requestsJson
 		
 		if (params.requestsSerialized){
-			requestsJon = grails.converters.JSON.parse(params.requestsSerialized)
+			requestsJson = grails.converters.JSON.parse(params.requestsSerialized)
 		}
         def requestmapGroupInstance = new RequestmapGroup(params)
 		
 		RequestmapGroup.withTransaction{TransactionStatus status ->
 			def requestmapInstance
 			requestsJson.each{
-				requestmapInstance = new Requestmap(url:it.url,descripcion:it.descripcion)
+				requestmapInstance = new Requestmap(url:it.url,descripcion:it.descripcion,configAttribute:"ROLE_ADMIN")
 				requestmapGroupInstance.addToRequests(requestmapInstance)
 			}
 			if (requestmapGroupInstance.save(flush: true)) {

@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
+import org.springframework.transaction.TransactionStatus
 
 
 
@@ -36,15 +37,29 @@ class RequestmapGroupController {
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
-
+		def requestsJson
+		
+		if (params.requestsSerialized){
+			requestsJon = grails.converters.JSON.parse(params.requestsSerialized)
+		}
         def requestmapGroupInstance = new RequestmapGroup(params)
-        if (requestmapGroupInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
-            redirect(action: "show", id: requestmapGroupInstance.id)
-        }
-        else {
-            render(view: "create", model: [requestmapGroupInstance: requestmapGroupInstance])
-        }
+		
+		RequestmapGroup.withTransaction{TransactionStatus status ->
+			def requestmapInstance
+			requestsJson.each{
+				requestmapInstance = new Requestmap(url:it.url,descripcion:it.descripcion)
+				requestmapGroupInstance.addToRequests(requestmapInstance)
+			}
+			if (requestmapGroupInstance.save(flush: true)) {
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
+				redirect(action: "show", id: requestmapGroupInstance.id)
+			}
+			else {
+				render(view: "create", model: [requestmapGroupInstance: requestmapGroupInstance,requestsSerialized:params.requestsSerialized])
+			}
+	
+		}
+		
     }
 
     def show = {
@@ -144,7 +159,7 @@ class RequestmapGroupController {
 
 		
 		
-		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def result='{"page":"'+params.page+'","total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
 		list.each{
 			
@@ -152,7 +167,7 @@ class RequestmapGroupController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.descripcion==null?"":it.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -170,7 +185,7 @@ class RequestmapGroupController {
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
-					requestmapgroup id:obj.id,label:obj.nombre,value:obj.nombre
+					requestmapgroup id:obj.id,label:obj.descripcion,value:obj.descripcion
 				}
 			}
 			
@@ -198,7 +213,7 @@ class RequestmapGroupController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -207,7 +222,16 @@ class RequestmapGroupController {
 
 	}
 
-
-
+	def listrequest = {
+		log.info "INGRESANDO AL CLOSURE listrequest"
+		log.info "PARAMETROS: $params"
+		
+	}
+		
+	def editrequests = {
+		log.info "INGRESANDO AL CLOSURE editrequests"
+		log.info "PARAMETROS: $params"
+		render ""
+	}
 	
 }

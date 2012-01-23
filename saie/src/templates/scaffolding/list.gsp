@@ -8,7 +8,7 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="\${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="\${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="\${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
+		<script type="text/javascript" src="\${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
         <script type="text/javascript" src="\${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">

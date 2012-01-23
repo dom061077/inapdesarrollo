@@ -14,6 +14,31 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+	        function initsubmit(){
+	    		var gridData = jQuery("#requestsId").getRowData();
+	        	var postData = JSON.stringify(gridData);
+	        	$("#requestsSerializedId").val(postData);
+	        	
+	        }
+	
+	        function bindrequests(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#requestsSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    griddata[i]["id"] = data[i].id;
+	        	    griddata[i]["url"] = data[i].url;	        	    	        	    
+	        	    griddata[i]["descripcion"] = data[i].descripcion;
+	        	}
+	
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#requestsId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
+	        }
+        
         	$(document).ready(function(){
 
 				//----requests---
@@ -47,7 +72,8 @@
 							}
 							,beforeShowForm:function(form){
 								$('#descripcion').focus();
-							}
+							},
+							bSubmit:'Modificar'
 						
 						}, // edit options 
 						{height:280,width:310,reloadAfterSubmit:false
@@ -60,7 +86,8 @@
 							}
 							,beforeShowForm:function(form){
 								$('#descripcion').focus();
-							}
+							},
+							bSubmit:'Agregar'
 						}, // add options 
 						{reloadAfterSubmit:false}, // del options 
 						{} // search options 
@@ -85,7 +112,7 @@
                 <g:renderErrors bean="${requestmapGroupInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form onSubmit="initsubmit();return true;" action="save" >
             		<div class="append-bottom">	
                         
 							<g:hasErrors bean="${requestmapGroupInstance}" field="descripcion">

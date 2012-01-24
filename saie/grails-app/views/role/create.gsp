@@ -41,6 +41,7 @@
 							</div>
 					   </g:hasErrors>
 				   </div>
+				   <g:hiddenField id="requestsSerializedId" name="requestsSerialized"/>
 				   <div class="clear"></div>
 
 
@@ -72,6 +73,14 @@
 					
 </div>
 <script>
+	function initsubmit(){
+		var arrayRequests=[];
+		$('#requests').jstree('get_checked',null,true).each(function(){
+			arrayRequests.push({id:this.id});
+		});
+		
+		$('#requestsSerializedId').val(JSON.stringify(arrayRequests));
+	}
 $(document).ready(function() {
 	$('#authority').focus();
 

@@ -1,6 +1,3 @@
-
-<%@ page import="com.educacion.seguridad.Role" %>
-<html>
     <head>
 		<link rel="stylesheet" href="${resource(dir:'css/jstree/themes/default',file:'style.css')}" />
 		<script type="text/javascript" src="${resource(dir:'js/jstree',file:'jquery.jstree.js')}"></script>
@@ -68,16 +65,24 @@
                 </g:form>
             </div>
         </div>
-    </body>
 <script>
 $(document).ready(function() {
 
 	$("#requests").jstree({ 
-		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
+		"types" : {
+            "root": {
+            "disabled" : { 
+                  "check_node" : false, 
+                  "uncheck_node" : false 
+                } 
+            }
+		},
+		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
 	});
-
+	$.jstree._reference('#requests').set_type("disabled", "#req12"); 
 
 
 });
-</script>    
-</html>
+</script>            
+    </body>
+

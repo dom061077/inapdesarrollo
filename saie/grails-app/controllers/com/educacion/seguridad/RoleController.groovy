@@ -8,6 +8,10 @@ import org.springframework.dao.DataIntegrityViolationException
 
 import org.springframework.transaction.TransactionStatus
 
+import java.util.Arrays
+
+import java.util.ArrayList
+
 class RoleController extends AbstractS2UiController {
 
 	def create = {
@@ -15,29 +19,40 @@ class RoleController extends AbstractS2UiController {
 	}
 
 	def save = {
+		log.info "INGREANDO AL CLOSURE save"
+		log.info "PARAMETROS $params"
 		def role = lookupRoleClass().newInstance(params)
+		role.authority = 'ROLE_'+role.authority
+		
 		def requestsJson
 		
 		if(params.requestsSerialized)
-			requestsJson = grails.converters.JSON(params.requestsSerialized)
-		
+			requestsJson = grails.converters.JSON.parse(params.requestsSerialized)
+			
 		Role.withTransaction(){TransactionStatus status ->
-			def requestInstance = Requestmap.load(it.id.toLong())
-			def listRole = requestmap.configureAttribute.split(',')
-			listRole.add(role.authority)
-			requestInstance.configAttribute = listRole.join(',')
+			def idrequestmap
+			def requestmapInstance
+			def listRole
 			requestsJson.each{
-				role.addToRequests(requestInstance)
+				listRole=new ArrayList()
+				idrequestmap = it.id.replace('req','').toLong()
+				requestmapInstance = Requestmap.load(idrequestmap)
+				def arr =  requestmapInstance.configAttribute.split(',') 
+				arr.each {
+					listRole.add(it) 
+				}
+				listRole.add(role.authority)
+				requestmapInstance.configAttribute = listRole.join(',')
+				role.addToRequests(requestmapInstance)
 			}
-			if (!role.save(flush: true)) {
+			if (!role.save()) {
+				log.debug "ERRORES: "+role.errors.allErrors
 				render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list()]
 				status.rollbackOnly
 				return
 			}else{
-				
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
 				redirect action: "show", id: role.id
-		
 			}
 		}
 

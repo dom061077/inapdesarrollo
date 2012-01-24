@@ -8,6 +8,7 @@ class Role {
 	
 	static mapping = {
 		cache true
+		requests(cascade: 'save-update')
 	}
 
 	static constraints = {

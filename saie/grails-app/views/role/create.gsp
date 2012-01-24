@@ -52,7 +52,7 @@
 										<a href="#">${requestGroup.descripcion}</a>
 										<ul>
 											<g:each var="reqs" in="${requestGroup.requests}">
-												<li id="${"req"+reqs.id}">
+												<li id="${"req"+reqs.id}" reqid="${reqs.id}">
 													<ins class="jstree-icon"></ins>
 													<a href="#">${reqs.descripcion}</a>
 												</li>
@@ -62,24 +62,29 @@
 								</g:each>
 							</ul>
 					</div>
-					<button id="test">Chequeados</button>
 				</div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
 				
-			</g:form>		
+			</g:form>
+										<button id="test">Chequeados</button>
+					
 </div>
 <script>
 $(document).ready(function() {
 	$('#authority').focus();
 
 	$("#requests").jstree({ 
-		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
+		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","json_data" ]
 	});
 
 	$('#test').click('click',function(){
-			$('#requests').jstree("get_checked",null,true).each 
+			var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']) 
+			//alert($('#requests').get_json(-1, ['data-title', 'data-link-type', 'id', 'class']));
+		
+			$('#requests').jstree("get_checked",null,true).each
+			 
             (function () { 
                 alert(this.id); 
             }); 

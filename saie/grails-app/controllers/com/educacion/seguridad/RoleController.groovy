@@ -6,6 +6,8 @@ import grails.converters.JSON
 
 import org.springframework.dao.DataIntegrityViolationException
 
+import org.springframework.transaction.TransactionStatus
+
 class RoleController extends AbstractS2UiController {
 
 	def create = {
@@ -14,13 +16,31 @@ class RoleController extends AbstractS2UiController {
 
 	def save = {
 		def role = lookupRoleClass().newInstance(params)
-		if (!role.save(flush: true)) {
-         render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list()]
-         return
+		def requestsJson
+		
+		if(params.requestsSerialized)
+			requestsJson = grails.converters.JSON(params.requestsSerialized)
+		
+		Role.withTransaction(){TransactionStatus status ->
+			def requestInstance = Requestmap.load(it.id.toLong())
+			def listRole = requestmap.configureAttribute.split(',')
+			listRole.add(role.authority)
+			requestInstance.configAttribute = listRole.join(',')
+			requestsJson.each{
+				role.addToRequests(requestInstance)
+			}
+			if (!role.save(flush: true)) {
+				render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list()]
+				status.rollbackOnly
+				return
+			}else{
+				
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
+				redirect action: "show", id: role.id
+		
+			}
 		}
 
-		flash.message = "${message(code: 'default.created.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
-		redirect action: edit, id: role.id
 	}
 
 	def edit = {
@@ -159,5 +179,23 @@ class RoleController extends AbstractS2UiController {
 
 		role
 	}
+	
+	//---------------------------------------
+	
+	def show = {
+		log.info "INGRESANDO AL CLOSURE show"
+		log.info "PARAMETROS: $params"
+		def role = Role.get(params.id)
+		if(role)
+			[roleInstance:role,,requestmaps:RequestmapGroup.list()]
+		else{
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])}"
+			redirect action:"list"
+		} 
+			
+	}
+	
+	
+	
 }
 

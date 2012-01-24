@@ -2,6 +2,9 @@
 <%@ page import="com.educacion.seguridad.Role" %>
 <html>
     <head>
+		<link rel="stylesheet" href="${resource(dir:'css/jstree/themes/default',file:'style.css')}" />
+		<script type="text/javascript" src="${resource(dir:'js/jstree',file:'jquery.jstree.js')}"></script>
+    
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'role.label', default: 'Role')}" />
@@ -38,6 +41,24 @@
                     
                     </tbody>
                 </table>
+				<div id="requests" class="jstree jstree-0 jstree-default jstree-focused" style="height: 365px;">
+						<ul>
+							<g:each var="requestGroup" in="${requestmaps}">
+								<li id="${requestGroup.id}" class="jstree-open">
+									<a href="#">${requestGroup.descripcion}</a>
+									<ul>
+										<g:each var="reqs" in="${requestGroup.requests}">
+											<li id="${"req"+reqs.id}">
+												<ins class="jstree-icon"></ins>
+												<a href="#">${reqs.descripcion}</a>
+											</li>
+										</g:each>
+									</ul>
+								</li>
+							</g:each>
+						</ul>
+				</div>
+                
             </div>
             <div class="buttons">
                 <g:form>
@@ -48,4 +69,15 @@
             </div>
         </div>
     </body>
+<script>
+$(document).ready(function() {
+
+	$("#requests").jstree({ 
+		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui" ]
+	});
+
+
+
+});
+</script>    
 </html>

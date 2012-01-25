@@ -68,18 +68,15 @@
 <script>
 $(document).ready(function() {
 
-	$("#requests").jstree({ 
-		"types" : {
-            "root": {
-            "disabled" : { 
-                  "check_node" : false, 
-                  "uncheck_node" : false 
-                } 
-            }
-		},
-		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
+	$("#requests").jstree({
+		,"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
+					
 	});
-	$.jstree._reference('#requests').set_type("disabled", "#req12"); 
+	//$('.jstree-checkbox').html('HOLA');
+	//$('input.jstree-real-checkbox').attr('disabled','disabled');
+	var tree = $.jstree._reference("#requests");
+	//tree.find('input.jstree-real-checkbox').attr('disabled','disabled');
+	 
 
 
 });

@@ -12,6 +12,8 @@ import java.util.Arrays
 
 import java.util.ArrayList
 
+import com.educacion.util.GUtilDomainClass
+
 class RoleController extends AbstractS2UiController {
 
 	def create = {
@@ -201,15 +203,20 @@ class RoleController extends AbstractS2UiController {
 		log.info "INGRESANDO AL CLOSURE show"
 		log.info "PARAMETROS: $params"
 		def role = Role.get(params.id)
+		
 		if(role)
-			[roleInstance:role,,requestmaps:RequestmapGroup.list()]
+			[roleInstance:role,requestmaps:RequestmapGroup.list()]
 		else{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])}"
 			redirect action:"list"
 		} 
 			
 	}
-	
+
+	def list = {
+		log.info "INGRESANDO AL CLOSURE list"
+		log.info "PARAMETROS: $params"
+	}	
 
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
@@ -236,7 +243,7 @@ class RoleController extends AbstractS2UiController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.authority==null?"":it.authority+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.authority==null?"":it.authority)+'"]}'
 			 
 			flagaddcomilla=true
 		}

@@ -210,7 +210,40 @@ class RoleController extends AbstractS2UiController {
 			
 	}
 	
-	
+
+	def listjson = {
+		log.info "INGRESANDO AL CLOSURE listjson"
+		log.info "PARAMETROS: $params"
+		def gud=new GUtilDomainClass(Role,params,grailsApplication)
+		def list=gud.listrefactor(false)
+		def totalregistros=gud.listrefactor(true)
+		def cnt = 0
+		
+		
+
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
+
+		
+		
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+		list.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+				
+			
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.authority==null?"":it.authority+'"]}'
+			 
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+ 
+	}	
 	
 }
 

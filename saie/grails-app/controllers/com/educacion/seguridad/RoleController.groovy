@@ -205,7 +205,7 @@ class RoleController extends AbstractS2UiController {
 		def role = Role.get(params.id)
 		
 		if(role)
-			[roleInstance:role,requestmaps:RequestmapGroup.list()]
+			[roleInstance:role,requestmaps:RequestmapGroup.list(),requestmapschecked:role.requests]
 		else{
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'role.label', default: 'Role'), params.id])}"
 			redirect action:"list"
@@ -250,6 +250,22 @@ class RoleController extends AbstractS2UiController {
 		result=result+']}'
 		render result
  
+	}
+	
+	def listrequestjson = {
+		log.info "INGREANDO AL CLOSURE listrequestjson"
+		log.info "PARAMETROS: $params"
+		def roleInstance
+		if(params.id){
+			roleInstance = Role.get(params.id)
+			log.debug "CANTIDAD DE REQUESTS: "+roleInstance.requests.size()
+			def list = roleInstance.requests
+			render list as JSON
+			return
+		}else{
+			render ""
+			return
+		} 
 	}	
 	
 }

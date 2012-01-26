@@ -89,7 +89,7 @@ $(document).ready(function() {
 	});
 
 	$('#test').click('click',function(){
-			var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']) 
+			var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']); 
 			//alert($('#requests').get_json(-1, ['data-title', 'data-link-type', 'id', 'class']));
 		
 			$('#requests').jstree("get_checked",null,true).each

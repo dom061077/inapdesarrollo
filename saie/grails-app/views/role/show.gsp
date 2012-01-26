@@ -64,21 +64,38 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
+            <button id="test">Chequeados</button>
+            
         </div>
 <script>
 $(document).ready(function() {
 
 	$("#requests").jstree({
-		,"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
+		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
+		,"complete":function(){
+				alert('SE CARGO');
+			}
 					
 	});
-	//$('.jstree-checkbox').html('HOLA');
-	//$('input.jstree-real-checkbox').attr('disabled','disabled');
-	var tree = $.jstree._reference("#requests");
-	//tree.find('input.jstree-real-checkbox').attr('disabled','disabled');
-	 
-
-
+	var tree = jQuery.jstree._reference("#requests")
+	/*var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']);
+	var nodos = jQuery.jstree._reference("#requests").get_container_ul().find("li");
+	nodos.each(function(){
+		tree.check_node(this);
+	});*/
+	$.ajax({
+		url:'<%out << createLink(controller:"role",action:"listrequestjson",id:roleInstance.id)%>'
+		,success: function(data){
+			$(data).each(function(){
+				tree.check_node("#req"+this.id);	
+			});
+			tree.lock();
+		}
+	});
+	$('#test').click('click',function(){
+		tree.lock();
+	});
+	
 });
 </script>            
     </body>

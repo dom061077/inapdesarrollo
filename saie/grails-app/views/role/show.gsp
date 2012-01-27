@@ -72,12 +72,9 @@ $(document).ready(function() {
 
 	$("#requests").jstree({
 		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","types" ]
-		,"complete":function(){
-				alert('SE CARGO');
-			}
 					
 	});
-	var tree = jQuery.jstree._reference("#requests")
+	var tree = jQuery.jstree._reference("#requests");
 	/*var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']);
 	var nodos = jQuery.jstree._reference("#requests").get_container_ul().find("li");
 	nodos.each(function(){

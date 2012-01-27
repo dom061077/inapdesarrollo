@@ -12,6 +12,12 @@
 <body>
 
 <div class="body">
+        <div class="nav">
+            <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
+            <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+        </div>
+
             <h1><g:message code="default.create.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
@@ -41,7 +47,7 @@
 							</div>
 					   </g:hasErrors>
 				   </div>
-				   <g:hiddenField id="requestsSerializedId" name="requestsSerialized"/>
+				   <g:hiddenField id="requestsSerializedId" name="requestsSerialized" value="${requestsSerialized}"/>
 				   <div class="clear"></div>
 
 
@@ -87,15 +93,17 @@
     	if(requests==null)
         		data=[];
 
-    	var tree = jQuery.jstree._reference("#requests")
+    	var tree = jQuery.jstree._reference("#requests");
     	
-    	$.ajax(function(){
-    		url:'<%out << createLink(controller:"role",action:"listrequestjson",id:roleInstance?.id)%>'
-    		,success:function(data){
-				requests.each(function(){
-					tree.check_node("#req"+this.id);
-				})    			
-    		}
+    	$.ajax({
+    		url:'<%out << createLink(controller:"role",action:"listrequestjson")%>'
+    		,success: function(data){
+    				$(requests).each(function(){
+    					tree.check_node("#"+this.id);	
+    				});
+    				
+    			}
+
     	});
     	
     }

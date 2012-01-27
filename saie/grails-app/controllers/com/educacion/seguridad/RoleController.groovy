@@ -24,10 +24,8 @@ class RoleController extends AbstractS2UiController {
 		log.info "INGREANDO AL CLOSURE save"
 		log.info "PARAMETROS $params"
 		def role = lookupRoleClass().newInstance(params)
-		if(role.authority.equals('')){
-			requisitoInstance.errors.rejectValue("authority", "com.educacion.security.Role.athority.blank.error" , "Ingrese un nombre de Rol") 
-		}
-		role.authority = 'ROLE_'+role.authority
+
+		//role.authority = 'ROLE_'+role.authority
 		
 		def requestsJson
 		
@@ -52,8 +50,9 @@ class RoleController extends AbstractS2UiController {
 				role.addToRequests(requestmapInstance)
 			}
 			if (!role.save()) {
-				log.debug "ERRORES: "+role.errors.allErrors
-				render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list()]
+				role.authority = role.authority.replace('ROLE_','')
+				
+				render view: 'create', model: [role: role,requestmaps:RequestmapGroup.list(),requestsSerialized:params.requestsSerialized]
 				status.rollbackOnly
 				return
 			}else{
@@ -73,23 +72,69 @@ class RoleController extends AbstractS2UiController {
 		def users = lookupUserRoleClass().findAllByRole(role, params)*.user
 		int userCount = lookupUserRoleClass().countByRole(role)
 
-		[role: role, users: users, userCount: userCount]
+		[roleInstance: role, users: users, userCount: userCount,requestmaps:RequestmapGroup.list(),requestmapschecked:role.requests]
 	}
 
 	def update = {
+		log.info "INGRESANDO AL CLOSURE update"
+		log.info "PARAMETROS: $params"
+		
+		def requestsJson
+		
+		if(params.requestsSerialized)
+			requestsJson = grails.converters.JSON.parse(params.requestsSerialized)
+
 		def role = findById()
 		if (!role) return
 		if (!versionCheck('role.label', 'Role', role, [role: role])) {
+			render view: 'edit', model: [role: role,requestmaps:RequestmapGroup.list(),requestsSerialized:params.requestsSerialized]
 			return
 		}
 
-		if (!springSecurityService.updateRole(role, params)) {
-			render view: 'edit', model: [role: role]
-			return
+//		if (!springSecurityService.updateRole(role, params)) {
+//			render view: 'edit', model: [role: role]
+//			return
+//		}
+		
+		Role.withTransaction(){TransactionStatus status ->
+			def idrequestmap
+			def requestmapInstance
+			def listRole
+			
+			
+			role.removeAllFromRequests()
+			
+			requestsJson.each{
+				listRole=new ArrayList()
+				idrequestmap = it.id.replace('req','').toLong()
+				requestmapInstance = Requestmap.load(idrequestmap)
+				
+				def arr =  requestmapInstance.configAttribute.split(',')
+				arr.remove(role.authority)
+				requestmapInstance.configAttribute = arr.join(',')
+				arr = requestmapInstance.configAttribute.split(',') 
+				arr.each {
+					listRole.add(it)
+				}
+				role.properties = params
+				listRole.add(role.authority)
+				requestmapInstance.configAttribute = listRole.join(',')
+				role.addToRequests(requestmapInstance)
+			}
+			
+			if(role.save()){
+				
+				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
+				redirect action: edit, id: role.id
+				return
+			}else{
+				role.authority = role.authority.replace('ROLE_','')
+				render(view:"edit",requestmaps:RequestmapGroup.list(),requestsSerialized:params.requestsSerialized)
+			}
+		
+
 		}
 
-		flash.message = "${message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
-		redirect action: edit, id: role.id
 	}
 
 	def delete = {
@@ -271,6 +316,15 @@ class RoleController extends AbstractS2UiController {
 			return
 		} 
 	}	
+	
+	private List findRequestmapsByRole(String roleName, domainClass, conf) {
+		String requestmapClassName = conf.requestMap.className
+		String configAttributeName = conf.requestMap.configAttributeField
+		return domainClass.executeQuery(
+				"SELECT rm FROM $requestmapClassName rm " +
+				"WHERE rm.$configAttributeName LIKE :roleName",
+				[roleName: "%$roleName%"])
+	}
 	
 }
 

@@ -45,7 +45,6 @@
 				   <div class="clear"></div>
 
 
-
 					<div id="requests" class="jstree jstree-0 jstree-default jstree-focused" style="height: 365px;">
 							<ul>
 								<g:each var="requestGroup" in="${requestmaps}">
@@ -81,12 +80,33 @@
 		
 		$('#requestsSerializedId').val(JSON.stringify(arrayRequests));
 	}
+
+    function bindrequests(){
+    	
+    	var requests = jQuery.parseJSON($("#requestsSerializedId").val());
+    	if(requests==null)
+        		data=[];
+
+    	var tree = jQuery.jstree._reference("#requests")
+    	
+    	$.ajax(function(){
+    		url:'<%out << createLink(controller:"role",action:"listrequestjson",id:roleInstance?.id)%>'
+    		,success:function(data){
+				requests.each(function(){
+					tree.check_node("#req"+this.id);
+				})    			
+    		}
+    	});
+    	
+    }
+	
 $(document).ready(function() {
 	$('#authority').focus();
 
 	$("#requests").jstree({ 
 		"plugins" : [ "themes", "html_data", "checkbox", "sort", "ui","json_data" ]
 	});
+
 
 	$('#test').click('click',function(){
 			var jsondata =jQuery.jstree._reference("#requests").get_json(-1, ['id']); 
@@ -98,7 +118,7 @@ $(document).ready(function() {
                 alert(this.id); 
             }); 
 	});
-
+	bindrequests();
 
 });
 </script>

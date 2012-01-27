@@ -105,7 +105,13 @@
 					
 						<li><span class="dir">Usuario</span>
 							<ul>
-								<li><a href="${createLink(controller:'role',action:'create')}">Actualización de Rol</a></li>
+								<li><span class="dir">Permisos</span>
+									<ul>
+										<li><a href="${createLink(controller:'role',action:'create')}">Actualización de Rol</a></li>
+										<li><a href="${createLink(controller:'role',action:'list')}">Listado de Rol</a></li>
+									</ul>
+								</li>
+								
 								<li><a href="${createLink(controller:'requestmapGroup',action:'list')}">Grupo de Permisos</a></li>								
 								<li><a href="${createLink(controller:'logout',action:'index')}">Cerrar Sesión</a></li>
 							</ul>

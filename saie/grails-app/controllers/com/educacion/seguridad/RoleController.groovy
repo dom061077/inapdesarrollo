@@ -24,12 +24,16 @@ class RoleController extends AbstractS2UiController {
 		log.info "INGREANDO AL CLOSURE save"
 		log.info "PARAMETROS $params"
 		def role = lookupRoleClass().newInstance(params)
+		if(role.authority.equals('')){
+			requisitoInstance.errors.rejectValue("authority", "com.educacion.security.Role.athority.blank.error" , "Ingrese un nombre de Rol") 
+		}
 		role.authority = 'ROLE_'+role.authority
 		
 		def requestsJson
 		
 		if(params.requestsSerialized)
 			requestsJson = grails.converters.JSON.parse(params.requestsSerialized)
+			
 			
 		Role.withTransaction(){TransactionStatus status ->
 			def idrequestmap

@@ -91,7 +91,8 @@
 						}, // add options 
 						{reloadAfterSubmit:false}, // del options 
 						{} // search options 
-					);	
+					);
+					bindrequests();	
                 
         	});
 		</script>

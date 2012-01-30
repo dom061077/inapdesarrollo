@@ -80,7 +80,7 @@ class RequestmapGroupController {
     def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
-
+		def requestsSerialized="["
 			
         def requestmapGroupInstance = RequestmapGroup.get(params.id)
         if (!requestmapGroupInstance) {
@@ -88,13 +88,27 @@ class RequestmapGroupController {
             redirect(action: "list")
         }
         else {
-            return [requestmapGroupInstance: requestmapGroupInstance]
+			requestmapGroupInstance.requests.each{
+				requestsSerialized = requestsSerialized + '{"id":"'+it.id+'","url":"'+it.url+'","descripcion":"'+it.descripcion+'"},'
+				
+			}
+			if(requestsSerialized.length()>0)
+				requestsSerialized = requestsSerialized.substring(0,requestsSerialized.length()-1)
+			requestsSerialized = requestsSerialized + "]"
+			log.debug "REQUESTS SERIALIZED: "+requestsSerialized
+            return [requestmapGroupInstance: requestmapGroupInstance,requestsSerialized:requestsSerialized]
         }
     }
 
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def requestsJson
+		
+		if (params.requestsSerialized){
+			requestsJson = grails.converters.JSON.parse(params.requestsSerialized)
+		}
+
 		
         def requestmapGroupInstance = RequestmapGroup.get(params.id)
         if (requestmapGroupInstance) {
@@ -107,14 +121,35 @@ class RequestmapGroupController {
                     return
                 }
             }
-            requestmapGroupInstance.properties = params
-            if (!requestmapGroupInstance.hasErrors() && requestmapGroupInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
-                redirect(action: "show", id: requestmapGroupInstance.id)
-            }
-            else {
-                render(view: "edit", model: [requestmapGroupInstance: requestmapGroupInstance])
-            }
+			
+			RequestmapGroup.withTransaction(){TransactionStatus status->
+				def requestmapInstance
+				def arrayIdsRequests = []
+
+				requestmapGroupInstance.requests.each{
+					arrayIdsRequests.add(it.id)
+				}
+	
+				arrayIdsRequests.each {
+					requestmapInstance = Requestmap.load(it)
+					requestmapGroupInstance.removeFromRequests(requestmapInstance)
+					requestmapInstance.delete(flush:true)
+				}
+				
+				requestsJson.each{
+					requestmapInstance = new Requestmap(url:it.url,descripcion:it.descripcion,configAttribute:"ROLE_ADMIN")
+					requestmapGroupInstance.addToRequests(requestmapInstance)
+				}
+	
+	            requestmapGroupInstance.properties = params
+	            if (!requestmapGroupInstance.hasErrors() && requestmapGroupInstance.save(flush: true)) {
+	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
+	                redirect(action: "show", id: requestmapGroupInstance.id)
+	            }
+	            else {
+	                render(view: "edit", model: [requestmapGroupInstance: requestmapGroupInstance])
+	            }
+			}
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), params.id])}"
@@ -225,7 +260,35 @@ class RequestmapGroupController {
 	def listrequest = {
 		log.info "INGRESANDO AL CLOSURE listrequest"
 		log.info "PARAMETROS: $params"
+		def requestmapGroupInstance = RequestmapGroup.get(params.id)
 		
+		if(requestmapGroupInstance){
+				list=requestmapGroupInstance?.requests
+				def totalregistros=list.size()
+				
+				def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+				if (totalpaginas>0 && totalpaginas<1)
+					totalpaginas=1;
+				totalpaginas=totalpaginas.intValue()
+		
+				
+				 
+				def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+				def flagaddcomilla=false
+				list?.each{
+					
+					if (flagaddcomilla)
+						result=result+','
+					
+					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
+					 
+					flagaddcomilla=true
+				}
+				result=result+']}'
+				render result
+		}else
+				render ""
+
 	}
 		
 	def editrequests = {

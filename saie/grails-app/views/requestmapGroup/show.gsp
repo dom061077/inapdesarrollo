@@ -34,15 +34,14 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="requestmapGroup.requests.label" default="Requests" /></div>
+                            <div class="span-4 spanlabel"><g:message code="requestmapGroup.requests.label" default="Peticiones" /></div>
                             
                             <div class="span-4 spanlabel">
                                 <ul>
-                                <g:each in="${requestmapGroupInstance.requests}" var="r">
-                                    <li><g:link controller="requestmap" action="show" id="${r.id}">${r?.encodeAsHTML()}</g:link></li>
-                                </g:each>
+	                                <g:each in="${requestmapGroupInstance.requests}" var="r">
+	                                    <li>${r?.descripcion?.encodeAsHTML()}</li>
+	                                </g:each>
                                 </ul>
-                            </td>
                             
 							<div class="clear"></div>
                     

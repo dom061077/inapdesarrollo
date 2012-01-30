@@ -7,4 +7,12 @@ class RequestmapGroup {
     static constraints = {
 		descripcion (blank:false,nullable:false,unique:true)
     }
+	
+	def beforeInsert(){
+		descripcion = descripcion.toUpperCase()
+	}
+	
+	def beforeUpdate(){
+		descripcion = descripcion.toUpperCase()
+	}
 }

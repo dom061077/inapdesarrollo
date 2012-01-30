@@ -171,12 +171,13 @@ class RequisitoController {
 					
 	            requisitoInstance.properties = params
 	            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
-	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
-	                redirect(controller:"requisito",action: "show", id: requisitoInstance.id)
+					status.setRollbackOnly()
+					render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
 	            }
 	            else {
-					status.setRollbackOnly()
-	                render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
+					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
+					redirect(controller:"requisito",action: "show", id: requisitoInstance.id)
+
 	            }
 			}
         }

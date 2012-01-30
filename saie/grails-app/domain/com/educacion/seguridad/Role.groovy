@@ -26,6 +26,6 @@ class Role {
 	}
 	
 	def beforeUpdate(){
-		authority = 'ROLE_'+authority
+		//authority = 'ROLE_'+authority
 	}
 }

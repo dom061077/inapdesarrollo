@@ -16,28 +16,27 @@
         <div class="body">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
-            <div class="message">${flash.message}</div>
+            <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
+            		<div class="span-2">
+                            <g:message code="role.id.label" default="Id" />
+                    </div>        
+                            
+                    <div class="span-4">        
+                            ${fieldValue(bean: roleInstance, field: "id")}
+                    </div>    
+                    <div class="clear"></div>
                     
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="role.id.label" default="Id" /></td>
+                    <div class="span-2">    
+                            <g:message code="role.authority.label" default="Authority" />
+                    </div>        
                             
-                            <td valign="top" class="value">${fieldValue(bean: roleInstance, field: "id")}</td>
+                    <div class="span-4">        
+                            ${fieldValue(bean: roleInstance, field: "authority")}
+                    </div>        
                             
-                        </tr>
-                    
-                        <tr class="prop">
-                            <td valign="top" class="name"><g:message code="role.authority.label" default="Authority" /></td>
-                            
-                            <td valign="top" class="value">${fieldValue(bean: roleInstance, field: "authority")}</td>
-                            
-                        </tr>
-                    
-                    </tbody>
-                </table>
+                    <div class="clear"></div>        
 				<div id="requests" class="jstree jstree-0 jstree-default jstree-focused" style="height: 365px;">
 						<ul>
 							<g:each var="requestGroup" in="${requestmaps}">
@@ -64,7 +63,6 @@
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
-            <button id="test">Chequeados</button>
             
         </div>
 <script>
@@ -88,9 +86,6 @@ $(document).ready(function() {
 			});
 			tree.lock();
 		}
-	});
-	$('#test').click('click',function(){
-		tree.lock();
 	});
 	
 });

@@ -31,7 +31,7 @@
             </div>
             </g:hasErrors>
             <div class="dialog">
-		            <g:form method="post" >
+		            <g:form onSubmit='initsubmit()' method="post" >
 		            	<div class="append-bottom">
 		                <g:hiddenField name="id" value="${roleInstance?.id}" />
 		                <g:hiddenField name="version" value="${roleInstance?.version}" />
@@ -44,7 +44,7 @@
 									<label for="authority"><g:message code="role.authority.label" default="Authority" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField id="authorityId" name="authority" class="ui-widget ui-corner-all ui-widget-content" value="${roleInstance?.authority}" />
+									ROLE_<g:textField id="authorityId" name="authority" class="ui-widget ui-corner-all ui-widget-content" value="${roleInstance?.authority}" />
 								</div>
 											
 								<g:hasErrors bean="${roleInstance}" field="authority">
@@ -92,6 +92,7 @@ $(document).ready(function() {
 		});
 		
 		$('#requestsSerializedId').val(JSON.stringify(arrayRequests));
+		return true;
 	}
 
     function bindrequests(){

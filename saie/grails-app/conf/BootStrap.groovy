@@ -7,7 +7,7 @@ import com.educacion.seguridad.UserRole
 class BootStrap {
 	def springSecurityService
 	
-	void requestmapRegister(){
+	/*void requestmapRegister(){
 		def requestmapGroup
 		if(!RequestmapGroup.findByDescripcion('REQUISITOS')){
 			requestmapGroup=new RequestmapGroup(descripcion:'REQUISITOS')
@@ -17,7 +17,7 @@ class BootStrap {
 			requestmapGroup.addToRequests(new Requestmap(url:'/requisito/list',descripcion:'LISTAR',configAttribute:'ROLE_ADMIN'))
 			requestmapGroup.save(failOnError:true)
 		}
-	}
+	}*/
 	
 	void createUsers(){
 		def user = User.findByUsername('admin')
@@ -32,7 +32,7 @@ class BootStrap {
 			new Requestmap(url: '/logout/**', configAttribute: 'IS_AUTHENTICATED_ANONYMOUSLY').save(failOnError:true)
 			new Requestmap(url: '/**', configAttribute:'IS_AUTHENTICATED_REMEMBERED').save(failOnError:true)
 			new Requestmap(url: '/j_spring_security_switch_user',configAttribute: 'ROLE_SWITCH_USER,IS_AUTHENTICATED_FULLY').save(failOnError:true)
-			new Requestmap(url: '/carrera/**',configAttribute:'ROLE_ADMIN').save(failOnError:true)
+			//new Requestmap(url: '/carrera/**',configAttribute:'ROLE_ADMIN').save(failOnError:true)
 			if (!user.authorities.contains(adminRole)) {
 				UserRole.create(user, adminRole)
 			}
@@ -42,7 +42,7 @@ class BootStrap {
 	
     def init = { servletContext ->
 		createUsers()
-		requestmapRegister()
+		//requestmapRegister()
     }
     def destroy = {
     }

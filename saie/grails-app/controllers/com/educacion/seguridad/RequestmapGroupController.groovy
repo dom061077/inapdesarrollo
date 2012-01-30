@@ -46,15 +46,19 @@ class RequestmapGroupController {
 		
 		RequestmapGroup.withTransaction{TransactionStatus status ->
 			def requestmapInstance
+			def flagerror=false
 			requestsJson.each{
 				requestmapInstance = new Requestmap(url:it.url,descripcion:it.descripcion,configAttribute:"ROLE_ADMIN")
 				requestmapGroupInstance.addToRequests(requestmapInstance)
+				
 			}
-			if (requestmapGroupInstance.save(flush: true)) {
+			
+			if (requestmapGroupInstance.save(flush:true)) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
 				redirect(action: "show", id: requestmapGroupInstance.id)
 			}
 			else {
+				status.rollbackOnly
 				render(view: "create", model: [requestmapGroupInstance: requestmapGroupInstance,requestsSerialized:params.requestsSerialized])
 			}
 	

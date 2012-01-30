@@ -6,7 +6,14 @@ class RequestmapGroup {
 	static hasMany= [requests:Requestmap]
     static constraints = {
 		descripcion (blank:false,nullable:false,unique:true)
+		requests validator: {
+			it?.every { it?.validate() }
+		}
     }
+	
+	static mapping={
+		requests (cascade: 'save-update')
+	}
 	
 	def beforeInsert(){
 		descripcion = descripcion.toUpperCase()

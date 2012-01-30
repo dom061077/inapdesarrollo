@@ -51,7 +51,7 @@
 					,colNames:['Id','URL', 'Descripción']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						, {name:'url',index:'url', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						, {name:'url',index:'url', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}
 						, {name:'descripcion',index:'descripcion',hidden:false, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
 					]
 					, pager: '#pagerRequests'

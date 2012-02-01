@@ -115,7 +115,7 @@
                 <g:renderErrors bean="${requestmapGroupInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <form onsubmit="intsubmit();" method="post" >
+            <form onsubmit="initsubmit(); " method="post" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${requestmapGroupInstance?.id}" />
                 <g:hiddenField name="version" value="${requestmapGroupInstance?.version}" />

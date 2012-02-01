@@ -12,7 +12,7 @@ class RequestmapGroup {
     }
 	
 	static mapping={
-		requests (cascade: 'save-update')
+		requests (cascade: 'all-delete-orphan')
 	}
 	
 	def beforeInsert(){

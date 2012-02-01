@@ -168,6 +168,7 @@ class RequestmapGroupController {
 	                redirect(action: "show", id: requestmapGroupInstance.id)
 	            }
 	            else {
+					status.setRollbackOnly()
 	                render(view: "edit", model: [requestmapGroupInstance: requestmapGroupInstance])
 	            }
 			}
@@ -301,7 +302,7 @@ class RequestmapGroupController {
 					if (flagaddcomilla)
 						result=result+','
 					
-					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'"]}'
+					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.url+'","'+it.descripcion+'"]}'
 					 
 					flagaddcomilla=true
 				}

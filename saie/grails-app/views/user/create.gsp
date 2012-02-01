@@ -1,5 +1,5 @@
 <head>
-	<meta name='layout' content='springSecurityUI'/>
+	<meta name="layout" content="main" />
 	<g:set var="entityName" value="${message(code: 'user.label', default: 'User')}"/>
 	<title><g:message code="default.create.label" args="[entityName]"/></title>
 </head>
@@ -63,7 +63,7 @@ tabData << [name: 'roles',    icon: 'icon_role', messageCode: 'spring.security.u
 <script>
 $(document).ready(function() {
 	$('#username').focus();
-	<s2ui:initCheckboxes/>
+	
 });
 </script>
 

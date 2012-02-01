@@ -6,6 +6,38 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'requestmapGroup.label', default: 'RequestmapGroup')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+		    	$(document).ready(function(){
+		
+					//----requests---
+					jQuery("#requestsId").jqGrid({ 
+						url:'<%out<<createLink(controller:"requestmapGroup",action:"listrequest",params:[id:requestmapGroupInstance.id])%>'
+						,editurl:'<%out<<createLink(controller:"requestmapGroup",action:"editrequests")%>'
+						,datatype: "json"
+						,width:600
+						//,rownumbers:true
+						,colNames:['Id','URL', 'Descripción']
+						,colModel:[ 
+							{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+							, {name:'url',index:'url', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							, {name:'descripcion',index:'descripcion',hidden:false, width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
+						]
+						, pager: '#pagerRequests'
+						, sortname: 'id'
+						, viewrecords: true, sortorder: "desc"
+						, caption:"URLs"
+						, height:140
+					}); 
+					
+		            
+		    	});
+        
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -19,8 +51,6 @@
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
                     
                             <div class="span-4 spanlabel"><g:message code="requestmapGroup.id.label" default="Id" /></div>
                             
@@ -36,17 +66,19 @@
                     
                             <div class="span-4 spanlabel"><g:message code="requestmapGroup.requests.label" default="Peticiones" /></div>
                             
-                            <div class="span-4 spanlabel">
-                                <ul>
-	                                <g:each in="${requestmapGroupInstance.requests}" var="r">
-	                                    <li>${r?.descripcion?.encodeAsHTML()}</li>
-	                                </g:each>
-                                </ul>
-                            
-							<div class="clear"></div>
+                             
+					   <div class="clear"></div>
+					   <fieldset>
+					   		<legend>URLs</legend>
+							<g:hiddenField id="requestsSerializedId" name="requestsSerialized" value="${requestsSerialized}"/>
+           					<div class="clear"></div>
+                           <div class="span-18">
+                           		<table id="requestsId"></table>
+                           </div>
+                           <div id="pagerRequests">	</div>						   		
+					   </fieldset>
+
                     
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>

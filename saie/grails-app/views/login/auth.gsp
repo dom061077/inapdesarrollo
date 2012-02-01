@@ -13,6 +13,9 @@
 	<div class="sign-in">
 
 	<h1><g:message code='spring.security.ui.login.signin'/></h1>
+    <g:if test="${flash.message}">
+    <div class="ui-state-highlight ui-corner-all"><h2>${flash.message}</h2></div>
+    </g:if>
 
 	<table>
 		<tr>

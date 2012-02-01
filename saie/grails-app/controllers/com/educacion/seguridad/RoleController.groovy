@@ -64,6 +64,8 @@ class RoleController extends AbstractS2UiController {
 	}
 
 	def edit = {
+		log.info "INGRESANDO AL CLOSURE edit"
+		log.info "PARAMETROS: $params"
 		def role = params.name ? lookupRoleClass().findByAuthority(params.name) : null
 		if (!role) role = findById()
 		if (!role) return
@@ -71,7 +73,6 @@ class RoleController extends AbstractS2UiController {
 		setIfMissing 'max', 10, 100
 		def users = lookupUserRoleClass().findAllByRole(role, params)*.user
 		int userCount = lookupUserRoleClass().countByRole(role)
-		role.authority=role.authority.replace('ROLE_','')
 		[roleInstance: role, users: users, userCount: userCount,requestmaps:RequestmapGroup.list(),requestmapschecked:role.requests]
 	}
 
@@ -114,8 +115,8 @@ class RoleController extends AbstractS2UiController {
 				listRole=new ArrayList()
 				idrequestmap = it.id.replace('req','').toLong()
 				requestmapInstance = Requestmap.load(idrequestmap)
-				
-				def arr =  requestmapInstance.configAttribute.split(',')
+				ArrayList arr = new ArrayList()
+				arr =  requestmapInstance.configAttribute.split(',')
 				arr.remove(role.authority)
 				requestmapInstance.configAttribute = arr.join(',')
 				arr = requestmapInstance.configAttribute.split(',') 
@@ -126,14 +127,15 @@ class RoleController extends AbstractS2UiController {
 				listRole.add(role.authority)
 				requestmapInstance.configAttribute = listRole.join(',')
 				role.addToRequests(requestmapInstance)
+				
 			}
-			
 			if(role.save()){
 				
 				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'role.label', default: 'Role'), role.id])}"
 				redirect action: show, id: role.id
 				return
 			}else{
+				status.setRollbackOnly()
 				role.authority = role.authority.replace('ROLE_','')
 				render(view:"edit",requestmaps:RequestmapGroup.list(),requestsSerialized:params.requestsSerialized)
 			}

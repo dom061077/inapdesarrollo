@@ -31,7 +31,7 @@
             </div>
             </g:hasErrors>
             <div class="dialog">
-		            <g:form onSubmit='initsubmit()' method="post" >
+		            <g:form onsubmit='initsubmit()' method="post" >
 		            	<div class="append-bottom">
 		                <g:hiddenField name="id" value="${roleInstance?.id}" />
 		                <g:hiddenField name="version" value="${roleInstance?.version}" />
@@ -44,7 +44,7 @@
 									<label for="authority"><g:message code="role.authority.label" default="Authority" /></label>
 								</div>
 								<div class="span-5">
-									ROLE_<g:textField id="authorityId" name="authority" class="ui-widget ui-corner-all ui-widget-content" value="${roleInstance?.authority}" />
+									ROLE_<g:textField id="authorityId" name="authority" class="ui-widget ui-corner-all ui-widget-content" value="${roleInstance?.authority.replace('ROLE_','')}" />
 								</div>
 											
 								<g:hasErrors bean="${roleInstance}" field="authority">
@@ -84,37 +84,38 @@
 		     </div>
         </div>
 <script>
+function initsubmit(){
+	var arrayRequests=[];
+	$('#requests').jstree('get_checked',null,true).each(function(){
+		arrayRequests.push({id:this.id});
+	});
+	
+	$('#requestsSerializedId').val(JSON.stringify(arrayRequests));
+	return true;
+}
+
+function bindrequests(){
+	
+	var requests = jQuery.parseJSON($("#requestsSerializedId").val());
+	if(requests==null)
+    		data=[];
+
+	var tree = jQuery.jstree._reference("#requests");
+	
+	$.ajax({
+		url:'<%out << createLink(controller:"role",action:"listrequestjson")%>'
+		,success: function(data){
+				$(requests).each(function(){
+					tree.check_node("#"+this.id);	
+				});
+				
+			}
+
+	});
+	
+}
+
 $(document).ready(function() {
-	function initsubmit(){
-		var arrayRequests=[];
-		$('#requests').jstree('get_checked',null,true).each(function(){
-			arrayRequests.push({id:this.id});
-		});
-		
-		$('#requestsSerializedId').val(JSON.stringify(arrayRequests));
-		return true;
-	}
-
-    function bindrequests(){
-    	
-    	var requests = jQuery.parseJSON($("#requestsSerializedId").val());
-    	if(requests==null)
-        		data=[];
-
-    	var tree = jQuery.jstree._reference("#requests");
-    	
-    	$.ajax({
-    		url:'<%out << createLink(controller:"role",action:"listrequestjson")%>'
-    		,success: function(data){
-    				$(requests).each(function(){
-    					tree.check_node("#"+this.id);	
-    				});
-    				
-    			}
-
-    	});
-    	
-    }
 
 
 	

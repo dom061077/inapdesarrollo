@@ -60,7 +60,7 @@ class RoleController extends AbstractS2UiController {
 				redirect action: "show", id: role.id
 			}
 		}
-
+		springSecurityService.clearCachedRequestmaps()
 	}
 
 	def edit = {
@@ -142,7 +142,7 @@ class RoleController extends AbstractS2UiController {
 		
 
 		}
-
+		springSecurityService.clearCachedRequestmaps()
 	}
 
 	def delete = {

@@ -86,15 +86,20 @@ if (isOpenId) {
 </s2ui:tabs>
 
 <div style='float:left; margin-top: 10px;'>
-<s2ui:submitButton elementId='update' form='userEditForm' messageCode='default.button.update.label'/>
+<!--		<s2ui:submitButton elementId='update' form='userEditForm' messageCode='default.button.update.label'/>-->
+        <div class="buttons">
+            <span class="button"><g:submitButton name="edit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.update.labell', default: 'Guardar')}" /></span>
+			<g:if test='${user}'>
+				<s2ui:deleteButton />
+			</g:if>
+			
+			<g:if test='${canRunAs}'>
+				<a id="runAsButton">${message(code:'spring.security.ui.runas.submit')}</a>
+			</g:if>
+              
+        </div>
 
-<g:if test='${user}'>
-<s2ui:deleteButton />
-</g:if>
-
-<g:if test='${canRunAs}'>
-<a id="runAsButton">${message(code:'spring.security.ui.runas.submit')}</a>
-</g:if>
+		
 
 </div>
 

@@ -53,7 +53,9 @@
 			</tr>
 			<tr><td colspan='4'>&nbsp;</td></tr>
 			<tr>
-				<td colspan='4'><s2ui:submitButton elementId='search' form='userSearchForm' messageCode='spring.security.ui.search'/></td>
+				<td colspan='4'>
+	                   <span class="button"><g:submitButton name="search" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.search.label', default: 'Buscar')}" /></span>
+				</td>
 			</tr>
 			</tbody>
 		</table>

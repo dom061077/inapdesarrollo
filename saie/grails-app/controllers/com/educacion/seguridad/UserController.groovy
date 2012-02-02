@@ -65,7 +65,7 @@ class UserController extends AbstractS2UiController {
 		addRoles user
 		userCache.removeUserFromCache user.username
 		flash.message = "${message(code: 'default.updated.message', args: [message(code: 'user.label', default: 'User'), user.id])}"
-		redirect action: edit, id: user.id
+		redirect action: search, id: user.id
 	}
 
 	def delete = {

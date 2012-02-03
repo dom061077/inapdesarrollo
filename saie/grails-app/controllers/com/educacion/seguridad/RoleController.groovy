@@ -67,9 +67,13 @@ class RoleController extends AbstractS2UiController {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
 		def role = params.name ? lookupRoleClass().findByAuthority(params.name) : null
+	
 		if (!role) role = findById()
 		if (!role) return
-
+		if(role.authority.equals('ROLE_ADMIN')){
+			flash.message ="No se puede modificar los permisos del ADMINISTRADOR"
+			redirect(action:'list')
+		}
 		setIfMissing 'max', 10, 100
 		def users = lookupUserRoleClass().findAllByRole(role, params)*.user
 		int userCount = lookupUserRoleClass().countByRole(role)
@@ -102,31 +106,45 @@ class RoleController extends AbstractS2UiController {
 			def requestmapInstance
 			def listRole
 			def arrayIdRequestmap = []
+			ArrayList arr=new ArrayList() 
 			
 			role.requests.each {
 				arrayIdRequestmap.add(it.id) 
 			}
 			arrayIdRequestmap.each{
+				requestmapInstance = Requestmap.get(it)
+				requestmapInstance.configAttribute = requestmapInstance.configAttribute.toUpperCase()
+				arr = requestmapInstance.configAttribute.split(',')
+				arr.remove(role.authority.toUpperCase())
+				if(arr.size()>0)
+					requestmapInstance.configAttribute = arr.join(',')
+				else
+					requestmapInstance.configAttribute = ''	
+				requestmapInstance = requestmapInstance.save()
 				requestmapInstance = Requestmap.load(it)
 				role.removeFromRequests(requestmapInstance)
+				//role = role.save()
+				
 			}
-			
 			requestsJson.each{
-				listRole=new ArrayList()
-				idrequestmap = it.id.replace('req','').toLong()
-				requestmapInstance = Requestmap.load(idrequestmap)
-				ArrayList arr = new ArrayList()
-				arr =  requestmapInstance.configAttribute.split(',')
-				arr.remove(role.authority)
-				requestmapInstance.configAttribute = arr.join(',')
-				arr = requestmapInstance.configAttribute.split(',') 
-				arr.each {
-					listRole.add(it)
+				if(it.id.indexOf('req')>=0){
+					listRole=new ArrayList()
+					idrequestmap = it.id.replace('req','').toLong()
+					requestmapInstance = Requestmap.get(idrequestmap)
+					arr = new ArrayList()
+					arr =  requestmapInstance.configAttribute.split(',')
+					arr.remove(role.authority)
+					arr.each {
+						listRole.add(it)
+					}
+					role.properties = params
+					listRole.add('ROLE_'+role.authority)
+					requestmapInstance.configAttribute = listRole.join(',')
+					if(requestmapInstance.configAttribute.startsWith(',')){
+						requestmapInstance.configAttribute = requestmapInstance.configAttribute.replaceFirst(',','')
+					}
+					role.addToRequests(requestmapInstance)
 				}
-				role.properties = params
-				listRole.add(role.authority)
-				requestmapInstance.configAttribute = listRole.join(',')
-				role.addToRequests(requestmapInstance)
 				
 			}
 			if(role.save()){

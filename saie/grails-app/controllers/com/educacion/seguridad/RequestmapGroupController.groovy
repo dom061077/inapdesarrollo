@@ -67,6 +67,11 @@ class RequestmapGroupController {
 				}
 
 				if(requestmapGroupInstance.save()){
+					def roleInstance = Role.findByAuthority("ROLE_ADMIN")
+					requestmapGroupInstance.requests.each{
+						roleInstance.addToRequests(it)
+					}
+					roleInstance.save()
 					flash.message = "${message(code: 'default.created.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
 					redirect(action: "show", id: requestmapGroupInstance.id)
 				}else{
@@ -164,6 +169,11 @@ class RequestmapGroupController {
 	
 	            requestmapGroupInstance.properties = params
 	            if (!requestmapGroupInstance.hasErrors() && requestmapGroupInstance.save(flush: true)) {
+					def roleInstance = Role.findByAuthority("ROLE_ADMIN")
+					requestmapGroupInstance.requests.each{
+						roleInstance.addToRequests(it)
+					}
+					roleInstance.save()
 	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requestmapGroup.label', default: 'RequestmapGroup'), requestmapGroupInstance.id])}"
 	                redirect(action: "show", id: requestmapGroupInstance.id)
 	            }

@@ -74,7 +74,7 @@
                 </div>
 				
 			</g:form>
-										<button id="test">Chequeados</button>
+										
 					
 </div>
 <script>

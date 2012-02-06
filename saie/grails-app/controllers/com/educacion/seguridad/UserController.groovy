@@ -26,6 +26,9 @@ class UserController extends AbstractS2UiController {
 		}
 		if (!user.save(flush: true)) {
 			render view: 'create', model: [user: user, authorityList: sortedRoles()]
+			user.errors.allErrors.each {
+				log.debug "MENSAJES DE ERRORES: "+it 
+			}
 			return
 		}
 

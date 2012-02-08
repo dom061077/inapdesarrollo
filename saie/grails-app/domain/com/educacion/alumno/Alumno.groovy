@@ -17,6 +17,8 @@ class Alumno {
 	java.sql.Date fechaNacimiento
 	SexoEnum sexo
 	
+	java.util.Date fechaAlta = new java.util.Date()
+	
 	//Datos Nacimiento
 	Localidad localidadNac //de ahi obtengo pais, provincia y cod.Postal
 	
@@ -81,6 +83,8 @@ class Alumno {
     static constraints = {
 		
 		//Datos Personales
+		
+		
 		numeroDocumento(nullable:false,blank:false,unique:true)
 		tipoDocumento(nullable:false,blank:false)
 		apellidoNombre(nullable:false,blank:false)

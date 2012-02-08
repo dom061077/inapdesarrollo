@@ -341,14 +341,13 @@ class AlumnoController {
 	def listjsonautocomplete={
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
-		def profesionales = Alumno.createCriteria().list(){
-				like('nombre','%'+params.term+'%')
+		def alumnos = Alumno.createCriteria().list(){
+				like('apellidoNombre','%'+params.term+'%')
 		}
-		log.debug "PROFESIONALES LISTADOS: "+profesionales.size()
 		render(contentType:"text/json"){
 			array{
-				for (prof in profesionales){
-					alumno id:prof.id,label:prof.nombre,value:prof.nombre
+				for (alu in alumnos){
+					alumno id:alu.id,label:alu.apellidoNombre,value:alu.apellidoNombre
 				}
 			}
 			
@@ -376,7 +375,7 @@ class AlumnoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.numeroDocumento+'","'+it.apellidoNombre+'"]}'
 			 
 			flagaddcomilla=true
 		}

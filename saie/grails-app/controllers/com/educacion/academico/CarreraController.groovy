@@ -625,6 +625,28 @@ class CarreraController {
 
 	}
 
-	
+	def autocomplete = {
+		log.info "INGRESANDO AL CLOSURE autocomplete"
+		log.info "PARAMETROS: $params"
+		def carreras = Carrera.list()
+		def renderedText="["
+		def items=""
+		def when
+		def value
+		def text
+		carreras.each{c->
+			when = c.denominacion
+			items = ""
+			c.anios.each{ a->
+				value = a.id
+				text = a.anioLectivo
+				if(items.length()>0)
+					items = items + "," 
+				items = items + "{'When':'$when','Value':'$a','Text':'$text'}"
+			}
+		}
+		renderedText = renderedText+items + "]"
+		render renderedText
+	}
 	
 }

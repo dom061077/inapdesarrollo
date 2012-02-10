@@ -32,49 +32,59 @@
  				,hiddenfield:'id' 
  				,descfield:['numeroDocumento','apellidoNombre']}); 
 
-		$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#alumnoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'anioLectivoIdId' 
- 				,descid:'anioLectivoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#anioLectivoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]); 
-
+						$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
+				 				 minLength: 2, 
+				  				 select: function( event, ui ) {
+				 					 if(ui.item){ 
+				 						 $('#alumnoIdId').val(ui.item.id) 
+									 } 
+									}, 
+				 				 open: function() { 
+				 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+				 				 }, 
+				 				 close: function() {
+				 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+				 				 } 
+				  				}); 
+				//---------------------------------- 
+						$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
+				 				 title:'Poner aqui titulo de busqueda' 
+								,colNames:['Prop.Id','Prop 1','Prop 2'] 
+								,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+				 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
+				 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
+				 				,hiddenid:'anioLectivoIdId' 
+				 				,descid:'anioLectivoId' 
+				 				,hiddenfield:'id' 
+				 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+				
+						$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
+				 				 minLength: 2, 
+				  				 select: function( event, ui ) {
+				 					 if(ui.item){ 
+				 						 $('#anioLectivoIdId').val(ui.item.id) 
+									 } 
+									}, 
+				 				 open: function() { 
+				 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+				 				 }, 
+				 				 close: function() {
+				 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+				 				 } 
+				  				}); 
+				//---------------------------------- 
+						$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
+						$('#anioLectivoId').cascade('#carreraId',{						
+							ajax: { 
+								url: '<%out << createLink(controller:"carrera",action:"autocomplete")%>', 
+								complete: function(){ 
+									alert('my list is updated'); 
+								}
+						    },				
+							template: commonTemplate,
+							match: commonMatch  			
+						}); 
+	
         	});
 		</script>
 		
@@ -142,6 +152,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 								<label for="anioLectivo"><g:message code="preinscripcion.anioLectivo.label" default="Anio Lectivo" /></label>
 							</div>
 							<div class="span-5">
+								<g:select id = "anioLectivoId"></g:select>
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" /> 
  								<g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
 							</div>

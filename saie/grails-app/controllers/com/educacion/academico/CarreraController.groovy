@@ -635,17 +635,18 @@ class CarreraController {
 		def value
 		def text
 		carreras.each{c->
-			when = c.denominacion
+			when = c.id
 			items = ""
 			c.anios.each{ a->
 				value = a.id
 				text = a.anioLectivo
 				if(items.length()>0)
 					items = items + "," 
-				items = items + "{'When':'$when','Value':'$a','Text':'$text'}"
+				items = items + "{'When':'$when','Value':'$value','Text':'$text'}"
 			}
 		}
 		renderedText = renderedText+items + "]"
+		log.debug "RENDERED TEXT: "+renderedText
 		render renderedText
 	}
 	

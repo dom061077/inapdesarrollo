@@ -5,89 +5,16 @@
  %>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta name="layout" content="main" />
+<!--        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+        <!-- meta name="layout" content="main" /-->
         <g:set var="entityName" value="${message(code: 'preinscripcion.label', default: 'Preinscripcion')}" />
         <title><g:message code="default.create.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
-                
+        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery-1.6.2.min.js')}"></script>        
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.cascade.js')}"></script>        
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.cascade.ext.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.templating.js')}"></script>        
         
-        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
-        <script type="text/javascript">
-        	$(document).ready(function(){
-        		$('#alumnoId').lookupfield({source:'<%out<<createLink(controller:"alumno",action:"listsearchjson")%>',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Id','D.N.I','Apellido y Nombre'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'numeroDocumento',index:'numeroDocumento',sorttype:'int', width:100,  sortable:true,search:true,searchoptions:{sopt:['eq']}}
- 				,{name:'apellidoNombre',index:'apellidoNombre', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'alumnoIdId' 
- 				,descid:'alumnoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['numeroDocumento','apellidoNombre']}); 
-
-						$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
-				 				 minLength: 2, 
-				  				 select: function( event, ui ) {
-				 					 if(ui.item){ 
-				 						 $('#alumnoIdId').val(ui.item.id) 
-									 } 
-									}, 
-				 				 open: function() { 
-				 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 				 }, 
-				 				 close: function() {
-				 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 				 } 
-				  				}); 
-				//---------------------------------- 
-						$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
-				 				 title:'Poner aqui titulo de busqueda' 
-								,colNames:['Prop.Id','Prop 1','Prop 2'] 
-								,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-				 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
-				 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
-				 				,hiddenid:'anioLectivoIdId' 
-				 				,descid:'anioLectivoId' 
-				 				,hiddenfield:'id' 
-				 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-				
-						$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
-				 				 minLength: 2, 
-				  				 select: function( event, ui ) {
-				 					 if(ui.item){ 
-				 						 $('#anioLectivoIdId').val(ui.item.id) 
-									 } 
-									}, 
-				 				 open: function() { 
-				 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
-				 				 }, 
-				 				 close: function() {
-				 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
-				 				 } 
-				  				}); 
-				//---------------------------------- 
-						$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
-						$('#anioLectivoId').cascade('#carreraId',{						
-							ajax: { 
-								url: '<%out << createLink(controller:"carrera",action:"autocomplete")%>', 
-								complete: function(){ 
-									alert('my list is updated'); 
-								}
-						    },				
-							template: commonTemplate,
-							match: commonMatch  			
-						}); 
-	
-        	});
-		</script>
-		
+ 		
     </head>
     <body>
         <div class="nav">
@@ -137,24 +64,14 @@
 								<g:select name="carrera" id="carreraId" from="${Carrera.list()}" optionKey="id" optionValue="denominacion" ></g:select>
 							</div>
 										
-							<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
+  						    <div class="clear"></div>
 
-
-                        
-							<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
 								<label for="anioLectivo"><g:message code="preinscripcion.anioLectivo.label" default="Anio Lectivo" /></label>
 							</div>
 							<div class="span-5">
-								<g:select id = "anioLectivoId"></g:select>
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" /> 
- 								<g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
+								<select name="anioLectivo" id = "anioLectivoId"></select>
 							</div>
 										
 							<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
@@ -163,7 +80,22 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 							
+<div>
+		<label>Pais
+			<select id="pais">
+				<option value="AR">Argentina</option>
+				<option value="ES">España</option>
+				<option value="MX">Mexico</option>
 
+			</select>
+		</label>
+		<label>Provincia
+			<select id="provincia"></select>
+		</label>
+		<label>Ciudad
+			<select id="ciudad"></select>
+		</label>		
+	</div>
 																	
                         
 				</div>                        
@@ -172,5 +104,53 @@
                 </div>
             </g:form>
         </div>
+        
+        
+        
+        <script type="text/javascript">
+	        function commonTemplate(item) {
+				return "<option value='" + item.Value + "'>" + item.Text + "</option>"; 
+			};
+
+			function commonMatch(selectedValue) {
+				return this.When == selectedValue; 
+			};			
+			
+        	$(document).ready(function(){
+						//$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
+						$('#anioLectivoId').cascade('#carreraId',{						
+							ajax: { 
+								url: '<%out << createLink(controller:"carrera",action:"autocomplete")%>', 
+															
+						    },				
+						    template: function(item) { 
+							    return "<option value='" + item.value + "'>" + item.text + "</option>"; 
+							    },
+						    match: function(selectedValue) { 
+							    return this.when == selectedValue; 
+							    } 			
+							    
+						}); 
+
+						$("#provincia").cascade("#pais",{
+							ajax: {url: '<%out << g.resource(dir:"js/jquery",file:"datos-provincias.js")%>'
+								},
+							template: commonTemplate,
+							match: commonMatch
+						});
+						
+						$("#ciudad").cascade("#provincia",{
+							ajax: {url: '<%out << g.resource(dir:"js/jquery",file:"datos-ciudades.js")%>'},
+							template: commonTemplate,
+							match: commonMatch
+						});			
+						
+						//forzamos un evento de cambio para que se carge por primera vez
+						$("#pais").change();						
+	
+        	});
+		</script>
+        
+        
     </body>
 </html>

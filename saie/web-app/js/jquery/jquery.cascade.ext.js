@@ -25,7 +25,9 @@
 			var defaultAjaxOptions = {
 				type: "GET",
 				dataType: "json",
-				success: function(json) { $this.trigger("updateList", [json]); },
+				success: function(json) { 
+					$this.trigger("updateList", [json]); 
+				},
 				data: $.extend(_ajax.data,ajax.data,{ val: opt.getParentValue(parent) })				
 			};						
 			//overwrite opt.ajax with required props (json,successcallback,data)		

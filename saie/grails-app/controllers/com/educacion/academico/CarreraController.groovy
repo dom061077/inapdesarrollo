@@ -625,29 +625,18 @@ class CarreraController {
 
 	}
 
-	def autocomplete = {
+	def cascade = {
 		log.info "INGRESANDO AL CLOSURE autocomplete"
 		log.info "PARAMETROS: $params"
-		def carreras = Carrera.list()
-		def renderedText="["
-		def items=""
-		def when
-		def value
-		def text
-		carreras.each{c->
-			when = c.id
-			items = ""
-			c.anios.each{ a->
-				value = a.id
-				text = a.anioLectivo
-				if(items.length()>0)
-					items = items + "," 
-				items = items + "{'When':'$when','Value':'$value','Text':'$text'}"
+		def carreraInstance = Carrera.get(params.carreraid)
+		render(contentType:"text/json"){
+			array{
+				for(a in carreraInstance?.anios){
+					anio id:a.id, label:a.anioLectivo, value:a.anioLectivo
+				}
 			}
 		}
-		renderedText = renderedText+items + "]"
-		log.debug "RENDERED TEXT: "+renderedText
-		render renderedText
+		
 	}
 	
 }

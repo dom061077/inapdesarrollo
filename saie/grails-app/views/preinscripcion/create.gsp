@@ -14,6 +14,7 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>                
+		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.cascade-select.js')}"></script>
         
  		
     </head>
@@ -62,7 +63,8 @@
 								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-10">
-								<g:select class="inputlarge" name="carrera" id="carreraId" from="${Carrera.list()}" optionKey="id" optionValue="denominacion" ></g:select>
+								<g:select class="inputlarge" name="carrera" id="carreraId" from="${Carrera.listOrderByDenominacion()}" 
+								optionKey="id" optionValue="denominacion" value="${preinscripcionInstance?.nivel?.carrera?.id}"></g:select>
 							</div>
 										
 							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
@@ -79,7 +81,8 @@
 								<label for="nivel"><g:message code="preinscripcion.nivel.label" default="Nivel" /></label>
 							</div>
 							<div class="span-10">
-								<g:select class="inputlarge" name="nivel.id" id="nivelId" value="${preinscripcion?.nivel?.id}" ></g:select>
+								<g:select class="inputlarge" from="${niveles}" optionKey="id" optionValue="descripcion" 
+								name="nivel.id" id="nivelId" value="${preinscripcionInstance?.nivel?.id}" ></g:select>
 							</div>
 										
 							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
@@ -99,160 +102,39 @@
         
         
         <script type="text/javascript">
-			function cargarniveles(carreraid){
-				$.getJSON("<% out << g.createLink(controller:'carrera',action:'cascadeniveles')%>"
-						,{carreraid:carreraid,ajax:'true'}
-						,function(j){
-								var options = '';
-								for (var i=0;i<j.length;i++){
-									options += '<option value="' + j[i].id + '">' + j[i].label + '</option>';
-								}
-								$("#nivelId").html(options);
-							}
-						);
-			}
 			
         	$(document).ready(function(){
-        	
-        		$('#alumnoId').lookupfield({source:'<%out<<createLink(controller:"alumno",action:"listsearchjson")%>',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Id','D.N.I','Apellido y Nombre'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'numeroDocumento',index:'numeroDocumento',sorttype:'int', width:100,  sortable:true,search:true,searchoptions:{sopt:['eq']}}
- 				,{name:'apellidoNombre',index:'apellidoNombre', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'alumnoIdId' 
- 				,descid:'alumnoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['numeroDocumento','apellidoNombre']}); 
+        		$('#carreraId').cascade({
+                    source: '<%out << createLink(controller:'carrera',action:'cascadeniveles')%>',
+                    cascaded: "nivelId"
+                });
 
-		$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#alumnoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-        	
-						//forzamos un evento de cambio para que se carge por primera vez
-						$.widget( "ui.combobox", {
-							_create: function() {
-								var self = this,
-									select = this.element.hide(),
-									selected = select.children( ":selected" ),
-									value = selected.val() ? selected.text() : "";
-								var minlength=0;
-								if (select[0].name=="localidad.id"){
-									minlength=2;
-								}		
-								var input = this.input = $( "<input class='inputlarge'>" )
-									.insertAfter( select )
-									.val( value )
-									.autocomplete({
-										delay: 0,
-										minLength: minlength,
-										source:function( request, response ) {
-											var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-											response( select.children( "option" ).map(function() {
-												var text = $( this ).text();
-												if ( this.value && ( !request.term || matcher.test(text) ) )
-													return {
-														label: text.replace(
-															new RegExp(
-																"(?![^&;]+;)(?!<[^<>]*)(" +
-																$.ui.autocomplete.escapeRegex(request.term) +
-																")(?![^<>]*>)(?![^&;]+;)", "gi"
-															), "<strong>$1</strong>" ),
-														value: text,
-														option: this
-													};
-											}) );
-										},
-										select: function( event, ui ) {
-											if (select[0].id=='carreraId'){
-												
-												cargarniveles(ui.item.option.value);
-												$('#nivelId').find('option:selected').remove();
-												
-											}
-											
-											ui.item.option.selected = true;
-											self._trigger( "selected", event, {
-												item: ui.item.option
-											});
-									         //$('#localidadId option[value='+ui.item.option.value+']').attr('selected', 'selected'); 
-											
-										},
-										change: function( event, ui ) {
-											if ( !ui.item ) {
-												var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),
-													valid = false;
-												select.children( "option" ).each(function() {
-													if ( $( this ).text().match( matcher ) ) {
-														this.selected = valid = true;
-														return false;
-													}
-												});
-												if ( !valid ) {
-													// remove invalid value, as it didn't match anything
-													$( this ).val( "" );
-													select.val( "" );
-													input.data( "autocomplete" ).term = "";
-													return false;
-												}
-											}
-										}
-									})
-								.addClass( "ui-widget ui-widget-content ui-corner-left" );
+           		$('#alumnoId').lookupfield({source:'<%out<<createLink(controller:"alumno",action:"listsearchjson")%>',
+    				 title:'Poner aqui titulo de busqueda' 
+   				,colNames:['Id','D.N.I','Apellido y Nombre'] 
+   				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
+    				,{name:'numeroDocumento',index:'numeroDocumento',sorttype:'int', width:100,  sortable:true,search:true,searchoptions:{sopt:['eq']}}
+    				,{name:'apellidoNombre',index:'apellidoNombre', width:100,  sortable:true,search:true}] 
+    				,hiddenid:'alumnoIdId' 
+    				,descid:'alumnoId' 
+    				,hiddenfield:'id' 
+    				,descfield:['numeroDocumento','apellidoNombre']}); 
 
-								input.data( "autocomplete" )._renderItem = function( ul, item ) {
-									return $( "<li></li>" )
-										.data( "item.autocomplete", item )
-										.append( "<a>" + item.label + "</a>" )
-										.appendTo( ul );
-								};
-
-								this.button = $( "<button type='button'>&nbsp;</button>" )
-									.attr( "tabIndex", -1 )
-									.attr( "title", "Show All Items" )
-									.insertAfter( input )
-									.button({
-										icons: {
-											primary: "ui-icon-triangle-1-s"
-										},
-										text: false
-										
-									})
-									.removeClass( "ui-corner-all" )
-									.addClass( "ui-corner-right ui-button-icon-only" )
-									.click(function() {
-										// close if already visible
-										if ( input.autocomplete( "widget" ).is( ":visible" ) ) {
-											input.autocomplete( "close" );
-											return;
-										}
-
-										// pass empty string as value to search for, displaying all results
-										input.autocomplete( "search", "" );
-										input.focus();
-									});
-							},
-
-							destroy: function() {
-								this.input.remove();
-								this.button.remove();
-								this.element.show();
-								$.Widget.prototype.destroy.call( this );
-							}
-						});
-						$('#carreraId').combobox();
-						$('#nivelId').combobox();
+   				$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
+    				 minLength: 2, 
+     				 select: function( event, ui ) {
+    					 if(ui.item){ 
+    						 $('#alumnoIdId').val(ui.item.id) 
+   					 } 
+   					}, 
+    				 open: function() { 
+    					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
+    				 }, 
+    				 close: function() {
+    					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
+    				 } 
+     				}); 
+                
 	
         	});
 		</script>

@@ -625,14 +625,14 @@ class CarreraController {
 
 	}
 
-	def cascade = {
+	def cascadeniveles = {
 		log.info "INGRESANDO AL CLOSURE autocomplete"
 		log.info "PARAMETROS: $params"
-		def carreraInstance = Carrera.get(params.carreraid)
+		def carreraInstance = Carrera.get(params.selected)
 		render(contentType:"text/json"){
 			array{
-				for(a in carreraInstance?.anios){
-					anio id:a.id, label:a.anioLectivo, value:a.anioLectivo
+				for(n in carreraInstance?.niveles){
+					nivel label:n.descripcion, value:n.id
 				}
 			}
 		}

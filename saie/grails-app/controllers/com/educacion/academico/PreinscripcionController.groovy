@@ -29,8 +29,12 @@ class PreinscripcionController {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
         def preinscripcionInstance = new Preinscripcion()
+		def niveles
+		def carreras = Carrera.listOrderByDenominacion()
+		niveles = carreras?.get(0)?.niveles
+
         preinscripcionInstance.properties = params
-        return [preinscripcionInstance: preinscripcionInstance]
+        return [preinscripcionInstance: preinscripcionInstance, niveles:niveles]
     }
 
     def save = {
@@ -43,7 +47,12 @@ class PreinscripcionController {
             redirect(action: "show", id: preinscripcionInstance.id)
         }
         else {
-            render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
+			def niveles
+			if(params.carrera){
+				niveles = Carrera.get(params.carrera)?.niveles
+			}
+	
+            render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,niveles:niveles])
         }
     }
 

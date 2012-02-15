@@ -54,7 +54,7 @@
 						   <div class="clear"></div>
 
 																	
-							<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
+							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
@@ -65,11 +65,29 @@
 								<g:select class="inputlarge" name="carrera" id="carreraId" from="${Carrera.list()}" optionKey="id" optionValue="denominacion" ></g:select>
 							</div>
 										
-							<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
-								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="anioLectivo"/>
+							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
+								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="nivel"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
+						   
+							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="nivel"><g:message code="preinscripcion.nivel.label" default="Nivel" /></label>
+							</div>
+							<div class="span-10">
+								<g:select class="inputlarge" name="nivel.id" id="nivelId" value="${preinscripcion?.nivel?.id}" ></g:select>
+							</div>
+										
+							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
+								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="nivel"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+						   
                         
 				</div>                        
                 <div class="buttons">
@@ -81,15 +99,15 @@
         
         
         <script type="text/javascript">
-			function cargaranios(carreraid){
-				$.getJSON("<% out << g.createLink(controller:'carrera',action:'cascade')%>"
+			function cargarniveles(carreraid){
+				$.getJSON("<% out << g.createLink(controller:'carrera',action:'cascadeniveles')%>"
 						,{carreraid:carreraid,ajax:'true'}
 						,function(j){
 								var options = '';
 								for (var i=0;i<j.length;i++){
 									options += '<option value="' + j[i].id + '">' + j[i].label + '</option>';
 								}
-								$("#anioLectivoId").html(options);
+								$("#nivelId").html(options);
 							}
 						);
 			}
@@ -140,18 +158,6 @@
 										delay: 0,
 										minLength: minlength,
 										source:function( request, response ) {
-											var provinciaid=$('#provinciaId').val();
-											/*$.getJSON("<% out << g.createLink(controller:'localidad',action:'listjsonautocomplete')%>"
-													,{provinciaid:provinciaid,term:request.term,ajax:'true'}
-													,function(j){
-															var options = '';
-															for (var i=0;i<j.length;i++){
-																options += '<option value="' + j[i].id + '">' + j[i].label + '</option>';
-															}
-															$("#localidadId").html(options);
-														}
-													);
-												*/
 											var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
 											response( select.children( "option" ).map(function() {
 												var text = $( this ).text();
@@ -170,7 +176,10 @@
 										},
 										select: function( event, ui ) {
 											if (select[0].id=='carreraId'){
-												cargaranios(ui.item.option.value);
+												
+												cargarniveles(ui.item.option.value);
+												$('#nivelId').find('option:selected').remove();
+												
 											}
 											
 											ui.item.option.selected = true;

@@ -42,6 +42,12 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
 
         def preinscripcionInstance = new Preinscripcion(params)
+		
+		def anioLectivoInstance = AnioLectivo.findByCarrera
+		
+		//if(carreraInstance.)
+		
+		preinscripcionInstance.estado = com.educacion.enums.EstadoPreinscripcion.PREINS_HABILITADO
         if (preinscripcionInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
             redirect(action: "show", id: preinscripcionInstance.id)

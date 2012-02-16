@@ -28,27 +28,33 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="preinscripcion.alumno.label" default="Alumno" /></div>
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.alumno.label" default="Alumno:" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${preinscripcionInstance?.alumno?.id}">${preinscripcionInstance?.alumno?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${preinscripcionInstance?.alumno?.id}">${preinscripcionInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
+                            
+							<div class="clear"></div>
+
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.carrera.label" default="Carrera:" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${preinscripcionInstance?.nivel?.carrera?.id}">${preinscripcionInstance?.nivel?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="preinscripcion.anioLectivo.label" default="Anio Lectivo" /></div>
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.nivel.label" default="Nivel:" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="anioLectivo" action="show" id="${preinscripcionInstance?.anioLectivo?.id}">${preinscripcionInstance?.anioLectivo?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="preinscripcion.estado.label" default="Estado" /></div>
-                            
-                            <div class="span-4 spanlabel">${preinscripcionInstance?.estado?.encodeAsHTML()}</div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${preinscripcionInstance?.nivel?.carrera?.id}">${preinscripcionInstance?.nivel?.descripcion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="preinscripcion.fechaAlta.label" default="Fecha Alta" /></div>
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.estado.label" default="Estado:" /></div>
                             
-                            <div class="span-4 spanlabel"><g:formatDate date="${preinscripcionInstance?.fechaAlta}" /></div>
+                            <div class="span-4 spanlabel">${preinscripcionInstance?.estado?.name?.encodeAsHTML()}</div>
+                            
+							<div class="clear"></div>
+                    
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.fechaAlta.label" default="Fecha Alta:" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:formatDate format='dd/MM/yyyy' date="${preinscripcionInstance?.fechaAlta}" /></div>
                             
 							<div class="clear"></div>
                     

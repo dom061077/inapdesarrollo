@@ -384,7 +384,14 @@ class AlumnoController {
 
 	}
 
-
+	def mindatajson= {
+		log.info "INGRESANDO AL CLOSURE mindatajson"
+		log.info "PARAMETROS: $params"
+		def alumnoInstance = Alumno.get(params.id)
+		render(contentType:"text/json"){
+			alumno apellidoNombre:alumnoInstance.apellidoNombre,documento:alumnoInstance?.numeroDocumento,tipoDocumento:alumnoInstance?.tipoDocumento?.name,sexo:alumnoInstance.sexo.name,fechaNacimiento:g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)
+		}
+	}
 
 	
 }

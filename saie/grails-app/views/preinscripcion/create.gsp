@@ -41,26 +41,36 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="alumno"><g:message code="preinscripcion.alumno.label" default="Alumno" /></label>
+								<label for="alumno"><g:message code="preinscripcion.alumno.label" default="Alumno:" /></label>
 							</div>
 							<div class="span-7">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content largeinput" id="alumnoId" name="alumnoDesc"  value="${preinscripcionInstance?.alumno?.apellidoNombre}" /> 
- 								<g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />
+ 								<g:hiddenField id="alumnoIdId" name="alumno.id" value="${preinscripcionInstance?.alumno?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${preinscripcionInstance}" field="alumno">
 								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="alumno"/>
 								</div>
 						   </g:hasErrors>
+						   <div class="span-3"><g:link controller="alumno" action="create">Es tu primera vez?</g:link> </div>
 						   <div class="clear"></div>
 
+							<div id="datosAlumnoId" class="hidden">
+								<fieldset>
+									<legend>Datos del Alumno</legend>
+									<div id="datosId">
+									</div>
+								</fieldset>
+								
+							</div>				
+											
 																	
 							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera" /></label>
+								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera:" /></label>
 							</div>
 							<div class="span-10">
 								<g:select class="inputlarge" name="carrera" id="carreraId" from="${Carrera.listOrderByDenominacion()}" 
@@ -78,7 +88,7 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="nivel"><g:message code="preinscripcion.nivel.label" default="Nivel" /></label>
+								<label for="nivel"><g:message code="preinscripcion.nivel.label" default="Nivel:" /></label>
 							</div>
 							<div class="span-10">
 								<g:select class="inputlarge" from="${niveles}" optionKey="id" optionValue="descripcion" 
@@ -102,6 +112,22 @@
         
         
         <script type="text/javascript">
+        	function showdata(){
+        		$( "#datosAlumnoId" ).show( 'blind', {}, 500,function(){
+        			$.getJSON('<%out << createLink(controller:"alumno",action:"mindatajson")%>', {id:$('#alumnoIdId').val()}, function(response) {
+            			var data = 'Apellido y Nombre: <strong>'+response.alumno.apellidoNombre+'</strong></p>'
+            					+'<p>Tipo de Documento: <strong>'+response.alumno.tipoDocumento+'</strong></p>'
+            					+'<p>Nro. de Documento: <strong>'+response.alumno.documento+'</strong></p>'
+            					+'<p>Sexo:				 <strong>'+response.alumno.sexo+'</strong></p>'
+            					+'<p>Fecha Nacimiento:	 <strong>'+response.alumno.fechaNacimiento+'</strong></p>';
+            			$('#datosId').html(data);
+        			});
+            	});
+            }
+
+            function hidedata(){
+            	$( "#datosAlumnoId" ).hide( 'blind', {}, 500 );
+            }
 			
         	$(document).ready(function(){
         		$('#carreraId').cascade({
@@ -110,15 +136,23 @@
                 });
 
            		$('#alumnoId').lookupfield({source:'<%out<<createLink(controller:"alumno",action:"listsearchjson")%>',
-    				 title:'Poner aqui titulo de busqueda' 
+    				 title:'Buscar Alumno' 
    				,colNames:['Id','D.N.I','Apellido y Nombre'] 
    				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
     				,{name:'numeroDocumento',index:'numeroDocumento',sorttype:'int', width:100,  sortable:true,search:true,searchoptions:{sopt:['eq']}}
     				,{name:'apellidoNombre',index:'apellidoNombre', width:100,  sortable:true,search:true}] 
     				,hiddenid:'alumnoIdId' 
     				,descid:'alumnoId' 
-    				,hiddenfield:'id' 
-    				,descfield:['numeroDocumento','apellidoNombre']}); 
+    				,hiddenfield:'id'
+        			,onSelected: function(){
+            				showdata();
+            			} 
+    				,onKeyup:function(){
+        				if($.trim($('#alumnoId').val())==''){
+            				hidedata();	
+            			}	
+        			}
+    				,descfield:['apellidoNombre']}); 
 
    				$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
     				 minLength: 2, 
@@ -135,7 +169,9 @@
     				 } 
      				}); 
                 
-	
+					if($('#alumnoIdId').val()!=''){
+						showdata();
+					}	
         	});
 		</script>
         

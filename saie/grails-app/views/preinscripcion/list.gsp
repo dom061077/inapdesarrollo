@@ -17,7 +17,7 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Denominación','Duración','Año Lectivo Vigente'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},

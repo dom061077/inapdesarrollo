@@ -41,9 +41,17 @@ class PreinscripcionController {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 
+		
         def preinscripcionInstance = new Preinscripcion(params)
 		
-		def anioLectivoInstance = AnioLectivo.findByCarrera
+		
+		if(preinscripcionInstance.carrera){
+			def sortedList= preinscripcionInstance.carrera.anios.sort{it.anioLectivo}
+			if(sortedList.size()>0){
+				def cupo= sortedList.get(0).cupo
+				def cupoSuplementes = sortedList.get(0).cupoSuplentes
+			}
+		}
 		
 		//if(carreraInstance.)
 		
@@ -53,12 +61,8 @@ class PreinscripcionController {
             redirect(action: "show", id: preinscripcionInstance.id)
         }
         else {
-			def niveles
-			if(params.carrera){
-				niveles = Carrera.get(params.carrera)?.niveles
-			}
 	
-            render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,niveles:niveles])
+            render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
         }
     }
 
@@ -222,6 +226,12 @@ class PreinscripcionController {
 
 	}
 
+	
+	def carrerasdisponibles = {
+		log.info "INGRESANDO AL CLOSURE carrerasdisponibles"
+		log.info "PARAMETROS: $params"
+		
+	}
 
 
 	

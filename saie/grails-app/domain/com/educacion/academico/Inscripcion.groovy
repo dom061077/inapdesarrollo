@@ -7,7 +7,9 @@ import com.educacion.academico.Nivel
 
 class Inscripcion {
 	Alumno alumno
-	Nivel nivel
+	Carrera carrera
+	AnioLectivo anioLectivo
+
 	Date fechaAlta = new Date()
 	
 	

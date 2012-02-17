@@ -14,7 +14,7 @@ class Carrera {
 	
 	
 	
-	static hasMany= [requisitos:Requisito,niveles:Nivel,anios:AnioLectivo, documentos:DocumentoCarrera]
+	static hasMany= [requisitos:Requisito,niveles:Nivel,anios:AnioLectivo, documentos:DocumentoCarrera, preinscripciones:Inscripcion]
 	
     static constraints = {
 		denominacion(nullable:false,blank:false)

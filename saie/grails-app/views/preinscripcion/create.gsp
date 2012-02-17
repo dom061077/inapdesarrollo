@@ -14,7 +14,7 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
 		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>                
-		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.cascade-select.js')}"></script>
+<!--		<script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.cascade-select.js')}"></script>-->
         
  		
     </head>
@@ -73,32 +73,9 @@
 								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera:" /></label>
 							</div>
 							<div class="span-10">
-								<g:select class="inputlarge" name="carrera" id="carreraId" from="${Carrera.listOrderByDenominacion()}" 
-								optionKey="id" optionValue="denominacion" value="${preinscripcionInstance?.nivel?.carrera?.id}"></g:select>
+								<g:select class="inputlarge" name="carrera.id" id="carreraId" from="${Carrera.listOrderByDenominacion()}" 
+								optionKey="id" optionValue="denominacion" value="${preinscripcionInstance?.carrera?.id}"></g:select>
 							</div>
-										
-							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
-								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="nivel"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-						   
-							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="nivel"><g:message code="preinscripcion.nivel.label" default="Nivel:" /></label>
-							</div>
-							<div class="span-10">
-								<g:select class="inputlarge" from="${niveles}" optionKey="id" optionValue="descripcion" 
-								name="nivel.id" id="nivelId" value="${preinscripcionInstance?.nivel?.id}" ></g:select>
-							</div>
-										
-							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
-								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="nivel"/>
-								</div>
-						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
                         
@@ -130,10 +107,10 @@
             }
 			
         	$(document).ready(function(){
-        		$('#carreraId').cascade({
+        		/*$('#carreraId').cascade({
                     source: '<%out << createLink(controller:'carrera',action:'cascadeniveles')%>',
                     cascaded: "nivelId"
-                });
+                });*/
 
            		$('#alumnoId').lookupfield({source:'<%out<<createLink(controller:"alumno",action:"listsearchjson")%>',
     				 title:'Buscar Alumno' 

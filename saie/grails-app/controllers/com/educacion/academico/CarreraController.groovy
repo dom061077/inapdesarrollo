@@ -197,7 +197,6 @@ class CarreraController {
 			}*/
 			
 
-
 			Carrera.withTransaction(){TransactionStatus status ->
 				if (params.version) {
 					def version = params.version.toLong()
@@ -229,10 +228,14 @@ class CarreraController {
 					try{
 						nivelInstance = Nivel.load(it.id.toLong())
 						carreraInstance.removeFromNiveles(nivelInstance)
-						nivelInstance.delete()
+						nivelInstance.delete(flush:true)
 						log.debug "NIVEL ELIMINADO: "+it
 					}catch(org.hibernate.ObjectNotFoundException e){
 						log.debug "NO SE PUDO ELIMINAR EL NIVEL "+it
+					}catch (org.springframework.dao.DataIntegrityViolationException e){
+						flash.message="Uno de los niveles no pudo eliminarse por favor edite de nuevo la carrera"
+						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
+						status.setRollbackOnly()
 					}
 				}
 				
@@ -254,10 +257,12 @@ class CarreraController {
 					try{
 						anioLectivoInstance = AnioLectivo.load(it.id.toLong())
 						carreraInstance.removeFromAnios(anioLectivoInstance)
-						anioLectivoInstance.delete()
+						anioLectivoInstance.delete(flush:true)
 						log.debug "ANIO LECTIVO ELIMINADO: "+it
-					}catch(org.hibernate.ObjectNotFoundException e){
-						log.debug "NO SE PUDO ELIMINAR EL ANIO LECTIVO "+it
+					}catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
+						flash.message="Uno de los años lectivos no pudo eliminarse por favor edite de nuevo la carrera"
+						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
+						status.setRollbackOnly()
 					}
 				}
 				java.sql.Date fechaInicio
@@ -275,7 +280,12 @@ class CarreraController {
 						anioLectivoInstance.costoMatricula=it.costoMatricula.toDouble()
 						anioLectivoInstance.fechaInicio=fechaInicio
 						anioLectivoInstance.fechaFin=fechaFin
-						anioLectivoInstance.save()
+						
+						if(!anioLectivoInstance.save()){
+							status.setRollbackOnly()
+							render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
+							return
+						}
 						log.debug "ENCUENTRA EL ANIO LECTIVO Y LO MODIFICA"
 					 }else{
 		 
@@ -644,7 +654,16 @@ class CarreraController {
 		log.info "PARAMETROS: $params"
 		//def gud=new GUtilDomainClass(Carrera,params,grailsApplication)
 		//def list=gud.listrefactor(false)
-		def list =  Carrera.executeQuery("SELECT c.id,c.denominacion,count(pre.id)FROM Carrera c LEFT JOIN c.preinscripciones pre GROUP BY c.id")
+		def list =  Carrera.executeQuery("SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) "
+			+" FROM AnioLectivo a WHERE a.carrera.id=c.id)"
+			+",(SELECT acup.cupo FROM AnioLectivo acup"
+				+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)"
+				+" AND acup.carrera.id=c.id"
+				+")"
+			+"	, COUNT(pre.id) "
+			+" FROM Carrera c  "
+			+" LEFT JOIN c.preinscripciones pre "
+			+" GROUP BY c.id")
 		
 		list?.each{
 			log.debug  "LIST RESULT: "+it
@@ -667,7 +686,7 @@ class CarreraController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it[0].id+'","cell":["'+it[0].id+'","'+(it[0].denominacion==null?"":it[0].denominacion)+'","'+(it[0].duracion==null?"":it[0].duracion)+'"]}'
+			result=result+'{"id":"'+it[0]+'","cell":["'+it[0]+'","'+(it[1]==null?"":it[1])+'","'+(it[2]==null?"":it[2])+'","'+(it[3]==null?"":it[3])+'","'+(it[4]==null?"":it[4])+'","'+(it[5]==null?"":it[5])+'","'+(it[6]==null?"":it[6]-it[7])+'"]}'
 			 
 			flagaddcomilla=true
 		}

@@ -15,5 +15,6 @@ class AnioLectivo {
 	static belongsTo=[carrera:Carrera]
 	
     static constraints = {
+		carrera(unique: 'anioLectivo')
     }
 }

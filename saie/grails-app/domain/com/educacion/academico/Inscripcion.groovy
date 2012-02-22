@@ -12,7 +12,7 @@ class Inscripcion {
 
 	Date fechaAlta = new Date()
 	
-	static belongsTo = {Carrera}
+	static belongsTo = [Carrera,AnioLectivo]
     static constraints = {
     }
 }

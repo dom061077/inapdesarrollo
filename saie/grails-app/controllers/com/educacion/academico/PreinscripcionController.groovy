@@ -30,11 +30,12 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
         def preinscripcionInstance = new Preinscripcion()
 		def niveles
-		def carreras = Carrera.listOrderByDenominacion()
-		niveles = carreras?.get(0)?.niveles
-
+		//def carreras = Carrera.listOrderByDenominacion()
+		//niveles = carreras?.get(0)?.niveles
+		def carreraInstance = Carrera.get(params.id)
         preinscripcionInstance.properties = params
-        return [preinscripcionInstance: preinscripcionInstance, niveles:niveles]
+		preinscripcionInstance.carrera = carreraInstance
+        return [preinscripcionInstance: preinscripcionInstance]
     }
 
     def save = {
@@ -51,6 +52,7 @@ class PreinscripcionController {
 				def cupo= sortedList.get(0).cupo
 				def cupoSuplementes = sortedList.get(0).cupoSuplentes
 			}
+			preinscripcionInstance.anioLectivo = sortedList.get(0)
 		}
 		
 		//if(carreraInstance.)
@@ -233,6 +235,17 @@ class PreinscripcionController {
 		
 	}
 
+	def listcarrerasdisponiblesjson = {
+		log.info "INGRESANDO AL CLOSURE listcarrerasdisponiblesjson"
+		log.info "PARAMETROS: $params"
+		
+		def list = Carrera.executeQuery("FROM Carrera c LEFT JOIN preinscripciones pre GROUP BY c.id")
+		list?.each{
+			log.debug "CARRERA: "+it
+		} 
+		render " []"
+		
+	}
 
 	
 }

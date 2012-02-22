@@ -644,11 +644,11 @@ class CarreraController {
 		log.info "PARAMETROS: $params"
 		//def gud=new GUtilDomainClass(Carrera,params,grailsApplication)
 		//def list=gud.listrefactor(false)
-		def list = Preinscripcion.createCriteria.list{
-			
+		def list =  Carrera.executeQuery("SELECT c.id,c.denominacion,count(pre.id)FROM Carrera c LEFT JOIN c.preinscripciones pre GROUP BY c.id")
+		
+		list?.each{
+			log.debug  "LIST RESULT: "+it
 		}
-		
-		
 		
 		def totalregistros=0//gud.listrefactor(true)
 		
@@ -667,7 +667,7 @@ class CarreraController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.campoOcupacional==null?"":it.campoOcupacional)+'"]}'
+			result=result+'{"id":"'+it[0].id+'","cell":["'+it[0].id+'","'+(it[0].denominacion==null?"":it[0].denominacion)+'","'+(it[0].duracion==null?"":it[0].duracion)+'"]}'
 			 
 			flagaddcomilla=true
 		}

@@ -34,7 +34,21 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-            		<div class="append-bottom">	
+            		<div class="append-bottom">
+            		
+							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
+								<div class="ui-state-error ui-corner-all append-bottom">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera:" /></label>
+							</div>
+							<div class="span-10">
+								<g:textField class="inputlarge" disabled="disabled" name="carrera" value="${preinscripcionInstance?.carrera?.denominacion}"></g:textField>
+								<g:hiddenField name="carrera.id" name="carrera.id" value="${preinscripcionInstance?.carrera?.id}"></g:hiddenField>
+							</div>
+							<div class="clear"></div>            		
+            			
                         
 							<g:hasErrors bean="${preinscripcionInstance}" field="alumno">
 								<div class="ui-state-error ui-corner-all append-bottom">
@@ -65,17 +79,6 @@
 							</div>				
 											
 																	
-							<g:hasErrors bean="${preinscripcionInstance}" field="nivel">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="carrera"><g:message code="preinscripcion.carrera.label" default="Carrera:" /></label>
-							</div>
-							<div class="span-10">
-								<g:select class="inputlarge" name="carrera.id" id="carreraId" from="${Carrera.listOrderByDenominacion()}" 
-								optionKey="id" optionValue="denominacion" value="${preinscripcionInstance?.carrera?.id}"></g:select>
-							</div>
 						   <div class="clear"></div>
 						   
                         

@@ -12,7 +12,7 @@
         <script type="text/javascript">
         	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
-				   	url:'listjson',
+				   	url:'<%out << createLink(controller:'carrera',action:'preinslistjson')%>',
 					datatype: "json",
 					width:700,
 					colNames:['Id','Denominación','Duración','Título','Validez del Título','Año Lectivo Vigente','Disponibilidad','Opciones'],
@@ -41,9 +41,9 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
+							be = "<a title='Inscribir' href='<%out << createLink(controller:'preinscripcion',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							//var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
 						
 						 

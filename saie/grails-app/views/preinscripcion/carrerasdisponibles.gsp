@@ -15,16 +15,21 @@
 				   	url:'<%out << createLink(controller:'carrera',action:'preinslistjson')%>',
 					datatype: "json",
 					width:700,
-					colNames:['Id','Denominación','Duración','Título','Validez del Título','Año Lectivo Vigente','Disponibilidad','Opciones'],
+					colNames:['Id','Denominación'
+								//,'Duración','Título','Validez del Título'
+								,'Año Lectivo','Cupo','Cupo Suplentes','Inscriptos','Suplentes Ins.','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40,hidden:true,search:false},
 				   		{name:'denomicacion',index:'denominacion', width:92,sortable:true,search:true},
-				   		{name:'duracion',index:'duracion', width:50,sortable:true,search:false},
-				   		{name:'titulo',index:'titulo', width:100,sortable:true,search:false},
-				   		{name:'validezTitulo',index:'validezTitulo',sortable:false, width:100,search:false},
+				   		//{name:'duracion',index:'duracion', width:50,sortable:true,search:false},
+				   		//{name:'titulo',index:'titulo', width:100,sortable:true,search:false},
+				   		//{name:'validezTitulo',index:'validezTitulo',sortable:false, width:100,search:false},
 				   		{name:'anioLectivo',index:'anioLectivo',sortable:false, width:100,search:false},
 				   		{name:'cupo',index:'cupo', width:100,sortable:false,search:false},
+				   		{name:'cuposuplentes',index:'cupo', width:100,sortable:false,search:false},
+				   		{name:'inscriptos',index:'inscriptos', width:100,sortable:false,search:false},
+				   		{name:'inscriptossuplentes',index:'inscriptossuplentes', width:100,sortable:false,search:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -69,7 +74,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1>Seleccione la carrera en la que desea inscribirse</h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

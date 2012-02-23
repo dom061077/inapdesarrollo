@@ -2,6 +2,7 @@ package com.educacion.academico
 
 
 import com.educacion.util.GUtilDomainClass
+import com.educacion.util.FilterUtils;
 
 import java.text.SimpleDateFormat
 
@@ -11,7 +12,7 @@ import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
 import java.text.SimpleDateFormat;
 import com.educacion.academico.Carrera;
-
+import grails.converters.JSON
 
 class CarreraController {
 
@@ -654,16 +655,40 @@ class CarreraController {
 		log.info "PARAMETROS: $params"
 		//def gud=new GUtilDomainClass(Carrera,params,grailsApplication)
 		//def list=gud.listrefactor(false)
-		def list =  Carrera.executeQuery("SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) "
-			+" FROM AnioLectivo a WHERE a.carrera.id=c.id)"
-			+",(SELECT acup.cupo FROM AnioLectivo acup"
-				+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)"
-				+" AND acup.carrera.id=c.id"
-				+")"
-			+"	, COUNT(pre.id) "
-			+" FROM Carrera c  "
-			+" LEFT JOIN c.preinscripciones pre "
-			+" GROUP BY c.id")
+		def hqlstr = "SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) ";
+		hqlstr = hqlstr +" FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+		hqlstr = hqlstr 	+",(SELECT acup.cupo FROM AnioLectivo acup";
+		hqlstr = hqlstr		+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+		hqlstr = hqlstr		+" AND acup.carrera.id=c.id";
+		hqlstr = hqlstr		+")";
+		hqlstr = hqlstr	+",(SELECT acup.cupoSuplentes FROM AnioLectivo acup";
+		hqlstr = hqlstr	+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
+		hqlstr = hqlstr	+")";
+		hqlstr = hqlstr	+"  ,(SELECT";
+		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
+		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+		hqlstr = hqlstr	+"  )";
+		hqlstr = hqlstr	+" FROM Carrera c  ";
+		def filtersJson
+		if(Boolean.parseBoolean(params._search )){
+			if(params.filters){
+				def searchOper
+				def metaProperty
+				def searchValue
+				filtersJson = JSON.parse(params.filters)
+				filtersJson?.rules?.each{
+					searchOper = GUtilDomainClass.operationSearch(it.op)
+					metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,Carrera.class,it.field)
+					searchValue = GUtilDomainClass.parseValue((Object)it.data,(Object)metaProperty,(Object)params)
+					//searchValue = GUtilDomainClass.parseValue(it.data,metaProperty,params)
+				}
+				log.debug "FILTROS EN JSON: "+filtersJson
+			}
+		}
+		
+		hqlstr = hqlstr+" GROUP BY c.id";
+		def list =  Carrera.executeQuery(hqlstr)
 		
 		list?.each{
 			log.debug  "LIST RESULT: "+it
@@ -680,13 +705,20 @@ class CarreraController {
 		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
+		def inscsuplentes
 		list.each{
 			
 			if (flagaddcomilla)
 				result=result+','
-				
+			if( it[6] && it[8]){	
+				inscsuplentes = it[6] - it[8]
+				if(inscsuplentes<0  )
+					inscsuplentes = inscsuplentes*(-1)
+				else
+					inscsuplentes = 0
+			}	
 			
-			result=result+'{"id":"'+it[0]+'","cell":["'+it[0]+'","'+(it[1]==null?"":it[1])+'","'+(it[2]==null?"":it[2])+'","'+(it[3]==null?"":it[3])+'","'+(it[4]==null?"":it[4])+'","'+(it[5]==null?"":it[5])+'","'+(it[6]==null?"":it[6]-it[7])+'"]}'
+			result=result+'{"id":"'+it[0]+'","cell":["'+it[0]+'","'+(it[1]==null?"":it[1])+'","'/*+(it[2]==null?"":it[2])+'","'+(it[3]==null?"":it[3])+'","'+(it[4]==null?"":it[4])+'","'*/+(it[5]==null?"":it[5])+'","'+(it[6]==null?"0":it[6])+'","'+(it[7]==null?"0":it[7])+'","'+(it[8]==null?"0":it[8])+'","'+inscsuplentes+'"]}'
 			 
 			flagaddcomilla=true
 		}

@@ -47,7 +47,8 @@ class PreinscripcionController {
 		
 		
 		if(preinscripcionInstance.carrera){
-			def sortedList= preinscripcionInstance.carrera.anios.sort{it.anioLectivo}
+			def sortedList= preinscripcionInstance.carrera.anios.sort{it.anioLectivo}.reverse()
+
 			if(sortedList.size()>0){
 				def cupo= sortedList.get(0).cupo
 				def cupoSuplementes = sortedList.get(0).cupoSuplentes

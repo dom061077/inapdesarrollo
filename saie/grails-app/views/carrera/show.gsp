@@ -60,9 +60,9 @@
 						,colModel:[ 
 							{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 							,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}							
-							,{name:'anioLectivo',index:'anioLectivo', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}						
-							,{name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-							,{name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'anioLectivo',index:'anioLectivo', width:100,editable:true,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}						
+							,{name:'cupo',index:'cupo', width:40, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+							,{name:'cupoSuplentes',index:'cupoSuplentes', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 							,{name:'costoMatricula',index:'costoMatricula', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 							,{name:'fechaInicio',index:'fechaInicio', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 							,{name:'fechaFin',index:'fechaFin', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}

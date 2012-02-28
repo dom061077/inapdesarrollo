@@ -9,6 +9,8 @@ import java.text.DateFormat
 
 import java.text.ParseException 
 
+import org.springframework.transaction.TransactionStatus
+
 
 
 class PreinscripcionController {
@@ -57,16 +59,42 @@ class PreinscripcionController {
 		}
 		
 		//if(carreraInstance.)
-		
-		preinscripcionInstance.estado = com.educacion.enums.EstadoPreinscripcion.PREINS_HABILITADO
-        if (preinscripcionInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-            redirect(action: "show", id: preinscripcionInstance.id)
-        }
-        else {
-	
-            render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
-        }
+		def hqlstr = "SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) ";
+		hqlstr = hqlstr +" FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+		hqlstr = hqlstr 	+",(SELECT acup.cupo FROM AnioLectivo acup";
+		hqlstr = hqlstr		+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+		hqlstr = hqlstr		+" AND acup.carrera.id=c.id";
+		hqlstr = hqlstr		+")";
+		hqlstr = hqlstr	+",(SELECT acup.cupoSuplentes FROM AnioLectivo acup";
+		hqlstr = hqlstr	+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
+		hqlstr = hqlstr	+")";
+		hqlstr = hqlstr	+"  ,(SELECT";
+		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
+		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+		hqlstr = hqlstr	+"  )";
+		hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
+		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id])
+		if(list.get(0)[])
+
+		Preinscripcion.withTransaction{TransactionStatus status ->
+			
+			def inscripcionDetalleInstance
+			preinscripcionInstance.carrera?.requisitos?.each{
+				inscripcionDetalleInstance = new InscripcionDetalle()
+				inscripcionDetalleInstance.addToRequisitos(it)
+			}
+			preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
+			preinscripcionInstance.estado = com.educacion.enums.EstadoPreinscripcion.PREINS_HABILITADO
+			if (preinscripcionInstance.save()) {
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+				redirect(action: "show", id: preinscripcionInstance.id)
+			}
+			else {
+				status.setRollbackOnly()
+				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
+			}
+		}
     }
 
     def show = {
@@ -236,17 +264,6 @@ class PreinscripcionController {
 		
 	}
 
-	def listcarrerasdisponiblesjson = {
-		log.info "INGRESANDO AL CLOSURE listcarrerasdisponiblesjson"
-		log.info "PARAMETROS: $params"
-		
-		def list = Carrera.executeQuery("FROM Carrera c LEFT JOIN preinscripciones pre GROUP BY c.id")
-		list?.each{
-			log.debug "CARRERA: "+it
-		} 
-		render " []"
-		
-	}
 
 	
 }

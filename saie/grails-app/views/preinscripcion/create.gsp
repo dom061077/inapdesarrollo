@@ -132,14 +132,15 @@
             				hidedata();	
             			}	
         			}
-    				,descfield:['apellidoNombre']}); 
+    				,descfield:['numeroDocumento']}); 
 
    				$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
     				 minLength: 2, 
      				 select: function( event, ui ) {
     					 if(ui.item){ 
-    						 $('#alumnoIdId').val(ui.item.id) 
-   					 } 
+    						 $('#alumnoIdId').val(ui.item.id)
+    						 showdata(); 
+   					 	} 
    					}, 
     				 open: function() { 
     					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 

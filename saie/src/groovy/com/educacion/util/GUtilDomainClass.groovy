@@ -41,7 +41,7 @@ class GUtilDomainClass{
 	static final String 	BEGINWITH="bw";
 	
 	
-	public static def parseValue(def rawValue, def mp, def params) {
+	def parseValue(def rawValue, def mp, def params) {
 		log.info "INGRESANDO AL METODO parseValue DE LA CLASE GUtilDomainClass METAPROPERTY: $mp"
 		def val = rawValue
 		if(mp == Long){
@@ -120,7 +120,7 @@ class GUtilDomainClass{
 	
 
 	
-	public static String operationSearch(String cr){
+	private String operationSearch(String cr){
 		if(cr!=null){
 			if(EQ.toUpperCase().equals(cr.toUpperCase()))
 				return "eq";

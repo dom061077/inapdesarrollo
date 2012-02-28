@@ -53,7 +53,7 @@
 						
 						 
 					}, 						    
-				    caption:"Listado de ${message(code: 'preinscripcion.label', default: 'Preinscripcion')}"
+				    caption:"Carreras Disponibles"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

@@ -516,17 +516,20 @@ class CarreraController {
 		def flagaddcomilla
 		def totalpaginas
 		def totalregistros
+		
+		def aniosList
 
 		if(params.id){
 			carreraInstance = Carrera.load(params.id.toLong())
-			 result='{"page":1,"total":"'+1+'","records":"'+carreraInstance.anios.size()+'","rows":['
+			aniosList = carreraInstance.anios.sort{it.anioLectivo}.reverse()
+			 result='{"page":1,"total":"'+1+'","records":"'+aniosList.size()+'","rows":['
 			 flagaddcomilla=false
-			 carreraInstance.anios.each{
+			 aniosList?.each{
 				 
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.anioLectivo+'","'+it.cupo+'","'+it.cupoSuplentes+'","'+it.costoMatricula+'","'+it.fechaInicio+'","'+it.fechaFin+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.anioLectivo+'","'+it.cupo+'","'+it.cupoSuplentes+'","'+it.costoMatricula+'","'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaInicio)+'","'+g.formatDate(format:'dd/MM/yyyy',date:it.fechaFin)+'"]}'
 				  
 				 flagaddcomilla=true
 			 }
@@ -669,8 +672,12 @@ class CarreraController {
 		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
 		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
 		hqlstr = hqlstr	+"  )";
-		hqlstr = hqlstr	+" FROM Carrera c  ";
+		hqlstr = hqlstr	+" FROM Carrera c";
 		def filtersJson
+		def parameters=[:]
+		parameters["max"]=Integer.parseInt(params.rows)
+		parameters["offset"]=Integer.parseInt(params.page)-1
+
 		if(Boolean.parseBoolean(params._search )){
 			if(params.filters){
 				def searchOper
@@ -678,17 +685,18 @@ class CarreraController {
 				def searchValue
 				filtersJson = JSON.parse(params.filters)
 				filtersJson?.rules?.each{
-					searchOper = GUtilDomainClass.operationSearch(it.op)
-					metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,Carrera.class,it.field)
-					searchValue = GUtilDomainClass.parseValue((Object)it.data,(Object)metaProperty,(Object)params)
+					//searchOper = GUtilDomainClass.operationSearch(it.op)
+					//metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,Carrera.class,it.field)
 					//searchValue = GUtilDomainClass.parseValue(it.data,metaProperty,params)
+					hqlstr = hqlstr + " WHERE c.denominacion LIKE :denominacion"
+					parameters["denominacion"]="%"+it.data.toUpperCase()+"%"
+					
 				}
-				log.debug "FILTROS EN JSON: "+filtersJson
 			}
 		}
 		
 		hqlstr = hqlstr+" GROUP BY c.id";
-		def list =  Carrera.executeQuery(hqlstr)
+		def list =  Carrera.executeQuery(hqlstr,parameters)
 		
 		list?.each{
 			log.debug  "LIST RESULT: "+it
@@ -705,7 +713,7 @@ class CarreraController {
 		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
-		def inscsuplentes
+		def inscsuplentes=0
 		list.each{
 			
 			if (flagaddcomilla)

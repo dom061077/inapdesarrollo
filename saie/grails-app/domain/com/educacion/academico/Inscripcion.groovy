@@ -12,6 +12,8 @@ class Inscripcion {
 
 	Date fechaAlta = new Date()
 	
+	static hasMany = [detalle:InscripcionDetalle]
+	
 	static belongsTo = [Carrera,AnioLectivo]
     static constraints = {
     }

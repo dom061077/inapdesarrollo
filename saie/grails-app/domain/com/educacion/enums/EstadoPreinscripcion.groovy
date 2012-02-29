@@ -1,14 +1,14 @@
 package com.educacion.enums
 
 public enum EstadoPreinscripcion {
-	PREINS_HABILITADO("Habilitado"),
-	PREINS_INHABILITADO("Inhabilitado")
+	ESTADO_PREINSCRIPTO("Preinscripto"),
+	ESTADO_PREINSCRIPTOSUPLENTE("Preinscripto como suplente")
 	String name
 	public EstadoPreinscripcion(String name){
 		this.name=name
 	}
 	
 	static list(){
-		[PREINS_HABILITADO,PREINS_INHABILITADO]
+		[ESTADO_PREINSCRIPTO,ESTADO_PREINSCRIPTOSUPLENTE]
 	}
 }

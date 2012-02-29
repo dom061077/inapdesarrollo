@@ -58,59 +58,73 @@
 								<li><a href="./">Acerca de...</a></li>
 							</ul>
 						</li>
-						<li><span class="dir">Académico</span>
+						<li><span class="dir">Actualización</span>
 							<ul>
-								<li><span class="dir">Requisitos</span>
+								<li><span class="dir">Académica</span>
 									<ul>
-										<li><a href="${createLink(controller:'requisito',action:'create')}">Actualización de Requisito</a></li>
-										<li><a href="${createLink(controller:'requisito',action:'list')}">Listado de Requisitos</a></li>
-									</ul>
-								</li>
-								<li><span class="dir">Clase Requisitos</span>
-									<ul>
-										<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Actualización de Clase de Requisito</a></li>
-										<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado de Clase de Requisitos</a></li>
-									</ul>
-								</li>
-								<li><span class="dir">Carreras</span>
-									<ul>
-										<li><a href="${createLink(controller:'carrera',action:'create')}">Actualización de Carrera</a></li>
-										<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Carrera</a></li>
-										<li><a href="${createLink(controller:'documentoCarrera',action:'create')}">Documentación de Carrera</a></li>
+										<li><span class="dir">Clase Requisitos</span>
+											<ul>
+												<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Actualización de Clase de Requisito</a></li>
+												<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado de Clase de Requisitos</a></li>
+											</ul>
+										</li>
+										<li><span class="dir">Requisitos</span>
+											<ul>
+												<li><a href="${createLink(controller:'requisito',action:'create')}">Actualización de Requisito</a></li>
+												<li><a href="${createLink(controller:'requisito',action:'list')}">Listado de Requisitos</a></li>
+											</ul>
+										</li>
+										
+										<li><span class="dir">Carreras</span>
+											<ul>
+												<li><a href="${createLink(controller:'carrera',action:'create')}">Actualización de Carrera</a></li>
+												<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Carrera</a></li>
+												<li><a href="${createLink(controller:'documentoCarrera',action:'create')}">Documentación de Carrera</a></li>
+											</ul>
+										</li>
+										
+										<li><span class="dir">Alumnos</span>
+											<ul>
+												<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización de Alumno</a></li>
+												<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
+												<li><a href="${createLink(controller:'alumno',action:'register')}">Registro Online de Alumno</a></li>
+											</ul>
+										</li>
+										<li><span class="dir">Materias</span>
+											<ul>
+												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización de materia</a></li>
+												<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
+											</ul>
+									
+										</li>
+										
+										
 									</ul>
 								</li>
 								
-								<li><span class="dir">Alumnos</span>
-									<ul>
-										<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización de Alumno</a></li>
-										<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
-										<li><a href="${createLink(controller:'alumno',action:'register')}">Registro Online de Alumno</a></li>
-									</ul>
-								</li>
-								<li><span class="dir">Materias</span>
-									<ul>
-										<li><a href="${createLink(controller:'materia',action:'create')}">Actualización de materia</a></li>
-										<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
-									</ul>
-							
-								</li>
+								<li><span class="dir">Administrativa</span>
 								
-								<li><span class="dir">Inscripciones</span>
-									<ul>
-										<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">PreInscribir</a></li>
-										<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listado de PreInscripciones</a></li>								
-									</ul>
-							
 								</li>
+							
 								
 							</ul>	
 						</li>
 						
 						<li><span class="dir">Gestión</span>
-									<ul>
-										<li><a href="${createLink(controller:'inscripcion',action:'create')}">Actualización de Inscripción</a></li>
-										<li><a href="${createLink(controller:'inscripcion',action:'list')}">Listado de Inscripciones</a></li>
-									</ul>
+								<ul>
+									<li><span class="dir">Académica</span>
+										<ul>
+											<li><span class="dir">Preinscripciones</span>
+												<ul>
+													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">PreInscribir</a></li>
+													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listado de PreInscripciones</a></li>								
+												</ul>
+											</li>
+										</ul>
+									</li>																		
+									<li><span class="dir">Administrativa</span>
+									</li>																		
+								</ul>
 						</li>
 						
 						<li><span class="dir">Contactenos</span>

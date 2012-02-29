@@ -17,12 +17,14 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Denominación','Duración','Año Lectivo Vigente'],
+					colNames:['Id','Alumno','Carrera','Fecha Alta','Año Lectivo','Operaciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'id',index:'id', width:40, hidden:true},
+				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:false},
+				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
+				   		{name:'fechaAlta',index:'fechaAlta',width:40,search:false},
+				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:40,search:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	

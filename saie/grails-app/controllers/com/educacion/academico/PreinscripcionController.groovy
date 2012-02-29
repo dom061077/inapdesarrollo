@@ -11,6 +11,7 @@ import java.text.ParseException
 
 import org.springframework.transaction.TransactionStatus
 
+import com.educacion.enums.EstadoPreinscripcion;
 
 
 class PreinscripcionController {
@@ -35,6 +36,19 @@ class PreinscripcionController {
 		//def carreras = Carrera.listOrderByDenominacion()
 		//niveles = carreras?.get(0)?.niveles
 		def carreraInstance = Carrera.get(params.id)
+		def anioLectivoInstance
+		def sortedList= carreraInstance.anios.sort{it.anioLectivo}.reverse()
+		if(sortedList.size()>0){
+			def cupo= sortedList.get(0).cupo
+			def cupoSuplementes = sortedList.get(0).cupoSuplentes
+			anioLectivoInstance = sortedList.get(0)
+		}
+		if(!anioLectivoInstance){
+			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[carreraInstance?.denominacion])
+			redirect(action:"carrerasdisponibles")
+			return
+		}
+		
         preinscripcionInstance.properties = params
 		preinscripcionInstance.carrera = carreraInstance
         return [preinscripcionInstance: preinscripcionInstance]
@@ -54,8 +68,14 @@ class PreinscripcionController {
 			if(sortedList.size()>0){
 				def cupo= sortedList.get(0).cupo
 				def cupoSuplementes = sortedList.get(0).cupoSuplentes
+				preinscripcionInstance.anioLectivo = sortedList.get(0)
 			}
-			preinscripcionInstance.anioLectivo = sortedList.get(0)
+			
+		}
+		if(!preinscripcionInstance.anioLectivo){
+			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[preinscripcionInstance?.carrera?.denominacion])
+			render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
+			return
 		}
 		
 		//if(carreraInstance.)
@@ -75,17 +95,45 @@ class PreinscripcionController {
 		hqlstr = hqlstr	+"  )";
 		hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
 		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id])
-		if(list.get(0)[])
-
-		Preinscripcion.withTransaction{TransactionStatus status ->
+		def datosCarrera = list?.get(0)
+		def cupodisponible=0
+		def cupo = 0
+		def cuposuplentes = 0
+		def inscriptos = 0
+		
+		//el indice 6 es el cupo, el 7 cupo suplente, el 8 la cantidad de preinscripciones
+		if((!datosCarrera[6]) || (datosCarrera[6]==0)){
+			flash.message = "No hay un cupo cargado para el año lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
+			render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
+			return
+		}
+		cupo = preinscripcionInstance.anioLectivo.cupo
+		if(datosCarrera[7])  
+			cuposuplentes = datosCarrera[7]
+		if(datosCarrera[8])
+			inscriptos = datosCarrera[8]
 			
-			def inscripcionDetalleInstance
+		if((cupo+cuposuplentes)<(inscriptos+1)){
+			flash.message="No hay un cupo para esta inscripciÃ³n"
+			render(view:"create",model:[preinscripcionInstance:preinscripcionInstance])
+			return
+		}		
+					
+		cupodisponible = datosCarrera[6] - datosCarrera[8] - 1
+		if(cupodisponible<0)
+			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE
+		else
+			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
+		
+		
+		Preinscripcion.withTransaction{TransactionStatus status ->
+			def inscripcionDetalleInstance = new InscripcionDetalle()
+			
 			preinscripcionInstance.carrera?.requisitos?.each{
 				inscripcionDetalleInstance = new InscripcionDetalle()
 				inscripcionDetalleInstance.addToRequisitos(it)
 			}
 			preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
-			preinscripcionInstance.estado = com.educacion.enums.EstadoPreinscripcion.PREINS_HABILITADO
 			if (preinscripcionInstance.save()) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 				redirect(action: "show", id: preinscripcionInstance.id)
@@ -202,7 +250,7 @@ class PreinscripcionController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellidoNombre==null?"":it.alumno.apellidoNombre)+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+(it.anioLectivo.anioLectivo==null?"":it.anioLectivo.anioLectivo)+'"]}'
 			 
 			flagaddcomilla=true
 		}

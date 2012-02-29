@@ -6,7 +6,7 @@ class InscripcionDetalle {
 	
 	
 	
-	static belongTo = [inscripcion:Inscripcion]
+	static belongsTo = [inscripcion:Inscripcion]
 	
 	static hasMany = [requisitos:Requisito]
 	

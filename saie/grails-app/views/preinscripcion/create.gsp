@@ -66,7 +66,7 @@
 								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="alumno"/>
 								</div>
 						   </g:hasErrors>
-						   <div class="span-3"><g:link controller="alumno" action="create">Es tu primera vez?</g:link> </div>
+						   <div class="span-3"><g:link controller="alumno" action="create">No existe el Alumno?</g:link> </div>
 						   <div class="clear"></div>
 
 							<div id="datosAlumnoId" class="hidden">

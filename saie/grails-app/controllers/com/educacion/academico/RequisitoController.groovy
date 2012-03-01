@@ -156,7 +156,7 @@ class RequisitoController {
 						requisitoInstance.removeFromSubRequisitos(subRequisitoInstance)
 						subRequisitoInstance.delete()
 					}catch(org.hibernate.ObjectNotFoundException e){
-						
+						log.error "ERROR AL CARGAR EL SUBREQUISITO"
 					}	
 				}
 				
@@ -171,12 +171,13 @@ class RequisitoController {
 					
 	            requisitoInstance.properties = params
 	            if (!requisitoInstance.hasErrors() && requisitoInstance.save(flush: true)) {
-					status.setRollbackOnly()
-					render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
-	            }
-	            else {
 					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'requisito.label', default: 'Requisito'), requisitoInstance.id])}"
 					redirect(controller:"requisito",action: "show", id: requisitoInstance.id)
+
+	            }
+	            else {
+					status.setRollbackOnly()
+					render(view: "edit", model: [requisitoInstance: requisitoInstance,subRequisitosSerialized:subRequisitosSerialized])
 
 	            }
 			}

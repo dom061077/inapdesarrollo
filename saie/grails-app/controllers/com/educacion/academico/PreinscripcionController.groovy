@@ -12,6 +12,7 @@ import java.text.ParseException
 import org.springframework.transaction.TransactionStatus
 
 import com.educacion.enums.EstadoPreinscripcion;
+import com.educacion.enums.EstadoDetalleInscripcionRequisito
 
 
 class PreinscripcionController {
@@ -127,13 +128,15 @@ class PreinscripcionController {
 		
 		
 		Preinscripcion.withTransaction{TransactionStatus status ->
-			def inscripcionDetalleInstance = new InscripcionDetalle()
+			def inscripcionDetalleInstance = new InscripcionDetalleRequisito()
 			
 			preinscripcionInstance.carrera?.requisitos?.each{
-				inscripcionDetalleInstance = new InscripcionDetalle()
-				inscripcionDetalleInstance.addToRequisitos(it)
+				inscripcionDetalleInstance = new InscripcionDetalleRequisito()
+				inscripcionDetalleInstance.requisito = it
+				inscripcionDetalleInstance.estado = EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
+				preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
 			}
-			preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
+			
 			if (preinscripcionInstance.save()) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 				redirect(action: "show", id: preinscripcionInstance.id)

@@ -7,8 +7,7 @@ class Requisito {
 	String descripcion
 	EstadoRequisitoEnum estado=EstadoRequisitoEnum.ESTADOREQUISITO_ACTIVO
 	
-	static hasMany = [subRequisitos:SubRequisito, detalleInscripcion:InscripcionDetalle]
-	static belongsTo = [InscripcionDetalle]
+	static hasMany = [subRequisitos:SubRequisito]
 	
 	
     static constraints = {

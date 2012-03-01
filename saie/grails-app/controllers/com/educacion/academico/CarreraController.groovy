@@ -713,6 +713,7 @@ class CarreraController {
 		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
+		def insctitulares = 0 
 		def inscsuplentes=0
 		list.each{
 			
@@ -725,8 +726,8 @@ class CarreraController {
 				else
 					inscsuplentes = 0
 			}	
-			
-			result=result+'{"id":"'+it[0]+'","cell":["'+it[0]+'","'+(it[1]==null?"":it[1])+'","'/*+(it[2]==null?"":it[2])+'","'+(it[3]==null?"":it[3])+'","'+(it[4]==null?"":it[4])+'","'*/+(it[5]==null?"":it[5])+'","'+(it[6]==null?"0":it[6])+'","'+(it[7]==null?"0":it[7])+'","'+(it[8]==null?"0":it[8])+'","'+inscsuplentes+'"]}'
+			insctitulares = it[8] - inscsuplentes
+			result=result+'{"id":"'+it[0]+'","cell":["'+it[0]+'","'+(it[1]==null?"":it[1])+'","'/*+(it[2]==null?"":it[2])+'","'+(it[3]==null?"":it[3])+'","'+(it[4]==null?"":it[4])+'","'*/+(it[5]==null?"":it[5])+'","'+(it[6]==null?"0":it[6])+'","'+(it[7]==null?"0":it[7])+'","'+insctitulares+'","'+inscsuplentes+'"]}'
 			 
 			flagaddcomilla=true
 		}

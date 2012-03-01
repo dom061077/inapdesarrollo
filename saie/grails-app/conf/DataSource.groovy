@@ -31,7 +31,7 @@ environments {
         }
     }
     production {
-         dataSource {
+         /*dataSource {
 			pooled = true
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "inapcom_rootsaie"
@@ -48,6 +48,17 @@ environments {
 				maxWait = 10000
 				validationQuery = "select 1"
 			}
-        }
+        }*/
+		
+		dataSource {
+			pooled = true
+			driverClassName = "com.mysql.jdbc.Driver"
+			username = "root"
+			password = "exito"
+		
+			dbCreate = "update" // one of 'create', 'create-drop','update'
+			url = "jdbc:mysql://localhost/saie"
+		}
+
     }
 }

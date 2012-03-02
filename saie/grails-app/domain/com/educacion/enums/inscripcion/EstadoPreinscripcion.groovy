@@ -1,4 +1,5 @@
-package com.educacion.enums
+package com.educacion.enums.inscripcion
+
 
 public enum EstadoPreinscripcion {
 	ESTADO_PREINSCRIPTO("Preinscripto"),

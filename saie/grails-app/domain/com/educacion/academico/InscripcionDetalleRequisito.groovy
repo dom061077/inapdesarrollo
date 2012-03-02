@@ -1,6 +1,6 @@
 package com.educacion.academico
 
-import com.educacion.enums.EstadoDetalleInscripcionRequisito
+import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
 
 class InscripcionDetalleRequisito {
 

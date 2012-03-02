@@ -95,7 +95,6 @@
 												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización de materia</a></li>
 												<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
 											</ul>
-									
 										</li>
 										
 										
@@ -120,6 +119,13 @@
 													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listado de PreInscripciones</a></li>								
 												</ul>
 											</li>
+											<li><span class="dir">Inscripción Materia</span>
+												<ul>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Inscripción en Materia</a></li>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado de Inscripciones en Materia</a></li>								
+												</ul>
+											</li>
+											
 										</ul>
 									</li>																		
 									<li><span class="dir">Administrativa</span>

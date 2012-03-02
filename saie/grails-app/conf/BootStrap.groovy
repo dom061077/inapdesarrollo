@@ -5,6 +5,7 @@ import com.educacion.seguridad.Role
 import com.educacion.seguridad.UserRole
 
 class BootStrap {
+	//111111
 	def springSecurityService
 	
 	/*void requestmapRegister(){

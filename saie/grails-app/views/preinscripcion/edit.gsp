@@ -101,17 +101,26 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 						<div class="span-3 spanlabel">
 							<label for="alumno"><g:message code="preinscripcion.alumno.label" default="Alumno" /></label>
 						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="alumnoId" name="alumnoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />
+						<div class="span-5 spanlabel">
+								${preinscripcionInstance.alumno.apellidoNombre}
+<!--							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="alumnoId" name="alumnoDesc"  value="colocar el valor del field descripcion" /> -->
+<!-- 							<g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />-->
 						</div>
-									
+
 						<g:hasErrors bean="${preinscripcionInstance}" field="alumno">
 							<g:renderErrors bean="${preinscripcionInstance}" as="list" field="alumno"/>
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
-		
+
+
+						<div class="span-3 spanlabel">
+							<label for="alumno"><g:message code="alumno.numeroDocumento.label" default="Alumno" /></label>
+						</div>
+						<div class="span-5 spanlabel">
+								${preinscripcionInstance.alumno.numeroDocumento}
+						</div>
+					   <div class="clear"></div>
 																
 		            
 						<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
@@ -121,9 +130,8 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 						<div class="span-3 spanlabel">
 							<label for="anioLectivo"><g:message code="preinscripcion.anioLectivo.label" default="Anio Lectivo" /></label>
 						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
+						<div class="span-5 spanlabel">
+							${preinscripcionInstance.anioLectivo.anioLectivo}
 						</div>
 									
 						<g:hasErrors bean="${preinscripcionInstance}" field="anioLectivo">
@@ -160,8 +168,8 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 						<div class="span-3 spanlabel">
 							<label for="fechaAlta"><g:message code="preinscripcion.fechaAlta.label" default="Fecha Alta" /></label>
 						</div>
-						<div class="span-5">
-							<g:textField id="fechaAltaId" class="ui-widget ui-corner-all ui-widget-content" name="fechaAlta" value="${fieldValue(bean: preinscripcionInstance, field: 'fechaAlta')}" />
+						<div class="span-5 spanlabel">
+							<g:formatDate format="dd/MM/yyyy" date="${preinscripcionInstance?.fechaAlta}"/>
 						</div>
 									
 						<g:hasErrors bean="${preinscripcionInstance}" field="fechaAlta">

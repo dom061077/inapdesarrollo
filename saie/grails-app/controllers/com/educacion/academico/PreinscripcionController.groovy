@@ -11,8 +11,8 @@ import java.text.ParseException
 
 import org.springframework.transaction.TransactionStatus
 
-import com.educacion.enums.EstadoPreinscripcion;
-import com.educacion.enums.EstadoDetalleInscripcionRequisito
+import com.educacion.enums.inscripcion.EstadoPreinscripcion
+import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
 
 
 class PreinscripcionController {
@@ -125,6 +125,7 @@ class PreinscripcionController {
 			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE
 		else
 			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
+																 
 		
 		
 		Preinscripcion.withTransaction{TransactionStatus status ->
@@ -315,6 +316,11 @@ class PreinscripcionController {
 		
 	}
 
+	def inscribir = {
+		log.info "INGRESANDO AL CLOSURE inscribir"
+		log.info "PARAMETROS $params"
+		
+	}
 
 	
 }

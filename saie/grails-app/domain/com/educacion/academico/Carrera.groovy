@@ -17,8 +17,8 @@ class Carrera {
 	static hasMany= [requisitos:Requisito,niveles:Nivel,anios:AnioLectivo, documentos:DocumentoCarrera, preinscripciones:Inscripcion]
 	
     static constraints = {
-		denominacion(nullable:false,blank:false)
-		campoOcupacional(nullable:false,blank:false)
+		denominacion(nullable:false,blank:false,size:1..36)
+		campoOcupacional(nullable:false,blank:false,size:1..35)
     }
 	
 	static mapping = {

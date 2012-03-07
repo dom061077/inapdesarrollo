@@ -736,4 +736,28 @@ class CarreraController {
 
 	}
 	
+	def carrerasreporte = {
+		log.info "INGRESANDO AL CLOSURE carrerasreporte"
+		log.info "PARAMETROS: $params"
+		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/carrera/"))
+		params.put("_format","PDF")
+		params.put("_name","reportecarreras")
+		params.put("_file","carrera/carrerasreporte")
+		def listCarreras = Carrera.list()
+		listCarreras.each{
+			
+			it.requisitos.each{ r->
+					r.claseRequisito
+			}
+			it.niveles.each{ l->
+				log.debug "NIVEL: "+ l.descripcion
+			}
+			it.anios.each{
+				
+			}
+		}
+		chain(controller:'jasper',action:'index',model:[data:listCarreras],params:params)
+
+	}
+	
 }

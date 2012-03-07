@@ -319,7 +319,44 @@ class PreinscripcionController {
 	def inscribir = {
 		log.info "INGRESANDO AL CLOSURE inscribir"
 		log.info "PARAMETROS $params"
-		
+		def preinscripcionInstance = Preinscripcion.get(params.id)
+		if(preinscripcionInstance){
+			return [preinscripcionInstance:preinscripcionInstance]	
+				
+		}else{
+			flash.message = g.message(code:"default.not.found.message",args:[g.message(code:"preinscripcion.label"),params.id])
+			redirect(action:'list')
+		}
+	}
+
+	def confirminscripcion = {
+		log.info "INGRESANDO AL CLOSURE confirminscripcion"
+		log.info "PARAMETROS: $params"
+		def preinscripcionInstance = Preinscripcion.get(params.id)
+		if (preinscripcionInstance) {
+			if (params.version) {
+				def version = params.version.toLong()
+				if (preinscripcionInstance.version > version) {
+					
+					preinscripcionInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'preinscripcion.label', default: 'Preinscripcion')] as Object[], "Another user has updated this Preinscripcion while you were editing")
+					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+					return
+				}
+			}
+			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
+			if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
+				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+				redirect(action: "show", id: preinscripcionInstance.id)
+			}
+			else {
+				render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+			}
+		}
+		else {
+			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), params.id])}"
+			redirect(action: "list")
+		}
+
 	}
 
 	

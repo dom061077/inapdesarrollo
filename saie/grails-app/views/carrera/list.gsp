@@ -105,7 +105,8 @@
 				       caption:"Informe", 
 				       onClickButton : function () { 
 				           //jQuery("#list").excelExport();
-				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
+				           //jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
+				           window.location = '<%out << createLink(controller:"carrera",action:"carrerasreporte") %>';
 				       } 
 				});
 

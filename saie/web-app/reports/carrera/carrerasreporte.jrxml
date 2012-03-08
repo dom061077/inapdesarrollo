@@ -32,8 +32,8 @@
 			<rectangle>
 				<reportElement x="1" y="1" width="554" height="12" backcolor="#FCFAFA"/>
 			</rectangle>
-			<textField>
-				<reportElement x="0" y="23" width="194" height="13"/>
+			<textField pattern="">
+				<reportElement mode="Opaque" x="0" y="23" width="194" height="13"/>
 				<textElement>
 					<font fontName="Arial" size="8"/>
 				</textElement>

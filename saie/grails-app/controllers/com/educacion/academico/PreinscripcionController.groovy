@@ -254,7 +254,7 @@ class PreinscripcionController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellidoNombre==null?"":it.alumno.apellidoNombre)+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+(it.anioLectivo.anioLectivo==null?"":it.anioLectivo.anioLectivo)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellidoNombre==null?"":it.alumno.apellidoNombre)+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+(it.anioLectivo.anioLectivo==null?"":it.anioLectivo.anioLectivo)+'","'+it.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -321,7 +321,11 @@ class PreinscripcionController {
 		log.info "PARAMETROS $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id)
 		if(preinscripcionInstance){
-			return [preinscripcionInstance:preinscripcionInstance]	
+			if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO)){
+				flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
+				redirect(action:"list")	
+			}else
+				return [preinscripcionInstance:preinscripcionInstance]	
 				
 		}else{
 			flash.message = g.message(code:"default.not.found.message",args:[g.message(code:"preinscripcion.label"),params.id])

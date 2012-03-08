@@ -669,7 +669,7 @@ class CarreraController {
 		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
 		hqlstr = hqlstr	+")";
 		hqlstr = hqlstr	+"  ,(SELECT";
-		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
+		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.estado<>'ESTADO_PREINSCIRPTOANULADO' AND pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
 		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
 		hqlstr = hqlstr	+"  )";
 		hqlstr = hqlstr	+" FROM Carrera c";
@@ -743,6 +743,7 @@ class CarreraController {
 		params.put("_format","PDF")
 		params.put("_name","reportecarreras")
 		params.put("_file","carrera/carrerasreporte")
+		params.put("_encoding","ISO-8859-1")
 		def listCarreras = Carrera.list()
 		listCarreras.each{
 			

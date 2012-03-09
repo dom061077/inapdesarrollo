@@ -743,7 +743,7 @@ class CarreraController {
 		params.put("_format","PDF")
 		params.put("_name","reportecarreras")
 		params.put("_file","carrera/carrerasreporte")
-		params.put("_encoding","ISO-8859-1")
+		//params.put("encoding","UTF-8")
 		def listCarreras = Carrera.list()
 		listCarreras.each{
 			

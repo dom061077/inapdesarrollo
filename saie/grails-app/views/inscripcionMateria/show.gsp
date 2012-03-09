@@ -58,33 +58,9 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.estado.label" default="Estado" /></div>
-                            
-                            <div class="span-4 spanlabel">${inscripcionMateriaInstance?.estado?.encodeAsHTML()}</div>
-                            
-							<div class="clear"></div>
-                    
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></div>
                             
                             <div class="span-4 spanlabel"><g:formatDate date="${inscripcionMateriaInstance?.fechaAlta}" /></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.materia.label" default="Materia" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="materia" action="show" id="${inscripcionMateriaInstance?.materia?.id}">${inscripcionMateriaInstance?.materia?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.nota.label" default="Nota" /></div>
-                            
-                            <div class="span-4 spanlabel">${fieldValue(bean: inscripcionMateriaInstance, field: "nota")}</div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.tipo.label" default="Tipo" /></div>
-                            
-                            <div class="span-4 spanlabel">${inscripcionMateriaInstance?.tipo?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
                     

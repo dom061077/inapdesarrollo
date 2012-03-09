@@ -28,7 +28,7 @@
 		</tr>
 		<tr>
 			<td colspan='2'>
-				<input type="checkbox" class="checkbox" name="${rememberMeParameter}" id="remember_me" checked="checked" />
+				<input type="checkbox" class="checkbox" name="${rememberMeParameter}" id="remember_me" />
 				<label for='remember_me'><g:message code='spring.security.ui.login.rememberme'/></label> |
 				<span class="forgot-link">
 					<g:link controller='register' action='forgotPassword'><g:message code='spring.security.ui.login.forgotPassword'/></g:link>
@@ -36,9 +36,8 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan='2'>
-				<s2ui:linkButton elementId='register' controller='register' messageCode='spring.security.ui.login.register'/>
-				<s2ui:submitButton elementId='loginButton' form='loginForm' messageCode='spring.security.ui.login.login'/>
+			<td colspan='2' align="right">
+				<span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'springSecurity.login.button', default: 'Create')}" /></span>
 			</td>
 		</tr>
 	</table>

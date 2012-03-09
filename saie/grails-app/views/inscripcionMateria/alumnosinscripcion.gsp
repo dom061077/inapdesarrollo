@@ -3,7 +3,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'preinscripcion.label', default: 'Preinscripcion')}" />
-        <title><g:message code="default.create.label" args="[entityName]" /></title>
+        <title><g:message code="inscripcionmateria.seleccionalumno" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
@@ -12,17 +12,17 @@
         <script type="text/javascript">
         	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
-				   	url:'<%out << createLink(controller:'carrera',action:'preinslistjson')%>',
+				   	url:'<%out << createLink(controller:'alumno',action:'listjson')%>',
 					datatype: "json",
 					width:700,
-					colNames:['Id','Apellido y Nombre'
-								,'Carrera','Año Lectivo','Opciones'],
+					colNames:['Legajo','Apellido y Nombre'
+								,'Tipo Doc.','Nro.Doc.','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,hidden:true,search:false},
+				   		{name:'id',index:'id', width:40,hidden:false,search:true,sortable:true,searchoptions:{sopt:['eq']}},
 				   		{name:'apellidoNombre',index:'apellidoNombre', width:92,sortable:true,search:true},
-				   		{name:'carrera',index:'carrera',sortable:false, width:100,search:false},
-				   		{name:'anioLectivo',index:'anioLectivo', width:100,sortable:false,search:false},
+				   		{name:'tipoDocumento',index:'tipoDocumento',sortable:false, width:100,search:false},
+				   		{name:'numeroDocumento',index:'numeroDocumento', width:100,search:true,sortable:true,searchoptions:{sopt:['eq']}},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -39,7 +39,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Inscribir' href='<%out << createLink(controller:'preinscripcion',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Inscribir Materia' href='<%out << createLink(controller:'inscripcionMateria',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							//var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
@@ -65,7 +65,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1>Seleccione el alumno que desea inscribir</h1>
+            <h1><g:message code="inscripcionmateria.seleccionalumno" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

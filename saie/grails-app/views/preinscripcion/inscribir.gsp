@@ -64,7 +64,7 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${preinscripcionInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="confirminscripcion" value="${message(code: 'preinscripcion.button.inscribir', default: 'Ins')}" /></span>
+                    <span class="button"><g:actionSubmit class="edit" action="confirminscripcion" value="${message(code: 'preinscripcion.button.matricular', default: 'Ins')}" /></span>
                 </g:form>
             </div>
         </div>

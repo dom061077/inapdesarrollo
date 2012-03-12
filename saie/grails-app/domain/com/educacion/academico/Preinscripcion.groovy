@@ -9,4 +9,6 @@ class Preinscripcion extends Inscripcion {
 	
     static constraints = {
     }
+	
+	
 }

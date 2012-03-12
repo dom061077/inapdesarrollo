@@ -19,6 +19,9 @@ class Carrera {
     static constraints = {
 		denominacion(nullable:false,blank:false,size:1..36)
 		campoOcupacional(nullable:false,blank:false,size:1..35)
+		anios validator: {
+			it?.every{ it?.validate()}
+		}
     }
 	
 	static mapping = {

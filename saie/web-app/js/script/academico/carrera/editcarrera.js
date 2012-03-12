@@ -97,6 +97,8 @@
 	        	    griddata[i]["idNivel"] = data[i].id
 	        	    griddata[i]["descripcion"] = data[i].descripcion;	     
 	        	    griddata[i]["claseRequisito_descripcion"] = data[i].claseRequisito_descripcion;
+	        	    griddata[i]["esprimernivel"] = data[i].esprimernivel;
+	        	    griddata[i]["esprimernivelvalue"] = data[i].esprimernivelvalue;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -235,11 +237,16 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Id Nivel','Descripción de Nivel']
+		,colNames:['Id','Id Nivel','Descripción de Nivel','Es primer nivel valor','Es Primer Nivel']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 			, {name:'idNivel',index:'idNivel', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10},editrules:{required:true}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
+			, {name:'esprimernivel',index:'esprimernivel', width:30, align:"left",editable:true
+					,editoptions:{readOnly:false,size:30,value:'false:No es el Primer Nivel;true:Es el Primer Nivel'}
+					,edittype:'select'
+					,editrules:{required:true}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListNivelesId'
@@ -254,6 +261,10 @@ $(document).ready(function(){
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Niveles'
+				,beforeSubmit: function(postData,formId){
+					postData.esprimernivelvalue = $('#esprimernivel').val();
+					return [true,'']
+				}
 				,bSubmit:'Modificar'
 			
 			}, // edit options 
@@ -262,7 +273,7 @@ $(document).ready(function(){
 				,modal:false
 				,addCaption:'Agregar Nivel'
 				,beforeSubmit: function(postData,formId){
-					$('#idReq').val(0);
+					postData.esprimernivelvalue = $('#esprimernivel').val();
 					return [true,'']
 				}
 				,bSubmit:'Agregar'

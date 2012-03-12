@@ -89,7 +89,9 @@
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
 	        	    griddata[i]["id"] = data[i].id 
-	        	    griddata[i]["descripcion"] = data[i].descripcion;	        	    	        	    
+	        	    griddata[i]["descripcion"] = data[i].descripcion;
+	        	    griddata[i]["esprimernivel"] = data[i].esprimernivel;
+	        	    griddata[i]["esprimernivelvalue"] = data[i].esprimernivelvalue;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -225,10 +227,15 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Descripción de Nivel']
+		,colNames:['Id','Descripción de Nivel','Es primer nivel value','Es el primer Nivel?']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+			, {name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
+			, {name:'esprimernivel',index:'esprimernivel', width:100, align:"left",editable:true
+					,editoptions:{readOnly:false,size:30,value:'false:No es el Primer Nivel;true:Es el Primer Nivel'}
+					,edittype:'select'
+					,editrules:{required:true}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListNivelesId'
@@ -243,6 +250,10 @@ $(document).ready(function(){
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Niveles'
+				,beforeSubmit: function(postData,formId){
+					postData.esprimernivelvalue = $('#esprimernivel').val();
+					return [true,'']
+				}				
 				,bSubmit:'Modificar'
 			}, // edit options 
 			{height:280,width:310,reloadAfterSubmit:false
@@ -250,6 +261,7 @@ $(document).ready(function(){
 				,modal:false
 				,addCaption:'Agregar Nivel'
 				,beforeSubmit: function(postData,formId){
+					postData.esprimernivelvalue = $('#esprimernivel').val();
 					return [true,'']
 				}
 				,bSumit:'Agregar'

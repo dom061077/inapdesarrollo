@@ -65,7 +65,7 @@ class CarreraController {
 				carreraInstance.addToRequisitos(requisitoInstance)
 			}
 			nivelesJson.each{
-				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
+				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
 			}
 			java.sql.Date fechaInicio
 			java.sql.Date fechaFin
@@ -129,9 +129,9 @@ class CarreraController {
 			flagcoma=false
 			carreraInstance.niveles.each{
 				if(flagcoma){
-					nivelesSerialized  = nivelesSerialized +','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
+					nivelesSerialized  = nivelesSerialized +','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+(it.esprimernivel?"Es el Primer Nivel":"No es el Primer Nivel")+'"}'
 				}else{
-					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'"}'
+					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+(it.esprimernivel?"Es el Primer Nivel":"No es el Primer Nivel")+'"}'
 					flagcoma=true
 				}
 			}
@@ -244,10 +244,11 @@ class CarreraController {
 					 nivelInstance = Nivel.get(it.idNivel)
 					 if(nivelInstance){
 						 nivelInstance.descripcion=it.descripcion
+						 nivelInstance.esprimernivel = it.esprimernivelvalue.toBoolean()
 						nivelInstance.save()
 						log.debug "ENCUENTRA EL NIVEL Y LO MODIFICA"
 					 }else{
-						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion))
+						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
 						log.debug "NO ENCUENTRA EL NIVEL Y LO AGREGA"
 					 }
 				}
@@ -255,6 +256,7 @@ class CarreraController {
 				//--------anios lectivos--------------------------------
 				def anioLectivoInstance
 				aniosDeletedJson.each{
+					if(!it.id.equals(""))
 					try{
 						anioLectivoInstance = AnioLectivo.load(it.id.toLong())
 						carreraInstance.removeFromAnios(anioLectivoInstance)
@@ -485,7 +487,7 @@ class CarreraController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

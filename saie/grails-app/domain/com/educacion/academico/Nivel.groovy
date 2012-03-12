@@ -4,6 +4,7 @@ class Nivel {
 	
 	String descripcion
 	Carrera carrera
+	boolean esprimernivel = false
 	
 	static belongsTo=[carrera:Carrera]
 	

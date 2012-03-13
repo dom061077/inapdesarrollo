@@ -14,7 +14,7 @@
 				jQuery("#list").jqGrid({
 				   	url:'<%out << createLink(controller:'carrera',action:'preinslistjson')%>',
 					datatype: "json",
-					width:700,
+					width:750,
 					colNames:['Id','Denominación'
 								//,'Duración','Título','Validez del Título'
 								,'Año Lectivo','Cupo','Cupo Suplentes','Inscriptos','Suplentes Ins.','Opciones'],
@@ -34,7 +34,7 @@
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',
@@ -74,7 +74,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1>Seleccione la carrera en la que desea inscribirse</h1>
+            <h1>Seleccione la carrera en la que desea inscribir al Alumno</h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

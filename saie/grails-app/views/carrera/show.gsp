@@ -18,7 +18,7 @@
 					,editurl:'editrequisitos'
 					,datatype: "json"
 					,width:600
-					,rownumbers:true
+					//,rownumbers:true
 					,colNames:['Id','Id', 'Descripción']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
@@ -37,12 +37,15 @@
 					,editurl:'editrequisitos'
 					,datatype: "json"
 					,width:600
-					,rownumbers:true
-					,colNames:['Id','Id', 'Descripción']
+					//,rownumbers:true
+					,colNames:['Id','Id', 'Descripción','Es primer nivel value','Es el primer nivel?']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-						,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}						
+
+						,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 						,{name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+						,{name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
+						,{name:'esprimernivel',index:'esprimernivel',sortable:false}						
 					]
 					//, rowNum:10, rowList:[10,20,30]
 					, pager: '#pagerNiveles'
@@ -55,7 +58,7 @@
 						url:'<%out << createLink(controller:'carrera',action:'listanios',params:[id:carreraInstance.id])%>'
 						,datatype: "json"
 						,width:600
-						,rownumbers:true
+						//,rownumbers:true
 						,colNames:['Id','Id','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula', 'Fecha Inicio','Fecha Fin']
 						,colModel:[ 
 							{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}

@@ -13,6 +13,8 @@ import org.springframework.transaction.TransactionStatus
 
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum;
+import com.educacion.enums.inscripcion.TipoInscripcionMateria
 
 
 class PreinscripcionController {
@@ -347,13 +349,30 @@ class PreinscripcionController {
 					return
 				}
 			}
-			preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
-			if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
-				flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-				redirect(action: "show", id: preinscripcionInstance.id)
-			}
-			else {
-				render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+			Preinscripcion.withTransaction{TransactionStatus status->
+				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
+				def inscripcionMateriaInstance
+				preinscripcionInstance.carrera.niveles.each{ nivel->
+					if(nivel.esprimernivel){
+						inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+							,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+						nivel.materias.each{ materia->
+							inscripcionMateriaInstance.addToDetalle(new InscripcionMateriaDetalle(materia:materia
+									,estado:EstadoInscripcionMateriaEnum.ESTADOINSMAT_INSCRIPTO,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+						}
+					} 
+				}
+				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
+					inscripcionMateriaInstance.save()
+					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+					redirect(action: "show", id: preinscripcionInstance.id)
+				}
+				else {
+					status.setRollbackOnly()
+					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+				}
+	
+				
 			}
 		}
 		else {

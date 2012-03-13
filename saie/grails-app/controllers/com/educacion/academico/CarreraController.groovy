@@ -487,7 +487,7 @@ class CarreraController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'","'+(it.esprimernivel?"ES PRIMER NIVEL":"NO ES PRIMER NIVEL")+'"]}'
 				  
 				 flagaddcomilla=true
 			 }
@@ -704,7 +704,7 @@ class CarreraController {
 			log.debug  "LIST RESULT: "+it
 		}
 		
-		def totalregistros=0//gud.listrefactor(true)
+		def totalregistros = Carrera.count()
 		
 		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
 		if (totalpaginas>0 && totalpaginas<1)

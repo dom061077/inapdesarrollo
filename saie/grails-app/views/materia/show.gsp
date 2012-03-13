@@ -147,7 +147,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="materia.estado.label" default="Estado" /></div>
                             
-                            <div class="span-4 spanlabel">${materiaInstance?.estado?.encodeAsHTML()}</div>
+                            <div class="span-4 spanlabel">${materiaInstance?.estado?.name?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
 							

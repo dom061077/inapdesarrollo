@@ -3,9 +3,10 @@ package com.educacion.academico
 
 class InscripcionMateria extends Inscripcion{
 	
-	
-	static hasMany = [detalle:InscripcionMateriaDetalle]
+	Preinscripcion preinscripcion
+	static hasMany = [detalleMateria:InscripcionMateriaDetalle]
 	
     static constraints = {
+		preinscripcion(nullable:true,blank:true)
     }
 }

@@ -1,15 +1,14 @@
 package com.educacion.academico
 
-import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria;
-import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum;
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 
 class InscripcionMateriaDetalle {
 	Materia materia
-	EstadoInscripcionMateriaEnum estado
+	EstadoInscripcionMateriaDetalleEnum estado = EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
 	TipoInscripcionMateria tipo
-	Integer nota
+	Float nota = new Float(0)
 
 	InscripcionMateria inscripcionMateria
 	

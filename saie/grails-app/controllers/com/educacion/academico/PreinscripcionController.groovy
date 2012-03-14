@@ -13,7 +13,7 @@ import org.springframework.transaction.TransactionStatus
 
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
-import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum;
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 
 
@@ -357,15 +357,19 @@ class PreinscripcionController {
 						inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 							,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
 						nivel.materias.each{ materia->
-							inscripcionMateriaInstance.addToDetalle(new InscripcionMateriaDetalle(materia:materia
-									,estado:EstadoInscripcionMateriaEnum.ESTADOINSMAT_INSCRIPTO,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materia
+									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
 						}
 					} 
 				}
 				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
-					inscripcionMateriaInstance.save()
-					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-					redirect(action: "show", id: preinscripcionInstance.id)
+					if(!inscripcionMateriaInstance.save()){
+						status.setRollbackOnly()
+						render(view:"inscribir",model:[preinscripcionInstance:preinscripcionInstance,inscripcionMateriaInstance:inscripcionMateriaInstance])	
+					}else{
+						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+						redirect(action: "show", id: preinscripcionInstance.id)
+					}
 				}
 				else {
 					status.setRollbackOnly()

@@ -18,6 +18,20 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
+            
+            <g:hasErrors bean="${preinscripcionInstance}">
+            <div class="ui-state-error ui-corner-all append-bottom">
+                <g:renderErrors bean="${preinscripcionInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            
+            <g:hasErrors bean="${inscripcionMateriaInstance}">
+            <div class="ui-state-error ui-corner-all append-bottom">
+                <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            
+            
             <div class="dialog">
                 <table>
                     <tbody>

@@ -116,6 +116,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
             </g:hasErrors>
             <g:form action="save" >
            		<div class="append-bottom">	
+           				<>
                         <div class="span-4">
                         	<fieldset>
                         		<legend></legend>

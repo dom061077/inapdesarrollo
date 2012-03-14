@@ -16,6 +16,6 @@ class Inscripcion {
 	
 	static belongsTo = [Carrera,AnioLectivo]
     static constraints = {
-		alumno(unique:'carrera')
+		
     }
 }

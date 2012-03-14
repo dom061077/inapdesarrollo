@@ -7,8 +7,9 @@ class Preinscripcion extends Inscripcion {
 	
 	EstadoPreinscripcion estado
 	
-    static constraints = {
-    }
+	static constraints = {
+		alumno(unique:'carrera')
+	}
 	
 	
 }

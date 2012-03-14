@@ -19,30 +19,35 @@
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: inscripcionMateriaInstance, field: "id")}</div>
                             
 							<div class="clear"></div>
+							
+                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:formatDate format="dd/MM/yyyy" date="${inscripcionMateriaInstance?.fechaAlta}" /></div>
+                            
+							<div class="clear"></div>
+							
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.anioLectivo.label" default="Anio Lectivo" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="anioLectivo" action="show" id="${inscripcionMateriaInstance?.anioLectivo?.id}">${inscripcionMateriaInstance?.anioLectivo?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
+<!--                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.anioLectivo.label" default="Anio Lectivo" /></div>-->
+<!--                            -->
+<!--                            <div class="span-4 spanlabel"><g:link controller="anioLectivo" action="show" id="${inscripcionMateriaInstance?.anioLectivo?.id}">${inscripcionMateriaInstance?.anioLectivo?.encodeAsHTML()}</g:link></div>-->
+<!--                            -->
+<!--							<div class="clear"></div>-->
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.carrera?.id}">${inscripcionMateriaInstance?.carrera?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.carrera?.id}">${inscripcionMateriaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
@@ -58,14 +63,7 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:formatDate date="${inscripcionMateriaInstance?.fechaAlta}" /></div>
-                            
-							<div class="clear"></div>
                     
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>

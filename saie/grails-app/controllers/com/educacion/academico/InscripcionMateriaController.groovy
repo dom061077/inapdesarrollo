@@ -212,8 +212,45 @@ class InscripcionMateriaController {
 		log.info "PARAMETROS: $params"
 		
 	}
+	
+	def editjsonmaterias = {
+		render ""
+	}
 
+	def listjsonmaterias = {
+		log.info "INGRESANDO AL CLOSURE listjsonmaterias"
+		log.info "PARAMETROS: $params"
+		def result="[]"
+		
+		if(params.id){
+			def inscripcionMateriaInstance = InscripcionMateria.load(params.id.toLong())
+			if(inscripcionMateriaInstance){
+				def list=inscripcionMateriaInstance.detalleMateria
+				def totalregistros=list.size()
+				
+				def totalpaginas=1
+				
+				result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+				def flagaddcomilla=false
+				list.each{
+					
+					if (flagaddcomilla)
+						result=result+','
+						
+					
+					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+(it.materia.denominacion)+'","'+it.estado.name+'","'+it.tipo.name+'","'+it.nota+'"]}'
+					 
+					flagaddcomilla=true
+				}
+				result=result+']}'
+			}else{
+				result="[]"
+			}
+		}
+		render result
 
+		
+	}
 
 	
 }

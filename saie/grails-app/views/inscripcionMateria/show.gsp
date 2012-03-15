@@ -6,6 +6,37 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+		<script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function (){
+            	$('#materiasId').jqGrid({
+                	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmaterias",params:[id:inscripcionMateriaInstance.id])%>'
+                   	,datatype:'json'
+                    ,width:650
+                    ,colNames:['Id','IdId','Denominación','Estado Insc.','Tipo Insc.','Nota']
+                	,colModel:[
+                           	{name:'id',index:'id',width:50,editable:false,hidden:true}
+                           	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}}
+                           	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:120},editrules:{required:false}}
+                           	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
+                               		,editoptions:{readOnly:false,size:40
+                                   					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
+                                       			 }
+                           	}
+                           	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false,editoptions:{readOnly:true,size:120},editrules:{required:false}}
+               				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:true,size:20},editrules:{required:false}}
+                    ]
+                	,sortname:'denominacion'
+                	,sortorder:'asc'
+                    ,caption: 'Materias Inscriptas'
+                });
+            });
+            
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -13,12 +44,11 @@
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
-        <div class="body">
+        <div class="body append-bottom">
             <h1><g:message code="default.show.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <div class="dialog">
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
                             
@@ -51,20 +81,15 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.detalle.label" default="Detalle" /></div>
                             
-                            <div class="span-4 spanlabel">
-                                <ul>
-                                <g:each in="${inscripcionMateriaInstance.detalle}" var="d">
-                                    <li><g:link controller="inscripcionDetalleRequisito" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-							<div class="clear"></div>
+                    			
+                    		<fieldset>
+                    			<legend>Materias Inscriptas</legend>
+                    			<table id="materiasId">
+                    			</table>
+                    			<div id=""pagermateriasId></div>
+                    		</fieldset>	
                     
-                    
-            </div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${inscripcionMateriaInstance?.id}" />

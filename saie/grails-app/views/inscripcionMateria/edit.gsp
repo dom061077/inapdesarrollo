@@ -7,95 +7,161 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+         
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+		<script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+            
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
-        	$(document).ready(function(){
-        		$('#alumnoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'alumnoIdId' 
- 				,descid:'alumnoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+		
+    	$(document).ready(function (){
+        	
+			$('#busquedaMateriaId').jqGrid({
+				url:'<%out << g.createLink(controller:"materia",action:"listjson")%>'
+				,datatype:'json'
+				,width:400
+				,colNames:['Id','Denominación','Nivel','Carrera']
+				,colModel:[
+							{name:'id',index:'id',width:50,hidden:true}
+							,{name:'denominacion',index:'denominacion',width:100,sortable:true,search:true}
+							,{name:'nivel_descripcion',index:'nivel_descripcion',width:100,sortable:false,search:false}
+							,{name:'carrera_denominacion',index:'carrera_denominacion',width:100,sortable:true,search:true}
+					]
+				,pager:'#pagerBusquedaMateriaId'
+				,caption:'Buscar Materias'
+				,ondblClickRow: function(id){
+						var obj=$('#busquedaMateriaId').getRowData(id);
+						$('#idid').val(obj.id)
+						$('#denominacion').val(obj.denominacion);
+						$('#dialogBusquedaMateria').dialog("close");
+					} 
+				});
+				jQuery("#busquedaMateriaId").jqGrid('navGrid','#pagerBusquedaRequisitoId',{search:false,edit:false,add:false,del:false,pdf:true});
+				jQuery('#busquedaMateriaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+				jQuery("#busquedaMateriaId").jqGrid('navButtonAdd','#pagerBusquedaMateriaId',{
+				       caption:"Informe", 
+				       onClickButton : function () {
+				    	   var id = jQuery('#busquedaMateriaId').jqGrid('getGridParam','selrow');
+				    	   if(id)
+				    		   window.location = locvademecdetalle+'?target=_blank&id='+id;
+				    	   else
+				    		   $('<div>Seleccione una fila para activar esta opción</div>').dialog({title:'Mensaje',modal: true});
+				    	   
+				       } 
+				});	
+        	
+        	$('#materiasId').jqGrid({
+            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmaterias",params:[id:inscripcionMateriaInstance.id])%>'
+                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
+               	,datatype:'json'
+                ,width:650
+                ,colNames:['Id','IdId','Denominación','Estado Insc.','Tipo Insc.','Nota']
+            	,colModel:[
+                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                       	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
+                           		,editoptions:{readOnly:false,size:40
+                               					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
+                                   			 }
+              					,edittype:'select'
+                       	}
+                       	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false
+                           		,editoptions:{readOnly:false,size:40
+                           					,value:'TIPOINSMATERIA_CURSAR:Cursar;TIPOINSMATERIA_RENDIRLIBRE:Rendir Libre;TIPOINSMATERIA_RENDIRFINAL:Rendir Final'
+                               				}
+           						,edittype:'select'
+                   				,editrules:{required:false}}
+           				,{name:'nota',index:'nota',width:10,editable:true,sortable:false,editoptions:{readOnly:false,size:20},editrules:{required:false}}
+                ]
+            	,sortname:'denominacion'
+                ,pager: '#pagermateriasId'
+            	,sortorder:'asc'
+                ,caption: 'Materias Inscriptas'
+            });
 
-		$('#alumnoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#alumnoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'anioLectivoIdId' 
- 				,descid:'anioLectivoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+        	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+        			{height:280,width:310,reloadAfterSubmit:false
+        				, recreateForm:true
+        				,modal:false
+        				,editCaption:'Modificar Materias'
+        				, beforeShowForm:function(form){
+        					//$('#TblGrid_materiasId').before('<a style="width:50px" id="searchlinkformgridId" href="#"><span  class="ui-icon ui-icon-search"></span>Vademecum</a>');
+        					//listRequisitosId
+        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+        					$('#searchlinkformgridId').bind('click',function(){
+        		            	$('#dialogBusquedaMateria').dialog({
+        		            		title:'Buscar',
+        		            		modal:true,
+        		            		resizable:false,
+        		            		autoOpen:true,
+        		            		width : 600,
+        		            		height: 'auto',
+        		            		minHeight:350,
+        		            		position:'center'
+        		            	});
+        					});
+        				}
+        				,bSubmit:'Modificar'
+        			
+        			}, // edit options 
+        			{width:400,reloadAfterSubmit:false
+        				,recreateForm:true
+        				,modal:false
+        				,addCaption:'Agregar Materia'
+        				,onclickSubmit: function(eparams){
+        						//var obj=$('#busquedaMateriaId').jqGrid('getGridParam','selrow');
+        						//if(obj){
+        						//	return {descripcion:obj.descripcion};
+        						//}else{
+        						//	return{}
+        						//}
+        				}
+        				,beforeSubmit: function(postData,formId){
+        					/*var id = $('#busquedaMateriaId').jqGrid('getGridParam','selrow');
+        					var obj;
+        					if(!id){
+        						alert('Seleccione una Materia de la Grilla');
+        						return [false,''];
+        					}else{
+        						obj = $('#busquedaMateriaId').getRowData(id);						
+        						postData.idid = obj.id;
+        						postData.denominacion = obj.denominacion;
+        						return [true,''];
+        					}*/
+        					return [true,''];
+        				}
+        				,beforeShowForm:function(form){
+        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+        					$('#searchlinkformgridId').bind('click',function(){
+        		            	$('#dialogBusquedaMateria').dialog({
+        		            		title:'Buscar',
+        		            		modal:true,
+        		            		resizable:false,
+        		            		autoOpen:true,
+        		            		width : 600,
+        		            		height: 'auto',
+        		            		minHeight:350,
+        		            		position:'center'
+        		            	});
+        					});
+        					
+        				}
+        				,bSubmit:'Agregar'
+        			
+        			}, // add options 
+        			{reloadAfterSubmit:false}, // del options 
+        			{} // search options 
+        		);	
 
-		$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#anioLectivoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#carreraId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'carreraIdId' 
- 				,descid:'carreraId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-		$('#carreraId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#carreraIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]); 
 
-        	});
+            
+        });
+        
 		</script>
         
     </head>
@@ -120,84 +186,44 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
                 <g:hiddenField name="id" value="${inscripcionMateriaInstance?.id}" />
                 <g:hiddenField name="version" value="${inscripcionMateriaInstance?.version}" />
 		                
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="alumno">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="alumno"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="alumnoId" name="alumnoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />
-						</div>
-									
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="alumno">
-							<g:renderErrors bean="${inscripcionMateriaInstance}" as="list" field="alumno"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="anioLectivo">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="anioLectivo"><g:message code="inscripcionMateria.anioLectivo.label" default="Anio Lectivo" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
-						</div>
-									
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="anioLectivo">
-							<g:renderErrors bean="${inscripcionMateriaInstance}" as="list" field="anioLectivo"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="carrera">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="carrera"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" />
-						</div>
-									
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="carrera">
-							<g:renderErrors bean="${inscripcionMateriaInstance}" as="list" field="carrera"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
-		            
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="fechaAlta">
-							<div class="ui-state-error ui-corner-all append-bottom">
-						</g:hasErrors>
-						
-						<div class="span-3 spanlabel">
-							<label for="fechaAlta"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></label>
-						</div>
-						<div class="span-5">
-							<g:textField id="fechaAltaId" class="ui-widget ui-corner-all ui-widget-content" name="fechaAlta" value="${fieldValue(bean: inscripcionMateriaInstance, field: 'fechaAlta')}" />
-						</div>
-									
-						<g:hasErrors bean="${inscripcionMateriaInstance}" field="fechaAlta">
-							<g:renderErrors bean="${inscripcionMateriaInstance}" as="list" field="fechaAlta"/>
-							</div>
-					   </g:hasErrors>
-					   <div class="clear"></div>
-		
-																
+                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
+                            
+                            <div class="span-4 spanlabel">${fieldValue(bean: inscripcionMateriaInstance, field: "id")}</div>
+                            
+							<div class="clear"></div>
+							
+                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:formatDate format="dd/MM/yyyy" date="${inscripcionMateriaInstance?.fechaAlta}" /></div>
+                            
+							<div class="clear"></div>
+							
+                    
+                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
+                            
+							<div class="clear"></div>
+                    
+                    
+                            <div class="span-4 spanlabel"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></div>
+                            
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.carrera?.id}">${inscripcionMateriaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+                            
+							<div class="clear"></div>
+                    
+                            
+                    			
+                    		<fieldset>
+                    			<legend>Materias Inscriptas</legend>
+                    			<table id="materiasId">
+                    			</table>
+                    			<div id="pagermateriasId"></div>
+                    		</fieldset>	
+							<div style="display:none" id="dialogBusquedaMateria">
+								<table  id ="busquedaMateriaId"></table>
+								<div id="pagerBusquedaMateriaId"></div>
+							</div>	
 		            
                 </div>
                 <div class="buttons">

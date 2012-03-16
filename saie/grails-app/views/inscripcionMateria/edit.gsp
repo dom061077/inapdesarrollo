@@ -75,7 +75,7 @@
                                				}
            						,edittype:'select'
                    				,editrules:{required:false}}
-           				,{name:'nota',index:'nota',width:10,editable:true,sortable:false,editoptions:{readOnly:false,size:20},editrules:{required:false}}
+           				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
                 ]
             	,sortname:'denominacion'
                 ,pager: '#pagermateriasId'

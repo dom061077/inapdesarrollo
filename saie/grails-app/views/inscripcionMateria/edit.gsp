@@ -16,10 +16,18 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+        var arrayDeletedMaterias = [];
+
+        function initsubmit(){
+            var gridDataMaterias = $('#materiasId').getRowData();
+            var postDataMaterias = JSON.stringify(gridDataMaterias);
+            $('#materiasSerialized').val(postDataMaterias);
+        }
+        
         function bindmaterias(){
         	var griddata = [];
         	
-        	var data = jQuery.parseJSON($("#materiasSerialized").val());
+        	var data = jQuery.parseJSON($("#materiasSerializedId").val());
         	if(data==null)
 	        		data=[];
         	for (var i = 0; i < data.length; i++) {
@@ -32,13 +40,13 @@
         	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
         	    griddata[i]["estadovalue"] = data[i].estadovalue;
         	    griddata[i]["estado"] = data[i].estado;
-        	    gridata[i]["tipovalue"] = data[i].tipovalue;
-        	    gridata[i]["tipo"] = data[i].tipo;
-        	    gridata[i]["nota"] = data[i].nota;
+        	    griddata[i]["tipovalue"] = data[i].tipovalue;
+        	    griddata[i]["tipo"] = data[i].tipo;
+        	    griddata[i]["nota"] = data[i].nota;
         	}
 
         	for (var i = 0; i <= griddata.length; i++) {
-        	    jQuery("#listRequisitosId").jqGrid('addRowData', i + 1, griddata[i]);
+        	    jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
         	}
         }
 		
@@ -78,14 +86,14 @@
 				});	
         	
         	$('#materiasId').jqGrid({
-            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmaterias",params:[id:inscripcionMateriaInstance.id])%>'
+            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasddd")%>'
                 ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
                	,datatype:'json'
                 ,width:650
-                ,colNames:['Id','IdId','Denominación','Estado Insc.','Tipo Insc.','Nota']
+                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Nota']
             	,colModel:[
-                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
-                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
                        	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                        	,{name:'estadovalue',index:'estadovalue',hidden:true}
                        	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
@@ -94,13 +102,13 @@
                                    			 }
               					,edittype:'select'
                        	}
+           				,{name:'tipovalue',index:'tipovalue',hidden:true}
                        	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false
                            		,editoptions:{readOnly:false,size:40
                            					,value:'TIPOINSMATERIA_CURSAR:Cursar;TIPOINSMATERIA_RENDIRLIBRE:Rendir Libre;TIPOINSMATERIA_RENDIRFINAL:Rendir Final'
                                				}
            						,edittype:'select'
                    				,editrules:{required:false}}
-           				,{name:'tipovalue',index:'tipovalue',hidden:true}
            				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
                 ]
             	,sortname:'denominacion'
@@ -179,7 +187,14 @@
         				,bSubmit:'Agregar'
         			
         			}, // add options 
-        			{reloadAfterSubmit:false}, // del options 
+        			{reloadAfterSubmit:false
+            			,beforeSubmit : function(postData,formId){
+                			var row = $('#materiasId').getRowData(postData);
+                			arrayDeletedMaterias.push({id:row.idid});
+                			return[true,'']
+                		
+                		}
+            		}, // del options 
         			{} // search options 
         		);	
 
@@ -207,9 +222,9 @@
                 <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <form name="inscripcionform" onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="id" value="${inscripcionMateriaInstance?.id}" />
+                <g:hiddenField name="idInsc" value="${inscripcionMateriaInstance?.id}"  id="xxxx"/>
                 <g:hiddenField name="version" value="${inscripcionMateriaInstance?.version}" />
 		                
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
@@ -256,7 +271,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </g:form>
+            </form>
         </div>
     </body>
 </html>

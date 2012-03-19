@@ -205,6 +205,7 @@ class CarreraController {
 						
 						carreraInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'carrera.label', default: 'Carrera')] as Object[], "Another user has updated this Carrera while you were editing")
 						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized])
+						status.setRollbackOnly()
 						return
 					}
 				}

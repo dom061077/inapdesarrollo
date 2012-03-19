@@ -9,11 +9,14 @@ import java.text.DateFormat
 
 import java.text.ParseException 
 import grails.converters.JSON
+import org.springframework.transaction.TransactionStatus
+import com.educacion.academico.exceptions.InscripcionMateriaException
 
 
 
 class InscripcionMateriaController {
 
+	def inscripcionMateriaService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -69,21 +72,22 @@ class InscripcionMateriaController {
 		def materiasSerialized="["
 		def flagcoma=false
 		
-		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
+		def inscripcionMateriaInstance = InscripcionMateria.get(params.idInsc)
         if (!inscripcionMateriaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
             redirect(action: "list")
         }
         else {
-			inscripcionMateriaInstance.materias.each{
+			inscripcionMateriaInstance.detalleMateria.each{
 				if(flagcoma){
-					materiasSerialized  = materiasSerialized +','+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'",estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota:"'+it.nota+'"}'
+					materiasSerialized  = materiasSerialized +','+ '{"id":"'+it.id+'","idid":"'+it.id+'","denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'","estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota":"'+it.nota+'"}'
 				}else{
-					materiasSerialized = materiasSerialized+ + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'",estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota:"'+it.nota+'"}'
+					materiasSerialized = materiasSerialized + '{"id":"'+it.id+'","idid":"'+it.id+'","denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'","estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota":"'+it.nota+'"}'
 					flagcoma=true
 				}
 
 			}
+			materiasSerialized = materiasSerialized + "]"
             return [inscripcionMateriaInstance: inscripcionMateriaInstance,materiasSerialized:materiasSerialized]
         }
     }
@@ -91,30 +95,28 @@ class InscripcionMateriaController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
-		def materiasSerializedJson
 		
-		if(params.materiasSerialized){
-			materiasSerializedJson = grails.converters.JSON.parse()
-		}
-		
-        def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
+        def inscripcionMateriaInstance = InscripcionMateria.get(params.idInsc)
+																	   
         if (inscripcionMateriaInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
-                if (inscripcionMateriaInstance.version > version) {
-                    inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
-                    render(view: "edit", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-                    return
-                }
-            }
-            inscripcionMateriaInstance.properties = params
-            if (!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
-                redirect(action: "show", id: inscripcionMateriaInstance.id)
-            }
-            else {
-                render(view: "edit", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-            }
+	            if (params.version) {
+	                def version = params.version.toLong()
+	                if (inscripcionMateriaInstance.version > version) {
+	                    inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
+	                    render(view: "edit", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
+	                    return
+	                }
+	            }
+				
+				try{
+						inscripcionMateriaService.updateInscripcionMateria(inscripcionMateriaInstance,params)
+						render(view:"show",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
+						return
+				}catch(InscripcionMateriaException e){
+					log.debug "ERRORES DE VALIDACION: "+e.inscripcionMateria.errors.allErrors
+					render (view:"edit", model:[inscripcionMateriaInstance:e.inscripcionMateria,materiasSerialized:params.materiasSerialized])
+					return
+				}
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"

@@ -16,9 +16,33 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+        function bindmaterias(){
+        	var griddata = [];
+        	
+        	var data = jQuery.parseJSON($("#materiasSerialized").val());
+        	if(data==null)
+	        		data=[];
+        	for (var i = 0; i < data.length; i++) {
+        	    griddata[i] = {};
+        	    /*for (var j = 0; j < data[i].length; j++) {
+        	        griddata[i][names[j]] = data[i][j];
+        	    }*/
+        	    griddata[i]["id"] = data[i].id;
+        	    griddata[i]["idid"] = data[i].idid;	        	    
+        	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+        	    griddata[i]["estadovalue"] = data[i].estadovalue;
+        	    griddata[i]["estado"] = data[i].estado;
+        	    gridata[i]["tipovalue"] = data[i].tipovalue;
+        	    gridata[i]["tipo"] = data[i].tipo;
+        	    gridata[i]["nota"] = data[i].nota;
+        	}
+
+        	for (var i = 0; i <= griddata.length; i++) {
+        	    jQuery("#listRequisitosId").jqGrid('addRowData', i + 1, griddata[i]);
+        	}
+        }
 		
     	$(document).ready(function (){
-        	
 			$('#busquedaMateriaId').jqGrid({
 				url:'<%out << g.createLink(controller:"materia",action:"listjson")%>'
 				,datatype:'json'
@@ -63,6 +87,7 @@
                        	{name:'id',index:'id',width:50,editable:false,hidden:false}
                        	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
                        	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                       	,{name:'estadovalue',index:'estadovalue',hidden:true}
                        	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
                            		,editoptions:{readOnly:false,size:40
                                					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
@@ -75,6 +100,7 @@
                                				}
            						,edittype:'select'
                    				,editrules:{required:false}}
+           				,{name:'tipovalue',index:'tipovalue',hidden:true}
            				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
                 ]
             	,sortname:'denominacion'
@@ -157,7 +183,7 @@
         			{} // search options 
         		);	
 
-
+        		bindmaterias();
 
             
         });

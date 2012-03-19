@@ -76,9 +76,15 @@ class InscripcionMateriaController {
         }
         else {
 			inscripcionMateriaInstance.materias.each{
-				materiasSeria
+				if(flagcoma){
+					materiasSerialized  = materiasSerialized +','+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'",estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota:"'+it.nota+'"}'
+				}else{
+					materiasSerialized = materiasSerialized+ + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'",estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota:"'+it.nota+'"}'
+					flagcoma=true
+				}
+
 			}
-            return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+            return [inscripcionMateriaInstance: inscripcionMateriaInstance,materiasSerialized:materiasSerialized]
         }
     }
 

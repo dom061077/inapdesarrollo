@@ -60,8 +60,8 @@
                 ,width:650
                 ,colNames:['Id','IdId','Denominación','Estado Insc.','Tipo Insc.','Nota']
             	,colModel:[
-                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
+                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
                        	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                        	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
                            		,editoptions:{readOnly:false,size:40
@@ -84,7 +84,7 @@
             });
 
         	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
-        			{height:280,width:310,reloadAfterSubmit:false
+        			{height:280,width:450,reloadAfterSubmit:false
         				, recreateForm:true
         				,modal:false
         				,editCaption:'Modificar Materias'
@@ -108,7 +108,7 @@
         				,bSubmit:'Modificar'
         			
         			}, // edit options 
-        			{width:400,reloadAfterSubmit:false
+        			{height:280,width:450,reloadAfterSubmit:false
         				,recreateForm:true
         				,modal:false
         				,addCaption:'Agregar Materia'
@@ -213,7 +213,7 @@
 							<div class="clear"></div>
                     
                             
-                    			
+                    		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>	
                     		<fieldset>
                     			<legend>Materias Inscriptas</legend>
                     			<table id="materiasId">

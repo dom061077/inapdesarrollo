@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
+import grails.converters.JSON
 
 
 
@@ -65,14 +66,18 @@ class InscripcionMateriaController {
     def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
-
-			
-        def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
+		def materiasSerialized="["
+		def flagcoma=false
+		
+		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
         if (!inscripcionMateriaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
             redirect(action: "list")
         }
         else {
+			inscripcionMateriaInstance.materias.each{
+				materiasSeria
+			}
             return [inscripcionMateriaInstance: inscripcionMateriaInstance]
         }
     }
@@ -80,13 +85,17 @@ class InscripcionMateriaController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def materiasSerializedJson
+		
+		if(params.materiasSerialized){
+			materiasSerializedJson = grails.converters.JSON.parse()
+		}
 		
         def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
         if (inscripcionMateriaInstance) {
             if (params.version) {
                 def version = params.version.toLong()
                 if (inscripcionMateriaInstance.version > version) {
-                    
                     inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
                     render(view: "edit", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
                     return

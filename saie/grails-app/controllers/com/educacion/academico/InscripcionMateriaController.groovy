@@ -11,6 +11,8 @@ import java.text.ParseException
 import grails.converters.JSON
 import org.springframework.transaction.TransactionStatus
 import com.educacion.academico.exceptions.InscripcionMateriaException
+import com.educacion.alumno.Alumno;
+import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 
 
 
@@ -32,23 +34,47 @@ class InscripcionMateriaController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-        def inscripcionMateriaInstance = new InscripcionMateria()
-        inscripcionMateriaInstance.properties = params
-        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+		
+		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
+		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		if(preinscripciones){
+		   def preinscripcionInstance = preinscripciones.get(0)
+	       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+					,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+	        inscripcionMateriaInstance.properties = params
+	        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+		}else{
+			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+			render(view:"alumnosinscripcion",model:[])
+		}
     }
 
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+		
+		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
+		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
 
-        def inscripcionMateriaInstance = new InscripcionMateria(params)
-        if (inscripcionMateriaInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
-            redirect(action: "show", id: inscripcionMateriaInstance.id)
-        }
-        else {
-            render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-        }
+		if(preinscripciones){
+//			def inscripcionMateriaInstance = new InscripcionMateria(params)
+//			if (inscripcionMateriaInstance.save(flush: true)) {
+//				flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
+//				redirect(action: "show", id: inscripcionMateriaInstance.id)
+//			}
+//			else {
+//				render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
+//			}
+			
+			
+		}else{
+			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+			render(view:"create",model:[inscripcionMateriaInstace:inscripcionMateriaInstance])
+		}
+
+
     }
 
     def show = {
@@ -72,7 +98,7 @@ class InscripcionMateriaController {
 		def materiasSerialized="["
 		def flagcoma=false
 		
-		def inscripcionMateriaInstance = InscripcionMateria.get(params.idInsc)
+		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
         if (!inscripcionMateriaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
             redirect(action: "list")
@@ -96,7 +122,7 @@ class InscripcionMateriaController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 		
-        def inscripcionMateriaInstance = InscripcionMateria.get(params.idInsc)
+        def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
 																	   
         if (inscripcionMateriaInstance) {
 	            if (params.version) {
@@ -110,6 +136,7 @@ class InscripcionMateriaController {
 				
 				try{
 						inscripcionMateriaService.updateInscripcionMateria(inscripcionMateriaInstance,params)
+						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionmateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
 						render(view:"show",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
 						return
 				}catch(InscripcionMateriaException e){

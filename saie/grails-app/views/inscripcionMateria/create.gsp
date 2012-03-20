@@ -88,10 +88,10 @@
 		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
 		               	,datatype:'json'
 		                ,width:500
-		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Nota']
+		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.']
 		            	,colModel:[
 		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 		                       	,{name:'estadovalue',index:'estadovalue',hidden:true}
 		                       	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
@@ -107,7 +107,6 @@
 		                               				}
 		           						,edittype:'select'
 		                   				,editrules:{required:false}}
-		           				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
 		                ]
 		            	,sortname:'denominacion'
 		                ,pager: '#pagermateriasId'
@@ -222,32 +221,21 @@
             </g:hasErrors>
             <g:form action="save" >
             
-                         <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
-                         
-                         <div class="span-4 spanlabel">${fieldValue(bean: inscripcionMateriaInstance, field: "id")}</div>
-                         
-				<div class="clear"></div>
-				
-                         <div class="span-4 spanlabel"><g:message code="inscripcionMateria.fechaAlta.label" default="Fecha Alta" /></div>
-                         
-                         <div class="span-4 spanlabel"><g:formatDate format="dd/MM/yyyy" date="${inscripcionMateriaInstance?.fechaAlta}" /></div>
-                         
-				<div class="clear"></div>
-				
                  
                          <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
-                         
-                         <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
-                         
-				<div class="clear"></div>
-                 
-                 
+                         <g:hiddenField name="alumno?.id"/>
+                         <div class="span-4 spanlabel">
+                         	${inscripcionMateriaInstance?.alumno?.apellidoNombre}
+                         </div>
+						<div class="clear"></div>
                          <div class="span-4 spanlabel"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></div>
-                         
                          <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.carrera?.id}">${inscripcionMateriaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                          
 				<div class="clear"></div>
-                 
+				<br/>
+				<br/>
+				<br/>
+				                 
                          
                  		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>	
                  		<fieldset>

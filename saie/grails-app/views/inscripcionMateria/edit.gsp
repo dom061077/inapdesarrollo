@@ -222,9 +222,9 @@
                 <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <form name="inscripcionform" onSubmit="initsubmit();return true;" method="post" >
+            <g:form name="inscripcionform" onSubmit="initsubmit();return true;" method="post" id="${inscripcionMateriaInstance?.id}" >
             	<div class="append-bottom">
-                <g:hiddenField name="idInsc" value="${inscripcionMateriaInstance?.id}"  id="xxxx"/>
+<!--                <g:hiddenField name="id" value="${inscripcionMateriaInstance?.id}"  />-->
                 <g:hiddenField name="version" value="${inscripcionMateriaInstance?.version}" />
 		                
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
@@ -271,7 +271,7 @@
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
                     <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
-            </form>
+            </g:form>
         </div>
     </body>
 </html>

@@ -10,7 +10,7 @@ class InscripcionMateriaService {
 
     static transactional = true
 	
-	private def validarCorrelatividades(Long idMat,def tipoInscripcion,def idAlu){
+	private def validarCorrelatividades(Long idMat,def tipoInscripcion,def idAlu,def inscripcionMateria){
 		def flagvalidacion = false //si le falta alguna materia la bandera sera true
 		def materiaInstance = Materia.load(idMat)
 		def list
@@ -27,22 +27,90 @@ class InscripcionMateriaService {
 						}
 					}
 				} 
-				if(list.size()==0)
-				
+				if(list.size()==0){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,it.denominacion])
+				}
+				if(list.size()>1){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,it.denominacion])
+				}
 			}
 			materiaInstance.mataprobcursar.each{
-				
+				list = InscripcionMateriaDetalle.createCriteria().list{
+					and{
+						alumno{
+							eq("id",idAlu)
+						}
+						eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+						materia{
+							eq("id",it.id)
+						}
+					}
+				}
+				if(list.size()==0){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,it.denominacion])
+				}
+				if(list.size()>1){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,it.denominacion])
+				}
 			}
 		}
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL)){
-			 
+		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL) || tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRLIBRE)){
+			materiaInstance.matregrendir.each {
+				list = InscripcionMateriaDetalle.createCriteria().list{
+					and{
+						alumno{
+							eq("id",idAlu)
+						}
+						eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
+						materia{
+							eq("id",it.id)
+						}
+					}
+				}
+				if(list.size()==0){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,it.denominacion])
+				}
+				if(list.size()>1){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,it.denominacion])
+				}
+			}
+			materiaInstance.mataprobrendir.each{
+				list = InscripcionMateriaDetalle.createCriteria().list{
+					and{
+						alumno{
+							eq("id",idAlu)
+						}
+						eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+						materia{
+							eq("id",it.id)
+						}
+					}
+				}
+				if(list.size()==0){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,it.denominacion])
+				}
+				if(list.size()>1){
+					flagvalidacion = true
+					inscripcionMateria.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,it.denominacion])
+				}
+			}
 		}
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRLIBRE)){
-		
-		}
-
-
-		
+		return flagvalidacion
 	}
 	
 	def saveInscripcionMateria(def inscripcionMateriainstance,def params){
@@ -89,32 +157,34 @@ class InscripcionMateriaService {
 				inscripcionMateriaInstance.delete(flush:true)
 			}catch(org.hibernate.ObjectNotFoundException e){
 			}catch (org.springframework.dao.DataIntegrityViolationException e){
-				//i must raise exception here
+				log.debug "Error de integridad "+e.message
 			}
 		}
 		
 		materiasSerializedJson.each {
-			 inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.id)
-			 materiaInstance = Materia.load(it.idid.toLong())
-			 if(inscripcionMateriaDetalleInstance){
-			 	inscripcionMateriaDetalleInstance.materia = materiaInstance
-				inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-				inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateria."${it.tipovalue}"
-				inscripcionMateriaDetalleInstance.nota = it.nota.toFloat()
-			 }else{
-			 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-					 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-					 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
-					 ,nota:it.nota.toFloat())
-			 }
-			 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+			if(!validarCorrelatividades(it.idida.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+				 inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.id)
+				 materiaInstance = Materia.load(it.idid.toLong())
+				 if(inscripcionMateriaDetalleInstance){
+				 	inscripcionMateriaDetalleInstance.materia = materiaInstance
+					inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+					inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateria."${it.tipovalue}"
+					inscripcionMateriaDetalleInstance.nota = it.nota.toFloat()
+				 }else{
+				 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+						 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+						 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
+						 ,nota:it.nota.toFloat())
+				 }
+				 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+			}
 		}
 
 				
 		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)){
 			
 		}else{
-			throw new InscripcionMateriaException(message:"Errores de validacion",inscripcionMateriaInstance)
+			throw new InscripcionMateriaException("Errores de validacion",inscripcionMateriaInstance) 
 		}
 	}
 

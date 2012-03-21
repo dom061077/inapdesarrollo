@@ -209,11 +209,11 @@ class NivelController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.carrera?.denominacion+'","'+it.esprimernivel.name+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.carrera?.denominacion+'","'+(it.esprimernivel?'Es primer nivel':'No es primer nivel')+'"]}'
 			 
 			flagaddcomilla=true
 		}
-		log.debug "RESULT RENDERED"
+		log.debug "RESULT RENDERED "+result
 		result=result+']}'
 		render result
 

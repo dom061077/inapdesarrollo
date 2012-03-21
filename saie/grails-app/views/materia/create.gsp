@@ -26,10 +26,9 @@
 
         		$('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',
     				 title:'Búsqueda de Carreras' 
-	   				,colNames:['Id','Denominación','Es primer nivel'] 
+	   				,colNames:['Id','Denominación'] 
 	   				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
     				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
-					,{name:'esprimernivel',index:'esprimernivel', width:100, sortable:true,search:true}
     				]  
     				,hiddenid:'carreraIdId' 
     				,descid:'carreraId' 
@@ -116,10 +115,11 @@
             	
 		$('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
  				 title:'Búsqueda de niveles' 
-				,colNames:['Id','Descripcion'] 
+				,colNames:['Id','Descripcion','Carrera','Es primer nivel'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}]
-				,{name:'esprimernivel',index:'esprimernivel',width:100,sortable:false,search:false} 
+ 				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}
+ 				,{name:'carrera',index:'carrear',hidden:false}
+				,{name:'esprimernivel',index:'esprimernivel',width:100,sortable:false,search:false} ]
  				,hiddenid:'nivelIdId' 
  				,descid:'nivelId' 
  				,hiddenfield:'id' 

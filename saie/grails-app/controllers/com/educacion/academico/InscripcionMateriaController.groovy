@@ -40,10 +40,15 @@ class InscripcionMateriaController {
 		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
 		if(preinscripciones){
 		   def preinscripcionInstance = preinscripciones.get(0)
-	       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-					,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
-	        inscripcionMateriaInstance.properties = params
-	        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+		   if(!preinscripcionInstance){
+				flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+				render(view:"alumnosinscripcion",model:[])
+		   }else{
+		       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+		        inscripcionMateriaInstance.properties = params
+		        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+		   }
 		}else{
 			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 			render(view:"alumnosinscripcion",model:[])
@@ -130,7 +135,7 @@ class InscripcionMateriaController {
 	                if (inscripcionMateriaInstance.version > version) {
 	                    inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
 	                    render(view: "edit", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-	                    return
+	                    return 
 	                }
 	            }
 				

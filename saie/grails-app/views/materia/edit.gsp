@@ -214,7 +214,7 @@
             </g:hasErrors>
             <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="id" value="${materiaInstance?.id}" />
+                <g:hiddenField name="id" value="${materiaInstance?.id}" id="idMateria"/>
                 <g:hiddenField name="version" value="${materiaInstance?.version}" />
 		                
 							<g:hasErrors bean="${materiaInstance}" field="codigo">

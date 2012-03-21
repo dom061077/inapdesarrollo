@@ -425,7 +425,15 @@ $(document).ready(function(){
 				,bSubmit:'Agregar'
 			
 			}, // add options 
-			{reloadAfterSubmit:false}, // del options 
+			{	reloadAfterSubmit:false
+				,beforeSubmit:function(postData,formId){
+					obj = $('#matregrendirId').getRowData(postData);
+					if(obj.idid==$('#idMateria').val()){
+						return[false,'No se puede eliminar. Recuerde que para rendir un final la materia debe estar regular '];
+					}
+					return[true,''];
+				}
+			}, // del options 
 			{} // search options 
 		);	
 	//-------------------------------------------------------------------	

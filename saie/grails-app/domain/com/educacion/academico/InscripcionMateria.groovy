@@ -13,4 +13,8 @@ class InscripcionMateria extends Inscripcion{
     static constraints = {
 		preinscripcion(nullable:true,blank:true)
     }
+	
+	static mapping = {
+		detalleMateria(lazy:false)
+	}
 }

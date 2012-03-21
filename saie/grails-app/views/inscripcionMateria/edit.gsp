@@ -21,7 +21,9 @@
         function initsubmit(){
             var gridDataMaterias = $('#materiasId').getRowData();
             var postDataMaterias = JSON.stringify(gridDataMaterias);
-            $('#materiasSerialized').val(postDataMaterias);
+            $('#materiasSerializedId').val(postDataMaterias);
+            $("#materiasDeletedSerializedId").val(JSON.stringify(arrayDeletedMaterias));
+           
         }
         
         function bindmaterias(){
@@ -35,7 +37,7 @@
         	    /*for (var j = 0; j < data[i].length; j++) {
         	        griddata[i][names[j]] = data[i][j];
         	    }*/
-        	    griddata[i]["id"] = data[i].id;
+        	    griddata[i]["idDet"] = data[i].id;
         	    griddata[i]["idid"] = data[i].idid;	        	    
         	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
         	    griddata[i]["estadovalue"] = data[i].estadovalue;
@@ -90,12 +92,13 @@
                 ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
                	,datatype:'json'
                 ,width:650
-                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Nota']
+                ,colNames:['Id','Id DET','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Nota']
             	,colModel:[
-                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
+                       	,{name:'idDet',index:'idDet'}
+                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
                        	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-                       	,{name:'estadovalue',index:'estadovalue',hidden:true}
+                       	,{name:'estadovalue',index:'estadovalue',hidden:false}
                        	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
                            		,editoptions:{readOnly:false,size:40
                                					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
@@ -140,7 +143,11 @@
         					});
         				}
         				,bSubmit:'Modificar'
-        			
+            			,beforeSubmit : function(postData,formId){
+                			postData.estadovalue = $('#estado').val();
+                			postData.tipovalue = $('#tipo').val();
+       						return [true,''];
+                		}
         			}, // edit options 
         			{height:280,width:450,reloadAfterSubmit:false
         				,recreateForm:true
@@ -190,7 +197,7 @@
         			{reloadAfterSubmit:false
             			,beforeSubmit : function(postData,formId){
                 			var row = $('#materiasId').getRowData(postData);
-                			arrayDeletedMaterias.push({id:row.idid});
+                			arrayDeletedMaterias.push({id:row.idDet});
                 			return[true,'']
                 		
                 		}
@@ -254,7 +261,8 @@
 							<div class="clear"></div>
                     
                             
-                    		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>	
+                    		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>
+                    		<g:hiddenField id="materiasDeletedSerializedId" name="materiasDeletedSerialized"/>	
                     		<fieldset>
                     			<legend>Materias Inscriptas</legend>
                     			<table id="materiasId">

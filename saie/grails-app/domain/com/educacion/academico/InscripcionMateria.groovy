@@ -12,6 +12,9 @@ class InscripcionMateria extends Inscripcion{
 	
     static constraints = {
 		preinscripcion(nullable:true,blank:true)
+		detalleMateria validator : {
+			it?.every{it?.validate()}
+		} 
     }
 	
 	static mapping = {

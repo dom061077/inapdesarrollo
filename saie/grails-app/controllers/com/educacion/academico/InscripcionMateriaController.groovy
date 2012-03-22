@@ -43,15 +43,17 @@ class InscripcionMateriaController {
 		   if(!preinscripcionInstance){
 				flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 				render(view:"alumnosinscripcion",model:[])
+				return
 		   }else{
 		       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
-		        inscripcionMateriaInstance.properties = params
+		        //inscripcionMateriaInstance.properties = params
 		        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
 		   }
 		}else{
 			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 			render(view:"alumnosinscripcion",model:[])
+			return
 		}
     }
 
@@ -61,19 +63,23 @@ class InscripcionMateriaController {
 		
 		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
 		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
-		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		def inscripcionMateriaInstance = new InscripcionMateria(params)
+		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		
 
 		if(preinscripciones){
-//			def inscripcionMateriaInstance = new InscripcionMateria(params)
-//			if (inscripcionMateriaInstance.save(flush: true)) {
-//				flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
-//				redirect(action: "show", id: inscripcionMateriaInstance.id)
-//			}
-//			else {
-//				render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-//			}
 			
-			
+			try{
+				inscripcionMateriaService.saveInscripcionMateria(inscripcionMateriaInstance,params)
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'Inscripcion Materia'), inscripcionMateriaInstance.id])}"
+				render(view:"show",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
+				return
+			}catch(InscripcionMateriaException e){
+				log.debug "ERRORES: "+inscripcionMateriaInstance.errors.allErrors
+				render (view:"create", model:[inscripcionMateriaInstance:e.inscripcionMateria,materiasSerialized:params.materiasSerialized])
+				return
+			}
+
 		}else{
 			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 			render(view:"create",model:[inscripcionMateriaInstace:inscripcionMateriaInstance])

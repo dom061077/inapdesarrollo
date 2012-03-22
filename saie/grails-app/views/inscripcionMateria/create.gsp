@@ -19,7 +19,7 @@
 		        function initsubmit(){
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
-		            $('#materiasSerialized').val(postDataMaterias);
+		            $('#materiasSerializedId').val(postDataMaterias);
 		        }
 		        
 		        function bindmaterias(){
@@ -90,17 +90,17 @@
 		                ,width:500
 		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.']
 		            	,colModel:[
-		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+		                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
+		                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-		                       	,{name:'estadovalue',index:'estadovalue',hidden:true}
+		                       	,{name:'estadovalue',index:'estadovalue',hidden:false}
 		                       	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
 		                           		,editoptions:{readOnly:false,size:40
 		                               					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
 		                                   			 }
 		              					,edittype:'select'
 		                       	}
-		           				,{name:'tipovalue',index:'tipovalue',hidden:true}
+		           				,{name:'tipovalue',index:'tipovalue',hidden:false}
 		                       	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false
 		                           		,editoptions:{readOnly:false,size:40
 		                           					,value:'TIPOINSMATERIA_CURSAR:Cursar;TIPOINSMATERIA_RENDIRLIBRE:Rendir Libre;TIPOINSMATERIA_RENDIRFINAL:Rendir Final'
@@ -137,6 +137,12 @@
 		        					});
 		        				}
 		        				,bSubmit:'Modificar'
+	                			,beforeSubmit : function(postData,formId){
+		                    			postData.estadovalue = $('#estado').val();
+		                    			postData.tipovalue = $('#tipo').val();
+		           						return [true,''];
+	                    		}
+			        				
 		        			
 		        			}, // edit options 
 		        			{height:280,width:350,reloadAfterSubmit:false
@@ -151,20 +157,11 @@
 		        						//	return{}
 		        						//}
 		        				}
-		        				,beforeSubmit: function(postData,formId){
-		        					/*var id = $('#busquedaMateriaId').jqGrid('getGridParam','selrow');
-		        					var obj;
-		        					if(!id){
-		        						alert('Seleccione una Materia de la Grilla');
-		        						return [false,''];
-		        					}else{
-		        						obj = $('#busquedaMateriaId').getRowData(id);						
-		        						postData.idid = obj.id;
-		        						postData.denominacion = obj.denominacion;
-		        						return [true,''];
-		        					}*/
-		        					return [true,''];
-		        				}
+		            			,beforeSubmit : function(postData,formId){
+		                			postData.estadovalue = $('#estado').val();
+		                			postData.tipovalue = $('#tipo').val();
+		       						return [true,''];
+		                		}
 		        				,beforeShowForm:function(form){
 		        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
 		        					$('#searchlinkformgridId').bind('click',function(){
@@ -219,11 +216,14 @@
                 <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form onsubmit="initsubmit();return true;" action="save" >
             
                  
                          <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
-                         <g:hiddenField name="alumno?.id"/>
+                         <g:hiddenField name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
+                         <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.carrera?.id}" />
+                         <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.anioLectivo?.id}"/>
+                         
                          <div class="span-4 spanlabel">
                          	${inscripcionMateriaInstance?.alumno?.apellidoNombre}
                          </div>

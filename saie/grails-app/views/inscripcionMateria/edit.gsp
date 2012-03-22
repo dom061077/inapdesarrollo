@@ -173,7 +173,9 @@
         						postData.denominacion = obj.denominacion;
         						return [true,''];
         					}*/
-        					return [true,''];
+                			postData.estadovalue = $('#estado').val();
+                			postData.tipovalue = $('#tipo').val();
+       						return [true,''];
         				}
         				,beforeShowForm:function(form){
         					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');

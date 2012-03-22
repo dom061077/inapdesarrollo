@@ -127,22 +127,45 @@ class InscripcionMateriaService {
 		return flagvalidacion
 	}
 	
-	def saveInscripcionMateria(def inscripcionMateriainstance,def params){
+	def saveInscripcionMateria(def inscripcionMateriaInstance,def params){
 		log.info "INGRESANDO AL METODO: saveInscripcionMateria"
 		log.info ("PARAMETROS: $params")
 		def materiasSerializedJson
+		def materiaInstance
+		def inscripcionMateriaDetalleInstance
 		
 		if(params.materiasSerialized){
 			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized)
 		}
 		
-		def inscripcionMateriaInstance = new InscripcionMateria(params)
-		if (inscripcionMateriaInstance.save(flush: true)) {
-			flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
-			redirect(action: "show", id: inscripcionMateriaInstance.id)
-		}else {
-			render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
+		
+		materiasSerializedJson.each {
+			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+				 materiaInstance = Materia.load(it.idid.toLong())
+				 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+					 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+					 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
+					 ,nota:new Float(0))
+				 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+			}
 		}
+
+				
+		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)){
+			
+		}else{
+			throw new InscripcionMateriaException("Errores de validacion",inscripcionMateriaInstance)
+		}
+
+		
+		
+//		def inscripcionMateriaInstance = new InscripcionMateria(params)
+//		if (inscripcionMateriaInstance.save(flush: true)) {
+//			flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
+//			redirect(action: "show", id: inscripcionMateriaInstance.id)
+//		}else {
+//			render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
+//		}
 	}
 	
 	def updateInscripcionMateria(def inscripcionMateriaInstance,def params){

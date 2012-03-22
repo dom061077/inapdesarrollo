@@ -18,4 +18,9 @@ class Inscripcion {
     static constraints = {
 		
     }
+	
+	static mapping = {
+		carrera lazy:false
+		anioLectivo lazy:false
+	}
 }

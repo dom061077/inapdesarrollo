@@ -15,6 +15,7 @@ class InscripcionMateriaDetalle {
 	static belongsTo = [inscripcionMateria:InscripcionMateria]
 	
     static constraints = {
-		inscripcionMateria(unique:'materia')
+		materia(unique:'inscripcionMateria')
+		
     }
 }

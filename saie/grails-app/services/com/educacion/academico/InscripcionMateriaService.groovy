@@ -138,20 +138,27 @@ class InscripcionMateriaService {
 			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized)
 		}
 		
-		
+		def materiaAntInstance
 		materiasSerializedJson.each {
 			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
 				 materiaInstance = Materia.load(it.idid.toLong())
-				 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-					 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-					 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
-					 ,nota:new Float(0))
-				 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+				 if(materiaInstance.equals(materiaAntInstance)){
+					 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
+						 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
+				 }else{
+					 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+						 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+						 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
+						 )
+					 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+				 }
+				 
 			}
+			materiaAntInstance=materiaInstance
 		}
 
 				
-		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)){
+		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save()){
 			
 		}else{
 			throw new InscripcionMateriaException("Errores de validacion",inscripcionMateriaInstance)
@@ -159,13 +166,6 @@ class InscripcionMateriaService {
 
 		
 		
-//		def inscripcionMateriaInstance = new InscripcionMateria(params)
-//		if (inscripcionMateriaInstance.save(flush: true)) {
-//			flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"
-//			redirect(action: "show", id: inscripcionMateriaInstance.id)
-//		}else {
-//			render(view: "create", model: [inscripcionMateriaInstance: inscripcionMateriaInstance])
-//		}
 	}
 	
 	def updateInscripcionMateria(def inscripcionMateriaInstance,def params){
@@ -191,33 +191,35 @@ class InscripcionMateriaService {
 			try{
 				inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.load(it.id.toLong())
 				inscripcionMateriaInstance.removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
-				inscripcionMateriaDetalleInstance.delete(flush:true)
+				inscripcionMateriaDetalleInstance.delete()
 			}catch(org.hibernate.ObjectNotFoundException e){
 			}catch (org.springframework.dao.DataIntegrityViolationException e){
 				log.debug "Error de integridad "+e.message
 			}
 		}
-		
+		def materiaAntInstance
 		materiasSerializedJson.each {
-			log.debug "MATERIA A MODIFICAR: "+it
 			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
 				 inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idDet)
 				 materiaInstance = Materia.load(it.idid.toLong())
-				 if(inscripcionMateriaDetalleInstance){
-				 	inscripcionMateriaDetalleInstance.materia = materiaInstance
-					inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-					inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateria."${it.tipovalue}"
-					inscripcionMateriaDetalleInstance.nota = it.nota.toFloat()
-					inscripcionMateriaDetalleInstance.save()
+				 if(materiaInstance.equals(materiaAntInstance)){
+					 
 				 }else{
-				 	log.debug "EL ID QUE NO ENCUENTRA ES EL: "+it.id
-				 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-						 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-						 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
-						 ,nota:it.nota.toFloat())
-					inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+					 if(inscripcionMateriaDetalleInstance){
+					 	inscripcionMateriaDetalleInstance.materia = materiaInstance
+						inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+						inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateria."${it.tipovalue}"
+						inscripcionMateriaDetalleInstance.save()
+					 }else{
+					 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+							 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
+							 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
+							 )
+						inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+					 }
 				 }
 			}
+			materiaAntInstance = materiaInstance
 		}
 
 				

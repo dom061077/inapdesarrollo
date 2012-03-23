@@ -144,7 +144,6 @@ class InscripcionMateriaController {
 	                    return 
 	                }
 	            }
-				
 				try{
 						inscripcionMateriaService.updateInscripcionMateria(inscripcionMateriaInstance,params)
 						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionmateria.label', default: 'InscripcionMateria'), inscripcionMateriaInstance.id])}"

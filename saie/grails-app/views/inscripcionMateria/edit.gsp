@@ -44,7 +44,7 @@
         	    griddata[i]["estado"] = data[i].estado;
         	    griddata[i]["tipovalue"] = data[i].tipovalue;
         	    griddata[i]["tipo"] = data[i].tipo;
-        	    griddata[i]["nota"] = data[i].nota;
+        	    //griddata[i]["nota"] = data[i].nota;
         	}
 
         	for (var i = 0; i <= griddata.length; i++) {
@@ -92,11 +92,11 @@
                 ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
                	,datatype:'json'
                 ,width:650
-                ,colNames:['Id','Id DET','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Nota']
+                ,colNames:['Id','Id DET','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.']
             	,colModel:[
-                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
-                       	,{name:'idDet',index:'idDet'}
-                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
+                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+                       	,{name:'idDet',index:'idDet',hidden:true}
+                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:true}}
                        	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                        	,{name:'estadovalue',index:'estadovalue',hidden:false}
                        	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
@@ -112,7 +112,7 @@
                                				}
            						,edittype:'select'
                    				,editrules:{required:false}}
-           				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
+           				//,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
                 ]
             	,sortname:'denominacion'
                 ,pager: '#pagermateriasId'

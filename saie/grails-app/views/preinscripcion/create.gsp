@@ -66,7 +66,7 @@
 								<g:renderErrors bean="${preinscripcionInstance}" as="list" field="alumno"/>
 								</div>
 						   </g:hasErrors>
-						   <div class="span-3"><g:link controller="alumno" action="create">No existe el Alumno?</g:link> </div>
+						   <div class="span-3"><g:link controller="alumno" action="create" params="[carreraId:preinscripcionInstance?.carrera?.id]">No existe el Alumno?</g:link> </div>
 						   <div class="clear"></div>
 
 							<div id="datosAlumnoId" class="hidden">
@@ -132,7 +132,7 @@
             				hidedata();	
             			}	
         			}
-    				,descfield:['numeroDocumento']}); 
+    				,descfield:['apellidoNombre']}); 
 
    				$('#alumnoId' ).autocomplete({source: '<%out<<createLink(controller:"alumno",action:"listjsonautocomplete")%>',
     				 minLength: 2, 

@@ -15,6 +15,7 @@ import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.alumno.Alumno
 
 
 class PreinscripcionController {
@@ -50,6 +51,11 @@ class PreinscripcionController {
 			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[carreraInstance?.denominacion])
 			redirect(action:"carrerasdisponibles")
 			return
+		}
+		
+		if(params.alumnoId){
+			log.debug "SE ENCONTRO EL ALUMNOID: "+params.alumnoId
+			preinscripcionInstance.alumno = Alumno.get(params.alumnoId)
 		}
 		
         preinscripcionInstance.properties = params

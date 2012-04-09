@@ -341,7 +341,7 @@ class CarreraController {
 					status.setRollbackOnly()
 					log.info "ERROR DE INTEGRIDAD"
 					flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'carrera.label', default: 'Carrera'), params.idCarrera])}"
-					redirect(action: "show", id: params.id)
+					redirect(action: "show", id: params.idCarrera)
 				}
 			}
 		}

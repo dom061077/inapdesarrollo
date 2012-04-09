@@ -90,8 +90,8 @@
 		                ,width:500
 		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.']
 		            	,colModel:[
-		                       	{name:'id',index:'id',width:50,editable:false,hidden:false}
-		                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 		                       	,{name:'estadovalue',index:'estadovalue',hidden:false}
 		                       	,{name:'estado',index:'estado',width:120,editable:true,sortable:false

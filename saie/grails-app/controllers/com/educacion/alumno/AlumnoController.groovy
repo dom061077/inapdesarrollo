@@ -40,7 +40,7 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
         def alumnoInstance = new Alumno()
         alumnoInstance.properties = params
-        return [alumnoInstance: alumnoInstance]
+        return [alumnoInstance: alumnoInstance,carreraId:params.carreraId]
     }
 
 	def saveregister = {
@@ -131,13 +131,18 @@ class AlumnoController {
 		} 
 
         if (alumnoInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
+            
 			if(!alumnoInstance.photo.isEmpty())
 				imageUploadService.save(alumnoInstance)
-            redirect(action: "show", id: alumnoInstance.id)
+			if(params.carreraId){
+				redirect(controller:"preinscripcion",action:"create",id:params.carreraId,params:[alumnoId:alumnoInstance.id])
+			}else{
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'alumno.label', default: 'Alumno'), alumnoInstance.id])}"
+            	redirect(action: "show", id: alumnoInstance.id)
+			}
         }
         else {
-            render(view: "create", model: [alumnoInstance: alumnoInstance])
+            render(view: "create", model: [alumnoInstance: alumnoInstance,carreraId:params.carreraId])
         }
     }
 	

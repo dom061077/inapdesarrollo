@@ -476,6 +476,7 @@
             </div>
             </g:hasErrors>
             <form action="save" method="post" enctype="multipart/form-data" >
+            	<g:hiddenField name="carreraId" value="${carreraId}"/>
             	<div id="tabs" class="append-bottom">
                 	<ul>
 						<li><a href="#tabs-datosdelalumno">Datos del Alumno</a></li>

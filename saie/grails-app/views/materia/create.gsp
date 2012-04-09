@@ -180,7 +180,7 @@
  				 minLength: 2,
   				 select: function( event, ui ) {
  					 if(ui.item){ 
- 						 $('#nivelIdId').val(ui.item.id);
+ 					 	$('#nivelIdId').val(ui.item.id);
  						$('#matregcursarId').clearGridData();
 						$('#mataprobcursarId').clearGridData();
 						$('#matregrendirId').clearGridData();

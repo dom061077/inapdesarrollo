@@ -96,6 +96,13 @@
 												<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
 											</ul>
 										</li>
+
+										<li><span class="dir">Aulas</span>
+											<ul>
+												<li><a href="${createLink(controller:'aula',action:'create')}">Actualización de Aulas</a></li>
+												<li><a href="${createLink(controller:'aula',action:'list')}">Listado de Aulas</a></li>								
+											</ul>
+										</li>
 										
 										
 									</ul>

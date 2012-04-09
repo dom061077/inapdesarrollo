@@ -15,7 +15,96 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-        
+        		$("#carrerasId").jqGrid({ 
+        			url:''
+        			,editurl:''
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Id','Denominación']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagercarrerasId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Carreras vinculadas con esta aula"  
+        			, height:130
+        		}); 
+
+        		jQuery("#carrerasId").jqGrid('navGrid','#pagercarrerasId', {add:true,edit:false,del:true,search:false,refresh:false}, //options 
+        				{height:280,width:310,reloadAfterSubmit:false
+        					, recreateForm:true
+        					,modal:false
+        					,editCaption:'Modificar Requisitos'
+        					, beforeShowForm:function(form){
+        					}
+        					,bSubmit:'Modificar'
+        				
+        				}, // edit options 
+        				{height:450,width:450,reloadAfterSubmit:false
+        					,recreateForm:true
+        					,modal:false
+        					,addCaption:'Agregar Materias Regulares para Cursar'
+        					,beforeSubmit: function(postData,formId){
+
+        						var gridDataMatregcursar = jQuery("#matregcursarId").getRowData();
+        						var retornar=false;
+        						var id = $('#tablaBusquedaMateriaMatRegCursarId').jqGrid('getGridParam','selrow');
+        						var obj;
+        						if(!id){
+        							alert('Seleccione un Materia de la Grilla');
+        							return [false,''];
+        						}else{
+        							obj = $('#tablaBusquedaMateriaMatRegCursarId').getRowData(id);
+        							$.each( gridDataMatregcursar, function(i, row){
+        		   						 if(obj.id==row.idid){
+        		   						 	retornar=true;
+        		   						 	return;
+        		   						 }
+        							});
+        							if(retornar){
+        								alert('Ya agregó esta materia');
+        								return [false,'YA EXISTE LA MATERIA AGREGADA'];
+        							}
+        							
+        							postData.idid = obj.id;
+        							postData.denominacion = obj.denominacion;
+        							postData.nivel = obj.nivel_descripcion;
+        							postData.carrera = obj.nivel_carrera_denominacion;						
+        							return [true,''];
+        						}
+        					}
+        					,beforeShowForm:function(form){
+        						/*$('#tr_codigo').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+        						$('#searchlinkformgridId').bind('click',function(){
+        			            	$('#busquedaRequisitoDialogId').dialog({
+        			            		title:'Buscar',
+        			            		modal:true,
+        			            		resizable:false,
+        			            		autoOpen:true,
+        			            		width : 600,
+        			            		height: 'auto',
+        			            		minHeight:350,
+        			            		position:'center'
+        			            	});
+        						});*/
+        						$('#TblGrid_matregcursarId').hide();
+        						//$('#busquedaRequisitoId').show();
+        						$('#FrmGrid_matregcursarId').append('<table id="tablaBusquedaMateriaMatRegCursarId"></table><div id="pagerBusquedaMateriaMatRegCursarId"></div>');
+        						initGridBusquedaMaterias('tablaBusquedaMateriaMatRegCursarId','pagerBusquedaMateriaMatRegCursarId');
+        					}
+        					,bSubmit:'Agregar'
+        				
+        				}, // add options 
+        				{reloadAfterSubmit:false}, // del options 
+        				{} // search options 
+        			);
+        		
+        	        		
         	});
 		</script>
 		
@@ -111,6 +200,13 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
+						   
+						   <fieldset>
+						   		<legend>Carreras del Aula</legend>
+						   		<g:hiddenField id="carrerasSerializedId" name="carrerasSerialized"/>
+						   		<table id="carrerasId"></table>
+						   		<div id="pagercarrerasId"></div>
+						   </fieldset>
 
 																	
                         

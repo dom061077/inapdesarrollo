@@ -207,6 +207,13 @@ class AulaController {
 
 	}
 
+	def editcarreras = {
+		render(contentType :"text/json"){
+			array{
+				
+			}
+		}
+	}
 
 
 	

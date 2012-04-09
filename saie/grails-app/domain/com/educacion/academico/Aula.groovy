@@ -9,6 +9,8 @@ class Aula {
 	String localizacion
 	EstadoAulaEnum estado
 	
+	static belongsTo =[Carrera]
+	
 	static hasMany = [carreras:Carrera]
 	
     static constraints = {

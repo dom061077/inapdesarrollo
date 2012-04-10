@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
-
+import org.springframework.transaction.TransactionStatus
 
 
 class AulaController {
@@ -36,15 +36,34 @@ class AulaController {
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+		
+		def carrerasJson
+		
+		
+				  
+		if(params.carrerasSerialized)
+			carrerasJson = grails.converters.JSON.parse(params.carrerasSerialized)
 
         def aulaInstance = new Aula(params)
-        if (aulaInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
-            redirect(action: "show", id: aulaInstance.id)
-        }
-        else {
-            render(view: "create", model: [aulaInstance: aulaInstance])
-        }
+		def carreraInstanceSearch
+		
+		Aula.withTransaction{TransactionStatus status ->
+			carrerasJson.each{
+				carreraInstanceSearch = Carrera.load(it.idid.toLong())
+				aulaInstance.addToCarreras(carreraInstanceSearch)
+			}
+			if (aulaInstance.save(flush: true)) {
+				flash.message = "${message(code: 'default.created.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
+				redirect(action: "show", id: aulaInstance.id)
+			}
+			else {
+				status.setRollbackOnly()
+				render(view: "create", model: [aulaInstance: aulaInstance,carrerasSerialized:params.carrerasSerialized])
+			}
+	
+			
+		}
+		
     }
 
     def show = {

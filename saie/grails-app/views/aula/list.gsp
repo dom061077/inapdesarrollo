@@ -16,18 +16,17 @@
 				jQuery("#list").jqGrid({
 				   	url:'listjson',
 					datatype: "json",
-					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					width:600,
+					colNames:['Id','Descripción','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
-				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+				   		{name:'id',index:'id', width:40,hidden:true},
+				   		{name:'nomnbre',index:'nombre', width:70,sortable:false},
+				   		{name:'operaciones',index:'operaciones', width:15,search:false,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',

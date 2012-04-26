@@ -9,11 +9,15 @@ class Aula {
 	String localizacion
 	EstadoAulaEnum estado
 	
-	static belongsTo =[Carrera]
+	
 	
 	static hasMany = [carreras:Carrera]
 	
     static constraints = {
 		nombre(nullable:false,blank:false,size:1..36,unique:true)
+	}
+	
+	static mapping = {
+		carreras lazy:false
 	}
 }

@@ -92,14 +92,29 @@ class AulaController {
             redirect(action: "list")
         }
         else {
-            return [aulaInstance: aulaInstance]
+			def carrerasSerialized = "["
+			def flagaddcomilla = false
+			aulaInstance.carreras.each{
+				if (flagaddcomilla)
+					carrerasSerialized=carrerasSerialized+','
+				carrerasSerialized=carrerasSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'"}'
+				flagaddcomilla=true
+			}
+			carrerasSerialized = carrerasSerialized + "]"				
+            return [aulaInstance: aulaInstance,carrerasSerialized:carrerasSerialized]
         }
     }
 
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+	
+		def carrerasJson	
 		
+		if(params.carrerasSerialized)
+			carrerasJson = grails.converters.JSON.parse(params.carrerasSerialized)
+
+	
         def aulaInstance = Aula.get(params.id)
         if (aulaInstance) {
             if (params.version) {
@@ -110,15 +125,25 @@ class AulaController {
                     render(view: "edit", model: [aulaInstance: aulaInstance])
                     return
                 }
-            }
-            aulaInstance.properties = params
-            if (!aulaInstance.hasErrors() && aulaInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
-                redirect(action: "show", id: aulaInstance.id)
-            }
-            else {
-                render(view: "edit", model: [aulaInstance: aulaInstance])
-            }
+            } 
+			Aula.withTransaction{TransactionStatus status ->
+				def carreraInstanceSearch
+				aulaInstance.properties = params
+				
+				aulaInstance.carreras.clear()
+				log.debug "CANTIDAD DE CARRERAS: "+aulaInstance.carreras.size()+" cantidad de carreras en JSON: "+carrerasJson.size()
+				carrerasJson.each{
+					carreraInstanceSearch = Carrera.load(it.idid.toLong())
+					aulaInstance.addToCarreras(carreraInstanceSearch)
+				}
+	            if (!aulaInstance.hasErrors() && aulaInstance.save(flush: true)) {
+	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
+	                redirect(action: "show", id: aulaInstance.id)
+	            }
+	            else {
+	                render(view: "edit", model: [aulaInstance: aulaInstance])
+	            }
+			}
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'aula.label', default: 'Aula'), params.id])}"
@@ -226,6 +251,30 @@ class AulaController {
 
 	}
 
+	def listcarreras = {
+		log.info "INGRESANDO AL CLOSURE listcarreras"
+		log.info "PARAMETROS: $params"
+		def aulaInstance = Aula.get(params.id)
+		def result
+		def flagcomilla = false
+		if(aulaInstance){
+			result =  '{"page":1,"total":"'+1+'","records":"'+aulaInstance.carreras.size()+'","rows":['
+			aulaInstance.carreras.each{
+				if(flagcomilla)
+					result = result + ',{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+				else
+					result = result + '{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+					
+				if(!flagcomilla)
+					flagcomilla=true
+			}
+			result = result + "]}"
+			render result
+		}else{
+			render "[]"
+		}
+	}
+	
 	def editcarreras = {
 		render(contentType :"text/json"){
 			array{

@@ -14,8 +14,133 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
-        	$(document).ready(function(){
+			function bindcarreras(){
+		    	var griddata = [];
+		    	
+		    	var data = jQuery.parseJSON($("#carrerasSerializedId").val());
+		    	if(data==null)
+		        		data=[];
+		    	for (var i = 0; i < data.length; i++) {
+		    	    griddata[i] = {};
+		    	    griddata[i]["id"] = data[i].id;
+		    	    griddata[i]["idid"] = data[i].idid;	        	    
+		    	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+		    	}
+
+		    	for (var i = 0; i <= griddata.length; i++) {
+		    	    jQuery("#carrerasId").jqGrid('addRowData', i + 1, griddata[i]);
+		    	}
+				
+			}
         
+	        function initsubmit(){
+	    		var gridDataCarreras = jQuery("#carrerasId").getRowData();
+	        	var postDataCarreras = JSON.stringify(gridDataCarreras);
+	        	$("#carrerasSerializedId").val(postDataCarreras);
+	        	
+	        }
+
+        
+	    	function initGridBusquedaCarreras(tabid,pagerid){
+	    		//---------------inicializacion de la grilla de busqueda de Materias para sugerir las Materias
+	    		var tablaId ='#'+tabid;
+	    		var pagerId ='#'+pagerid; 
+	    		$(tablaId).jqGrid({
+	    			caption:'Búsqueda de Carreras',
+	    			url:'<% out << createLink(controller:"carrera",action:"listjson") %>',
+	    		mtype:'POST',
+	    		//postData:{nivel_id:$('#nivelIdId').val()},
+	    		width:400,
+	    		rownumbers:true,
+	    		pager:pagerId,
+	    		datatype:'json',
+	    		colNames:['Id','Denominación'],
+	    		colModel:[
+	    				{name:'id',index:'id',width:10,hidden:true},
+	    				{name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true}
+	    		]
+	    		});
+	    		jQuery(tablaId).jqGrid('navGrid',pagerId,{refresh:true,search:false,edit:false,add:false,del:false,pdf:true});
+	    		jQuery(tablaId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+	    		
+	    		
+	    	}
+        
+        	$(document).ready(function(){
+        		$("#carrerasId").jqGrid({ 
+        			url:''
+        			,editurl:'<%out << createLink(controller:"aula",action:"editcarreras")%>'
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','IdId','Denominación']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagercarrerasId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Carreras vinculadas con esta aula"  
+        			, height:130
+        		}); 
+
+        		jQuery("#carrerasId").jqGrid('navGrid','#pagercarrerasId', {add:true,edit:false,del:true,search:false,refresh:false}, //options 
+        				{height:280,width:310,reloadAfterSubmit:false
+        					, recreateForm:true
+        					,modal:false
+        					,editCaption:'Modificar Requisitos'
+        					, beforeShowForm:function(form){
+        					}
+        					,bSubmit:'Modificar'
+        				
+        				}, // edit options 
+        				{height:450,width:450,reloadAfterSubmit:false
+        					,recreateForm:true
+        					,modal:false
+        					,addCaption:'Agregar Materias Regulares para Cursar'
+        					,beforeSubmit: function(postData,formId){
+
+        						var gridDataMatregcursar = jQuery("#carrerasId").getRowData();
+        						var retornar=false;
+        						var id = $('#tablaBusquedaCarrerasId').jqGrid('getGridParam','selrow');
+        						var obj;
+        						if(!id){
+        							alert('Seleccione una Carrera de la Grilla');
+        							return [false,''];
+        						}else{
+        							obj = $('#tablaBusquedaCarrerasId').getRowData(id);
+        							$.each( gridDataMatregcursar, function(i, row){
+        		   						 if(obj.id==row.idid){
+        		   						 	retornar=true;
+        		   						 	return;
+        		   						 }
+        							});
+        							if(retornar){
+        								alert('Ya agregó esta carrera');
+        								return [false,'YA EXISTE LA CARRERA AGREGADA'];
+        							}
+        							
+        							postData.idid = obj.id;
+        							postData.denominacion = obj.denominacion;
+        							return [true,''];
+        						}
+        					}
+        					,beforeShowForm:function(form){
+        						$('#TblGrid_carrerasId').hide();
+        						$('#FrmGrid_carrerasId').append('<table id="tablaBusquedaCarrerasId"></table><div id="pagerBusquedaCarrerasId"></div>');
+        						initGridBusquedaCarreras('tablaBusquedaCarrerasId','pagerBusquedaCarrerasId');
+        					}
+        					,bSubmit:'Agregar'
+        				
+        				}, // add options 
+        				{reloadAfterSubmit:false}, // del options 
+        				{} // search options 
+        			);
+        		
+        	        bindcarreras();  		
         	});
 		</script>
         
@@ -25,6 +150,11 @@
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+	        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+	        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+			<script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
+	        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+            
         </div>
         <div class="body">
             <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
@@ -36,7 +166,7 @@
                 <g:renderErrors bean="${aulaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${aulaInstance?.id}" />
                 <g:hiddenField name="version" value="${aulaInstance?.version}" />
@@ -115,12 +245,18 @@
 					   </g:hasErrors>
 					   <div class="clear"></div>
 		
+					   <fieldset>
+					   		<legend>Carreras del Aula</legend>
+					   		<g:hiddenField id="carrerasSerializedId" name="carrerasSerialized" value="${carrerasSerialized}"/>
+					   		<table id="carrerasId"></table>
+					   		<div id="pagercarrerasId"></div>
+					   </fieldset>
 																
 		            
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </div>
             </g:form>
         </div>

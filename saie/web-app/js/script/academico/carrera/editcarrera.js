@@ -164,7 +164,7 @@ $(document).ready(function(){
 			{height:450,width:450,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
-				,addCaption:'Agregar Requisito'
+				,addCaption:'Agregar Requisito xxxx'
 				,beforeSubmit: function(postData,formId){
 					var id = $('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
 					var obj;
@@ -180,7 +180,7 @@ $(document).ready(function(){
 					}
 				}
 				,beforeShowForm:function(form){
-					$('#TblGrid_listRequisitosId').hide();
+					//$('#TblGrid_listRequisitosId').hide();
 					$('#FrmGrid_listRequisitosId').append('<table id="tablaBusquedaRequisitoId"></table><div id="pagerBusquedaRequisitoId"></div>');
 					initGridBusquedaRequisitos();
 				}

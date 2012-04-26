@@ -12,7 +12,7 @@ class Carrera {
 	String perfilEgresado
 	String campoOcupacional
 	
-	
+	static belongsTo =[Aula]
 	
 	static hasMany= [aulas:Aula,requisitos:Requisito,niveles:Nivel,anios:AnioLectivo, documentos:DocumentoCarrera, preinscripciones:Inscripcion]
 	

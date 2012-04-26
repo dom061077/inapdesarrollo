@@ -6,6 +6,36 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'aula.label', default: 'Aula')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+		<script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function(){
+        		$("#carrerasId").jqGrid({ 
+        			url:'<%out << createLink(controller:'aula',action:'listcarreras')%>'
+        			,editurl:'<%out << createLink(controller:"aula",action:"editcarreras")%>'
+            		,postData: {id: <%out << aulaInstance.id %>}
+        			,datatype: "json"
+        			,width:600
+        			,rownumbers:true
+        			,colNames:['Id','Denominación']
+        			,colModel:[ 
+        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        			]
+        			//, rowNum:10, rowList:[10,20,30]
+        			, pager: '#pagercarrerasId'
+        			, sortname: 'id'
+        			, viewrecords: true, sortorder: "desc"
+        			, caption:"Carreras vinculadas con esta aula"  
+        			, height:130
+        		}); 
+
+        		
+        	});
+        	</script>        
     </head>
     <body>
         <div class="nav">
@@ -51,6 +81,14 @@
                             <div class="span-4 spanlabel">${fieldValue(bean: aulaInstance, field: "localizacion")}</div>
                             
 							<div class="clear"></div>
+
+						   <fieldset>
+						   		<legend>Carreras del Aula</legend>
+						   		<g:hiddenField id="carrerasSerializedId" name="carrerasSerialized" value="${carrerasSerialized}"/>
+						   		<table id="carrerasId"></table>
+						   		<div id="pagercarrerasId"></div>
+						   </fieldset>
+
                     
                     </tbody>
                 </table>
@@ -58,8 +96,8 @@
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${aulaInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

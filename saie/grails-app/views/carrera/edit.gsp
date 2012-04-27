@@ -46,7 +46,7 @@
             </g:hasErrors>
             <form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="idCarrera" value="${carreraInstance?.id}" />
+                <g:hiddenField id="idCarreraId" name="idCarrera" value="${carreraInstance?.id}" />
                 <g:hiddenField name="version" value="${carreraInstance?.version}" />
 		                
 						<g:hasErrors bean="${carreraInstance}" field="campoOcupacional">

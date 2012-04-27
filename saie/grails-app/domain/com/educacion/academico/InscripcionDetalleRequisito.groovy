@@ -16,5 +16,6 @@ class InscripcionDetalleRequisito {
 	
 	
     static constraints = {
+		fechaCumplido(nullable:true,blank:true)
     }
 }

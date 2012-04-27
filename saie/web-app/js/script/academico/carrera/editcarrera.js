@@ -122,6 +122,7 @@
 	        	    griddata[i]["costoMatricula"] = data[i].costoMatricula;	        	    
 	        	    griddata[i]["fechaInicio"] = data[i].fechaInicio;
 	        	    griddata[i]["fechaFin"] = data[i].fechaFin;
+	        	    griddata[i]["carreraId"] = $('#idCarreraId').val();
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -140,9 +141,9 @@ $(document).ready(function(){
 		,colNames:['Id','Id','Descripción','Clase Requisito']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}			
-			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
-			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
+			, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}			
+			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:false}, sortable:false}
+			, {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion', width:100,editable:true,editoptions:{readonly:true,size:30},editrules:{required:false}, sortable:false}
 		]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListRequisitosId'
@@ -161,10 +162,10 @@ $(document).ready(function(){
 				}
 				,bSubmit:'Modificar'
 			}, // edit options 
-			{height:450,width:450,reloadAfterSubmit:false
+			{height:300,width:450,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
-				,addCaption:'Agregar Requisito xxxx'
+				,addCaption:'Agregar Requisito'
 				,beforeSubmit: function(postData,formId){
 					var id = $('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
 					var obj;
@@ -180,7 +181,7 @@ $(document).ready(function(){
 					}
 				}
 				,beforeShowForm:function(form){
-					//$('#TblGrid_listRequisitosId').hide();
+					$('#TblGrid_listRequisitosId').hide();
 					$('#FrmGrid_listRequisitosId').append('<table id="tablaBusquedaRequisitoId"></table><div id="pagerBusquedaRequisitoId"></div>');
 					initGridBusquedaRequisitos();
 				}
@@ -299,10 +300,11 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','IdId','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula','Fecha Inicio','Fecha Fin']
+		,colNames:['Id','IdId','CarreraId','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula','Fecha Inicio','Fecha Fin']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			,{name:'idid',index:'idid', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}			
+			,{name:'idid',index:'idid', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'carreraId',index:'carreraId',hidden:false,editrules:{integer:true,required:false}}
 			, {name:'anioLectivo',index:'anioLectivo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{minValue:2012,integer:true,required:true}, sortable:false}
 			, {name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
 			, {name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
@@ -319,14 +321,17 @@ $(document).ready(function(){
 	}); 
 	
 	jQuery("#listAniosId").jqGrid('navGrid','#pagerListAniosId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:200,width:310,reloadAfterSubmit:false
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Años Lectivos'
 				,bSubmit:'Modificar'
+				,afterSubmit: function(response,postdata){
+					return[false,'response: '+response+' postdata: '+postdata];
+				}
 			
 			}, // edit options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:200,width:310,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,addCaption:'Agregar Año Lectivo'
@@ -334,6 +339,10 @@ $(document).ready(function(){
 				,beforeSubmit: function(postData,formId){
 					$('#idReq').val(0);
 					return [true,'']
+				}
+				,beforeSubmit: function(postData,formId){
+					postData.carreraId=$('#idCarreraId').val();
+					return[true,''];
 				}
 			
 			}, // add options 

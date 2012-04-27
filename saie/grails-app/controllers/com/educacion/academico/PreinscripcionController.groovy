@@ -99,11 +99,11 @@ class PreinscripcionController {
 		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
 		hqlstr = hqlstr	+")";
 		hqlstr = hqlstr	+"  ,(SELECT";
-		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
+		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.estado<>:estado AND pre.anioLectivo.anioLectivo=";
 		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
 		hqlstr = hqlstr	+"  )";
 		hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
-		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id])
+		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id,"estado":EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO])
 		def datosCarrera = list?.get(0)
 		def cupodisponible=0
 		def cupo = 0

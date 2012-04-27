@@ -168,7 +168,7 @@ $(document).ready(function(){
 				,bSubmit:'Modificar'
 			
 			}, // edit options 
-			{height:450,width:400,reloadAfterSubmit:false
+			{height:320,width:400,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,addCaption:'Agregar Requisito'
@@ -182,12 +182,26 @@ $(document).ready(function(){
 				}*/
 				,beforeSubmit: function(postData,formId){
 					var id = $('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
+					var retornar = false;
 					var obj;
 					if(!id){
 						alert('Seleccione un requisito de la Grilla');
 						return [false,''];
 					}else{
-						obj = $('#tablaBusquedaRequisitoId').getRowData(id);						
+						obj = $('#tablaBusquedaRequisitoId').getRowData(id);
+						var gridDataRequisitos = $('#listRequisitosId').getRowData();
+						$.each( gridDataRequisitos, function(i, row){
+	   						 if(obj.id==row.idid){
+	   						 	retornar=true;
+	   						 	return;
+	   						 }
+						});
+						if(retornar){
+							alert('Ya agregó este Requisito');
+							return [false,'YA EXISTE EL REQUISITO AGREGADO'];
+						}
+						
+						
 						postData.idid = obj.id;
 						postData.descripcion = obj.descripcion;
 						postData.claseRequisito_descripcion = obj.claseRequisito_descripcion;
@@ -246,7 +260,7 @@ $(document).ready(function(){
 	}); 
 	
 	jQuery("#listNivelesId").jqGrid('navGrid','#pagerListNivelesId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:180,width:310,reloadAfterSubmit:false
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Niveles'
@@ -256,7 +270,7 @@ $(document).ready(function(){
 				}				
 				,bSubmit:'Modificar'
 			}, // edit options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:180,width:310,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,addCaption:'Agregar Nivel'
@@ -298,14 +312,14 @@ $(document).ready(function(){
 	}); 
 	
 	jQuery("#listAniosId").jqGrid('navGrid','#pagerListAniosId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:200,width:310,reloadAfterSubmit:false
 				, recreateForm:true
 				,modal:false
 				,editCaption:'Modificar Año Lectivo'
 				,bSubmit:'Modificar'
 			
 			}, // edit options 
-			{height:280,width:310,reloadAfterSubmit:false
+			{height:200,width:310,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,bSubmit:'Agregar'

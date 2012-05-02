@@ -293,9 +293,10 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Año Lectivo','Cupo','Cupo Suplentes','Costo Matricula','Fecha Inicio','Fecha Fin']
+		,colNames:['Id','IdId xxxx','Año Lectivo','Cupo','Cupo Suplentes','Costo Matricula','Fecha Inicio','Fecha Fin']
 		,colModel:[ 
-			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			{name:'id',index:'id', width:55,editable:false,hidden:false	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'idd',index:'idd',hidden:false,editrules:{required:true}}
 			, {name:'anioLectivo',index:'anioLectivo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{minValue:2012,integer:true,required:true}, sortable:false}
 			, {name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
 			, {name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}

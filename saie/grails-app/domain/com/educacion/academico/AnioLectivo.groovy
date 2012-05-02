@@ -1,6 +1,7 @@
 package com.educacion.academico
 
 import java.sql.Date
+import com.educacion.enums.inscripcion.EstadoPreinscripcion
 
 class AnioLectivo {
 
@@ -16,5 +17,19 @@ class AnioLectivo {
 	
     static constraints = {
 		carrera(unique: 'anioLectivo')
+		validator : {cupo,obj ->
+			def hql = """
+                       SELECT COUNT(pre.id) as cantidad FROM Preinscripcion pre WHERE pre.estado<>:estado 
+						AND pre.carrera= :carrera AND pre.anioLectivo=:aniolectivo
+			"""
+			def parameters = [estado:EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO,anioLectivo:obj,carrera:obj.carrera]
+			def list = Carrera.executeQuery(hql)
+			def row = list.get(0)
+			if(list.size()>0){
+				if(obj.cupo+obj.cupoSuplentes<row["cantidad"])
+				return false
+			}
+			return true
+		}
     }
 }

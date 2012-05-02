@@ -548,24 +548,14 @@ class CarreraController {
 	def editanios = {
 		log.debug "INGRESANDO AL CLOSURE editanios"
 		log.debug "PARAMETROS: $params"
-		def hqlstr = "SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) ";
-		hqlstr = hqlstr +" FROM AnioLectivo a WHERE a.carrera.id=c.id)";
-		hqlstr = hqlstr 	+",(SELECT acup.cupo FROM AnioLectivo acup";
-		hqlstr = hqlstr		+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
-		hqlstr = hqlstr		+" AND acup.carrera.id=c.id";
-		hqlstr = hqlstr		+")";
-		hqlstr = hqlstr	+",(SELECT acup.cupoSuplentes FROM AnioLectivo acup";
-		hqlstr = hqlstr	+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
-		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
-		hqlstr = hqlstr	+")";
-		hqlstr = hqlstr	+"  ,(SELECT";
-		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.estado<>:estado AND pre.anioLectivo.anioLectivo=";
-		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
-		hqlstr = hqlstr	+"  )";
-		hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
-		def list =  Carrera.executeQuery(hqlstr,["carrera":params.carreraId,"estado":EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO])
-		def datosCarrera //= list?.get(0)
-
+		def hql = """
+                   (SELECT	COUNT(pre.id) as cantidad FROM Preinscripcion pre WHERE pre.estado<>:estado 
+					AND pre.carrera= :carrera AND pre.anioLectivo=:aniolectivo
+		"""
+		//def parameters = [estado:EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO,anioLectivo:obj,carrera:obj.carrera]
+		//def list = Carrera.executeQuery(hql)
+		//def row = list.get(0)
+			
 		render "{}" //datosCarrera as JSON
 		
 

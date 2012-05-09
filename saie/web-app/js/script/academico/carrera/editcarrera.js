@@ -303,8 +303,8 @@ $(document).ready(function(){
 		,colNames:['Id','IdId','CarreraId','Año Lectivo','Cupo','Cupo Suplentes','Costo Matrícula','Fecha Inicio','Fecha Fin']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			,{name:'idid',index:'idid', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-			, {name:'carreraId',index:'carreraId',hidden:false,editrules:{integer:true,required:false}}
+			,{name:'idid',index:'idid', width:55,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+			, {name:'carreraId',index:'carreraId',editable:true,hidden:true,editrules:{integer:true,required:false}}
 			, {name:'anioLectivo',index:'anioLectivo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{minValue:2012,integer:true,required:true}, sortable:false}
 			, {name:'cupo',index:'cupo', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
 			, {name:'cupoSuplentes',index:'cupoSuplentes', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{integer:true,required:true}, sortable:false}
@@ -327,7 +327,12 @@ $(document).ready(function(){
 				,editCaption:'Modificar Años Lectivos'
 				,bSubmit:'Modificar'
 				,afterSubmit: function(response,postdata){
-					return[false,'response: '+response+' postdata: '+postdata];
+					var responseJson = $.parseJSON(response.responseText);
+					if(responseJson.success=='true')
+						return[true,''];
+					else
+						return[false,responseJson.message];
+
 				}
 			
 			}, // edit options 
@@ -336,9 +341,12 @@ $(document).ready(function(){
 				,modal:false
 				,addCaption:'Agregar Año Lectivo'
 				,bSubmit:'Agregar'
-				,beforeSubmit: function(postData,formId){
-					$('#idReq').val(0);
-					return [true,'']
+				,afterSubmit: function(response,postdata){
+					var responseJson = $.parseJSON(response.responseText);
+					if(responseJson.success=='true')
+						return[true,''];
+					else
+						return[false,responseJson.message];
 				}
 				,beforeSubmit: function(postData,formId){
 					postData.carreraId=$('#idCarreraId').val();
@@ -347,6 +355,13 @@ $(document).ready(function(){
 			
 			}, // add options 
 			{reloadAfterSubmit:false
+				,afterSubmit: function(response,postdata){
+					var responseJson = $.parseJSON(response.responseText);
+					if(responseJson.success=='true')
+						return[true,''];
+					else
+						return[false,responseJson.message];
+				}
 				,beforeSubmit:function(postData,formId){
 					var row = $("#listAniosId").getRowData(postData);
 					arrayDeletedAnios.push({id:row.idid});

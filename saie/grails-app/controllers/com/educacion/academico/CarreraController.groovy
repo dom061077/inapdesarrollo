@@ -13,6 +13,7 @@ import org.springframework.transaction.TransactionStatus
 import java.text.SimpleDateFormat;
 import com.educacion.academico.Carrera;
 import grails.converters.JSON
+import com.educacion.enums.inscripcion.EstadoPreinscripcion
 
 class CarreraController {
 
@@ -261,12 +262,10 @@ class CarreraController {
 					try{
 						anioLectivoInstance = AnioLectivo.load(it.id.toLong())
 						carreraInstance.removeFromAnios(anioLectivoInstance)
-						anioLectivoInstance.delete(flush:true)
-						log.debug "ANIO LECTIVO ELIMINADO: "+it
-					}catch (com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException e){
-						flash.message="Uno de los a√±os lectivos no pudo eliminarse por favor edite de nuevo la carrera"
-						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
-						status.setRollbackOnly()
+							anioLectivoInstance.delete(flush:true)
+						
+					}catch (org.springframework.dao.DataIntegrityViolationException e){
+						return
 					}
 				}
 				java.sql.Date fechaInicio
@@ -300,13 +299,21 @@ class CarreraController {
 
 								
 				carreraInstance.properties = params
-				if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
-					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
-					redirect(controller:'carrera',action: "show", id: carreraInstance.id)
-				}
-				else {
-					status.setRollbackOnly()
-					render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
+				try{
+					if (!carreraInstance.hasErrors() && carreraInstance.save(flush: true)) {
+						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'carrera.label', default: 'Carrera'), carreraInstance.id])}"
+						redirect(controller:'carrera',action: "show", id: carreraInstance.id)
+					}
+					else {
+						status.setRollbackOnly()
+						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
+					}
+				}catch(org.springframework.dao.DataIntegrityViolationException e){
+						log.debug "EXCEPTION ATRAPADA DE NUEVO"
+						status.setRollbackOnly()
+						flash.message = "Algun registro eliminado en las grillas de registros, niveles o AÒos Lectivos esta referenciado en otros datos. Verifique antes de eliminar y vuelva a intentar la modificacion "
+						redirect(action:"list")
+						return 
 				}
 			}
 		}
@@ -548,15 +555,29 @@ class CarreraController {
 	def editanios = {
 		log.debug "INGRESANDO AL CLOSURE editanios"
 		log.debug "PARAMETROS: $params"
-		def hql = """
-                   (SELECT	COUNT(pre.id) as cantidad FROM Preinscripcion pre WHERE pre.estado<>:estado 
-					AND pre.carrera= :carrera AND pre.anioLectivo=:aniolectivo
-		"""
-		//def parameters = [estado:EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO,anioLectivo:obj,carrera:obj.carrera]
-		//def list = Carrera.executeQuery(hql)
-		//def row = list.get(0)
+		if(params.idid){
+			def inscriptos = Preinscripcion.createCriteria().get{
+				projections{
+					count('id')
+				}	
+				and{
+					ne("estado",EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)
+					carrera{
+						eq("id",params.carreraId.toLong())
+					}
+					anioLectivo{
+						eq("id",params.idid.toLong())
+					}
+				}
+			}
+			def totalcupo = params.cupo.toInteger() + params.cupoSuplentes.toInteger()
+			if(totalcupo<inscriptos)
+				render '{"success":"false","message":"La cantidad actual de inscriptos ( en total '+inscriptos +' ) en la carrera supera la suma del cupo titulares y suplentes"}'
+			else	
+				render '{"success":"true","message":""}'
 			
-		render "{}" //datosCarrera as JSON
+		}else 
+			render '{"success":"true","message":""}' //datosCarrera as JSON
 		
 
 	}

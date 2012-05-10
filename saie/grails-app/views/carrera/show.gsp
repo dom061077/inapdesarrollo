@@ -38,7 +38,7 @@
 					,datatype: "json"
 					,width:600
 					//,rownumbers:true
-					,colNames:['Id','Id', 'Descripción','Es primer nivel value','Es el primer nivel?']
+					,colNames:['Id','Id', 'Descripción','Es primer nivel value','Nivel Introductorio?']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 

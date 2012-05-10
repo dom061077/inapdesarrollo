@@ -238,14 +238,14 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Id Nivel','Descripción de Nivel','Es primer nivel valor','Es Primer Nivel']
+		,colNames:['Id','Id Nivel','Descripción de Nivel','Es primer nivel valor','Nivel Introductorio']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 			, {name:'idNivel',index:'idNivel', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10},editrules:{required:true}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
 			, {name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
 			, {name:'esprimernivel',index:'esprimernivel', width:30, align:"left",editable:true
-					,editoptions:{readOnly:false,size:30,value:'false:No es el Primer Nivel;true:Es el Primer Nivel'}
+					,editoptions:{readOnly:false,size:30,value:'false:No es Nivel Introductorio;true:Es Nivel Introductorio'}
 					,edittype:'select'
 					,editrules:{required:true}, sortable:false}
 		]

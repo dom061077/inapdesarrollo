@@ -358,7 +358,7 @@ class PreinscripcionController {
 			Preinscripcion.withTransaction{TransactionStatus status->
 				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
 				def inscripcionMateriaInstance
-				preinscripcionInstance.carrera.niveles.each{ nivel->
+				/*preinscripcionInstance.carrera.niveles.each{ nivel->
 					if(nivel.esprimernivel){
 						inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 							,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
@@ -367,15 +367,18 @@ class PreinscripcionController {
 									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
 						}
 					} 
-				}
+				}*/
 				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
-					if(!inscripcionMateriaInstance.save()){
+					/*if(!inscripcionMateriaInstance.save()){
 						status.setRollbackOnly()
 						render(view:"inscribir",model:[preinscripcionInstance:preinscripcionInstance,inscripcionMateriaInstance:inscripcionMateriaInstance])	
 					}else{
 						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 						redirect(action: "show", id: preinscripcionInstance.id)
-					}
+					}*/
+					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+					redirect(action: "show", id: preinscripcionInstance.id)
+
 				}
 				else {
 					status.setRollbackOnly()

@@ -123,7 +123,7 @@
 											<li><span class="dir">Preinscripciones</span>
 												<ul>
 													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">PreInscribir</a></li>
-													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listado de PreInscripciones</a></li>								
+													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Matricular</a></li>								
 												</ul>
 											</li>
 											<li><span class="dir">Inscripción Materia</span>

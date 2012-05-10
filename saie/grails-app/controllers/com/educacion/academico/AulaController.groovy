@@ -41,8 +41,8 @@ class AulaController {
 		
 		
 				  
-		if(params.carrerasSerialized)
-			carrerasJson = grails.converters.JSON.parse(params.carrerasSerialized)
+		if(params.detalleaulaSerialized)
+			carrerasJson = grails.converters.JSON.parse(params.detalleaulaSerialized)
 
         def aulaInstance = new Aula(params)
 		def carreraInstanceSearch
@@ -50,7 +50,8 @@ class AulaController {
 		Aula.withTransaction{TransactionStatus status ->
 			carrerasJson.each{
 				carreraInstanceSearch = Carrera.load(it.idid.toLong())
-				aulaInstance.addToCarreras(carreraInstanceSearch)
+				aulaInstance.addToDetalle(new DetalleAula(carrera:carreraInstanceSearch,descripcion:it.observacion))
+				
 			}
 			if (aulaInstance.save(flush: true)) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
@@ -58,7 +59,7 @@ class AulaController {
 			}
 			else {
 				status.setRollbackOnly()
-				render(view: "create", model: [aulaInstance: aulaInstance,carrerasSerialized:params.carrerasSerialized])
+				render(view: "create", model: [aulaInstance: aulaInstance,detalleaulaSerialized:params.detalleaulaSerialized])
 			}
 	
 			
@@ -196,7 +197,7 @@ class AulaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'","'+(it.cupo==null?"":it.cupo)+'","'+it.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

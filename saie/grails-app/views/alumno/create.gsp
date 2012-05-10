@@ -530,7 +530,7 @@
 								<label for="apellidoNombre"><g:message code="alumno.apellidoNombre.label" default="Apellido Nombre" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField name="apellidoNombre" id="apellidoNombreId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
+								<g:textField style="text-transform:uppercase" name="apellidoNombre" id="apellidoNombreId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
 							</div>
 										
 							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">

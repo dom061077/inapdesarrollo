@@ -14,138 +14,169 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
-			function bindcarreras(){
+			function binddetallecarreras(){
 		    	var griddata = [];
 		    	
-		    	var data = jQuery.parseJSON($("#carrerasSerializedId").val());
+		    	var data = jQuery.parseJSON($("#detalleaulaSerializedId").val());
 		    	if(data==null)
 		        		data=[];
 		    	for (var i = 0; i < data.length; i++) {
 		    	    griddata[i] = {};
 		    	    griddata[i]["id"] = data[i].id;
 		    	    griddata[i]["idid"] = data[i].idid;	        	    
-		    	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+		    	    griddata[i]["carrera"] = data[i].carrera;
+		    	    griddata[i]["observacion"] = data[i].observacion;	        	    	        	    
 		    	}
 
 		    	for (var i = 0; i <= griddata.length; i++) {
-		    	    jQuery("#carrerasId").jqGrid('addRowData', i + 1, griddata[i]);
+		    	    jQuery("#detalleaulaId").jqGrid('addRowData', i + 1, griddata[i]);
 		    	}
 				
 			}
         
 	        function initsubmit(){
-	    		var gridDataCarreras = jQuery("#carrerasId").getRowData();
+	    		var gridDataCarreras = jQuery("#detalleaulaId").getRowData();
 	        	var postDataCarreras = JSON.stringify(gridDataCarreras);
-	        	$("#carrerasSerializedId").val(postDataCarreras);
+	        	$("#detalleaulaSerializedId").val(postDataCarreras);
 	        	
 	        }
 
         
-	    	function initGridBusquedaCarreras(tabid,pagerid){
-	    		//---------------inicializacion de la grilla de busqueda de Materias para sugerir las Materias
-	    		var tablaId ='#'+tabid;
-	    		var pagerId ='#'+pagerid; 
-	    		$(tablaId).jqGrid({
+        	$(document).ready(function(){
+				// Grilla de listado de Carreras
+	    		$("#busquedacarreraId").jqGrid({
 	    			caption:'Búsqueda de Carreras',
 	    			url:'<% out << createLink(controller:"carrera",action:"listjson") %>',
 	    		mtype:'POST',
-	    		//postData:{nivel_id:$('#nivelIdId').val()},
 	    		width:400,
 	    		rownumbers:true,
-	    		pager:pagerId,
+	    		pager:"#pagerbusquedacarreraId",
 	    		datatype:'json',
 	    		colNames:['Id','Denominación'],
 	    		colModel:[
 	    				{name:'id',index:'id',width:10,hidden:true},
-	    				{name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true}
-	    		]
+	    				{name:'denominacion',index:'denominacion',width:80,sorttype:'text',sortable:true}
+	    		],
+
+	    		ondblClickRow:function(id){
+						obj=$('#busquedacarreraId').getRowData(id);
+						$('#carrera').val(obj.denominacion);
+						$('#idid').val(obj.id);
+						$('#dialogcarreraId').dialog('close');
+				}
+				
 	    		});
-	    		jQuery(tablaId).jqGrid('navGrid',pagerId,{refresh:true,search:false,edit:false,add:false,del:false,pdf:true});
-	    		jQuery(tablaId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-	    		
-	    		
-	    	}
-        
-        	$(document).ready(function(){
-        		$("#carrerasId").jqGrid({ 
-        			url:''
-        			,editurl:'<%out << createLink(controller:"aula",action:"editcarreras")%>'
-        			,datatype: "json"
-        			,width:600
-        			,rownumbers:true
-        			,colNames:['Id','IdId','Denominación']
-        			,colModel:[ 
-        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
-        				, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
-        				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
-        			]
-        			//, rowNum:10, rowList:[10,20,30]
-        			, pager: '#pagercarrerasId'
-        			, sortname: 'id'
-        			, viewrecords: true, sortorder: "desc"
-        			, caption:"Carreras vinculadas con esta aula"  
-        			, height:130
-        		}); 
+	    		jQuery("#busquedacarreraId").jqGrid('navGrid',"#pagerbusquedacarreraId",{refresh:true,search:false,edit:false,add:false,del:false,pdf:true});
+	    		jQuery("#busquedacarreraId").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 
-        		jQuery("#carrerasId").jqGrid('navGrid','#pagercarrerasId', {add:true,edit:false,del:true,search:false,refresh:false}, //options 
-        				{height:280,width:310,reloadAfterSubmit:false
+
+               	$("#detalleaulaId").jqGrid({ 
+       			url:''
+       			,editurl:'<%out << createLink(controller:"aula",action:"editcarreras")%>'
+       			,datatype: "json"
+       			,width:600
+       			,rownumbers:true
+       			,colNames:['Id','IdId','Carrera','Observación']
+       			,colModel:[ 
+       				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+       				, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
+       				, {name:'carrera',index:'carrera', width:80, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:true}, sortable:false}
+       				, {name:'observacion',index:'observacion', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+       			]
+       			//, rowNum:10, rowList:[10,20,30]
+       			, pager: '#pagerdetalleaulaId'
+       			, sortname: 'id'
+       			, viewrecords: true, sortorder: "desc"
+       			, caption:"Carreras vinculadas con esta aula"  
+       			, height:130
+       			}); 
+
+
+				// Pie de la Grilla
+        		jQuery("#detalleaulaId").jqGrid('navGrid','#pagerdetalleaulaId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+        				{height:150,width:310,reloadAfterSubmit:false
         					, recreateForm:true
-        					,modal:false
-        					,editCaption:'Modificar Requisitos'
-        					, beforeShowForm:function(form){
-        					}
-        					,bSubmit:'Modificar'
+        					,editCaption:'Modificar Carrera'
+           					,beforeShowForm:function(form){
+           						// Boton (Lupita)
+           						$('#tr_carrera').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+           						$('#searchlinkformgridId').bind('click',function(){
+           			            	$('#dialogcarreraId').dialog({
+           			            		title:'Buscar',
+           			            		modal:true,
+           			            		resizable:false,
+           			            		autoOpen:true,
+           			            		width : 300,
+           			            		height: 'auto',
+           			            		minHeight:250,
+           			            		position:'center'
+           			            	});
+           						});
+           					}
         				
-        				}, // edit options 
-        				{height:450,width:450,reloadAfterSubmit:false
-        					,recreateForm:true
-        					,modal:false
-        					,addCaption:'Agregar Materias Regulares para Cursar'
-        					,beforeSubmit: function(postData,formId){
+        				}, // Edit options 
 
-        						var gridDataMatregcursar = jQuery("#carrerasId").getRowData();
-        						var retornar=false;
-        						var id = $('#tablaBusquedaCarrerasId').jqGrid('getGridParam','selrow');
-        						var obj;
-        						if(!id){
-        							alert('Seleccione una Carrera de la Grilla');
-        							return [false,''];
-        						}else{
-        							obj = $('#tablaBusquedaCarrerasId').getRowData(id);
-        							$.each( gridDataMatregcursar, function(i, row){
-        		   						 if(obj.id==row.idid){
-        		   						 	retornar=true;
-        		   						 	return;
-        		   						 }
-        							});
-        							if(retornar){
-        								alert('Ya agregó esta carrera');
-        								return [false,'YA EXISTE LA CARRERA AGREGADA'];
-        							}
-        							
-        							postData.idid = obj.id;
-        							postData.denominacion = obj.denominacion;
-        							return [true,''];
-        						}
+        				{height:130,width:310,reloadAfterSubmit:false
+        					,recreateForm:true
+        					,addCaption:'Modificar Carrera'
+        					,beforeSubmit: function(postData,formId){
+								// var id=jQuery("#detalleaulaId").jqGrid('getGridParam', 'setrow');
+								// var obj=
+								var retornar=true;
+								var mensaje=''; 
+								var gridDataDetalle=jQuery("#detalleaulaId").getRowData();
+								$.each(gridDataDetalle,
+										function(y,row){
+											if (row.idid == postData.idid){
+												mensaje='Ya fué ingresada esta carrera...';
+												retornar=false;
+												return;				
+												}
+												
+
+										}
+									);
+								
+        						return [retornar,mensaje]
         					}
         					,beforeShowForm:function(form){
-        						$('#TblGrid_carrerasId').hide();
-        						$('#FrmGrid_carrerasId').append('<table id="tablaBusquedaCarrerasId"></table><div id="pagerBusquedaCarrerasId"></div>');
-        						initGridBusquedaCarreras('tablaBusquedaCarrerasId','pagerBusquedaCarrerasId');
+        						// Boton (Lupita)
+        						$('#tr_carrera').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+        						$('#searchlinkformgridId').bind('click',function(){
+        			            	$('#dialogcarreraId').dialog({
+        			            		title:'Buscar',
+        			            		modal:true,
+        			            		resizable:false,
+        			            		autoOpen:true,
+        			            		width : 420,
+        			            		height: 'auto',
+        			            		minHeight:290,
+        			            		position:'center'
+        			            	});
+        						});
         					}
-        					,bSubmit:'Agregar'
         				
         				}, // add options 
         				{reloadAfterSubmit:false}, // del options 
         				{} // search options 
-        			);
+        			);	
         		
-        	        bindcarreras();  		
+        		binddetallecarreras();  		
         	});
 		</script>
 		
     </head>
     <body>
+        
+
+        <div id="dialogcarreraId" style="display:none">
+      		<div id="pagerbusquedacarreraId"></div>
+        	<table id="busquedacarreraId">
+        		
+        	</table>
+        </div>
+        
+        
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
@@ -198,7 +229,6 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-
 																	
                         
 							<g:hasErrors bean="${aulaInstance}" field="estado">
@@ -218,8 +248,7 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
-																	
-                        
+
 							<g:hasErrors bean="${aulaInstance}" field="localizacion">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
@@ -239,9 +268,9 @@
 						   
 						   <fieldset>
 						   		<legend>Carreras del Aula</legend>
-						   		<g:hiddenField id="carrerasSerializedId" name="carrerasSerialized" value="${carrerasSerialized}"/>
-						   		<table id="carrerasId"></table>
-						   		<div id="pagercarrerasId"></div>
+						   		<g:hiddenField id="detalleaulaSerializedId" name="detalleaulaSerialized" value="${detalleaulaSerialized}"/>
+						   		<table id="detalleaulaId"></table>
+						   		<div id="pagerdetalleaulaId"></div>
 						   </fieldset>
 
 																	

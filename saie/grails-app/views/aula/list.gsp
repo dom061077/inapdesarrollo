@@ -17,12 +17,12 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:600,
-					colNames:['Id','Descripci√≥n','Opciones'],
+					colNames:['Id', 'Nombre', 'Cupo', 'Estado'],
 				   	colModel:[
-				   		
-				   		{name:'id',index:'id', width:40,hidden:true},
-				   		{name:'nomnbre',index:'nombre', width:70,sortable:false},
-				   		{name:'operaciones',index:'operaciones', width:15,search:false,sortable:false}
+							  {name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}, sortable:false}
+							, {name:'nombre',index:'nombre', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+							, {name:'cupo',index:'cupo', width:10, align:"left",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
+							, {name:'estado',index:'estado', width:40, align:"center",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
 				   	],
 				   	
 				   	rowNum:10,
@@ -46,6 +46,32 @@
 						 
 					}, 						    
 				    caption:"Listado de ${message(code: 'aula.label', default: 'Aula')}"
+					// Aqui est· el detalle de aula con la lista de carreras 
+				    ,subGrid:true
+					,subGridRowExpanded: function(subgrid_id, row_id) {
+							var subgrid_table_id, pager_id;
+							subgrid_table_id = subgrid_id+"_t";
+							pager_id = "p_"+subgrid_table_id;
+							var obj=$('#list').getRowData(row_id);
+							$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+							jQuery("#"+subgrid_table_id).jqGrid({
+								url:'<%out<<createLink(controller:"detalleaula",action:"listdocumentos")%>?id='+obj.id,
+								datatype: "json",
+								mtype:'POST',
+								colNames: ['Id','Carrera','Descripcion'],
+								colModel: [
+									{name:"id",index:"id",width:80,key:true,hidden:true},				           
+									{name:"carrera",index:"carrera",width:20},
+									{name:'descripcion',index:'descripcion',width:20,sorttype:'text',sortable:false,search:false}
+								],
+							   	rowNum:20,
+							   	pager: pager_id,
+							    height: '100%',
+							    width: 600
+							});
+							jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+						},
+
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 

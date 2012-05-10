@@ -2,6 +2,7 @@ package com.educacion.enums.inscripcion
 
 
 public enum EstadoPreinscripcion {
+	ESTADO_ASPIRANTE("Aspirante"),
 	ESTADO_PREINSCRIPTO("Preinscripto"),
 	ESTADO_PREINSCRIPTOSUPLENTE("Preinscripto como suplente"),
 	ESTADO_INSCRIPTO("Matriculado"),
@@ -12,6 +13,6 @@ public enum EstadoPreinscripcion {
 	}
 	
 	static list(){
-		[ESTADO_PREINSCRIPTO,ESTADO_PREINSCRIPTOSUPLENTE,ESTADO_INSCRIPTO]
+		[ESTADO_ASPIRANTE,ESTADO_PREINSCRIPTO,ESTADO_PREINSCRIPTOSUPLENTE,ESTADO_INSCRIPTO]
 	}
 }

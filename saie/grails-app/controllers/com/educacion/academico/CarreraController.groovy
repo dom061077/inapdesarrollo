@@ -495,7 +495,7 @@ class CarreraController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'","'+(it.esprimernivel?"ES PRIMER NIVEL":"NO ES PRIMER NIVEL")+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'","'+(it.esprimernivel?"Nivel Introductorio":"No es Nivel Introductorio")+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

@@ -88,7 +88,7 @@
 		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
 		               	,datatype:'json'
 		                ,width:500
-		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.']
+		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Select']
 		            	,colModel:[
 		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
@@ -107,6 +107,8 @@
 		                               				}
 		           						,edittype:'select'
 		                   				,editrules:{required:false}}
+		                       	,{ name: 'seleccion', index: 'seleccion',  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+                   				
 		                ]
 		            	,sortname:'denominacion'
 		                ,pager: '#pagermateriasId'

@@ -121,7 +121,7 @@ $(document).ready(function(){
 			caption:'Búsqueda de Materias',
 			url:locmateria,
 		mtype:'POST',
-		postData:{nivel_id:$('#nivelIdId').val()},
+		//postData:{nivel_id:$('#nivelIdId').val()},
 		width:400,
 		rownumbers:true,
 		pager:pagerId,
@@ -137,11 +137,12 @@ $(document).ready(function(){
 		jQuery(tablaId).jqGrid('navGrid',pagerId,{refresh:true,search:false,edit:false,add:false,del:false,pdf:true});
 		jQuery(tablaId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 		
-		var filter = { groupOp: "AND", rules: []};
-		filter.rules.push({field:"nivel_id",op:"eq",data:$('#nivelIdId').val()});
+		//var filter = { groupOp: "AND", rules: []};
+		//filter.rules.push({field:"nivel_id",op:"eq",data:$('#nivelIdId').val()});
 		var grid = $(tablaId) 
 		grid[0].p._search = true;
-		$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+		//$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+		
 		//grid[0].refreshIndex();
 		//grid.trigger("reloadGrid",[{page:1}]);
 					

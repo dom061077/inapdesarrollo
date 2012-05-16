@@ -84,30 +84,16 @@
 						});	
 		        	
 		        	$('#materiasId').jqGrid({
-		            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasddd")%>'
+		            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance.alumno.id, carreraId:inscripcionMateriaInstance.preinscripcion.carrera.id])%>'
 		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
 		               	,datatype:'json'
 		                ,width:500
-		                ,colNames:['Id','IdId','Denominación','Estado value','Estado Insc.','Tipo Value','Tipo Insc.','Select']
+		                ,colNames:['Id','IdId','Denominación','Select']
 		            	,colModel:[
 		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-		                       	,{name:'estadovalue',index:'estadovalue',hidden:false}
-		                       	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
-		                           		,editoptions:{readOnly:false,size:40
-		                               					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
-		                                   			 }
-		              					,edittype:'select'
-		                       	}
-		           				,{name:'tipovalue',index:'tipovalue',hidden:false}
-		                       	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false
-		                           		,editoptions:{readOnly:false,size:40
-		                           					,value:'TIPOINSMATERIA_CURSAR:Cursar;TIPOINSMATERIA_RENDIRLIBRE:Rendir Libre;TIPOINSMATERIA_RENDIRFINAL:Rendir Final'
-		                               				}
-		           						,edittype:'select'
-		                   				,editrules:{required:false}}
-		                       	,{ name: 'seleccion', index: 'seleccion',  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+		                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                    				
 		                ]
 		            	,sortname:'denominacion'
@@ -116,7 +102,7 @@
 		                ,caption: 'Materias Inscriptas'
 		            });
 		
-		        	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+		        	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:false,edit:false,del:false,search:false,refresh:false}, //options 
 		        			{height:280,width:350,reloadAfterSubmit:false
 		        				, recreateForm:true
 		        				,modal:false

@@ -15,7 +15,7 @@ class Materia {
 	
 	static belongsTo =[nivel:Nivel]
 	
-	static hasMany = [matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia]
+	static hasMany = [matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia,inscmatdetalle:InscripcionMateriaDetalle]
 	
     static constraints = {
 		denominacion(nullable:false,blank:false)

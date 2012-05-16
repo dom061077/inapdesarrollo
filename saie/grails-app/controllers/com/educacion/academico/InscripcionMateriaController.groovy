@@ -13,7 +13,7 @@ import org.springframework.transaction.TransactionStatus
 import com.educacion.academico.exceptions.InscripcionMateriaException
 import com.educacion.alumno.Alumno;
 import com.educacion.enums.inscripcion.EstadoPreinscripcion;
-
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 
 
 class InscripcionMateriaController {
@@ -30,6 +30,93 @@ class InscripcionMateriaController {
 		log.info "INGRESANDO AL CLOSURE list"
 		log.info "PARAMETROS: $params"
      }
+	
+	def listjsonmateriasadd = {
+		log.info "INGRESANDO AL CLOSURE listjsonmateriasadd"
+		log.info "PARAMETROS $params"
+		//-----------------------en esta seccion se detecta las materias en las que se puede inscribir el alumno------------
+		
+		/*def materias = Materia.createCriteria().list{
+			nivel{
+				carrera{
+					eq("id",params.carreraId.toLong())
+				}
+			}
+		}*/
+		
+		def materias = Materia.executeQuery("""
+				FROM Materia m 
+				LEFT JOIN m.inscmatdetalle  inscd with inscd.estado = :estado
+				LEFT JOIN inscd.inscripcionMateria insc  
+				LEFT JOIN insc.alumno alu with alu.id = :alumnoId 
+			""",[alumnoId:params.alumnoId.toLong(),estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_AUSENTE])
+		//, m.nivel.carrera.id= :carreraId
+		//, isNull(insc.id)
+		def materiasInscripcion=[]
+		def flagRegInscripcion
+		def flagAprobInscripcion
+		def cantidadConsulta
+		log.debug "MATERIAS DEVUELTAS: "+materias
+		materias.each{ mat ->
+			flagRegInscripcion = false
+			flagAprobInscripcion = false
+			mat.matregcursar.each{ matreg ->
+				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
+					materia{
+						eq("id",matreg.id)
+					}
+					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
+					projections{
+						rowCount()
+					}
+				}
+				if(cantidadConsulta>0)
+					flagRegInscripcion=true
+					
+			}
+			if(mat.matregcursar.size()==0)
+				flagRegInscripcion = true
+			mat.mataprobcursar.each{ mataprob ->
+				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
+					materia{
+						eq("id",mataprob.id)
+					}
+					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+					projections{
+						rowCount()
+					}
+				}
+				if(cantidadConsulta>0)
+					flagAprobInscripcion=true
+			}
+			if(mat.mataprobcursar.size()==0)
+				flagAprobInscripcion = true
+			if(flagRegInscripcion && flagAprobInscripcion)
+				materiasInscripcion.add(mat)
+		}
+		
+		//------------------------------------------------------------------------------------------------------------------
+		def totalregistros=materiasInscripcion.size()
+		
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
+
+		
+		
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+
+		materiasInscripcion.each{
+			if (flagaddcomilla)
+				result=result+','
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.denominacion+'","'+'NO'+'"]}'
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+	}
 
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
@@ -38,6 +125,7 @@ class InscripcionMateriaController {
 		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
 		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
 		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+
 		if(preinscripciones){
 		   def preinscripcionInstance = preinscripciones.get(0)
 		   if(!preinscripcionInstance){
@@ -46,7 +134,7 @@ class InscripcionMateriaController {
 				return
 		   }else{
 		       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+						,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo)
 		        //inscripcionMateriaInstance.properties = params
 		        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
 		   }

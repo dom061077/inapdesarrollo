@@ -94,9 +94,6 @@ $(document).ready(function(){
         		data=[];
     	for (var i = 0; i < data.length; i++) {
     	    griddata[i] = {};
-    	    /*for (var j = 0; j < data[i].length; j++) {
-    	        griddata[i][names[j]] = data[i][j];
-    	    }*/
     	    griddata[i]["id"] = data[i].id;
     	    griddata[i]["idid"] = data[i].idid;	        	    
     	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
@@ -268,7 +265,7 @@ $(document).ready(function(){
 		
 	//---------------------------------------------------------------------------
 	jQuery("#mataprobcursarId").jqGrid({ 
-		url:locmatregcursar
+		url:locmataprobcursar
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
@@ -350,7 +347,7 @@ $(document).ready(function(){
 	//-------------------------------------------------------------------	
 		
 	jQuery("#matregrendirId").jqGrid({ 
-		url:locmatregcursar
+		url:locmatregrendir
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
@@ -441,7 +438,7 @@ $(document).ready(function(){
 		
 
 	jQuery("#mataprobrendirId").jqGrid({ 
-		url:locmatregcursar
+		url:locmataprobrendir
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600

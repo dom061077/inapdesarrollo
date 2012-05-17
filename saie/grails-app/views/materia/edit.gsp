@@ -20,10 +20,10 @@
         <script type="text/javascript">
         var locmateria = '<%out << createLink(controller:"materia",action:"listjson")%>';
         var loceditmateria = '<%out << createLink(controller:"materia",action:"editmat")%>';
-        var locmatregcursar = '<%out << createLink(controller:"materia",action:"listmatregcursar")%>';
-        var locmatregrendir = '<%out << createLink(controller:"materia",action:"listmatregrendir")%>';
-        var locmataprobcursar = '<%out << createLink(controller:"materia",action:"listmataprobcursar")%>';
-        var locmataprobrendir = '<%out << createLink(controller:"materia",action:"listmataprobrendir")%>';
+        //var locmatregcursar = '<%out << createLink(controller:"materia",action:"listmatregcursar")%>';
+        //var locmatregrendir = '<%out << createLink(controller:"materia",action:"listmatregrendir")%>';
+        //var locmataprobcursar = '<%out << createLink(controller:"materia",action:"listmataprobcursar")%>';
+        //var locmataprobrendir = '<%out << createLink(controller:"materia",action:"listmataprobrendir")%>';
          
         $(document).ready(function(){
         	

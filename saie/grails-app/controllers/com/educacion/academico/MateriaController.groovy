@@ -154,12 +154,12 @@ class MateriaController {
 			}
 
 			flagaddcomilla=false
-			/*materiaInstance.mataprobrendir.each{
+			materiaInstance.mataprobrendir.each{
 				if (flagaddcomilla)
 					mataprobrendirSerialized=mataprobrendirSerialized+','
 				mataprobrendirSerialized=mataprobrendirSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","nivel":"'+it.nivel?.descripcion+'","carrera":"'+it.nivel?.carrera?.denominacion+'"}'
 				flagaddcomilla=true
-			}*/
+			}
 
 			
 			matregcursarSerialized=matregcursarSerialized+"]"

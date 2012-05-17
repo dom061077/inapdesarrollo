@@ -14,6 +14,7 @@ import com.educacion.academico.exceptions.InscripcionMateriaException
 import com.educacion.alumno.Alumno;
 import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
+import com.educacion.enums.inscripcion.TipoInscripcionMateria
 
 
 class InscripcionMateriaController {
@@ -52,15 +53,16 @@ class InscripcionMateriaController {
 			""",[alumnoId:params.alumnoId.toLong(),estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_AUSENTE])
 		//, m.nivel.carrera.id= :carreraId
 		//, isNull(insc.id)
-		def materiasInscripcion=[]
-		def flagRegInscripcion
-		def flagAprobInscripcion
+		def materiasInscripcion=[:]
+		def flagCursarMateria
+		def flagRendirMateria
 		def cantidadConsulta
 		log.debug "MATERIAS DEVUELTAS: "+materias
 		materias.each{ mat ->
-			flagRegInscripcion = false
-			flagAprobInscripcion = false
-			mat.matregcursar.each{ matreg ->
+			flagCursarMateria = false
+			flagRendirMateria = false
+			log.debug "ITERATION: "+mat[0]
+			mat[0].matregcursar.each{ matreg ->
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",matreg.id)
@@ -71,12 +73,12 @@ class InscripcionMateriaController {
 					}
 				}
 				if(cantidadConsulta>0)
-					flagRegInscripcion=true
+					flagCursarMateria=true
 					
 			}
 			if(mat.matregcursar.size()==0)
-				flagRegInscripcion = true
-			mat.mataprobcursar.each{ mataprob ->
+				flagCursarMateria = true
+			mat[0].mataprobcursar.each{ mataprob ->
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",mataprob.id)
@@ -87,12 +89,17 @@ class InscripcionMateriaController {
 					}
 				}
 				if(cantidadConsulta>0)
-					flagAprobInscripcion=true
+					flagRendirMateria=true
 			}
-			if(mat.mataprobcursar.size()==0)
-				flagAprobInscripcion = true
-			if(flagRegInscripcion && flagAprobInscripcion)
-				materiasInscripcion.add(mat)
+			if(mat[0].mataprobcursar.size()==0)
+				flagRendirMateria = true
+				
+			if(flagCursarMateria )
+				materiasInscripcion[]=[materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR]
+				
+			if(flagRendirMateria)
+				materiasInscripcion[]=[materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL]
+
 		}
 		
 		//------------------------------------------------------------------------------------------------------------------
@@ -103,7 +110,7 @@ class InscripcionMateriaController {
 			totalpaginas=1;
 		totalpaginas=totalpaginas.intValue()
 
-		
+		log.debug "MATERIAS: "+materiasInscripcion
 		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
@@ -116,6 +123,7 @@ class InscripcionMateriaController {
 		}
 		result=result+']}'
 		render result
+		
 	}
 
     def create = {

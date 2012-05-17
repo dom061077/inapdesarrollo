@@ -49,6 +49,7 @@ $(document).ready(function(){
     	}
     	
     	//mataprobcursarSerializedId
+    	griddata = [];
     	var data = jQuery.parseJSON($("#mataprobcursarSerializedId").val());
     	if(data==null)
         		data=[];
@@ -69,6 +70,7 @@ $(document).ready(function(){
     	}
     	
     	//matregrendirSerializedId
+    	griddata = [];
     	var data = jQuery.parseJSON($("#matregrendirSerializedId").val());
     	if(data==null)
         		data=[];
@@ -89,6 +91,7 @@ $(document).ready(function(){
     	}
     	
     	//mataprobrendirSerializedId
+    	griddata = [];
     	var data = jQuery.parseJSON($("#mataprobrendirSerializedId").val());
     	if(data==null)
         		data=[];
@@ -150,7 +153,7 @@ $(document).ready(function(){
 	
 
 	jQuery("#matregcursarId").jqGrid({ 
-		url:locmatregcursar
+		url:''
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
@@ -265,7 +268,7 @@ $(document).ready(function(){
 		
 	//---------------------------------------------------------------------------
 	jQuery("#mataprobcursarId").jqGrid({ 
-		url:locmataprobcursar
+		url:''
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
@@ -347,7 +350,7 @@ $(document).ready(function(){
 	//-------------------------------------------------------------------	
 		
 	jQuery("#matregrendirId").jqGrid({ 
-		url:locmatregrendir
+		url:''
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600
@@ -438,7 +441,7 @@ $(document).ready(function(){
 		
 
 	jQuery("#mataprobrendirId").jqGrid({ 
-		url:locmataprobrendir
+		url:''
 		,editurl:loceditmateria
 		,datatype: "json"
 		,width:600

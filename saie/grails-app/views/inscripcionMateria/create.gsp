@@ -195,7 +195,7 @@
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.create.label" args="[entityName]" /></h1>
+            <h1><g:message code="incripcionMateria.cursar.label" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
@@ -209,15 +209,15 @@
                  
                          <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
                          <g:hiddenField name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
-                         <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.carrera?.id}" />
-                         <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.anioLectivo?.id}"/>
+                         <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}" />
+                         <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.preinscripcion?.anioLectivo?.id}"/>
                          
                          <div class="span-4 spanlabel">
                          	${inscripcionMateriaInstance?.alumno?.apellidoNombre}
                          </div>
 						<div class="clear"></div>
                          <div class="span-4 spanlabel"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></div>
-                         <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.carrera?.id}">${inscripcionMateriaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+                         <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}">${inscripcionMateriaInstance?.preinscripcion?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                          
 				<div class="clear"></div>
 				<br/>

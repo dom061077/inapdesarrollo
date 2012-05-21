@@ -37,13 +37,6 @@ class InscripcionMateriaController {
 		log.info "PARAMETROS $params"
 		//-----------------------en esta seccion se detecta las materias en las que se puede inscribir el alumno------------
 		
-		/*def materias = Materia.createCriteria().list{
-			nivel{
-				carrera{
-					eq("id",params.carreraId.toLong())
-				}
-			}
-		}*/
 		
 		def materias = Materia.executeQuery("""
 				FROM Materia m 
@@ -53,16 +46,17 @@ class InscripcionMateriaController {
 			""",[alumnoId:params.alumnoId.toLong(),estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_AUSENTE])
 		//, m.nivel.carrera.id= :carreraId
 		//, isNull(insc.id)
-		def materiasInscripcion=[:]
+		def materiasInscripcion=[]
 		def flagCursarMateria
 		def flagRendirMateria
 		def cantidadConsulta
 		log.debug "MATERIAS DEVUELTAS: "+materias
 		materias.each{ mat ->
+			log.debug "INICIO DE LA ITERACION DE LA MATERIAS: "+mat[0].denominacion
 			flagCursarMateria = false
 			flagRendirMateria = false
-			log.debug "ITERATION: "+mat[0]
 			mat[0].matregcursar.each{ matreg ->
+				log.debug "				MATERIA REGULAR PARA CURSAR: "+matreg.denominacion
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",matreg.id)
@@ -76,9 +70,13 @@ class InscripcionMateriaController {
 					flagCursarMateria=true
 					
 			}
-			if(mat.matregcursar.size()==0)
+			log.debug 	  "				TOTAL MATERIAS REGULARES PARA CURSAR: "+mat[0].matregcursar.size()	
+			if(mat[0].matregcursar.size()==0){
 				flagCursarMateria = true
+				log.debug "				NO TIENE MATERIAS REGULARES PARA CURSAR, POR LO TANTO LA MATERIA ESTA APTA PARA INSCRIBIR"
+			}
 			mat[0].mataprobcursar.each{ mataprob ->
+				log.debug "				MATERIA APROBADA PARA CURSAR: "+mataprob.denominacion
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",mataprob.id)
@@ -94,11 +92,13 @@ class InscripcionMateriaController {
 			if(mat[0].mataprobcursar.size()==0)
 				flagRendirMateria = true
 				
-			if(flagCursarMateria )
-				materiasInscripcion[]=[materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR]
+			if(flagCursarMateria ){
+				materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR])
+				log.debug "				LA BANDERA PARA AGREGAR LA MATERIA PARA CURSAR"
+			}
 				
-			if(flagRendirMateria)
-				materiasInscripcion[]=[materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL]
+			//if(flagRendirMateria)
+			//	materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL])
 
 		}
 		
@@ -116,9 +116,10 @@ class InscripcionMateriaController {
 		def flagaddcomilla=false
 
 		materiasInscripcion.each{
+			log.debug "materia inscripcion: "+it
 			if (flagaddcomilla)
 				result=result+','
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.denominacion+'","'+'NO'+'"]}'
+			result=result+'{"id":"'+it["materia"].id+'","cell":["'+it["materia"].id+'","'+it["materia"].id+'","'+it["materia"].denominacion+'","'+'NO'+'"]}'
 			flagaddcomilla=true
 		}
 		result=result+']}'

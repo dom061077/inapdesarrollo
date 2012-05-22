@@ -17,12 +17,13 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:600,
-					colNames:['Id', 'Nombre', 'Cupo', 'Estado'],
+					colNames:['Id', 'Nombre', 'Cupo', 'Estado', 'Opciones'],
 				   	colModel:[
 							  {name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}, sortable:false}
 							, {name:'nombre',index:'nombre', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
 							, {name:'cupo',index:'cupo', width:10, align:"left",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
 							, {name:'estado',index:'estado', width:40, align:"center",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
+					   		, {name:'operaciones',index:'operaciones', align:"center",width:25,search:false,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,

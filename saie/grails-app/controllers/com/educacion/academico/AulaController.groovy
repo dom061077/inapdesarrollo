@@ -95,14 +95,14 @@ class AulaController {
         else {
 			def carrerasSerialized = "["
 			def flagaddcomilla = false
-			aulaInstance.carreras.each{
+			aulaInstance.detalle.each{
 				if (flagaddcomilla)
 					carrerasSerialized=carrerasSerialized+','
-				carrerasSerialized=carrerasSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'"}'
+				carrerasSerialized=carrerasSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.carrera.denominacion+'","observacion":"'+it.descripcion+'"}'
 				flagaddcomilla=true
 			}
 			carrerasSerialized = carrerasSerialized + "]"				
-            return [aulaInstance: aulaInstance,carrerasSerialized:carrerasSerialized]
+            return [aulaInstance: aulaInstance,detalleaulaSerialized:carrerasSerialized]
         }
     }
 
@@ -259,12 +259,12 @@ class AulaController {
 		def result
 		def flagcomilla = false
 		if(aulaInstance){
-			result =  '{"page":1,"total":"'+1+'","records":"'+aulaInstance.carreras.size()+'","rows":['
-			aulaInstance.carreras.each{
+			result =  '{"page":1,"total":"'+1+'","records":"'+aulaInstance.detalle.size()+'","rows":['
+			aulaInstance.detalle.each{
 				if(flagcomilla)
-					result = result + ',{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+					result = result + ',{"id":"'+it.id+'","cell":["'+it.id+'","'+it.carrera.denominacion+'","'+it.descripcion+'"]}'
 				else
-					result = result + '{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+					result = result + '{"id":"'+it.id+'","cell":["'+it.id+'","'+it.carrera.denominacion+'","'+it.descripcion+'"]}'
 					
 				if(!flagcomilla)
 					flagcomilla=true

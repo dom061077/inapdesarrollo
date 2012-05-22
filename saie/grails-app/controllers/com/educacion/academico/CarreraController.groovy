@@ -185,20 +185,6 @@ class CarreraController {
 		def carreraInstance = Carrera.get(params.idCarrera)
 		if (carreraInstance) {
 			
-			/*if(!requisitosSerialized){
-				requisitosSerialized="["
-				carreraInstance.requisitos.each{
-					if(flagcoma){
-						requisitosSerialized = requisitosSerialized+','+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
-					}else{
-						requisitosSerialized = requisitosSerialized+ '{"id":'+it.id+',"idid":"'+it.id+',"codigo":"'+it.codigo+'","descripcion":"'+it.descripcion+'"}'
-						flagcoma=true
-					}
-				}
-				requisitosSerialized=requisitosSerialized+"]"
-			}*/
-			
-
 			Carrera.withTransaction(){TransactionStatus status ->
 				if (params.version) {
 					def version = params.version.toLong()

@@ -13,20 +13,21 @@
         
         <script type="text/javascript">
         	$(document).ready(function(){
-        		$("#carrerasId").jqGrid({ 
+        		$("#detalleaulaId").jqGrid({ 
         			url:'<%out << createLink(controller:'aula',action:'listcarreras')%>'
         			,editurl:'<%out << createLink(controller:"aula",action:"editcarreras")%>'
             		,postData: {id: <%out << aulaInstance.id %>}
         			,datatype: "json"
         			,width:600
         			,rownumbers:true
-        			,colNames:['Id','Denominación']
+        			,colNames:['Id','Denominación','Observación']
         			,colModel:[ 
         				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
         				, {name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
+        				, {name:'observacion',index:'observacion', width:100, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}
         			]
         			//, rowNum:10, rowList:[10,20,30]
-        			, pager: '#pagercarrerasId'
+        			, pager: '#pagerdetalleaulaId'
         			, sortname: 'id'
         			, viewrecords: true, sortorder: "desc"
         			, caption:"Carreras vinculadas con esta aula"  
@@ -49,9 +50,7 @@
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
+                   
                             <div class="span-4 spanlabel"><g:message code="aula.id.label" default="Id" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: aulaInstance, field: "id")}</div>
@@ -82,16 +81,14 @@
                             
 							<div class="clear"></div>
 
+
 						   <fieldset>
 						   		<legend>Carreras del Aula</legend>
-						   		<g:hiddenField id="carrerasSerializedId" name="carrerasSerialized" value="${carrerasSerialized}"/>
-						   		<table id="carrerasId"></table>
-						   		<div id="pagercarrerasId"></div>
+						   		<g:hiddenField id="detalleaulaSerializedId" name="detalleaulaSerialized" value="${detalleaulaSerialized}"/>
+						   		<table id="detalleaulaId"></table>
+						   		<div id="pagerdetalleaulaId"></div>
 						   </fieldset>
-
                     
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>

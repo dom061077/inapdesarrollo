@@ -81,7 +81,7 @@
        				{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
        				, {name:'idid',index:'idid', width:30,hidden:true, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}, sortable:false}			
        				, {name:'carrera',index:'carrera', width:80, align:"left",editable:true,editoptions:{readOnly:true,size:30},editrules:{required:true}, sortable:false}
-       				, {name:'observacion',index:'observacion', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
+       				, {name:'observacion',index:'observacion', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:false}, sortable:false}
        			]
        			//, rowNum:10, rowList:[10,20,30]
        			, pager: '#pagerdetalleaulaId'

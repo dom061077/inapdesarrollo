@@ -211,6 +211,8 @@
                          <g:hiddenField name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
                          <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}" />
                          <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.preinscripcion?.anioLectivo?.id}"/>
+                         <g:hiddenField name="preinscripcion.id" value="${inscripcionMateriaInstance?.preinscripcion?.id}"/>
+                         <g:hiddenField name="preinsversion" value="${inscripcionMateriaInstance?.preinscripcion?.version}" />
                          
                          <div class="span-4 spanlabel">
                          	${inscripcionMateriaInstance?.alumno?.apellidoNombre}

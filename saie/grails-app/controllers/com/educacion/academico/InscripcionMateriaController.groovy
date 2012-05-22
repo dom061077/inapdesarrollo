@@ -48,15 +48,12 @@ class InscripcionMateriaController {
 		//, isNull(insc.id)
 		def materiasInscripcion=[]
 		def flagCursarMateria
-		def flagRendirMateria
+		def flagCursarMateriaRendir
 		def cantidadConsulta
-		log.debug "MATERIAS DEVUELTAS: "+materias
 		materias.each{ mat ->
-			log.debug "INICIO DE LA ITERACION DE LA MATERIAS: "+mat[0].denominacion
 			flagCursarMateria = false
-			flagRendirMateria = false
+			flagCursarMateriaRendir = false
 			mat[0].matregcursar.each{ matreg ->
-				log.debug "				MATERIA REGULAR PARA CURSAR: "+matreg.denominacion
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",matreg.id)
@@ -70,13 +67,10 @@ class InscripcionMateriaController {
 					flagCursarMateria=true
 					
 			}
-			log.debug 	  "				TOTAL MATERIAS REGULARES PARA CURSAR: "+mat[0].matregcursar.size()	
 			if(mat[0].matregcursar.size()==0){
 				flagCursarMateria = true
-				log.debug "				NO TIENE MATERIAS REGULARES PARA CURSAR, POR LO TANTO LA MATERIA ESTA APTA PARA INSCRIBIR"
 			}
 			mat[0].mataprobcursar.each{ mataprob ->
-				log.debug "				MATERIA APROBADA PARA CURSAR: "+mataprob.denominacion
 				cantidadConsulta = InscripcionMateriaDetalle.createCriteria().get{
 					materia{
 						eq("id",mataprob.id)
@@ -87,18 +81,15 @@ class InscripcionMateriaController {
 					}
 				}
 				if(cantidadConsulta>0)
-					flagRendirMateria=true
+					flagCursarMateriaRendir=true
 			}
 			if(mat[0].mataprobcursar.size()==0)
-				flagRendirMateria = true
+				flagCursarMateriaRendir = true
 				
-			if(flagCursarMateria ){
+			if(flagCursarMateria && flagCursarMateriaRendir ){
 				materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR])
-				log.debug "				LA BANDERA PARA AGREGAR LA MATERIA PARA CURSAR"
 			}
 				
-			//if(flagRendirMateria)
-			//	materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL])
 
 		}
 		
@@ -158,13 +149,22 @@ class InscripcionMateriaController {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 		
-		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
-		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+		//def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
+		//hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
 		def inscripcionMateriaInstance = new InscripcionMateria(params)
-		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		//def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		def preinscripcionInstance = Preinscripcion.get(params.preinscripcion.id)
+		if(params.preinsversion)
+			if(inscripcionMateriaInstance.preinscripcion.version>params.preinsversion.toLong()){
+				inscripcionMateriaInstance.preinscripcion=preinscripcionInstance
+				inscripcionMateriaInstance = inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
+				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
+				return
+			}
 		
-
-		if(preinscripciones){
+		//if(preinscripciones){
+		
+		
 			
 			try{
 				inscripcionMateriaService.saveInscripcionMateria(inscripcionMateriaInstance,params)
@@ -177,10 +177,10 @@ class InscripcionMateriaController {
 				return
 			}
 
-		}else{
-			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
-			render(view:"create",model:[inscripcionMateriaInstace:inscripcionMateriaInstance])
-		}
+		//}else{
+		//	flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+		//	render(view:"create",model:[inscripcionMateriaInstace:inscripcionMateriaInstance])
+		//}
 
 
     }

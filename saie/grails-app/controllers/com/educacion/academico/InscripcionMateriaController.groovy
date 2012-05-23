@@ -155,10 +155,15 @@ class InscripcionMateriaController {
 		//def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
 		def preinscripcionInstance = Preinscripcion.get(params.preinscripcion.id)
 		if(params.preinsversion)
-			if(inscripcionMateriaInstance.preinscripcion.version>params.preinsversion.toLong()){
-				inscripcionMateriaInstance.preinscripcion=preinscripcionInstance
-				inscripcionMateriaInstance = inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
-				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
+			if(preinscripcionInstance.version>params.preinsversion.toLong()){
+				inscripcionMateriaInstance = new InscripcionMateria(preinscripcion:preinscripcionInstance
+						,carrera:preinscripcionInstance.carrera,alumno:preinscripcionInstance.alumno)
+//				inscripcionMateriaInstance.preinscripcion = preinscripcionInstance
+//				inscripcionMateriaInstance.carrera = preinscripcionInstance.carrera
+//				inscripcionMateriaInstance.alumno = preinscripcionInstance.alumno
+//				inscripcionMateriaInstance.anioLectivo = preinscripcionInstance.anioLectivo
+				inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
+				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance,preinscripcionInstance:preinscripcionInstance])
 				return
 			}
 		

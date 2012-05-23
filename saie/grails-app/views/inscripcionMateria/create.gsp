@@ -84,7 +84,7 @@
 						});	
 		        	
 		        	$('#materiasId').jqGrid({
-		            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance.alumno.id, carreraId:inscripcionMateriaInstance.preinscripcion.carrera.id])%>'
+		            	url:''//url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance?.alumno?.id, carreraId:inscripcionMateriaInstance?.preinscripcion?.carrera?.id])%>'
 		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
 		               	,datatype:'json'
 		                ,width:500

@@ -4,6 +4,7 @@ import com.educacion.enums.inscripcion.*;
 import com.educacion.academico.exceptions.InscripcionMateriaException;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
+import com.educacion.util.GUtilDomainClass
 
 
 class InscripcionMateriaService {
@@ -140,23 +141,29 @@ class InscripcionMateriaService {
 		
 		def materiaAntInstance
 		materiasSerializedJson.each {
-			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
-				 materiaInstance = Materia.load(it.idid.toLong())
-				 if(materiaInstance.equals(materiaAntInstance)){
-					 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
-						 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
-				 }else{
-					 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-						 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-						 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
-						 )
-					 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
-				 }
-				 
+			if(it.seleccion.toUpperCase().equals("YES")){
+				
+				if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+					 materiaInstance = Materia.load(it.idid.toLong())
+					 if(materiaInstance.equals(materiaAntInstance)){
+						 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
+							 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
+					 }else{
+						 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+							 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+							 ,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR
+							 )
+						 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+					 }
+					 
+				}
 			}
 			materiaAntInstance=materiaInstance
 		}
-
+		
+		def anioLectivo = GUtilDomainClass.getAnioLectivoCarrera(inscripcionMateriaInstance.carrera.id)
+		
+		 
 				
 		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save()){
 			

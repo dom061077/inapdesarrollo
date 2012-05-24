@@ -3,9 +3,9 @@ package com.educacion.util
 
 import org.codehaus.groovy.grails.commons.DefaultGrailsDomainClass;
 import java.util.StringTokenizer;
-import com.medfire.*
 import org.apache.log4j.Logger;
 import grails.converters.JSON
+import com.educacion.academico.AnioLectivo
 
 
 class GUtilDomainClass{
@@ -343,6 +343,14 @@ class GUtilDomainClass{
 		}
 		return list
 		
+	}
+	
+	public static def getAnioLectivoCarrera(def id){
+		def hql = """
+				FROM AnioLectivo a WHERE a.anioLectivo = (SELECT MAX(anioLectivo) FROM AnioLectivo anio WHERE anio.carrera.id = :carrera )
+		"""
+		def list = AnioLectivo.executeQuery(hql,["carrera":id]);
+		def anioLectivoInstance = list?.get(0)
 	}
 
 }

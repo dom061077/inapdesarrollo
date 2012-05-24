@@ -121,25 +121,31 @@ class InscripcionMateriaController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-		
-		def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
-		hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
-		def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
-
-		if(preinscripciones){
-		   def preinscripcionInstance = preinscripciones.get(0)
-		   if(!preinscripcionInstance){
+		if(params.id){
+			def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
+			hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+			def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+			
+	
+			if(preinscripciones){
+			   def preinscripcionInstance = preinscripciones.get(0)
+			   if(!preinscripcionInstance){
+					flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+					render(view:"alumnosinscripcion",model:[])
+					return
+			   }else{
+			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+							,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo)
+			        //inscripcionMateriaInstance.properties = params
+			        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
+			   }
+			}else{
 				flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 				render(view:"alumnosinscripcion",model:[])
 				return
-		   }else{
-		       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-						,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo)
-		        //inscripcionMateriaInstance.properties = params
-		        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
-		   }
+			}
 		}else{
-			flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+			flash.message = "Seleccione un alumno para inscribir en las materias correspondientes"
 			render(view:"alumnosinscripcion",model:[])
 			return
 		}
@@ -151,21 +157,24 @@ class InscripcionMateriaController {
 		
 		//def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
 		//hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+		
 		def inscripcionMateriaInstance = new InscripcionMateria(params)
+		
 		//def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
+		
 		def preinscripcionInstance = Preinscripcion.get(params.preinscripcion.id)
 		if(params.preinsversion)
 			if(preinscripcionInstance.version>params.preinsversion.toLong()){
-				inscripcionMateriaInstance = new InscripcionMateria(preinscripcion:preinscripcionInstance
-						,carrera:preinscripcionInstance.carrera,alumno:preinscripcionInstance.alumno)
-//				inscripcionMateriaInstance.preinscripcion = preinscripcionInstance
-//				inscripcionMateriaInstance.carrera = preinscripcionInstance.carrera
-//				inscripcionMateriaInstance.alumno = preinscripcionInstance.alumno
-//				inscripcionMateriaInstance.anioLectivo = preinscripcionInstance.anioLectivo
+				inscripcionMateriaInstance.preinscripcion = preinscripcionInstance
+				inscripcionMateriaInstance.carrera = preinscripcionInstance.carrera
+				inscripcionMateriaInstance.alumno = preinscripcionInstance.alumno
+				inscripcionMateriaInstance.anioLectivo = preinscripcionInstance.anioLectivo
 				inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
 				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance,preinscripcionInstance:preinscripcionInstance])
 				return
 			}
+			
+				
 		
 		//if(preinscripciones){
 		

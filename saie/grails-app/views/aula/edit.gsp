@@ -60,7 +60,7 @@
 
     		ondblClickRow:function(id){
 					obj=$('#busquedacarreraId').getRowData(id);
-					$('#carrera').val(obj.denominacion);
+					$('#denominacion').val(obj.denominacion);
 					$('#idid').val(obj.id);
 					$('#dialogcarreraId').dialog('close');
 			}
@@ -93,73 +93,72 @@
 
 
 			// Pie de la Grilla
-    		jQuery("#detalleaulaId").jqGrid('navGrid','#pagerdetalleaulaId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
-    				{height:150,width:310,reloadAfterSubmit:false
-    					, recreateForm:true
-    					,editCaption:'Modificar Carrera'
-       					,beforeShowForm:function(form){
-       						// Boton (Lupita)
-       						$('#tr_carrera').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-       						$('#searchlinkformgridId').bind('click',function(){
-       			            	$('#dialogcarreraId').dialog({
-       			            		title:'Buscar',
-       			            		modal:true,
-       			            		resizable:false,
-       			            		autoOpen:true,
-       			            		width : 300,
-       			            		height: 'auto',
-       			            		minHeight:250,
-       			            		position:'center'
-       			            	});
-       						});
-       					}
-    				
-    				}, // Edit options 
+        		jQuery("#detalleaulaId").jqGrid('navGrid','#pagerdetalleaulaId', {add:true,edit:true,del:true,search:false,refresh:false}, //options 
+        				{height:150,width:310,reloadAfterSubmit:false
+        					, recreateForm:true
+        					,editCaption:'Modificar Carrera'
+           					,beforeShowForm:function(form){
+           						// Boton (Lupita)
+           						$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+           						$('#searchlinkformgridId').bind('click',function(){
+           			            	$('#dialogcarreraId').dialog({
+        			            		modal:true,
+        			            		resizable:false,
+        			            		autoOpen:true,
+        			            		width : 420,
+        			            		height: 'auto',
+        			            		minHeight:290,
+        			            		position:'center'
+           			            	});
+           						});
+           					}
+        				
+        				}, // Edit options 
 
-    				{height:130,width:310,reloadAfterSubmit:false
-    					,recreateForm:true
-    					,addCaption:'Modificar Carrera'
-    					,beforeSubmit: function(postData,formId){
-							// var id=jQuery("#detalleaulaId").jqGrid('getGridParam', 'setrow');
-							// var obj=
-							var retornar=true;
-							var mensaje=''; 
-							var gridDataDetalle=jQuery("#detalleaulaId").getRowData();
-							$.each(gridDataDetalle,
-									function(y,row){
-										if (row.idid == postData.idid){
-											mensaje='Ya fué ingresada esta carrera...';
-											retornar=false;
-											return;				
-											}
-											
+        				{height:130,width:310,reloadAfterSubmit:false
+        					,recreateForm:true
+        					,addCaption:'Modificar Carrera'
+        					,beforeSubmit: function(postData,formId){
+								// var id=jQuery("#detalleaulaId").jqGrid('getGridParam', 'setrow');
+								// var obj=
+								var retornar=true;
+								var mensaje=''; 
+								var gridDataDetalle=jQuery("#detalleaulaId").getRowData();
+								$.each(gridDataDetalle,
+										function(y,row){
+											if (row.idid == postData.idid){
+												mensaje='Ya fué ingresada esta carrera...';
+												retornar=false;
+												return;				
+												}
+												
 
-									}
-								);
-							
-    						return [retornar,mensaje]
-    					}
-    					,beforeShowForm:function(form){
-    						// Boton (Lupita)
-    						$('#tr_carrera').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-    						$('#searchlinkformgridId').bind('click',function(){
-    			            	$('#dialogcarreraId').dialog({
-    			            		title:'Buscar',
-    			            		modal:true,
-    			            		resizable:false,
-    			            		autoOpen:true,
-    			            		width : 420,
-    			            		height: 'auto',
-    			            		minHeight:290,
-    			            		position:'center'
-    			            	});
-    						});
-    					}
-    				
-    				}, // add options 
-    				{reloadAfterSubmit:false}, // del options 
-    				{} // search options 
-    			);	
+										}
+									);
+								
+        						return [retornar,mensaje]
+        					}
+        					,beforeShowForm:function(form){
+        						// Boton (Lupita)
+        						$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+        						$('#searchlinkformgridId').bind('click',function(){
+        			            	$('#dialogcarreraId').dialog({
+        			            		title:'Buscar',
+        			            		modal:true,
+        			            		resizable:false,
+        			            		autoOpen:true,
+        			            		width : 420,
+        			            		height: 'auto',
+        			            		minHeight:290,
+        			            		position:'center'
+        			            	});
+        						});
+        					}
+        				
+        				}, // add options 
+        				{reloadAfterSubmit:false}, // del options 
+        				{} // search options 
+        			);	
     		
     		binddetallecarreras();  		
     	});
@@ -189,7 +188,7 @@
             </g:hasErrors>
             <g:form onSubmit="initsubmit();return true;" method="post" >
             	<div class="append-bottom">
-                <g:hiddenField name="id" value="${aulaInstance?.id}" />
+                <g:hiddenField name="aulaId" value="${aulaInstance?.id}" />
                 <g:hiddenField name="version" value="${aulaInstance?.version}" />
 		                
 						<g:hasErrors bean="${aulaInstance}" field="nombre">
@@ -273,6 +272,14 @@
 					   		<div id="pagerdetalleaulaId"></div>
 					   </fieldset>
 														
+
+			           <div id="dialogcarreraId" style="display:none">
+				      		<div id="pagerbusquedacarreraId"></div>
+				        	<table id="busquedacarreraId">
+				        		
+				        	</table>
+				       </div>
+
 		            
                 </div>
                 <div class="buttons">

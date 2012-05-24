@@ -21,8 +21,8 @@
 				   	colModel:[
 							  {name:'id',index:'id', width:55,editable:false,hidden:true,editoptions:{readonly:true,size:10}, sortable:false}
 							, {name:'nombre',index:'nombre', width:50, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
-							, {name:'cupo',index:'cupo', width:10, align:"left",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
-							, {name:'estado',index:'estado', width:40, align:"center",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false}
+							, {name:'cupo',index:'cupo', width:10, align:"left",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false, search:false}
+							, {name:'estado',index:'estado', width:40, align:"center",editable:true,editoptions:{readOnly:false,size:10},editrules:{required:true}, sortable:false, search:false}
 					   		, {name:'operaciones',index:'operaciones', align:"center",width:25,search:false,sortable:false}
 				   	],
 				   	
@@ -56,7 +56,7 @@
 							var obj=$('#list').getRowData(row_id);
 							$("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
 							jQuery("#"+subgrid_table_id).jqGrid({
-								url:'<%out<<createLink(controller:"detalleaula",action:"listdocumentos")%>?id='+obj.id,
+								url:'<%out<<createLink(controller:"aula",action:"listdetallecarreras")%>/?aula_id='+obj.id,
 								datatype: "json",
 								mtype:'POST',
 								colNames: ['Id','Carrera','Descripcion'],

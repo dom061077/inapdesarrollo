@@ -106,9 +106,9 @@
            			            		modal:true,
            			            		resizable:false,
            			            		autoOpen:true,
-           			            		width : 300,
+           			            		width : 420,
            			            		height: 'auto',
-           			            		minHeight:250,
+           			            		minHeight:290,
            			            		position:'center'
            			            	});
            						});

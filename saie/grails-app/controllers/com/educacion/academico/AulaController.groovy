@@ -98,7 +98,7 @@ class AulaController {
 			aulaInstance.detalle.each{
 				if (flagaddcomilla)
 					carrerasSerialized=carrerasSerialized+','
-				carrerasSerialized=carrerasSerialized+ '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.carrera.denominacion+'","observacion":"'+it.descripcion+'"}'
+				carrerasSerialized=carrerasSerialized+ '{"id":'+it.id+',"idid":'+it.carrera.id+',"denominacion":"'+it.carrera.denominacion+'","observacion":"'+it.descripcion+'"}'
 				flagaddcomilla=true
 			}
 			carrerasSerialized = carrerasSerialized + "]"				
@@ -110,15 +110,17 @@ class AulaController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
 	
-		def carrerasJson	
+		def detalleJson	
 		
-		if(params.carrerasSerialized)
-			carrerasJson = grails.converters.JSON.parse(params.carrerasSerialized)
+		if(params.detalleaulaSerialized)
+			detalleJson = grails.converters.JSON.parse(params.detalleaulaSerialized)
 
-	
-        def aulaInstance = Aula.get(params.id)
+
+        def aulaInstance = Aula.get(params.aulaId)
+		
         if (aulaInstance) {
-            if (params.version) {
+
+			if (params.version) {
                 def version = params.version.toLong()
                 if (aulaInstance.version > version) {
                     
@@ -128,15 +130,34 @@ class AulaController {
                 }
             } 
 			Aula.withTransaction{TransactionStatus status ->
-				def carreraInstanceSearch
+				
+				def listDetalleAula = DetalleAula.createCriteria().list(){
+					aula{
+						eq("id",aulaInstance.id)
+					}
+				}
+				listDetalleAula.each{
+					aulaInstance.removeFromDetalle(it)
+					it.delete()
+				}
+					
 				aulaInstance.properties = params
 				
-				aulaInstance.carreras.clear()
-				log.debug "CANTIDAD DE CARRERAS: "+aulaInstance.carreras.size()+" cantidad de carreras en JSON: "+carrerasJson.size()
-				carrerasJson.each{
-					carreraInstanceSearch = Carrera.load(it.idid.toLong())
-					aulaInstance.addToCarreras(carreraInstanceSearch)
+				def detalleaulajson
+				if(params.detalleaulaSerialized){
+					detalleaulajson = grails.converters.JSON.parse(params.detalleaulaSerialized)
+					
+					def carreraInstance
+					
+					detalleaulajson?.each{
+						carreraInstance = Carrera.load(it.idid.toLong())
+						log.debug "El ID de aula es " + carreraInstance.id 
+						
+						aulaInstance.addToDetalle(new DetalleAula(descripcion:it.observacion
+							,carrera:carreraInstance))
+					}
 				}
+								
 	            if (!aulaInstance.hasErrors() && aulaInstance.save(flush: true)) {
 	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'aula.label', default: 'Aula'), aulaInstance.id])}"
 	                redirect(action: "show", id: aulaInstance.id)
@@ -147,6 +168,8 @@ class AulaController {
 			}
         }
         else {
+			log.debug "El ID de aula es " + params.aulaId
+			
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'aula.label', default: 'Aula'), params.id])}"
             redirect(action: "list")
         }
@@ -155,18 +178,32 @@ class AulaController {
     def delete = {
 		log.info "INGRESANDO AL CLOSURE delete"
 		log.info "PARAMETROS: $params"
-
 		
-        def aulaInstance = Aula.get(params.id)
+		def aulaInstance = Aula.get(params.aulaId)
         if (aulaInstance) {
             try {
-                aulaInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'aula.label', default: 'Aula'), params.id])}"
-                redirect(action: "list")
+
+					Aula.withTransaction{TransactionStatus status ->
+					
+					def listDetalleAula = DetalleAula.createCriteria().list(){
+						aula{
+							eq("id",aulaInstance.id)
+						}
+					}
+					listDetalleAula.each{
+						aulaInstance.removeFromDetalle(it)
+						it.delete()
+					}
+
+							
+					aulaInstance.delete(flush: true)
+	                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'aula.label', default: 'Aula'), params.id])}"
+	                redirect(action: "list")
+            	}
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'aula.label', default: 'Aula'), params.id])}"
-                redirect(action: "show", id: params.id)
+                redirect(action: "show", id: params.aulaId)
             }
         }
         else {
@@ -284,6 +321,34 @@ class AulaController {
 		}
 	}
 
+	def listdetallecarreras = {
+		log.info "INGRESANDO AL METODO listdetallecarreras"
+		log.info "PARAMETROS: ${params}"
+		
+		def aulaInstance = Aula.get(params.aula_id)
+		
+		def list=  aulaInstance.detalle
+		def totalregistros=list.size()
+		
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
 
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+		list.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+			
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.carrera.denominacion+'","'+it.descripcion+'"]}'
+			 
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+
+	}
 	
 }

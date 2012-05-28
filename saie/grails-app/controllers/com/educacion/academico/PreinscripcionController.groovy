@@ -345,6 +345,7 @@ class PreinscripcionController {
 		log.info "INGRESANDO AL CLOSURE confirminscripcion"
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id)
+		def inscripcionMatriculaInstance
 		if (preinscripcionInstance) {
 			if (params.version) {
 				def version = params.version.toLong()
@@ -358,6 +359,7 @@ class PreinscripcionController {
 			Preinscripcion.withTransaction{TransactionStatus status->
 				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
 				def inscripcionMateriaInstance
+				
 				/*preinscripcionInstance.carrera.niveles.each{ nivel->
 					if(nivel.esprimernivel){
 						inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
@@ -368,17 +370,46 @@ class PreinscripcionController {
 						}
 					} 
 				}*/
-				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
-					/*if(!inscripcionMateriaInstance.save()){
-						status.setRollbackOnly()
-						render(view:"inscribir",model:[preinscripcionInstance:preinscripcionInstance,inscripcionMateriaInstance:inscripcionMateriaInstance])	
-					}else{
+				def listmaterias = Materia.createCriteria().list(){
+					and{
+						nivel{
+							carrera{
+								eq("id",preinscripcionInstance.carrera.id)
+							}
+							//matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+						}
+						isEmpty("matregcursar")
+						isEmpty("mataprobcursar")
+						sizeEq("matregrendir",1)
+						isEmpty("mataprobrendir")
+					}
+				}
+				inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
+					,anioLectivo:preinscripcionInstance.anioLectivo
+					,carrera:preinscripcionInstance.carrera)
+
+				if(listmaterias.size()>0){
+					
+					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+
+					listmaterias.each{materia->
+						inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materia
+									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+					}
+					inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+				}
+				 
+				
+				if (!preinscripcionInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
+					preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
+					if(preinscripcionInstance.save()){
 						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 						redirect(action: "show", id: preinscripcionInstance.id)
-					}*/
-					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-					redirect(action: "show", id: preinscripcionInstance.id)
-
+					}else{
+						status.setRollbackOnly()
+						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+					}
 				}
 				else {
 					status.setRollbackOnly()

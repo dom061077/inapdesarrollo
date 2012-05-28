@@ -1,7 +1,9 @@
 package com.educacion.academico
 
-class InscripcionMatricula {
-
+class InscripcionMatricula extends Inscripcion {
+	
+	static hasMany = [inscripcionesmaterias:InscripcionMateria]
+	
     static constraints = {
     }
 }

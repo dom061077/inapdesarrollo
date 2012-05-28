@@ -5,10 +5,12 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
 
 class InscripcionMateria extends Inscripcion{
 	
-	Preinscripcion preinscripcion
-	EstadoInscripcionMateriaEnum estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA 
+	EstadoInscripcionMateriaEnum estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
+	InscripcionMatricula inscripcionMatricula 
 	
 	static hasMany = [detalleMateria:InscripcionMateriaDetalle]
+	
+	static belongsTo = [inscripcionMatricula:InscripcionMatricula]
 	
     static constraints = {
 		preinscripcion(nullable:true,blank:true)

@@ -10,4 +10,8 @@ class DetalleAula {
 	
     static constraints = {
     }
+	
+	static mapping = {
+			carrera lazy:false	
+	}
 }

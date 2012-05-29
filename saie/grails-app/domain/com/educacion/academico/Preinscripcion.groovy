@@ -8,7 +8,7 @@ class Preinscripcion extends Inscripcion {
 	EstadoPreinscripcion estado
 	InscripcionMatricula inscripcionMatricula
 	static constraints = {
-		alumno(unique:'carrera')
+		alumno(unique:['carrera'])
 		inscripcionMatricula(nullable:true)
 	}
 	

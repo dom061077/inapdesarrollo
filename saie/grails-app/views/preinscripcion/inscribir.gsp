@@ -6,6 +6,34 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'preinscripcion.label', default: 'Preinscripcion')}" />
         <title><g:message code="preinscripcion.confirminscripcion.title"/></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function(){
+	        	$('#materiasId').jqGrid({
+	            	url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion",id:preinscripcionInstance.id)%>'
+	               	,datatype:'json'
+	                ,width:500
+	                ,colNames:['Id','IdId','Denominación','Select']
+	            	,colModel:[
+	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+               				
+	                ]
+	            	,sortname:'denominacion'
+	                ,pager: '#pagermateriasId'
+	            	,sortorder:'asc'
+	                ,caption: 'Materias a Inscribir'
+	            });
+	
+            });
+		</script>        
+        
     </head>
     <body>
         <div class="nav">
@@ -33,9 +61,6 @@
             
             
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
                             <div class="span-4 spanlabel"><g:message code="preinscripcion.id.label" default="Id" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: preinscripcionInstance, field: "id")}</div>
@@ -71,9 +96,11 @@
                             <div class="span-4 spanlabel"><g:formatDate format='dd/MM/yyyy' date="${preinscripcionInstance?.fechaAlta}" /></div>
                             
 							<div class="clear"></div>
-                    
-                    </tbody>
-                </table>
+							<fieldset>
+								<legend>Materias a Inscribir</legend>
+								<table id='materiasId'></table>
+								<div id = 'pagermateriasId'></div>
+							</fieldset>
             </div>
             <div class="buttons">
                 <g:form>

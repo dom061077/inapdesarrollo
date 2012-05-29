@@ -16,6 +16,7 @@ import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 import com.educacion.alumno.Alumno
+import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 
 
 class PreinscripcionController {
@@ -341,6 +342,54 @@ class PreinscripcionController {
 		}
 	}
 
+	
+	
+	def materiasmatriculacion = {
+		log.info "INGRESANDO AL CLOSURE materiasmatriculacion"
+		log.info "PARAMETROS $params"
+		def preinscripcionInstance = Preinscripcion.get(params.id)
+		
+		def listmaterias = Materia.createCriteria().list(){
+			and{
+				nivel{
+					carrera{
+						eq("id",preinscripcionInstance?.carrera?.id)
+					}
+					//matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+				}
+				isEmpty("matregcursar")
+				isEmpty("mataprobcursar")
+				sizeEq("matregrendir",1)
+				isEmpty("mataprobrendir")
+			}
+		}
+
+		def totalregistros=listmaterias.size()
+		
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
+
+		
+		 
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+		listmaterias.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+			
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+			 
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+
+		
+	}
+	
 	def confirminscripcion = {
 		log.info "INGRESANDO AL CLOSURE confirminscripcion"
 		log.info "PARAMETROS: $params"
@@ -386,7 +435,8 @@ class PreinscripcionController {
 				}
 				inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
 					,anioLectivo:preinscripcionInstance.anioLectivo
-					,carrera:preinscripcionInstance.carrera)
+					,carrera:preinscripcionInstance.carrera
+					,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA)
 
 				if(listmaterias.size()>0){
 					

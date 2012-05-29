@@ -15,7 +15,6 @@ class Aula {
 		nombre(nullable:false,blank:false,size:1..36,unique:true)
 	}
 	
-	
 	static mapping = {
 			detalle lazy:false	
 	}

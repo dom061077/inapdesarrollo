@@ -350,7 +350,7 @@ class AulaController {
 		render result
 	}
 	
-	def aulasreporte = {
+	def reporteaulas = {
 		log.info "INGRESANDO AL CLOSURE aulasreporte"
 		log.info "PARAMETROS: $params"
 		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/aula/"))
@@ -359,7 +359,7 @@ class AulaController {
 		params.put("_file","aula/aulasreporte")
 		//params.put("encoding","UTF-8")
 		def listAulas = Aula.list()
-		chain(controller:'jasper',action:'index',model:[data:listAulas],params:params)
+		chain(controller:'jasper', action:'index', model:[data:listAulas], params:params)
 	}
 
 	

@@ -470,6 +470,20 @@ class MateriaController {
 		}
 	}
 
+	def listasistencia = {
+		
+	}	
 	
+	def reporteasistencia = {
+		log.info "INGRESANDO AL CLOSURE reporteasistencia"
+		log.info "PARAMETROS: $params"
+		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))
+		params.put("_format","PDF")
+		params.put("_name","reporteasistencia")
+		params.put("_file","materia/asistenciareporte")
+		//params.put("encoding","UTF-8")
+		def listAlumnos = Materia.list()
+		chain(controller:'jasper', action:'index', model:[data:listAlumnos], params:params)
+	}
 	
 }

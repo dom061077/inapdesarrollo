@@ -9,7 +9,7 @@
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="265" y="46" width="180" height="20"/>
+				<reportElement x="286" y="0" width="180" height="20"/>
 				<textElement/>
 				<text><![CDATA[LISTA DE ASISTENCIA]]></text>
 			</staticText>

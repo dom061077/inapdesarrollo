@@ -13,6 +13,33 @@
         
         <script type="text/javascript">
         	$(document).ready(function(){
+    	        function initsubmit(){
+    	    		var gridDataMaterias = $("#materiasId").getRowData();
+    	        	var postDataMaterias = JSON.stringify(gridDataMaterias);
+    	        	$("#materiasSerializedId").val(postDataMaterias);
+    	        }
+
+    	        function bindrequisitos(){
+    	        	var griddata = [];
+    	        	
+    	        	var data = jQuery.parseJSON($("#materiasSerializedId").val());
+    	        	if(data==null)
+    		        		data=[];
+    	        	for (var i = 0; i < data.length; i++) {
+    	        	    griddata[i] = {};
+    	        	    griddata[i]['id'] = data[i].id;
+    	        	    griddata[i]['idid'] = data[i].idid;	        	    
+    	        	    griddata[i]['denominacion'] = data[i].descripcion;
+    	        	    griddata[i]['seleccion'] = data[i].seleccion;	        	    	        	    
+    	        	}
+
+    	        	for (var i = 0; i <= griddata.length; i++) {
+    	        	    jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
+    	        	}
+    	        }
+    	        
+
+            	
 	        	$('#materiasId').jqGrid({
 	            	url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion",id:preinscripcionInstance.id)%>'
 	               	,datatype:'json'
@@ -104,8 +131,9 @@
             </div>
             <div class="buttons">
                 <g:form>
+					<g:hiddenField id='materiasSerializedId' name='materiasSerialized'></g:hiddenField>
                     <g:hiddenField name="id" value="${preinscripcionInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="confirminscripcion" value="${message(code: 'preinscripcion.button.matricular', default: 'Ins')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="confirminscripcion" value="${message(code: 'preinscripcion.button.matricular', default: 'Ins')}" /></span>
                 </g:form>
             </div>
         </div>

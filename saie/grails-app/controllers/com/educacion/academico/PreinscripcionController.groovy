@@ -380,7 +380,7 @@ class PreinscripcionController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.denominacion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.denominacion+'","Yes"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -395,6 +395,11 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id)
 		def inscripcionMatriculaInstance
+		def materiasJson
+		
+		if(params.materiasSerialized)
+			materiasJson = grails.converters.JSON.parse(params.materiasSerialized)
+		
 		if (preinscripcionInstance) {
 			if (params.version) {
 				def version = params.version.toLong()
@@ -409,17 +414,9 @@ class PreinscripcionController {
 				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
 				def inscripcionMateriaInstance
 				
-				/*preinscripcionInstance.carrera.niveles.each{ nivel->
-					if(nivel.esprimernivel){
-						inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-							,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
-						nivel.materias.each{ materia->
-							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materia
-									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
-						}
-					} 
-				}*/
-				def listmaterias = Materia.createCriteria().list(){
+				
+				
+				/*def listmaterias = Materia.createCriteria().list(){
 					and{
 						nivel{
 							carrera{
@@ -432,13 +429,13 @@ class PreinscripcionController {
 						sizeEq("matregrendir",1)
 						isEmpty("mataprobrendir")
 					}
-				}
+				}*/
 				inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
 					,anioLectivo:preinscripcionInstance.anioLectivo
 					,carrera:preinscripcionInstance.carrera
 					,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA)
 
-				if(listmaterias.size()>0){
+				/*if(listmaterias.size()>0){
 					
 					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
@@ -448,8 +445,22 @@ class PreinscripcionController {
 									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
 					}
 					inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+				}*/
+				
+				if(materiasJson){
+					def materiaInstance
+					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+					materiasJson.each{
+						if(it.seleccion.toUpperCase().equals("YES")){
+							materiaInstance = Materia.load(it.idid)
+							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
+											,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+						}
+					}
 				}
-				 
+
 				
 				if (!preinscripcionInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
 					preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance

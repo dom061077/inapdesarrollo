@@ -15,7 +15,7 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="65" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<staticText>
 				<reportElement x="194" y="38" width="190" height="20"/>
 				<textElement textAlignment="Center">
@@ -27,9 +27,6 @@
 	</title>
 	<pageHeader>
 		<band height="18">
-			<rectangle>
-				<reportElement x="0" y="0" width="555" height="12" backcolor="#CCCCCC"/>
-			</rectangle>
 			<staticText>
 				<reportElement x="200" y="0" width="125" height="15"/>
 				<textElement textAlignment="Center">
@@ -98,7 +95,11 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="45" splitType="Stretch">
+			<rectangle>
+				<reportElement x="138" y="11" width="555" height="12" backcolor="#CCCCCC"/>
+			</rectangle>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>

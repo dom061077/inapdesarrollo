@@ -616,46 +616,6 @@ class CarreraController {
 
 	}
 	
-	def correlatividadesreport = {
-		log.debug "INGREANDO AL CLOSURE correlativadesreport"
-		log.debug "PARAMETROS: $params"
-		
-		if(params.id){
-			def carreraInstance = Carrera.load(params.id.toLong())
-			/*carreraInstance.niveles?.each{niv->
-				log.debug "Nivel: $niv"
-				niv.materias?.each{mat->
-					mat.matregcursar?.each{matregcur->
-						log.debug "Materias: $matregcur"
-					}
-					mat.mataprobcursar?.each{mataprobcursar->
-						log.debug "Materias: $mataprobcursar"
-					}
-					mat.matregrendir?.each{matregrendir->
-						log.debug "Materias: $matregrendir"
-					}
-					mat.mataprobrendir?.each{
-						log.deubg "Materias: $mataprobrendir"
-					}
-
-				}
-				
-			}*/
-			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/"))
-			params.put("carrera",carreraInstance.denominacion)
-			params.put("_format","PDF")
-			params.put("_name","correlatividades")
-			params.put("_file","correlatividades")
-			def listCarreras = new ArrayList()
-			listCarreras.add(carreraInstance)
-			chain(controller:'jasper',action:'index',model:[data:listCarreras],params:params)
-		}else{
-			flash.message=flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'nivel.label', default: 'Carrera no encontrada'), params.carreraId])}"
-			redirect(controller:"nivel",action:"list")
-		}
-
-	}
-
 	def cascadeniveles = {
 		log.info "INGRESANDO AL CLOSURE autocomplete"
 		log.info "PARAMETROS: $params"
@@ -753,7 +713,47 @@ class CarreraController {
 
 	}
 	
-	def carrerasreporte = {
+	def reportecorrelatividades = {
+		log.debug "INGREANDO AL CLOSURE correlativadesreport"
+		log.debug "PARAMETROS: $params"
+		
+		if(params.id){
+			def carreraInstance = Carrera.load(params.id.toLong())
+			/*carreraInstance.niveles?.each{niv->
+				log.debug "Nivel: $niv"
+				niv.materias?.each{mat->
+					mat.matregcursar?.each{matregcur->
+						log.debug "Materias: $matregcur"
+					}
+					mat.mataprobcursar?.each{mataprobcursar->
+						log.debug "Materias: $mataprobcursar"
+					}
+					mat.matregrendir?.each{matregrendir->
+						log.debug "Materias: $matregrendir"
+					}
+					mat.mataprobrendir?.each{
+						log.deubg "Materias: $mataprobrendir"
+					}
+
+				}
+				
+			}*/
+			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))
+			params.put("carrera",carreraInstance.denominacion)
+			params.put("_format","PDF")
+			params.put("_name","correlatividades")
+			params.put("_file","materia/correlatividades")
+			def listCarreras = new ArrayList()
+			listCarreras.add(carreraInstance)
+			chain(controller:'jasper',action:'index',model:[data:listCarreras],params:params)
+		}else{
+			flash.message=flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'nivel.label', default: 'Carrera no encontrada'), params.carreraId])}"
+			redirect(controller:"nivel",action:"list")
+		}
+
+	}
+
+	def reportecarreras = {
 		log.info "INGRESANDO AL CLOSURE carrerasreporte"
 		log.info "PARAMETROS: $params"
 		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/carrera/"))

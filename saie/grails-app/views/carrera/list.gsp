@@ -47,7 +47,7 @@
 							obj = jQuery("#list").getRowData(ids[i]);
 							be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";  
 							se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
-							co = "<a title='Correlatividades' href='correlatividadesreport/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+							co = "<a title='Correlatividades' href='reportecorrelatividades/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se+co}); 
 						}
 					}
@@ -106,7 +106,7 @@
 				       onClickButton : function () { 
 				           //jQuery("#list").excelExport();
 				           //jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
-				           window.location = '<%out << createLink(controller:"carrera",action:"carrerasreporte") %>';
+				           window.location = '<%out << createLink(controller:"carrera",action:"reportecarreras") %>';
 				       } 
 				});
 

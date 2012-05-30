@@ -17,6 +17,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 import com.educacion.alumno.Alumno
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
+import com.mysql.jdbc.log.Log;
 
 
 class PreinscripcionController {
@@ -325,16 +326,43 @@ class PreinscripcionController {
 		
 	}
 
+
+	
 	def inscribir = {
 		log.info "INGRESANDO AL CLOSURE inscribir"
 		log.info "PARAMETROS $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id)
+		def materiasSerialized
+		
+		def listmaterias = Materia.createCriteria().list(){
+			and{
+				nivel{
+					carrera{
+						eq("id",preinscripcionInstance.carrera.id)
+					}
+					//matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+				}
+				isEmpty("matregcursar")
+				isEmpty("mataprobcursar")
+				sizeEq("matregrendir",1)
+				isEmpty("mataprobrendir")
+			}
+		}
+		def flagcomilla = false
+		materiasSerialized = "["
+		listmaterias.each{
+			if(flagcomilla)
+				materiasSerialized = materiasSerialized + ","
+			materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+			flagcomilla = true
+		}
+		materiasSerialized += "]"
 		if(preinscripcionInstance){
 			if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO)){
 				flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
 				redirect(action:"list")	
 			}else
-				return [preinscripcionInstance:preinscripcionInstance]	
+				return [preinscripcionInstance:preinscripcionInstance,materiasSerialized:materiasSerialized]	
 				
 		}else{
 			flash.message = g.message(code:"default.not.found.message",args:[g.message(code:"preinscripcion.label"),params.id])
@@ -393,7 +421,7 @@ class PreinscripcionController {
 	def confirminscripcion = {
 		log.info "INGRESANDO AL CLOSURE confirminscripcion"
 		log.info "PARAMETROS: $params"
-		def preinscripcionInstance = Preinscripcion.get(params.id)
+		def preinscripcionInstance = Preinscripcion.get(params.insid)
 		def inscripcionMatriculaInstance
 		def materiasJson
 		
@@ -452,6 +480,7 @@ class PreinscripcionController {
 					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
 					materiasJson.each{
+						log.debug "MATERIA JSON VINCULADA: "+it
 						if(it.seleccion.toUpperCase().equals("YES")){
 							materiaInstance = Materia.load(it.idid)
 							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
@@ -469,12 +498,12 @@ class PreinscripcionController {
 						redirect(action: "show", id: preinscripcionInstance.id)
 					}else{
 						status.setRollbackOnly()
-						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
 					}
 				}
 				else {
 					status.setRollbackOnly()
-					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance])
+					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
 				}
 	
 				

@@ -13,19 +13,28 @@
 
         <script type="text/javascript">
         	jQuery(document).ready(function(){
-				jQuery("#list").jqGrid({
-				   	url:'listjson',
+				var lastsel3;
+        		jQuery("#list").jqGrid({
+				   	url:'listjsonasistencia',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Nombre','Nivel','Carrera','Asistencia'],
+					colNames:['Id','Nombre','Nivel','Carrera','Año', 'Asistencia'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},
 				   		{name:'denominacion',index:'denominacion', width:92,sortable:false},
 				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
 				   		{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion', width:100,search:true},
-				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+				   		{name:'anio',index:'anio', width:45, editable:true, search:false, edittype:"select", editoptions:{value:"2011:2011;2012:2012;2013:2013;2014:2014;2015:2015;2016:2016"}},
+				   		{name:'operaciones',index:'operaciones', width:40,search:false,sortable:false}
 				   	],
+
+				   	onSelectRow: function(id){ 
+					   	if(id && id!==lastsel3){ 
+						   	jQuery('#list').jqGrid('restoreRow',lastsel3); 
+						   	jQuery('#list').jqGrid('editRow',id,true); 
+						   	lastsel3=id; } 
+					   },
 				   	
 				   	rowNum:10,
 				   	//rownumbers:true,

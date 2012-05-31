@@ -474,6 +474,42 @@ class MateriaController {
 		
 	}	
 	
+	def listjsonasistencia = {
+		log.info "INGRESANDO AL CLOSURE listjson"
+		log.info "PARAMETROS: ${params}"
+		if(params.nivel_id){
+			params._search="true"
+			params.altfilters='{"groupOp":"AND","rules":[{"field":"nivel_id","op":"eq","data":"'+params.nivel_id+'"}]}'
+		}
+		
+		def gud=new GUtilDomainClass(Materia,params,grailsApplication)
+		def list=gud.listrefactor(false)
+		def totalregistros=gud.listrefactor(true)
+		
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
+
+		
+		
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+		list.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+				
+			
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'","'+2012+'"]}'
+			 
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+
+	}
+	
 	def reporteasistencia = {
 		log.info "INGRESANDO AL CLOSURE reporteasistencia"
 		log.info "PARAMETROS: $params"

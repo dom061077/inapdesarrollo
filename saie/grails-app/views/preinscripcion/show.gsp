@@ -6,6 +6,25 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'preinscripcion.label', default: 'Preinscripcion')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+            	$('#matriculamateriasId').jqGrid({
+                	url:'materiasmatriculajson'
+                    ,datatype:'json'
+                    ,with:680
+                    ,colNames:['Id','Denominación',,'Nivel']
+                	,colModel:[
+                           	{name:'id',index:'id',width:40,hidden:true}
+                           	,{name:'denominacion',index:'denominacion',width:'200',search:false,sortable:false}
+                           	,{name:'nivel',index:'nivel',width:'200',search:false,sortable:false}
+                    ]
+                	,rowNum:10
+                	,pager:'#pagermatriculamateriasId'
+                    ,sortname: 'denominacion'	
+                ,
+                });
+            });
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -18,9 +37,7 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
+            <div class="append-bottom">
                     
                             <div class="span-4 spanlabel"><g:message code="preinscripcion.id.label" default="Id" /></div>
                             
@@ -57,15 +74,21 @@
                             <div class="span-4 spanlabel"><g:formatDate format='dd/MM/yyyy' date="${preinscripcionInstance?.fechaAlta}" /></div>
                             
 							<div class="clear"></div>
+							<g:if test="${preinscripcionInstance?.inscripcionMatricula}">
+								<fieldset>
+									<legend>Matriculación</legend>
+									<table id="matriculamateriasId"></table>
+									<div id="pagermatriculamateriasId"></div>
+								</fieldset>
+							</g:if>
+							
                     
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>
                     <g:hiddenField name="id" value="${preinscripcionInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

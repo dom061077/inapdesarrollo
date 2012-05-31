@@ -12,15 +12,20 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript">
+	        function initsubmit(){
+	    		var gridDataMaterias = $("#materiasId").getRowData();
+	        	var postDataMaterias = JSON.stringify(gridDataMaterias);
+	        	$("#materiasSerializedId").val(postDataMaterias);
+	        }
+
+	        function checkboxsave(){
+	        	$('#materiasId').saveRow('"+rowObject.id+"'); 
+		    }
+        
         	$(document).ready(function(){
-    	        function initsubmit(){
-    	    		var gridDataMaterias = $("#materiasId").getRowData();
-    	        	var postDataMaterias = JSON.stringify(gridDataMaterias);
-    	        	$("#materiasSerializedId").val(postDataMaterias);
-    	        }
             	function savecheckbox(cellvalue, options, rowObject){
             		return '<input type="checkbox"' + (cellvalue ? ' checked="checked"' : '') + 
-            	      "onclick=\"$('#materiasId').saveRow('"+rowObject.id+"')\"/>";
+            	      "onclick=\"checkboxsave()\"/>";
                	}
 
     	        function bindmaterias(){
@@ -51,9 +56,9 @@
 	                ,colNames:['Id','IdId','Denominación','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
-	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: savecheckbox, formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                				
 	                ]
 	        		,onSelectRow: function(id){ 
@@ -142,7 +147,7 @@
 							</fieldset>
             </div>
             <div class="buttons">
-                <g:form onsubmit="initsubmit();return false;">
+                <g:form onsubmit="initsubmit();return true;">
 					<g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
                     <g:hiddenField name="insid" value="${preinscripcionInstance?.id}" />
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="confirminscripcion" value="${message(code: 'preinscripcion.button.matricular', default: 'Ins')}" /></span>

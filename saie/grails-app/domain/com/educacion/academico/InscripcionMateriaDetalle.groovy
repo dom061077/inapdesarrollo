@@ -18,4 +18,5 @@ class InscripcionMateriaDetalle {
 		materia(unique:'inscripcionMateria')
 		
     }
+	
 }

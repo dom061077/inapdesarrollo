@@ -513,12 +513,30 @@ class MateriaController {
 	def reporteasistencia = {
 		log.info "INGRESANDO AL CLOSURE reporteasistencia"
 		log.info "PARAMETROS: $params"
+
+		def listAlumnos = InscripcionMateriaDetalle.createCriteria().list{
+			and{
+				materia{
+					eq("id",params.id.toLong())
+				}
+				
+				inscripcionMateria {
+					anioLectivo{
+						eq("anioLectivo",params.aniolectivo.toInteger())
+					}
+				}
+			}
+		}
+		
+		listAlumnos.each {
+			it.materia.denominacion
+			it.inscripcionMateria.alumno.apellidoNombre
+		}
+
 		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))
 		params.put("_format","PDF")
 		params.put("_name","reporteasistencia")
 		params.put("_file","materia/asistenciareporte")
-		//params.put("encoding","UTF-8")
-		def listAlumnos = Materia.list()
 		chain(controller:'jasper', action:'index', model:[data:listAlumnos], params:params)
 	}
 	

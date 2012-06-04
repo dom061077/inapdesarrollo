@@ -1,27 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="asistenciareporte" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-	<property name="ireport.zoom" value="1.2100000000000002"/>
+	<property name="ireport.zoom" value="1.331000000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="3"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table" isDefault="false">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" isDefault="false" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" isDefault="false" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" isDefault="false" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1"/>
+	<subDataset name="Table Dataset 2"/>
+	<field name="inscripcionMateria.carrera.denominacion" class="java.lang.String"/>
+	<field name="inscripcionMateria.anioLectivo.anioLectivo" class="java.lang.Integer"/>
+	<field name="inscripcionMateria.alumno.apellidoNombre" class="java.lang.String"/>
+	<field name="estado.name" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="53" splitType="Stretch">
+		<band height="33" splitType="Stretch">
 			<staticText>
-				<reportElement x="292" y="29" width="180" height="20"/>
+				<reportElement x="312" y="0" width="180" height="20"/>
 				<textElement>
 					<font fontName="Arial Black" size="14"/>
 				</textElement>
 				<text><![CDATA[LISTA DE ASISTENCIA]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="15" y="15" width="212" height="15"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.carrera.denominacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="0" width="75" height="15"/>
+				<textElement/>
+				<text><![CDATA[AÑO LECTIVO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="0" width="100" height="15"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.Number"><![CDATA[$F{inscripcionMateria.anioLectivo.anioLectivo}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<columnHeader>
-		<band height="61" splitType="Stretch">
+		<band height="14" splitType="Stretch">
 			<rectangle>
 				<reportElement x="0" y="0" width="802" height="14" backcolor="#CCCCCC"/>
 			</rectangle>
+			<staticText>
+				<reportElement x="161" y="3" width="51" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[CONDICION]]></text>
+			</staticText>
 			<staticText>
 				<reportElement x="51" y="3" width="39" height="11"/>
 				<textElement>
@@ -29,25 +79,120 @@
 				</textElement>
 				<text><![CDATA[NOMBRE]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="196" y="3" width="51" height="11"/>
-				<textElement>
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[CONDICION]]></text>
-			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="802" height="1"/>
+			</line>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="15" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="151" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.alumno.apellidoNombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="165" y="0" width="100" height="14"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{estado.name}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement positionType="Float" x="356" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="378" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="334" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="312" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="400" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="422" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="444" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="466" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="488" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="510" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="532" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="554" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="578" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement x="0" y="14" width="802" height="1"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="801" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="689" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="667" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="623" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="755" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="645" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="711" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="778" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="733" y="0" width="1" height="14"/>
+			</line>
+			<line>
+				<reportElement positionType="Float" x="601" y="0" width="1" height="14"/>
+			</line>
+		</band>
 	</detail>
-	<columnFooter>
-		<band height="45" splitType="Stretch"/>
-	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="11" splitType="Stretch">
+			<textField>
+				<reportElement x="392" y="0" width="100" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="353" y="0" width="39" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Página Nº ]]></text>
+			</staticText>
+		</band>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="40" splitType="Stretch"/>
 	</summary>
 </jasperReport>

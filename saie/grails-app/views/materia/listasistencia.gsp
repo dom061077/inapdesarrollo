@@ -12,7 +12,17 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">
+        	function clickreporte(id){
+            	
+            	obj = jQuery("#list").getRowData(id);
+            	
+				var anio = $('#'+obj.id+'_anio').val();
+				if(anio==undefined)
+					anio=obj.anio;
+            	window.location='reporteasistencia?id='+obj.id+'&aniolectivo='+anio+'&_target=blank'
+            	            }
         	jQuery(document).ready(function(){
+            	
 				var lastsel3;
         		jQuery("#list").jqGrid({
 				   	url:'listjsonasistencia',
@@ -49,7 +59,8 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							var se = "<a title='Mostrar' href='reporteasistencia/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							//var se = "<a title='Mostrar' href='reporteasistencia/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a title='Mostrar' href='#' onClick='clickreporte("+ids[i]+")'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se}); 
 							}
 						

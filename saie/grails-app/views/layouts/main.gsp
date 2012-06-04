@@ -122,7 +122,7 @@
 											<li><span class="dir">Preinscripciones</span>
 												<ul>
 													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">PreInscribir</a></li>
-													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Matricular</a></li>								
+													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Matricular Alumno Nuevo</a></li>								
 												</ul>
 											</li>
 											<li><span class="dir">Inscripción Materia</span>
@@ -131,6 +131,14 @@
 													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado de Inscripciones en Materia</a></li>								
 												</ul>
 											</li>
+											
+											<li><span class="dir">Matriculación Alumnos Existente</span>
+												<ul>
+													<li><a href="${createLink(controller:'inscripcionMatricula',action:'seleccionalumno')}">Inscripción en Materia</a></li>
+													<li><a href="${createLink(controller:'inscripcionMatricula',action:'list')}">Listado de Inscripciones en Materia</a></li>								
+												</ul>
+											</li>
+											
 											
 										</ul>
 									</li>																		

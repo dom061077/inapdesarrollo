@@ -535,6 +535,12 @@ class MateriaController {
 
 		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))
 		params.put("_format","PDF")
+		
+		params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
+		params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
+		params.put("telefonoinstitucion", g.message(code:"caratula.institucion.telefono"))
+		
+		
 		params.put("_name","reporteasistencia")
 		params.put("_file","materia/asistenciareporte")
 		chain(controller:'jasper', action:'index', model:[data:listAlumnos], params:params)

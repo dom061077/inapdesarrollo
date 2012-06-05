@@ -25,10 +25,14 @@
 	</style>
 	<subDataset name="Table Dataset 1"/>
 	<subDataset name="Table Dataset 2"/>
+	<parameter name="nombreinstitucion" class="java.lang.String"/>
+	<parameter name="direccioninstitucion" class="java.lang.String"/>
+	<parameter name="telefonoinstitucion" class="java.lang.String"/>
 	<field name="inscripcionMateria.carrera.denominacion" class="java.lang.String"/>
 	<field name="inscripcionMateria.anioLectivo.anioLectivo" class="java.lang.Integer"/>
 	<field name="inscripcionMateria.alumno.apellidoNombre" class="java.lang.String"/>
 	<field name="estado.name" class="java.lang.String"/>
+	<field name="materia.denominacion" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -42,21 +46,42 @@
 				<text><![CDATA[LISTA DE ASISTENCIA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="15" y="15" width="212" height="15"/>
+				<reportElement x="115" y="0" width="190" height="15"/>
 				<textElement>
 					<font size="11"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.carrera.denominacion}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="15" y="0" width="75" height="15"/>
+				<reportElement x="0" y="1" width="75" height="15"/>
 				<textElement/>
 				<text><![CDATA[AÑO LECTIVO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="90" y="0" width="100" height="15"/>
+				<reportElement x="73" y="0" width="49" height="15"/>
 				<textElement/>
 				<textFieldExpression class="java.lang.Number"><![CDATA[$F{inscripcionMateria.anioLectivo.anioLectivo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="623" y="0" width="178" height="20"/>
+				<textElement>
+					<font size="12"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{nombreinstitucion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="621" y="19" width="180" height="11"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{direccioninstitucion}.concat(' - ').concat($P{telefonoinstitucion})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="15" width="305" height="15"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{materia.denominacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>

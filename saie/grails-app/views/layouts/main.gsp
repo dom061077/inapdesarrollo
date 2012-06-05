@@ -143,12 +143,15 @@
 										</ul>
 									</li>																		
 									<li><span class="dir">Administrativa</span>
-										<li><span class="dir">Informes</span>
-											<ul>
-												<li><a href="${createLink(controller:'materia',action:'listasistencia')}">Planilla de Asistencia</a></li>
-											</ul>
-										</li>
+										<ul>
+											<li><a href="${createLink(controller:'materia',action:'listasistencia')}">Asistencia</a></li>
+										</ul>
 									</li>																		
+									<li><span class="dir">Informes</span>
+										<ul>
+											<li><a href="${createLink(controller:'materia',action:'listasistencia')}">Planilla de Asistencia</a></li>
+										</ul>
+									</li>
 								</ul>
 						</li>
 						

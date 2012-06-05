@@ -526,6 +526,11 @@ class MateriaController {
 					}
 				}
 			}
+			inscripcionMateria{
+				alumno{
+					order("apellidoNombre", "asc")
+				}
+			}
 		}
 		
 		listAlumnos.each {

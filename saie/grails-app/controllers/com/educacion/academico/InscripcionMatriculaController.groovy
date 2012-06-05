@@ -207,6 +207,11 @@ class InscripcionMatriculaController {
 
 	}
 
+	def seleccionalumno = {
+		log.info "INGRESANDO AL CLOSURE seleccionalumno"
+		log.info("PARAMETROS: $params")
+		
+	}
 
 
 	

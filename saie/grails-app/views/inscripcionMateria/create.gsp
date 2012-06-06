@@ -84,7 +84,7 @@
 						});	
 		        	
 		        	$('#materiasId').jqGrid({
-		            	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance?.alumno?.id, carreraId:inscripcionMateriaInstance?.preinscripcion?.carrera?.id])%>'
+		            	url:''//'<%/*out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance?.alumno?.id, carreraId:inscripcionMateriaInstance?.preinscripcion?.carrera?.id])*/%>'
 		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
 		               	,datatype:'json'
 		                ,width:500
@@ -207,19 +207,24 @@
             <g:form onsubmit="initsubmit();return true;" action="save" >
             
                  
-                         <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
+                         <%--<div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
                          <g:hiddenField name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
                          <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}" />
                          <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.preinscripcion?.anioLectivo?.id}"/>
                          <g:hiddenField name="preinscripcion.id" value="${inscripcionMateriaInstance?.preinscripcion?.id}"/>
-                         <g:hiddenField name="preinsversion" value="${inscripcionMateriaInstance?.preinscripcion?.version}" />
+                         <g:hiddenField name="preinsversion" value="${inscripcionMateriaInstance?.preinscripcion?.version}" />--%>
                          
+                         <div class="span-2 spanlabel">
+                         	<label>Alumno</label>
+                         </div>
                          <div class="span-4 spanlabel">
                          	${inscripcionMateriaInstance?.alumno?.apellidoNombre}
                          </div>
 						<div class="clear"></div>
-                         <div class="span-4 spanlabel"><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></div>
-                         <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}">${inscripcionMateriaInstance?.preinscripcion?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+						
+						
+                         <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></label></div>
+                         <div class="span-4"><g:select id="carreraId" name="carrera" from="${carrerasInsc}" value="${carreraInstance?.id}" optionValue="denominacion" optionKey="id"/> </div> 
                          
 				<div class="clear"></div>
 				<br/>

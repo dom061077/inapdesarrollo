@@ -349,7 +349,13 @@ class GUtilDomainClass{
 		def hql = """
 				FROM AnioLectivo a WHERE a.anioLectivo = (SELECT MAX(anioLectivo) FROM AnioLectivo anio WHERE anio.carrera.id = :carrera )
 		"""
-		def list = AnioLectivo.executeQuery(hql,["carrera":id]);
+		def list
+		if(id!=null)
+			list = AnioLectivo.executeQuery(hql,["carrera":id]);
+		else{
+			
+		}
+				
 		def anioLectivoInstance = list?.get(0)
 	}
 

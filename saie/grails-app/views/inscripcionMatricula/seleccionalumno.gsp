@@ -39,7 +39,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Inscribir Materia' href='<%out << createLink(controller:'inscripcionMateria',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Matricular' href='<%out << createLink(controller:'inscripcionMatricula',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							//var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
@@ -65,7 +65,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1><g:message code="inscripcionmateria.seleccionalumno" /></h1>
+            <h1><g:message code="inscripcionMatricula.label" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

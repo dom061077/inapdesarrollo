@@ -15,8 +15,9 @@ import com.educacion.alumno.Alumno;
 import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.enums.inscripcion.EstadoPreinscripcion
 
-
+ 
 class InscripcionMateriaController {
 
 	def inscripcionMateriaService
@@ -121,29 +122,52 @@ class InscripcionMateriaController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
+		def anioLectivoInstance
+		def alumnoInstance
+		def preinscripciones
+		def carrerasInsc = new ArrayList()
 		if(params.id){
-			def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
-			hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
-			def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
 			
-	
-			if(preinscripciones){
-			   def preinscripcionInstance = preinscripciones.get(0)
-			   if(!preinscripcionInstance){
-					flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
-					render(view:"alumnosinscripcion",model:[])
-					return
-			   }else{
-			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-							,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo)
-			        //inscripcionMateriaInstance.properties = params
-			        return [inscripcionMateriaInstance: inscripcionMateriaInstance]
-			   }
-			}else{
-				flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
-				render(view:"alumnosinscripcion",model:[])
-				return
+			preinscripciones = Preinscripcion.createCriteria().list{
+				alumno{
+					eq("id",params.id.toLong())
+				}
+				eq("estado",EstadoPreinscripcion.ESTADO_INSCRIPTO)
+				isNotNull("inscripcionMateria")
+			} 
+			 
+			preinscripciones.each{
+				carrerasInsc.add(it.inscripcionMatricula.carrera)
 			}
+			
+			/*def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
+			hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
+			def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":params.id.toLong(),"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])*/
+				
+//			if(preinscripciones){
+//			   def preinscripcionInstance = preinscripciones.get(0)
+//			   if(!preinscripcionInstance){
+//					flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+//					render(view:"alumnosinscripcion",model:[])
+//					return
+//			   }else{
+				if(carrerasInsc.size()>0){
+				   alumnoInstance = Alumno.get(params.id)	
+			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:alumnoInstance
+							//,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo
+							)
+			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc]
+				}else{
+								flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+								render(view:"alumnosinscripcion",model:[])
+				}
+			
+//			   }
+//			}else{
+//				flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+//				render(view:"alumnosinscripcion",model:[])
+//				return
+//			}
 		}else{
 			flash.message = "Seleccione un alumno para inscribir en las materias correspondientes"
 			render(view:"alumnosinscripcion",model:[])

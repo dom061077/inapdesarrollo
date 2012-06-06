@@ -126,7 +126,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="alumnoId" name="alumnoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />
+ 								<g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="alumno">
@@ -146,7 +146,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
+ 								<g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="anioLectivo">
@@ -166,7 +166,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" />
+ 								<g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="carrera">

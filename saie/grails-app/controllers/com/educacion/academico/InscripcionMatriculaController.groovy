@@ -212,6 +212,8 @@ class InscripcionMatriculaController {
 		log.info("PARAMETROS: $params")
 		
 	}
+	
+	
 
 
 	

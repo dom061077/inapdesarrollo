@@ -16,6 +16,7 @@ import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
+import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 
  
 class InscripcionMateriaController {
@@ -118,7 +119,102 @@ class InscripcionMateriaController {
 		render result
 		
 	}
+	
+	private def validaMateriaCursar(def materiaInstance,def idAlu){
+		log.info("INGRESANDO AL METODO PRIVADO validaCursar")
+		def flagvalidacion = false //si le falta alguna materia la bandera sera true
+		def list
+		materiaInstance.matregcursar.each {matreg->
+			list = InscripcionMateriaDetalle.createCriteria().list{
+				and{
+					inscripcionMateria{
+						alumno{
+							eq("id",idAlu)
+						}
+					}
+					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
+					materia{
+						eq("id",matreg.id)
+					}
+				}
+			}
+			if(list.size()==0){
+				flagvalidacion = true
+			}
+			if(list.size()>1){
+				flagvalidacion = true
+			}
+		}
+		
+		materiaInstance.mataprobcursar.each{mataprob->
+			list = InscripcionMateriaDetalle.createCriteria().list{
+				and{
+					inscripcionMateria{
+						alumno{
+							eq("id",idAlu)
+						}
+					}
+					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+					materia{
+						eq("id",mataprob.id)
+					}
+				}
+			}
+			if(list.size()==0){
+				flagvalidacion = true
+			}
+			if(list.size()>1){
+				flagvalidacion = true
+			}
+		}
+		
+		if(materiaInstance.matregcursar.size()==0 && materiaInstance.mataprobcursar.size()==0 )
+			flagvalidacion=true
+		
+		return flagvalidacion
 
+	}
+	
+	private def  getMateriasCursarDisponibles(def idCarrera,def idAlumno){
+		log.info("INGRESANDO AL METODO PRIVADO getMateriasCursarDisponibles")
+		def materiasDisponibles = new ArrayList();
+		def materias = Materia.createCriteria().list{
+			and{
+				nivel{
+					carrera{
+							eq("id",idCarrera)
+					}
+				}
+			}
+		}
+		materias.each{mat ->
+			if(validaMateriaCursar(mat,idAlumno))
+				materiasDisponibles.add(mat)
+		}
+		return materiasDisponibles
+	}
+
+	def anioscascade = {
+		def matriculas = InscripcionMatricula.createCriteria().list{
+			alumno{
+				eq("id",params.selected.toLong())
+			}
+			carrera{
+				eq("id",params.selected.toLong())
+			}
+			ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+		}
+
+		
+		render(contentType:"text/json"){
+			array{
+				matriculas.each{mat ->
+					nivel label:mat.anioLectivo.anioLectivo, value:mat.anioLectivo.id
+				}
+			}
+		}
+	}
+	
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
@@ -126,6 +222,9 @@ class InscripcionMateriaController {
 		def alumnoInstance
 		def preinscripciones
 		def carrerasInsc = new ArrayList()
+		
+		def matriculas
+		def aniosLectivos = new ArrayList()
 		if(params.id){
 			
 			preinscripciones = Preinscripcion.createCriteria().list{
@@ -133,12 +232,51 @@ class InscripcionMateriaController {
 					eq("id",params.id.toLong())
 				}
 				eq("estado",EstadoPreinscripcion.ESTADO_INSCRIPTO)
-				isNotNull("inscripcionMateria")
+				isNotNull("inscripcionMatricula")
+				carrera{
+					order("denominacion","asc")
+				}
 			} 
 			 
 			preinscripciones.each{
 				carrerasInsc.add(it.inscripcionMatricula.carrera)
 			}
+			
+			//obtengo la primera carrear que se mostrará en el combo de las carreras inscriptas
+			def primeraCarreraInstance = carrerasInsc.get(0)
+			log.debug "Carrera seleccionada: "+primeraCarreraInstance.denominacion
+			
+			matriculas = InscripcionMatricula.createCriteria().list{
+				alumno{
+					eq("id",params.id.toLong())
+				}
+				carrera{
+					eq("id",primeraCarreraInstance.id)
+				}
+				ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+			}
+			matriculas.each{
+				aniosLectivos.add(it.anioLectivo)
+			}
+			
+			alumnoInstance = Alumno.get(params.id)
+			
+			
+			def materiasSerialized
+			def materiasCursar = getMateriasCursarDisponibles(primeraCarreraInstance.id,alumnoInstance.id)
+			
+			def flagcomilla = false
+			materiasSerialized = "["
+			materiasCursar.each{
+				if(flagcomilla)
+					materiasSerialized = materiasSerialized + ","
+				materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+				flagcomilla = true
+			}
+			materiasSerialized += "]"
+	
+			
+			
 			
 			/*def hqlstr = "FROM Preinscripcion pre WHERE pre.estado=:estado AND pre.id = "
 			hqlstr = hqlstr + " (SELECT max(id) FROM Preinscripcion pre2 WHERE pre2.alumno.id = :alumno )"
@@ -152,11 +290,11 @@ class InscripcionMateriaController {
 //					return
 //			   }else{
 				if(carrerasInsc.size()>0){
-				   alumnoInstance = Alumno.get(params.id)	
 			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:alumnoInstance
 							//,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo
 							)
-			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc]
+			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc
+							,materiasSerialized: materiasSerialized,aniosLectivos:aniosLectivos]
 				}else{
 								flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
 								render(view:"alumnosinscripcion",model:[])

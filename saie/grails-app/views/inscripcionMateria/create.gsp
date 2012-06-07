@@ -1,5 +1,3 @@
-
-
 <%@ page import="com.educacion.academico.InscripcionMateria" %>
 <html>
     <head>
@@ -11,7 +9,7 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
-        
+        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.cascade-select.js')}"></script>
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 		        //var arrayDeletedMaterias = [];
@@ -84,9 +82,7 @@
 						});	
 		        	
 		        	$('#materiasId').jqGrid({
-		            	url:''//'<%/*out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmateriasadd",params:[alumnoId:inscripcionMateriaInstance?.alumno?.id, carreraId:inscripcionMateriaInstance?.preinscripcion?.carrera?.id])*/%>'
-		                ,editurl:'<%out << g.createLink(controller:"inscripcionMateria",action:"editjsonmaterias")%>'
-		               	,datatype:'json'
+		               	datatype:'local'
 		                ,width:500
 		                ,colNames:['Id','IdId','Denominación','Select']
 		            	,colModel:[
@@ -179,7 +175,11 @@
 		            		}, // del options 
 		        			{} // search options 
 		        		);	
-		
+
+			        	$('#carreraId').cascade({
+		                    source: '<%out << createLink(controller:'inscripcionMateria',action:'anioscascade',params:[alumnoId:inscripcionMateriaInstance?.alumno?.id])%>',
+		                    cascaded: "anioLectivoId"
+		                });		    		
 		        		bindmaterias();
 		
 		            
@@ -224,7 +224,13 @@
 						
 						
                          <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></label></div>
-                         <div class="span-4"><g:select id="carreraId" name="carrera" from="${carrerasInsc}" value="${carreraInstance?.id}" optionValue="denominacion" optionKey="id"/> </div> 
+                         <div class="span-4"><g:select id="carreraId" name="carrera" from="${carrerasInsc}" value="${inscripcionMateriaInstance?.carrera?.id}" optionValue="denominacion" optionKey="id"/> </div>
+                         <div class="clear"></div>
+                         
+                         <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.anioLectivo.label" default="Año Lectivo" /></label></div>
+                         <div class="span-4"><g:select id="anioLectivoId" name="anioLectivo" from="${aniosLectivos}" value="${inscripcionMateriaInstance?.anioLectivo?.id}" optionValue="anioLectivo" optionKey="id"/> </div>
+                         <div class="clear"></div>
+                          
                          
 				<div class="clear"></div>
 				<br/>

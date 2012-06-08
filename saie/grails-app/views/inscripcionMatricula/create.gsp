@@ -15,86 +15,7 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-        		$('#alumnoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'alumnoIdId' 
- 				,descid:'alumnoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#alumnoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#alumnoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'anioLectivoIdId' 
- 				,descid:'anioLectivoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#anioLectivoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#carreraId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'carreraIdId' 
- 				,descid:'carreraId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#carreraId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#carreraIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]); 
-
+            	
         	});
 		</script>
 		
@@ -177,41 +98,10 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 
 																	
                         
-							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="estado">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="estado"><g:message code="inscripcionMatricula.estado.label" default="Estado" /></label>
-							</div>
-							<div class="span-5">
-								<g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" from="${com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum?.values()}" keys="${com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum?.values()*.name()}" value="${inscripcionMatriculaInstance?.estado?.name()}"  optionValue="name"/>
-							</div>
-										
-							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="estado">
-								<g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" field="estado"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
+											
 
 																	
                         
-							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="fechaAlta">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="fechaAlta"><g:message code="inscripcionMatricula.fechaAlta.label" default="Fecha Alta" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField id="fechaAltaId" class="ui-widget ui-corner-all ui-widget-content" name="fechaAlta" value="${fieldValue(bean: inscripcionMatriculaInstance, field: 'fechaAlta')}" />
-							</div>
-										
-							<g:hasErrors bean="${inscripcionMatriculaInstance}" field="fechaAlta">
-								<g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" field="fechaAlta"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
 
 																	
                         

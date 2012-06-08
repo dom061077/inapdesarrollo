@@ -13,11 +13,25 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 		        //var arrayDeletedMaterias = [];
+		        function clearMaterias(){
+			        $('#materiasId').jqGrid('clearGridData');
+			    }
+
+			    function seleccionanio(){
+				    $.ajax({url:'<% out << createLink(controller:"inscripcionMateria",action:"anioscascadedata") %>/?carreraId='+$('#carreraIdId').val()+'&anioLectivoId='+$('#anioLectivoIdId').val()+'&alumnoId='+$('#alumnoIdId').val() 
+							,success: function(data){
+									alert(data);
+								}	
+					    })
+
+					    
+				}
 		
 		        function initsubmit(){
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
 		            $('#materiasSerializedId').val(postDataMaterias);
+		            $.post('<% out << createLink(controller:"inscripcionMateria",action:"save")%>',$('#formInscripcionMateriaId').serialize());
 		        }
 		        
 		        function bindmaterias(){
@@ -204,31 +218,29 @@
                 <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form onsubmit="initsubmit();return true;" action="save" >
+            <g:form id="formInscripcionMateriaId" onsubmit="initsubmit();return true;" action="save" >
             
                  
-                         <%--<div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
-                         <g:hiddenField name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
-                         <g:hiddenField name="carrera.id" value="${inscripcionMateriaInstance?.preinscripcion?.carrera?.id}" />
-                         <g:hiddenField name="anioLectivo.id" value="${inscripcionMateriaInstance?.preinscripcion?.anioLectivo?.id}"/>
-                         <g:hiddenField name="preinscripcion.id" value="${inscripcionMateriaInstance?.preinscripcion?.id}"/>
-                         <g:hiddenField name="preinsversion" value="${inscripcionMateriaInstance?.preinscripcion?.version}" />--%>
+                         <g:hiddenField id="alumnoIdId" name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>
+                         <g:hiddenField id="carreraIdId" name="carrera.id" value="${inscripcionMateriaInstance?.carrera?.id}" />
+                         <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${inscripcionMateriaInstance?.anioLectivo?.id}"/>
+                         <g:hiddenField id="inscripcionMatriculaIdId" name="inscripcionMatricula.id" value="${inscripcionMateriaInstance?.inscripcionMatricula?.id}"/>
                          
                          <div class="span-2 spanlabel">
                          	<label>Alumno</label>
                          </div>
                          <div class="span-4 spanlabel">
-                         	${inscripcionMateriaInstance?.alumno?.apellidoNombre}
+                         	${inscripcionMateriaInstance?.alumno.apellidoNombre}
                          </div>
 						<div class="clear"></div>
 						
 						
                          <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></label></div>
-                         <div class="span-4"><g:select id="carreraId" name="carrera" from="${carrerasInsc}" value="${inscripcionMateriaInstance?.carrera?.id}" optionValue="denominacion" optionKey="id"/> </div>
+                         <div class="span-4"><g:select id="carreraId" onChange="clearMaterias()" name="carrera" from="${carrerasInsc}" value="${inscripcionMateriaInstance?.carrera?.id}" optionValue="denominacion" optionKey="id"/> </div>
                          <div class="clear"></div>
                          
                          <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.anioLectivo.label" default="Año Lectivo" /></label></div>
-                         <div class="span-4"><g:select id="anioLectivoId" name="anioLectivo" from="${aniosLectivos}" value="${inscripcionMateriaInstance?.anioLectivo?.id}" optionValue="anioLectivo" optionKey="id"/> </div>
+                         <div class="span-4"><g:select id="anioLectivoId" onChange="seleccionanio()" name="anioLectivo" from="${aniosLectivos}" value="${inscripcionMateriaInstance?.anioLectivo?.id}" optionValue="anioLectivo" optionKey="id"/> </div>
                          <div class="clear"></div>
                           
                          

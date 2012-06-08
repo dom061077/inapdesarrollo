@@ -9,5 +9,8 @@ class InscripcionMatricula extends Inscripcion {
 	static hasMany = [inscripcionesmaterias:InscripcionMateria]
 	
     static constraints = {
+		
     }
+	
+	
 }

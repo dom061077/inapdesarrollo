@@ -193,6 +193,8 @@ class InscripcionMateriaController {
 		}
 		return materiasDisponibles
 	}
+	
+	
 
 	def anioscascade = {
 		def matriculas = InscripcionMatricula.createCriteria().list{
@@ -213,12 +215,37 @@ class InscripcionMateriaController {
 				}
 			}
 		}
+		
+	}
+	
+	def anioscascadedata = {
+		log.info "INGREANDO AL CLOSURE: anioscascade"
+		log.info "PARAMETROS: $params"
+		//para recuperar los datos que son: anolectivo id ,carrera id, inscripcion Matricula Id e inscripcion de matricula
+		def matriculaInstance = Matricula.find("""
+					from InscripcionMatricula mat 
+						where mat.anioLectivo.id = :aniolectivo 
+						and mat.carrera.id = :carrera 
+						and mat.alumno.id = :alumno 
+					
+					"""
+					,[aniolectivo:params.anioLectivoId.toLong(),carrera:params.carreraId,alumno:params.alumnoId.toLong()]) 
+		def materias = getMateriasCursarDisponibles(params.carreraId.toLong(),params.alumnoId.toLong())
+		render(contentType:"text/json"){
+			matricula matriculaInstance.id
+			array{
+				materias?.each{
+					materia id:it.id, denominacion: it.denominacion
+				}
+			}
+		}
+
 	}
 	
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-		def anioLectivoInstance
+		def primerAnioLectivoInstance
 		def alumnoInstance
 		def preinscripciones
 		def carrerasInsc = new ArrayList()
@@ -258,9 +285,17 @@ class InscripcionMateriaController {
 						ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
 					}
 			}
+			
+			def primeraInscripcionMatriculaInstance
+			
 			matriculas?.each{
+				if(!primeraInscripcionMatriculaInstance)
+					primeraInscripcionMatriculaInstance = it
 				aniosLectivos.add(it.anioLectivo)
 			}
+			
+			if(aniosLectivos.size()>0)
+				primerAnioLectivoInstance = aniosLectivos.get(0) 
 			
 			alumnoInstance = Alumno.get(params.id)
 			
@@ -294,6 +329,9 @@ class InscripcionMateriaController {
 //			   }else{
 				if(carrerasInsc.size()>0){
 			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:alumnoInstance
+					   		,carrera:primeraCarreraInstance      
+							,anioLectivo:primerAnioLectivoInstance   
+							,inscripcionMatricula:primeraInscripcionMatriculaInstance                                                     
 							//,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo
 							)
 			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc

@@ -12,6 +12,8 @@ class Preinscripcion extends Inscripcion {
 		inscripcionMatricula(nullable:true)
 	}
 	
+
+	
 	
 	
 	

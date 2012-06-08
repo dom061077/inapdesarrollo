@@ -243,19 +243,22 @@ class InscripcionMateriaController {
 			}
 			
 			//obtengo la primera carrear que se mostrará en el combo de las carreras inscriptas
-			def primeraCarreraInstance = carrerasInsc.get(0)
-			log.debug "Carrera seleccionada: "+primeraCarreraInstance.denominacion
+			def primeraCarreraInstance
+			if(carrerasInsc.size()>0) 
+				primeraCarreraInstance = carrerasInsc.get(0)
 			
-			matriculas = InscripcionMatricula.createCriteria().list{
-				alumno{
-					eq("id",params.id.toLong())
-				}
-				carrera{
-					eq("id",primeraCarreraInstance.id)
-				}
-				ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+			if(primeraCarreraInstance){
+					matriculas = InscripcionMatricula.createCriteria().list{
+						alumno{
+							eq("id",params.id.toLong())
+						}
+						carrera{
+							eq("id",primeraCarreraInstance?.id)
+						}
+						ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+					}
 			}
-			matriculas.each{
+			matriculas?.each{
 				aniosLectivos.add(it.anioLectivo)
 			}
 			
@@ -263,7 +266,7 @@ class InscripcionMateriaController {
 			
 			
 			def materiasSerialized
-			def materiasCursar = getMateriasCursarDisponibles(primeraCarreraInstance.id,alumnoInstance.id)
+			def materiasCursar = getMateriasCursarDisponibles(primeraCarreraInstance?.id,alumnoInstance.id)
 			
 			def flagcomilla = false
 			materiasSerialized = "["

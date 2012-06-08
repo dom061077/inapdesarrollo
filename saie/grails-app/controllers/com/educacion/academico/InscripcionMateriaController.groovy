@@ -299,7 +299,7 @@ class InscripcionMateriaController {
 			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc
 							,materiasSerialized: materiasSerialized,aniosLectivos:aniosLectivos]
 				}else{
-								flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.preinscripcion.blank.error')}"
+								flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.materias.blank.error')}"
 								render(view:"alumnosinscripcion",model:[])
 				}
 			

@@ -245,6 +245,11 @@ class PreinscripcionController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+		if(params.estado){
+			params.altfilters ="{'groupOp':'AND','rules':[{'field':'estado','op':'eq','data':'"+EstadoPreinscripcion."${params.estado}"+"'}]}"
+				
+		}
+		
 		def gud=new GUtilDomainClass(Preinscripcion,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
@@ -515,6 +520,8 @@ class PreinscripcionController {
 		}
 
 	}
+	
+	
 
 	
 }

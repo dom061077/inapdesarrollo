@@ -12,17 +12,19 @@
         <script type="text/javascript">
         	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
-				   	url:'<%out << createLink(controller:'alumno',action:'listjson')%>',
+				   	url:'<%out << createLink(controller:'preinscripcion',action:'listjson')%>',
 					datatype: "json",
+					postData:{estado:'ESTADO_INSCRIPTO'},
 					width:700,
-					colNames:['Legajo','Apellido y Nombre'
-								,'Tipo Doc.','Nro.Doc.','Opciones'],
+					colNames:['Id','Apellido y Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,hidden:false,search:true,sortable:true,searchoptions:{sopt:['eq']}},
-				   		{name:'apellidoNombre',index:'apellidoNombre', width:92,sortable:true,search:true},
-				   		{name:'tipoDocumento',index:'tipoDocumento',sortable:false, width:100,search:false},
-				   		{name:'numeroDocumento',index:'numeroDocumento', width:100,search:true,sortable:true,searchoptions:{sopt:['eq']}},
+				   		{name:'id',index:'id', width:70, hidden:true,searchoptions:{sopt:['eq']}},
+				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:false},
+				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
+				   		{name:'fechaAlta',hidden:true,index:'fechaAlta',width:40,search:false},
+				   		{name:'anioLectivo_anioLectivo',hidden:true,index:'anioLectivo_anioLectivo', width:40,search:false},
+				   		{name:'estado',index:'estado',hidden:true, width:40,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	

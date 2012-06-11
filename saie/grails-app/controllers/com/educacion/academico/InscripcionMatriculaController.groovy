@@ -28,7 +28,13 @@ class InscripcionMatriculaController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-        def inscripcionMatriculaInstance = new InscripcionMatricula()
+		def preinscripcionInstance = Preinscripcion.get(params.id.toLong())
+		def anioLectivoInstance = GUtilDomainClass.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
+		
+		
+        def inscripcionMatriculaInstance = new InscripcionMatricula(anioLectivo:anioLectivoInstance,carrera:preinscripcionInstance.carrera
+					,alumno:preinscripcionInstance.alumno)
+		
         inscripcionMatriculaInstance.properties = params
         return [inscripcionMatriculaInstance: inscripcionMatriculaInstance]
     }
@@ -206,7 +212,9 @@ class InscripcionMatriculaController {
 		render result
 
 	}
-
+	
+ 
+	
 	def seleccionalumno = {
 		log.info "INGRESANDO AL CLOSURE seleccionalumno"
 		log.info("PARAMETROS: $params")
@@ -214,7 +222,6 @@ class InscripcionMatriculaController {
 	}
 	
 	
-
 
 	
 }

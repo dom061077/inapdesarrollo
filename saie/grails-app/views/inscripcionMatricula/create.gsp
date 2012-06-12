@@ -14,7 +14,137 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+	        function initsubmit(){
+	            var gridDataMaterias = $('#materiasId').getRowData();
+	            var postDataMaterias = JSON.stringify(gridDataMaterias);
+	            $('#materiasSerializedId').val(postDataMaterias);
+	            $.post('<% out << createLink(controller:"inscripcionMateria",action:"save")%>',$('#formInscripcionMateriaId').serialize());
+	        }
+        
+	        function bindmaterias(){
+	        	var griddata = [];
+	        	
+	        	var data = jQuery.parseJSON($("#materiasSerializedId").val());
+	        	if(data==null)
+		        		data=[];
+	        	for (var i = 0; i < data.length; i++) {
+	        	    griddata[i] = {};
+	        	    /*for (var j = 0; j < data[i].length; j++) {
+	        	        griddata[i][names[j]] = data[i][j];
+	        	    }*/
+	        	    griddata[i]["id"] = data[i].id;
+	        	    griddata[i]["idid"] = data[i].idid;	        	    
+	        	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+	        	    griddata[i]["estadovalue"] = data[i].estadovalue;
+	        	    griddata[i]["estado"] = data[i].estado;
+	        	    griddata[i]["tipovalue"] = data[i].tipovalue;
+	        	    griddata[i]["tipo"] = data[i].tipo;
+	        	    griddata[i]["nota"] = data[i].nota;
+	        	}
+	
+	        	for (var i = 0; i <= griddata.length; i++) {
+	        	    jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
+	        	}
+	        }
+
+        
         	$(document).ready(function(){
+	        	$('#materiasId').jqGrid({
+	               	datatype:'local'
+	                ,width:500
+	                ,colNames:['Id','IdId','Denominación','Select']
+	            	,colModel:[
+	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+               				
+	                ]
+	            	,sortname:'denominacion'
+	                ,pager: '#pagermateriasId'
+	            	,sortorder:'asc'
+	                ,caption: 'Materias Inscriptas'
+	            });
+	
+	        	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:false,edit:false,del:false,search:false,refresh:false}, //options 
+	        			{height:280,width:350,reloadAfterSubmit:false
+	        				, recreateForm:true
+	        				,modal:false
+	        				,editCaption:'Modificar Materias'
+	        				, beforeShowForm:function(form){
+	        					//$('#TblGrid_materiasId').before('<a style="width:50px" id="searchlinkformgridId" href="#"><span  class="ui-icon ui-icon-search"></span>Vademecum</a>');
+	        					//listRequisitosId
+	        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+	        					$('#searchlinkformgridId').bind('click',function(){
+	        		            	$('#dialogBusquedaMateria').dialog({
+	        		            		title:'Buscar',
+	        		            		modal:true,
+	        		            		resizable:false,
+	        		            		autoOpen:true,
+	        		            		width : 600,
+	        		            		height: 'auto',
+	        		            		minHeight:350,
+	        		            		position:'center'
+	        		            	});
+	        					});
+	        				}
+	        				,bSubmit:'Modificar'
+                			,beforeSubmit : function(postData,formId){
+	                    			postData.estadovalue = $('#estado').val();
+	                    			postData.tipovalue = $('#tipo').val();
+	           						return [true,''];
+                    		}
+		        				
+	        			
+	        			}, // edit options 
+	        			{height:280,width:350,reloadAfterSubmit:false
+	        				,recreateForm:true
+	        				,modal:false
+	        				,addCaption:'Agregar Materia'
+	        				,onclickSubmit: function(eparams){
+	        						//var obj=$('#busquedaMateriaId').jqGrid('getGridParam','selrow');
+	        						//if(obj){
+	        						//	return {descripcion:obj.descripcion};
+	        						//}else{
+	        						//	return{}
+	        						//}
+	        				}
+	            			,beforeSubmit : function(postData,formId){
+	                			postData.estadovalue = $('#estado').val();
+	                			postData.tipovalue = $('#tipo').val();
+	       						return [true,''];
+	                		}
+	        				,beforeShowForm:function(form){
+	        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+	        					$('#searchlinkformgridId').bind('click',function(){
+	        		            	$('#dialogBusquedaMateria').dialog({
+	        		            		title:'Buscar',
+	        		            		modal:true,
+	        		            		resizable:false,
+	        		            		autoOpen:true,
+	        		            		width : 600,
+	        		            		height: 'auto',
+	        		            		minHeight:350,
+	        		            		position:'center'
+	        		            	});
+	        					});
+	        					
+	        				}
+	        				,bSubmit:'Agregar'
+	        			
+	        			}, // add options 
+	        			{reloadAfterSubmit:false
+	            			/*,beforeSubmit : function(postData,formId){
+	                			var row = $('#materiasId').getRowData(postData);
+	                			arrayDeletedMaterias.push({id:row.idid});
+	                			return[true,'']
+	                		
+	                		}*/
+	            		}, // del options 
+	        			{} // search options 
+	        		);	
+
+	        		bindmaterias();
             		
         	});
 		</script>
@@ -35,7 +165,7 @@
                 <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form onSubmit="initsubmit()" action="save" >
             		<div class="append-bottom">	
                         
 							
@@ -68,6 +198,7 @@
 							</div>
 						   <div class="clear"></div>
 						   <fieldset>
+						   		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>
 						   		<legend>Materias Disponibles para la Inscripción</legend>
 						   		<table id="materiasId"></table>
 						   		<div id="pagermateriasId"></div>

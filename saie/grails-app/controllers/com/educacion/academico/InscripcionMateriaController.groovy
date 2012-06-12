@@ -17,6 +17,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 import com.educacion.enums.inscripcion.TipoInscripcionMateria
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
+import com.educacion.academico.util.AcademicoUtil
 
  
 class InscripcionMateriaController {
@@ -120,79 +121,7 @@ class InscripcionMateriaController {
 		
 	}
 	
-	private def validaMateriaCursar(def materiaInstance,def idAlu){
-		log.info("INGRESANDO AL METODO PRIVADO validaCursar")
-		def flagvalidacion = false //si le falta alguna materia la bandera sera true
-		def list
-		materiaInstance.matregcursar.each {matreg->
-			list = InscripcionMateriaDetalle.createCriteria().list{
-				and{
-					inscripcionMateria{
-						alumno{
-							eq("id",idAlu)
-						}
-					}
-					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
-					materia{
-						eq("id",matreg.id)
-					}
-				}
-			}
-			if(list.size()==0){
-				flagvalidacion = true
-			}
-			if(list.size()>1){
-				flagvalidacion = true
-			}
-		}
-		
-		materiaInstance.mataprobcursar.each{mataprob->
-			list = InscripcionMateriaDetalle.createCriteria().list{
-				and{
-					inscripcionMateria{
-						alumno{
-							eq("id",idAlu)
-						}
-					}
-					eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
-					materia{
-						eq("id",mataprob.id)
-					}
-				}
-			}
-			if(list.size()==0){
-				flagvalidacion = true
-			}
-			if(list.size()>1){
-				flagvalidacion = true
-			}
-		}
-		
-		if(materiaInstance.matregcursar.size()==0 && materiaInstance.mataprobcursar.size()==0 )
-			flagvalidacion=true
-		
-		return flagvalidacion
-
-	}
 	
-	private def  getMateriasCursarDisponibles(def idCarrera,def idAlumno){
-		log.info("INGRESANDO AL METODO PRIVADO getMateriasCursarDisponibles")
-		def materiasDisponibles = new ArrayList();
-		def materias = Materia.createCriteria().list{
-			and{
-				nivel{
-					carrera{
-							eq("id",idCarrera)
-					}
-				}
-			}
-		}
-		materias.each{mat ->
-			if(validaMateriaCursar(mat,idAlumno))
-				materiasDisponibles.add(mat)
-		}
-		return materiasDisponibles
-	}
 	
 	
 
@@ -301,7 +230,7 @@ class InscripcionMateriaController {
 			
 			
 			def materiasSerialized
-			def materiasCursar = getMateriasCursarDisponibles(primeraCarreraInstance?.id,alumnoInstance.id)
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(primeraCarreraInstance?.id,alumnoInstance.id)
 			
 			def flagcomilla = false
 			materiasSerialized = "["

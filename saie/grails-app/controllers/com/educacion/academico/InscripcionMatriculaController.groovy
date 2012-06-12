@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 
 import java.text.ParseException 
+import com.educacion.academico.util.AcademicoUtil
 
 
 
@@ -29,14 +30,27 @@ class InscripcionMatriculaController {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id.toLong())
-		def anioLectivoInstance = GUtilDomainClass.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
+		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
 		
+		def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
+		
+		def flagcomilla = false
+		def materiasSerialized = "["
+		materiasCursar.each{
+			if(flagcomilla)
+				materiasSerialized = materiasSerialized + ","
+			materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+			flagcomilla = true
+		}
+		materiasSerialized += "]"
+
+		log.debug "MATERIAS SERIALIZED: "+materiasSerialized
 		
         def inscripcionMatriculaInstance = new InscripcionMatricula(anioLectivo:anioLectivoInstance,carrera:preinscripcionInstance.carrera
 					,alumno:preinscripcionInstance.alumno)
 		
         inscripcionMatriculaInstance.properties = params
-        return [inscripcionMatriculaInstance: inscripcionMatriculaInstance]
+        return [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:materiasSerialized]
     }
 
     def save = {

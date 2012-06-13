@@ -63,8 +63,12 @@
                             <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.carrera.label" default="Carrera" /></div>
                             
                             <div class="span-3 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMatriculaInstance?.carrera?.id}">${inscripcionMatriculaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
-                            
 							<div class="clear"></div>
+							
+							<div class="span-3 spanlabel"><g:message code="inscripcionMatricula.estado.label" default="Estado" /></div>
+							<div class="span-3 spanlabel">${inscripcionMatriculaInstance?.estado.name}</div>
+							<div class="clear"></div>
+							
                     		<fieldset>
                     			<legend>Materias a Cursar</legend>
 						   		<table id="materiasId"></table>

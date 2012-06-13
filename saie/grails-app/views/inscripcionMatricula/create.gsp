@@ -18,12 +18,6 @@
 	            var gridDataMaterias = $('#materiasId').getRowData();
 	            var postDataMaterias = JSON.stringify(gridDataMaterias);
 	            $('#materiasSerializedId').val(postDataMaterias);
-	           /* $.post('<% out << createLink(controller:"inscripcionMatricula",action:"save")%>'
-	    	            ,$('#formInscripcionMateriaId').serialize()
-						,function(data){
-							alert(data);
-						}
-	    	            );*/
 	        }
         
 	        function bindmaterias(){

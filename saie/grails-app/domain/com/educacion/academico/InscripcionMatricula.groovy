@@ -9,7 +9,29 @@ class InscripcionMatricula extends Inscripcion {
 	static hasMany = [inscripcionesmaterias:InscripcionMateria]
 	
     static constraints = {
-		
+		alumno(validator:{v,obj ->
+			def cantInsc = InscripcionMatricula.createCriteria().get{
+				and{
+					alumno{
+						eq("id",obj.alumno.id)
+					}
+					carrera{
+						eq("id",obj.carrera.id)
+					}
+					anioLectivo{
+						eq("id",obj.anioLectivo.id)
+					}
+					ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+				}
+				projections{
+					rowCount()
+				}
+			}
+			if(cantInsc>0)
+				return ["unique.error"]
+			
+			
+		})
     }
 	
 	

@@ -51,7 +51,6 @@ class InscripcionMatriculaController {
 		}
 		materiasSerialized += "]"
 
-		log.debug "MATERIAS SERIALIZED: "+materiasSerialized
 		
         def inscripcionMatriculaInstance = new InscripcionMatricula(anioLectivo:anioLectivoInstance,carrera:preinscripcionInstance.carrera
 					,alumno:preinscripcionInstance.alumno)
@@ -132,7 +131,7 @@ class InscripcionMatriculaController {
 	            redirect(action: "show", id: inscripcionMatriculaInstance.id,params:[idinscmateria: inscripcionMateriaInstance.id ])
 	        }
 	        else {
-				
+				log.debug "ERRORES: "+inscripcionMatriculaInstance.errors.allErrors
 	            render(view:"create",model:[inscripcionMatriculaInstance:inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
 	        }
 		}
@@ -183,7 +182,19 @@ class InscripcionMatriculaController {
             redirect(action: "list")
         }
         else {
-            return [inscripcionMatriculaInstance: inscripcionMatriculaInstance]
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance?.carrera?.id,inscripcionMatriculaInstance?.alumno?.id)
+			
+			def flagcomilla = false
+			def materiasSerialized = "["
+			materiasCursar.each{
+				if(flagcomilla)
+					materiasSerialized = materiasSerialized + ","
+				materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+				flagcomilla = true
+			}
+			materiasSerialized += "]"
+
+            return [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:materiasSerialized]
         }
     }
 
@@ -203,12 +214,16 @@ class InscripcionMatriculaController {
                 }
             }
             inscripcionMatriculaInstance.properties = params
+			
+	
+			
+			
             if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
                 redirect(action: "show", id: inscripcionMatriculaInstance.id)
             }
             else {
-                render(view: "edit", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance])
+                render(view: "edit", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
             }
         }
         else {

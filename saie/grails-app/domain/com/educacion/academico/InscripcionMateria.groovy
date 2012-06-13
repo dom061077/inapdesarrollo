@@ -21,6 +21,8 @@ class InscripcionMateria extends Inscripcion{
 				it?.validate()
 			}
 		} 
+		
+		
     }
 	
 	static mapping = {

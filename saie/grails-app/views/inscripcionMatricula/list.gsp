@@ -17,14 +17,18 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Alumno','Fecha Insc.','Carrera','Año Lectivo','Opciones'],
+					colNames:['Id','Alumno','Fecha Insc.','Carrera','Aï¿½o Lectivo','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40,hidden:true},
 				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:true},
-				   		{name:'fechaAlta',index:'fechaAlta', width:92,sortable:true,search:true,searchoptions:{sopt:['eq']
+				   		{name:'fechaAlta',index:'fechaAlta', width:92,sortable:true,search:true,searchoptions:{sopt:['ge']
 							   		,dataInit:function(el){
-							            $(el).datepicker({dateFormat:'dd-mm-yy'});
+							   			$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
+							            $(el).datepicker({
+								            dateFormat:'dd/mm/yy'
+									        ,changeYear:true
+									      });
 							        }
 				   				}},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true},

@@ -6,6 +6,8 @@ import java.util.StringTokenizer;
 import org.apache.log4j.Logger;
 import grails.converters.JSON
 import com.educacion.academico.AnioLectivo
+import java.text.ParsePosition
+import java.text.SimpleDateFormat
 
 
 class GUtilDomainClass{
@@ -108,8 +110,15 @@ class GUtilDomainClass{
 					val = "0".toBigInteger()
 				}
 			} else if (java.util.Date.isAssignableFrom(mp.type)) {
-				val = FilterUtils.parseDateFromDatePickerParams(paramName, params)
-			}else
+				def df = new SimpleDateFormat('dd/MM/yyyy')
+				if(df.parse(val, new ParsePosition(0))){
+					if(mp.type == java.util.Date)
+						val =  df.parse(val, new ParsePosition(0));
+					else	
+						val = new java.sql.Date(df.parse(val, new ParsePosition(0)).getTime())	
+				}
+			
+			}else 
 				val= "%${val}%"
 		}
 		//println "== Parsing value ${rawValue} from param ${paramName}. type is ${mp.type}.  Final value ${val}. Type ${val?.class}"

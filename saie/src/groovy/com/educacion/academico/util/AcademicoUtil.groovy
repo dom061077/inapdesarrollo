@@ -11,7 +11,7 @@ class AcademicoUtil {
 		def flagvalidacion = false //si le falta alguna materia la bandera sera true
 		def materiaInstance = Materia.load(idMat)
 		def list
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_CURSAR)){
+		if(tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)){
 			materiaInstance.matregcursar.each {matreg->
 				list = InscripcionMateriaDetalle.createCriteria().list{
 					and{
@@ -58,7 +58,7 @@ class AcademicoUtil {
 		}
 		
 		
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL) || tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRLIBRE)){
+		if(tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_RENDIRFINAL) || tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_RENDIRLIBRE)){
 			materiaInstance.matregrendir.each {matreg->
 				list = InscripcionMateriaDetalle.createCriteria().list{
 					and{
@@ -199,7 +199,7 @@ class AcademicoUtil {
 			}
 		}
 		materias.each{mat ->
-			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
 				materiasDisponibles.add(mat)
 		}
 		return materiasDisponibles

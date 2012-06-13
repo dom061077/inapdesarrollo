@@ -17,12 +17,18 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Alumno','Fecha Insc.','Carrera','Año Lectivo','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'id',index:'id', width:40,hidden:true},
+				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:true},
+				   		{name:'fechaAlta',index:'fechaAlta', width:92,sortable:true,search:true,searchoptions:{sopt:['eq']
+							   		,dataInit:function(el){
+							            $(el).datepicker({dateFormat:'dd-mm-yy'});
+							        }
+				   				}},
+				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true},
+				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:100,search:false},				   		
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -67,7 +73,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="seleccionalumno"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>

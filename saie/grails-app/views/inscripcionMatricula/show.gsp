@@ -6,6 +6,34 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
+        <script type="text/javascript">
+        	$(document).ready(function(){
+	        	$('#materiasId').jqGrid({
+		        	url:'<%out << createLink(controller:"inscripcionMatricula",action:"listmateriasjson")%>'
+	               	,datatype:'json'
+		            ,postData:{id:<%out << idinscmateria%>}
+	                ,width:500
+	                ,colNames:['Id','Denominación']
+	            	,colModel:[
+	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
+	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+               				
+	                ]
+	            	,sortname:'denominacion'
+	                ,pager: '#pagermateriasId'
+	            	,sortorder:'asc'
+	                ,caption: 'Materias Inscriptas'
+	            });
+            	
+            });
+        	
+        </script>
+        
     </head>
     <body>
         <div class="nav">
@@ -18,78 +46,39 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <div class="dialog">
-                <table>
-                    <tbody>
+            <div class="append-bottom">
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.id.label" default="Id" /></div>
+                            <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.alumno.label" default="Alumno" /></div>
                             
-                            <div class="span-4 spanlabel">${fieldValue(bean: inscripcionMatriculaInstance, field: "id")}</div>
+                            <div class="span-3 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMatriculaInstance?.alumno?.id}">${inscripcionMatriculaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.alumno.label" default="Alumno" /></div>
+                            <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.anioLectivo.label" default="Anio Lectivo" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMatriculaInstance?.alumno?.id}">${inscripcionMatriculaInstance?.alumno?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.anioLectivo.label" default="Anio Lectivo" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:link controller="anioLectivo" action="show" id="${inscripcionMatriculaInstance?.anioLectivo?.id}">${inscripcionMatriculaInstance?.anioLectivo?.encodeAsHTML()}</g:link></div>
+                            <div class="span-3 spanlabel"><g:link controller="anioLectivo" action="show" id="${inscripcionMatriculaInstance?.anioLectivo?.id}">${inscripcionMatriculaInstance?.anioLectivo?.anioLectivo?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.carrera.label" default="Carrera" /></div>
+                            <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMatriculaInstance?.carrera?.id}">${inscripcionMatriculaInstance?.carrera?.encodeAsHTML()}</g:link></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.detalle.label" default="Detalle" /></div>
-                            
-                            <div class="span-4 spanlabel">
-                                <ul>
-                                <g:each in="${inscripcionMatriculaInstance.detalle}" var="d">
-                                    <li><g:link controller="inscripcionDetalleRequisito" action="show" id="${d.id}">${d?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
+                            <div class="span-3 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMatriculaInstance?.carrera?.id}">${inscripcionMatriculaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
+                    		<fieldset>
+                    			<legend>Materias a Cursar</legend>
+						   		<table id="materiasId"></table>
+						   		<div id="pagermateriasId"></div>
+                    		</fieldset>
+                            
+                            
                     
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.estado.label" default="Estado" /></div>
-                            
-                            <div class="span-4 spanlabel">${inscripcionMatriculaInstance?.estado?.encodeAsHTML()}</div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.fechaAlta.label" default="Fecha Alta" /></div>
-                            
-                            <div class="span-4 spanlabel"><g:formatDate date="${inscripcionMatriculaInstance?.fechaAlta}" /></div>
-                            
-							<div class="clear"></div>
-                    
-                            <div class="span-4 spanlabel"><g:message code="inscripcionMatricula.inscripcionesmaterias.label" default="Inscripcionesmaterias" /></div>
-                            
-                            <div class="span-4 spanlabel">
-                                <ul>
-                                <g:each in="${inscripcionMatriculaInstance.inscripcionesmaterias}" var="i">
-                                    <li><g:link controller="inscripcionMateria" action="show" id="${i.id}">${i?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-							<div class="clear"></div>
-                    
-                    </tbody>
-                </table>
             </div>
-            <div class="buttons">
+            <div class="span-5">
                 <g:form>
                     <g:hiddenField name="id" value="${inscripcionMatriculaInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

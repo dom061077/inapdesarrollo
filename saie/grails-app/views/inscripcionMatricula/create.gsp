@@ -18,7 +18,12 @@
 	            var gridDataMaterias = $('#materiasId').getRowData();
 	            var postDataMaterias = JSON.stringify(gridDataMaterias);
 	            $('#materiasSerializedId').val(postDataMaterias);
-	            $.post('<% out << createLink(controller:"inscripcionMateria",action:"save")%>',$('#formInscripcionMateriaId').serialize());
+	           /* $.post('<% out << createLink(controller:"inscripcionMatricula",action:"save")%>'
+	    	            ,$('#formInscripcionMateriaId').serialize()
+						,function(data){
+							alert(data);
+						}
+	    	            );*/
 	        }
         
 	        function bindmaterias(){
@@ -57,13 +62,13 @@
                				
 	                ]
 	            	,sortname:'denominacion'
-	                ,pager: '#pagermateriasId'
+	                //,pager: '#pagermateriasId'
 	            	,sortorder:'asc'
 	                ,caption: 'Materias Inscriptas'
 	            });
 	
 
-	        		bindmaterias();
+	        	bindmaterias();
             		
         	});
 		</script>
@@ -84,7 +89,7 @@
                 <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <form onSubmit="initsubmit()" action="${createLink(controller:"inscripcionMatricula",action:"savexxx")}" >
+            <g:form onSubmit="initsubmit()" action="save">
             		<div class="append-bottom">	
                         
 							
@@ -127,7 +132,7 @@
 	                <div class="buttons">
 	                    <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
 	                </div>
-            </form>
+            </g:form>
         </div>
     </body>
 </html>

@@ -14,7 +14,7 @@ import com.educacion.academico.exceptions.InscripcionMateriaException
 import com.educacion.alumno.Alumno;
 import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
-import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.educacion.academico.util.AcademicoUtil
@@ -90,7 +90,7 @@ class InscripcionMateriaController {
 				flagCursarMateriaRendir = true
 				
 			if(flagCursarMateria && flagCursarMateriaRendir ){
-				materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR])
+				materiasInscripcion.add([materia:mat[0],tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR])
 			}
 				
 

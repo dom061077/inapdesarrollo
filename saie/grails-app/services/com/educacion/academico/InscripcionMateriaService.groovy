@@ -2,7 +2,7 @@ package com.educacion.academico
 
 import com.educacion.enums.inscripcion.*;
 import com.educacion.academico.exceptions.InscripcionMateriaException;
-import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.util.GUtilDomainClass
 
@@ -15,7 +15,7 @@ class InscripcionMateriaService {
 		def flagvalidacion = false //si le falta alguna materia la bandera sera true
 		def materiaInstance = Materia.load(idMat)
 		def list
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_CURSAR)){
+		if(tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)){
 			materiaInstance.matregcursar.each {matreg->
 				list = InscripcionMateriaDetalle.createCriteria().list{
 					and{
@@ -71,7 +71,7 @@ class InscripcionMateriaService {
 		}
 		
 		
-		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRFINAL) || tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_RENDIRLIBRE)){
+		if(tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_RENDIRFINAL) || tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_RENDIRLIBRE)){
 			materiaInstance.matregrendir.each {matreg->
 				list = InscripcionMateriaDetalle.createCriteria().list{
 					and{
@@ -143,7 +143,7 @@ class InscripcionMateriaService {
 		materiasSerializedJson.each {
 			if(it.seleccion.toUpperCase().equals("YES")){
 				
-				if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+				if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
 					 materiaInstance = Materia.load(it.idid.toLong())
 					 if(materiaInstance.equals(materiaAntInstance)){
 						 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
@@ -151,7 +151,7 @@ class InscripcionMateriaService {
 					 }else{
 						 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 							 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-							 ,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR
+							 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
 							 )
 						 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 					 }
@@ -206,7 +206,7 @@ class InscripcionMateriaService {
 		}
 		def materiaAntInstance
 		materiasSerializedJson.each {
-			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
 				 inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idDet)
 				 materiaInstance = Materia.load(it.idid.toLong())
 				 if(materiaInstance.equals(materiaAntInstance)){
@@ -215,12 +215,12 @@ class InscripcionMateriaService {
 					 if(inscripcionMateriaDetalleInstance){
 					 	inscripcionMateriaDetalleInstance.materia = materiaInstance
 						inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-						inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateria."${it.tipovalue}"
+						inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateriaEnum."${it.tipovalue}"
 						inscripcionMateriaDetalleInstance.save()
 					 }else{
 					 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 							 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-							 ,tipo:TipoInscripcionMateria."${it.tipovalue}"
+							 ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
 							 )
 						inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 					 }

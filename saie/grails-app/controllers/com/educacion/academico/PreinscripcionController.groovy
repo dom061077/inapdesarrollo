@@ -14,7 +14,7 @@ import org.springframework.transaction.TransactionStatus
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoDetalleInscripcionRequisito
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
-import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.alumno.Alumno
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.mysql.jdbc.log.Log;
@@ -489,7 +489,7 @@ class PreinscripcionController {
 						if(it.seleccion.toUpperCase().equals("YES")){
 							materiaInstance = Materia.load(it.idid)
 							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
-											,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
+											,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
 							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
 						}
 					}

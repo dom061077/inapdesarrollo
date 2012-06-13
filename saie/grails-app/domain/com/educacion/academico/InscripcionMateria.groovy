@@ -1,12 +1,14 @@
 package com.educacion.academico
 
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
-
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
+import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 class InscripcionMateria extends Inscripcion{
 	
 	EstadoInscripcionMateriaEnum estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
-	InscripcionMatricula inscripcionMatricula 
+	InscripcionMatricula inscripcionMatricula
+	OrigenInscripcionMateriaEnum origen 
 	
 	static hasMany = [detalleMateria:InscripcionMateriaDetalle]
 	

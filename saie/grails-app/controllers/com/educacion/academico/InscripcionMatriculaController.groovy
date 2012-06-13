@@ -10,9 +10,12 @@ import java.text.DateFormat
 import java.text.ParseException 
 import com.educacion.academico.util.AcademicoUtil
 import org.springframework.transaction.TransactionStatus
-import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.academico.util.AcademicoUtil
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
+import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
+import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 
 
@@ -31,7 +34,7 @@ class InscripcionMatriculaController {
      }
 
     def create = {
-		log.info "INGRESANDO AL CLOSURE createxxxxx"
+		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id.toLong())
 		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
@@ -57,8 +60,30 @@ class InscripcionMatriculaController {
         return [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:materiasSerialized]
     }
 
+	def listmateriasjson = {
+		log.info "INGRESANDO AL CLOSURE listmateriasjson"
+		log.info "PARAMETROS: $params"
+		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
+		def result='{"page":1,"total":"1","records":"'+inscripcionMateriaInstance.detalleMateria.size()+'","rows":['
+		def flagaddcomilla=false
+		inscripcionMateriaInstance.detalleMateria.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+				
+			
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.materia.denominacion==null?"":it.materia.denominacion)+'"]}'
+			 
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+
+		
+	}
+	
     def save = {
-		log.info "INGRESANDO AL CLOSURE savexxxxxxxxxxx"
+		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
 		def materiasSerializedJson
 		
@@ -66,6 +91,7 @@ class InscripcionMatriculaController {
 			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
 
         def inscripcionMatriculaInstance = new InscripcionMatricula(params)
+		inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
 		
 		
 		InscripcionMatricula.withTransaction{TransactionStatus status ->
@@ -75,11 +101,12 @@ class InscripcionMatriculaController {
 			def materiaInstance
 			def inscripcionMateriaDetalleInstance
 			def inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
+					,origen: OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA
 					,anioLectivo:inscripcionMatriculaInstance.anioLectivo,alumno:inscripcionMatriculaInstance.alumno)
 			materiasSerializedJson?.each {
 				if(it.seleccion.toUpperCase().equals("YES")){
 					
-					if(!AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
+					if(!AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 						 materiaInstance = Materia.load(it.idid.toLong())
 						 if(materiaInstance.equals(materiaAntInstance)){
 							 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
@@ -87,7 +114,7 @@ class InscripcionMatriculaController {
 						 }else{
 							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-								 ,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR
+								 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
 								 )
 							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 						 }
@@ -100,11 +127,13 @@ class InscripcionMatriculaController {
 			inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)	
 		
 	        if (inscripcionMatriculaInstance.save(flush: true)) {
+				log.debug "INSCRIPCION MATRICULA SALVADA, INSCRIPCIONMATERIA.ID:"+inscripcionMateriaInstance.id
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
-	            redirect(action: "show", id: inscripcionMatriculaInstance.id)
+	            redirect(action: "show", id: inscripcionMatriculaInstance.id,params:[idinscmateria: inscripcionMateriaInstance.id ])
 	        }
 	        else {
-	            render(view: "create", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
+				
+	            render(view:"create",model:[inscripcionMatriculaInstance:inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
 	        }
 		}
     }
@@ -112,15 +141,34 @@ class InscripcionMatriculaController {
     def show = {
 		log.info "INGRESANDO AL CLOSURE show"
 		log.info "PARAMETROS: $params"
+		def idinscmateria 
+		
 
 		
         def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
+
         if (!inscripcionMatriculaInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
             redirect(action: "list")
         }
         else {
-            [inscripcionMatriculaInstance: inscripcionMatriculaInstance]
+			if(params.idinscmateria){
+				log.debug "PARAMETRO: "+params.idinscmateria
+				idinscmateria = params.idinscmateria
+			}else{
+				log.debug "idinscmateria a asignar por la busqueda en el detalle de la inscripcion"
+				def inscripcionMateriaInstance
+				inscripcionMatriculaInstance.inscripcionesmaterias.each{
+					if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
+						idinscmateria = it.id
+				}
+			}
+			if(idinscmateria)
+            	[inscripcionMatriculaInstance: inscripcionMatriculaInstance,idinscmateria:idinscmateria]
+			else{
+				flash.message = g.message(code:"com.educacion.inscripcion.InscripcionMatricula.error.inscripcionmateria")
+				redirect(action:"list")
+			}	
         }
     }
 
@@ -214,7 +262,7 @@ class InscripcionMatriculaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellidoNombre+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'"]}'
 			 
 			flagaddcomilla=true
 		}

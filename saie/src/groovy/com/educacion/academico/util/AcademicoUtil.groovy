@@ -2,15 +2,16 @@ package com.educacion.academico.util
 
 import org.apache.log4j.Logger;
 import com.educacion.academico.*
+import com.educacion.enums.inscripcion.*
 
 class AcademicoUtil {
 	private static Logger log = Logger.getLogger(AcademicoUtil.class)
 	
-	private def validarCorrelatividades(Long idMat,def idAlu,def inscripcionMateriaInstance){
+	private static def validarCorrelatividades(Long idMat,def idAlu,def tipoInscripcion){
 		def flagvalidacion = false //si le falta alguna materia la bandera sera true
 		def materiaInstance = Materia.load(idMat)
 		def list
-		if(inscripcionMateriaInstance. .equals(TipoInscripcionMateria.TIPOINSMATERIA_CURSAR)){
+		if(tipoInscripcion.equals(TipoInscripcionMateria.TIPOINSMATERIA_CURSAR)){
 			materiaInstance.matregcursar.each {matreg->
 				list = InscripcionMateriaDetalle.createCriteria().list{
 					and{
@@ -27,14 +28,9 @@ class AcademicoUtil {
 				}
 				if(list.size()==0){
 					flagvalidacion = true
-					inscripcionMateriaInstance.errors.rejectValue("detalleMateria"
-						, "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
-					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 			}
 			
@@ -54,13 +50,9 @@ class AcademicoUtil {
 				}
 				if(list.size()==0){
 					flagvalidacion = true
-					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
-					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 			}
 		}
@@ -207,7 +199,7 @@ class AcademicoUtil {
 			}
 		}
 		materias.each{mat ->
-			if(validaMateriaCursar(mat,idAlumno))
+			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
 				materiasDisponibles.add(mat)
 		}
 		return materiasDisponibles

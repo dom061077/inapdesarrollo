@@ -9,6 +9,10 @@ import java.text.DateFormat
 
 import java.text.ParseException 
 import com.educacion.academico.util.AcademicoUtil
+import org.springframework.transaction.TransactionStatus
+import com.educacion.enums.inscripcion.TipoInscripcionMateria
+import com.educacion.academico.util.AcademicoUtil
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 
 
 
@@ -27,7 +31,7 @@ class InscripcionMatriculaController {
      }
 
     def create = {
-		log.info "INGRESANDO AL CLOSURE create"
+		log.info "INGRESANDO AL CLOSURE createxxxxx"
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id.toLong())
 		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
@@ -54,17 +58,55 @@ class InscripcionMatriculaController {
     }
 
     def save = {
-		log.info "INGRESANDO AL CLOSURE save"
+		log.info "INGRESANDO AL CLOSURE savexxxxxxxxxxx"
 		log.info "PARAMETROS: $params"
+		def materiasSerializedJson
+		
+		if(params.materiasSerialized)
+			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
 
         def inscripcionMatriculaInstance = new InscripcionMatricula(params)
-        if (inscripcionMatriculaInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
-            redirect(action: "show", id: inscripcionMatriculaInstance.id)
-        }
-        else {
-            render(view: "create", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance])
-        }
+		
+		
+		InscripcionMatricula.withTransaction{TransactionStatus status ->
+			
+			
+			def materiaAntInstance
+			def materiaInstance
+			def inscripcionMateriaDetalleInstance
+			def inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
+					,anioLectivo:inscripcionMatriculaInstance.anioLectivo,alumno:inscripcionMatriculaInstance.alumno)
+			materiasSerializedJson?.each {
+				if(it.seleccion.toUpperCase().equals("YES")){
+					
+					if(!AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateria.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
+						 materiaInstance = Materia.load(it.idid.toLong())
+						 if(materiaInstance.equals(materiaAntInstance)){
+							 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
+								 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
+						 }else{
+							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+								 ,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR
+								 )
+							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+						 }
+						 
+					}
+				}
+				materiaAntInstance=materiaInstance
+			}
+			
+			inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)	
+		
+	        if (inscripcionMatriculaInstance.save(flush: true)) {
+	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
+	            redirect(action: "show", id: inscripcionMatriculaInstance.id)
+	        }
+	        else {
+	            render(view: "create", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
+	        }
+		}
     }
 
     def show = {
@@ -172,7 +214,7 @@ class InscripcionMatriculaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'"]}'
 			 
 			flagaddcomilla=true
 		}

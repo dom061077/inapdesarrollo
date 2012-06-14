@@ -37,9 +37,14 @@ class InscripcionMatriculaController {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id.toLong())
+		
+		log.debug("PREINSCRIPCIONINSTANCE: "+preinscripcionInstance.id)
+		
 		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
 		
 		def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
+		
+		log.debug "MATERIAS CURSAR: "+materiasCursar
 		
 		def flagcomilla = false
 		def materiasSerialized = "["
@@ -56,6 +61,9 @@ class InscripcionMatriculaController {
 					,alumno:preinscripcionInstance.alumno)
 		
         inscripcionMatriculaInstance.properties = params
+		
+		log.debug "MATERIAS SERIALIZADAS: "+materiasSerialized
+		
         return [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:materiasSerialized]
     }
 
@@ -352,7 +360,9 @@ class InscripcionMatriculaController {
 		log.info "INGRESANDO AL CLOSURE seleccionalumno"
 		log.info("PARAMETROS: $params")
 		
+		
 	}
+	
 	
 	
 

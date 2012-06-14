@@ -12,24 +12,28 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript">
-        	$(document).ready(function(){
-            	$('#matriculamateriasId').jqGrid({
-                	url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion")%>'
-                    ,datatype:'json'
-                    //,postData:{id:<%out << preinscripcionInstance.id%>}
-                    ,with:680
-                    ,colNames:['Id','Denominación','Nivel']
-                	,colModel:[
-                           	{name:'id',index:'id',width:40,hidden:true}
-                           	,{name:'denominacion',index:'denominacion',width:'200',search:false,sortable:false}
-                           	,{name:'nivel',index:'nivel',width:'200',search:false,sortable:false}
-                    ]
-                	,rowNum:10
-                	,pager:'#pagermatriculamateriasId'
-                    ,sortname: 'denominacion'	
-                });
-                
-            });
+        	<%
+			if(preinscripcionInstance.inscripcionMatricula)
+		        out <<	""" jQuery(document).ready(function(){
+		            	jQuery('#matriculamateriasId').jqGrid({
+		                	url:'${createLink(controller:"preinscripcion",action:"inscmateriasjson")}'
+		                    ,datatype:'json'
+		                    ,postData:{id:${preinscripcionInstance.id}}
+		                    ,with:680
+		                    ,colNames:['Id','Denominación','Nivel']
+		                	,colModel:[
+		                           	{name:'id',index:'id',width:40,hidden:true}
+		                           	,{name:'denominacion',index:'denominacion',width:'200',search:false,sortable:false}
+		                           	,{name:'nivel',index:'nivel',width:'200',search:false,sortable:false}
+		                    ]
+		                	,rowNum:10
+		                	,pager:'#pagermatriculamateriasId'
+		                    ,sortname: 'denominacion'	
+		                });
+		                
+		            });
+					"""
+			%>
         </script>
     </head>
     <body>
@@ -80,11 +84,13 @@
                             <div class="span-4 spanlabel"><g:formatDate format='dd/MM/yyyy' date="${preinscripcionInstance?.fechaAlta}" /></div>
                             
 							<div class="clear"></div>
-							<fieldset>
-								<legend>Matriculación</legend>
-								<table id="matriculamateriasId"></table>
-								<div id="pagermatriculamateriasId"></div>
-							</fieldset>
+							<g:if test="${preinscripcionInstance.inscripcionMatricula}">
+								<fieldset>
+									<legend>Matriculación</legend>
+									<table id="matriculamateriasId"></table>
+									<div id="pagermatriculamateriasId"></div>
+								</fieldset>
+							</g:if>
 							
                     
             </div>

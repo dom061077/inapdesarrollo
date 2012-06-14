@@ -21,6 +21,7 @@ import com.mysql.jdbc.log.Log;
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 
+
 class PreinscripcionController {
 
 	
@@ -525,7 +526,47 @@ class PreinscripcionController {
 
 	}
 	
+
 	
+	def inscmateriasjson = {
+		log.info "INGRESANDO AL CLOSURE insmateriasjson"
+		log.info "PARAMETROS $params"
+		
+		def preinscripcionInstance = Preinscripcion.get(params.id)
+		
+		def listinscmaterias = preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias
+		def listinscdetallematerias
+		listinscmaterias.each{
+			if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+				listinscdetallematerias = it.detalleMateria
+				return 
+			}
+		}
+		
+		def totalregistros=listinscdetallematerias?.size()
+		totalregistros = (totalregistros==null?0:totalregistros)
+		
+		def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+		if (totalpaginas>0 && totalpaginas<1)
+			totalpaginas=1;
+		totalpaginas=totalpaginas.intValue()
+
+		
+		 
+		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+		def flagaddcomilla=false
+		listinscdetallematerias.each{
+			
+			if (flagaddcomilla)
+				result=result+','
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'","'+it.materia.nivel.descripcion+'","Yes"]}'
+			flagaddcomilla=true
+		}
+		result=result+']}'
+		render result
+
+	}
+
 
 	
 }

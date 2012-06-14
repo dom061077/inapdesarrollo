@@ -8,7 +8,7 @@ class AcademicoUtil {
 	private static Logger log = Logger.getLogger(AcademicoUtil.class)
 	
 	private static def validarCorrelatividades(Long idMat,def idAlu,def tipoInscripcion){
-		def flagvalidacion = false //si le falta alguna materia la bandera sera true
+		def flagvalidacion = true //si le falta alguna materia la bandera sera false
 		def materiaInstance = Materia.load(idMat)
 		def list
 		if(tipoInscripcion.equals(TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)){
@@ -27,10 +27,10 @@ class AcademicoUtil {
 					}
 				}
 				if(list.size()==0){
-					flagvalidacion = true
+					flagvalidacion = false
 				}
 				if(list.size()>1){
-					flagvalidacion = true
+					flagvalidacion = false
 				}
 			}
 			
@@ -49,10 +49,10 @@ class AcademicoUtil {
 					}
 				}
 				if(list.size()==0){
-					flagvalidacion = true
+					flagvalidacion = false
 				}
 				if(list.size()>1){
-					flagvalidacion = true
+					flagvalidacion = false
 				}
 			}
 		}
@@ -188,6 +188,7 @@ class AcademicoUtil {
 	
 	private static def  getMateriasCursarDisponibles(def idCarrera,def idAlumno){
 		log.info("INGRESANDO AL METODO PRIVADO getMateriasCursarDisponibles")
+		log.info("INGRESANDO CARRERA: "+idCarrera+" alumno: "+idAlumno)
 		def materiasDisponibles = new ArrayList();
 		def materias = Materia.createCriteria().list{
 			and{
@@ -199,6 +200,7 @@ class AcademicoUtil {
 			}
 		}
 		materias.each{mat ->
+			log.debug "Materias: "+mat.denominacion
 			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
 				materiasDisponibles.add(mat)
 		}

@@ -6,13 +6,19 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'preinscripcion.label', default: 'Preinscripcion')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        
         <script type="text/javascript">
         	$(document).ready(function(){
             	$('#matriculamateriasId').jqGrid({
-                	url:'materiasmatriculajson'
+                	url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion")%>'
                     ,datatype:'json'
+                    //,postData:{id:<%out << preinscripcionInstance.id%>}
                     ,with:680
-                    ,colNames:['Id','Denominación',,'Nivel']
+                    ,colNames:['Id','Denominación','Nivel']
                 	,colModel:[
                            	{name:'id',index:'id',width:40,hidden:true}
                            	,{name:'denominacion',index:'denominacion',width:'200',search:false,sortable:false}
@@ -21,8 +27,8 @@
                 	,rowNum:10
                 	,pager:'#pagermatriculamateriasId'
                     ,sortname: 'denominacion'	
-                ,
                 });
+                
             });
         </script>
     </head>
@@ -74,13 +80,11 @@
                             <div class="span-4 spanlabel"><g:formatDate format='dd/MM/yyyy' date="${preinscripcionInstance?.fechaAlta}" /></div>
                             
 							<div class="clear"></div>
-							<g:if test="${preinscripcionInstance?.inscripcionMatricula}">
-								<fieldset>
-									<legend>Matriculación</legend>
-									<table id="matriculamateriasId"></table>
-									<div id="pagermatriculamateriasId"></div>
-								</fieldset>
-							</g:if>
+							<fieldset>
+								<legend>Matriculación</legend>
+								<table id="matriculamateriasId"></table>
+								<div id="pagermatriculamateriasId"></div>
+							</fieldset>
 							
                     
             </div>

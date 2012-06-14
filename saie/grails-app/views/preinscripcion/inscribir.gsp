@@ -97,11 +97,18 @@
             </div>
             </g:hasErrors>
             
-            <g:hasErrors bean="${inscripcionMateriaInstance}">
+            <g:hasErrors bean="${preinscripcionInstance}">
             <div class="ui-state-error ui-corner-all append-bottom">
-                <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
+                <g:renderErrors bean="${preinscripcionInstance}" as="list" />
             </div>
             </g:hasErrors>
+            
+            <g:hasErrors bean="${inscripcionMatriculaInstance}">
+            <div class="ui-state-error ui-corner-all append-bottom">
+                <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            
             
             
             <div class="dialog">

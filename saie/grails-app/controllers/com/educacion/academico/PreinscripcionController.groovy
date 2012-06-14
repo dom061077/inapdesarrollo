@@ -18,6 +18,7 @@ import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.alumno.Alumno
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.mysql.jdbc.log.Log;
+import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 
 class PreinscripcionController {
@@ -413,7 +414,7 @@ class PreinscripcionController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.denominacion+'","Yes"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.denominacion+'","'+it.nivel.descripcion+'","Yes"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -483,7 +484,8 @@ class PreinscripcionController {
 				if(materiasJson){
 					def materiaInstance
 					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
+						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
+						,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
 					materiasJson.each{
 						log.debug "MATERIA JSON VINCULADA: "+it
 						if(it.seleccion.toUpperCase().equals("YES")){
@@ -502,13 +504,15 @@ class PreinscripcionController {
 						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 						redirect(action: "show", id: preinscripcionInstance.id)
 					}else{
+						log.debug "ERROR EN EL SAVE DE PREINSCRIPCION"
 						status.setRollbackOnly()
 						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
 					}
 				}
 				else {
+					log.debug "ERROR EN EL SAVE DE MATRICULA INSTANCE Y HASERRORS DE PREINSCRIPCION"
 					status.setRollbackOnly()
-					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
+					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized,inscripcionMatriculaInstance:inscripcionMatriculaInstance])
 				}
 	
 				

@@ -170,6 +170,7 @@ class InscripcionMatriculaController {
 			}	
         }
     }
+	
 
     def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
@@ -185,11 +186,24 @@ class InscripcionMatriculaController {
 			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance?.carrera?.id,inscripcionMatriculaInstance?.alumno?.id)
 			
 			def flagcomilla = false
+			def flagseleccionado
 			def materiasSerialized = "["
-			materiasCursar.each{
+			materiasCursar.each{ matcursar->
 				if(flagcomilla)
 					materiasSerialized = materiasSerialized + ","
-				materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+				flagseleccionado="No"
+				inscripcionMatriculaInstance.inscripcionesmaterias.each{inscmateria ->
+					if (inscmateria.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+						inscmateria.detalleMateria.each{detinsc->  
+							if(detinsc.materia.id==matcursar.id){
+								flagseleccionado="Si"
+								return
+							}
+						}
+						return
+					}
+				}	
+				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
 				flagcomilla = true
 			}
 			materiasSerialized += "]"

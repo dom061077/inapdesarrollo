@@ -223,6 +223,11 @@ class InscripcionMatriculaController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+		def materiasSerializedJson
+		
+		if(params.materiasSerialized)
+			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
+
 		
         def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
         if (inscripcionMatriculaInstance) {
@@ -236,9 +241,6 @@ class InscripcionMatriculaController {
                 }
             }
             inscripcionMatriculaInstance.properties = params
-			
-	
-			
 			
             if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"

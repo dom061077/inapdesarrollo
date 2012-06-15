@@ -19,6 +19,7 @@ import com.educacion.alumno.Alumno
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.mysql.jdbc.log.Log;
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
+import com.educacion.academico.util.AcademicoUtil
 
 
 
@@ -76,13 +77,14 @@ class PreinscripcionController {
 		
 		
 		if(preinscripcionInstance.carrera){
-			def sortedList= preinscripcionInstance.carrera.anios.sort{it.anioLectivo}.reverse()
+			/*def sortedList= preinscripcionInstance.carrera.anios.sort{it.anioLectivo}.reverse()
 
 			if(sortedList.size()>0){
 				def cupo= sortedList.get(0).cupo
 				def cupoSuplementes = sortedList.get(0).cupoSuplentes
 				preinscripcionInstance.anioLectivo = sortedList.get(0)
-			}
+			}*/
+			preinscripcionInstance.anioLectivo = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
 			
 		}
 		if(!preinscripcionInstance.anioLectivo){
@@ -365,8 +367,13 @@ class PreinscripcionController {
 		}
 		materiasSerialized += "]"
 		if(preinscripcionInstance){
-			if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO)){
-				flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
+			if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO)
+				||
+				preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)){
+				if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO))
+					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
+				else
+					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.anulado",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
 				redirect(action:"list")	
 			}else
 				return [preinscripcionInstance:preinscripcionInstance,materiasSerialized:materiasSerialized]	

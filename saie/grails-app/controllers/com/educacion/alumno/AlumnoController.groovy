@@ -334,7 +334,7 @@ class AlumnoController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.apellidoNombre==null?"":it.apellidoNombre)+'","'+(it.tipoDocumento.name==null?"":it.tipoDocumento.name)+'","'+(it.numeroDocumento==null?"":it.numeroDocumento)+'","'+(it.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.fechaNacimiento))+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.apellido==null?"":it.apellido)+'","'+(it.nombre==null?"":it.nombre)+'","'+(it.tipoDocumento.name==null?"":it.tipoDocumento.name)+'","'+(it.numeroDocumento==null?"":it.numeroDocumento)+'","'+(it.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.fechaNacimiento))+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -352,7 +352,7 @@ class AlumnoController {
 		render(contentType:"text/json"){
 			array{
 				for (alu in alumnos){
-					alumno id:alu.id,label:alu.apellidoNombre,value:alu.apellidoNombre
+					alumno id:alu.id,label:alu.apellido,value:alu.apellido
 				}
 			}
 			
@@ -380,7 +380,7 @@ class AlumnoController {
 			if (flagaddcomilla)
 				result=result+','
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.numeroDocumento+'","'+it.apellidoNombre+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.numeroDocumento+'","'+it.apellido+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -394,7 +394,7 @@ class AlumnoController {
 		log.info "PARAMETROS: $params"
 		def alumnoInstance = Alumno.get(params.id)
 		render(contentType:"text/json"){
-			alumno apellidoNombre:alumnoInstance.apellidoNombre,documento:alumnoInstance?.numeroDocumento,tipoDocumento:alumnoInstance?.tipoDocumento?.name,sexo:alumnoInstance.sexo.name,fechaNacimiento:g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)
+			alumno apellidoNombre:alumnoInstance.apellido,documento:alumnoInstance?.numeroDocumento,tipoDocumento:alumnoInstance?.tipoDocumento?.name,sexo:alumnoInstance.sexo.name,fechaNacimiento:g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)
 		}
 	}
 

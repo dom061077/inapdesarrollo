@@ -522,23 +522,42 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">
+							<g:hasErrors bean="${alumnoInstance}" field="apellido">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="apellidoNombre"><g:message code="alumno.apellidoNombre.label" default="Apellido Nombre" /></label>
+								<label for="apellido"><g:message code="alumno.apellido.label" default="Apellido" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField style="text-transform:uppercase" name="apellidoNombre" id="apellidoNombreId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombre}" />
+								<g:textField style="text-transform:uppercase" name="apellido" id="apellidoId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellido}" />
 							</div>
 										
-							<g:hasErrors bean="${alumnoInstance}" field="apellidoNombre">
-								<g:renderErrors bean="${alumnoInstance}" as="list" field="apellidoNombre"/>
+							<g:hasErrors bean="${alumnoInstance}" field="apellido">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="apellido"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
+
+
 						   
+							<g:hasErrors bean="${alumnoInstance}" field="nombre">
+								<div class="ui-state-error ui-corner-all">
+							</g:hasErrors>
+							
+							<div class="span-3 spanlabel">
+								<label for="nombre"><g:message code="alumno.nombre.label" default="Nombre" /></label>
+							</div>
+							<div class="span-5">
+								<g:textField style="text-transform:uppercase" name="nombre" id="nombreId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.nombre}" />
+							</div>
+										
+							<g:hasErrors bean="${alumnoInstance}" field="nombre">
+								<g:renderErrors bean="${alumnoInstance}" as="list" field="nombre"/>
+								</div>
+						   </g:hasErrors>
+						   <div class="clear"></div>
+
 							<g:hasErrors bean="${alumnoInstance}" field="sexo">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>

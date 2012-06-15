@@ -13,7 +13,8 @@ class Alumno {
 	//Datos Personales
 	Long numeroDocumento
 	TipoDocumentoEnum tipoDocumento
-	String apellidoNombre
+	String apellido
+	String nombre
 	java.sql.Date fechaNacimiento
 	SexoEnum sexo
 	
@@ -75,19 +76,13 @@ class Alumno {
 	SituacionAdministrativa situacionAdministrativa
 	
 	
-	
-	
-	
-	
-	
     static constraints = {
-		
+	
 		//Datos Personales
-		
-		
 		numeroDocumento(nullable:false,blank:false,unique:true)
 		tipoDocumento(nullable:false,blank:false)
-		apellidoNombre(nullable:false,blank:false)
+		apellido(nullable:false,blank:false)
+		nombre(nullable:false,blank:false)
 		fechaNacimiento(nullable:false,blank:false)
 		sexo(nullable:false,blank:false)
 		

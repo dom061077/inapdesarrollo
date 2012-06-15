@@ -56,13 +56,21 @@
 						   <div class="clear"></div>
 						   
 							<div class="span-3 spanlabel">
-								<label for="apellidoNombre"><g:message code="alumno.apellidoNombre.label" default="Apellido Nombre" /></label>
+								<label for="apellido"><g:message code="alumno.apellido.label" default="Apellido" /></label>
 							</div>
 							<div class="span-5 spanlabel">
-								${alumnoInstance?.apellidoNombre}
+								${alumnoInstance?.apellido}
 							</div>
 						   <div class="clear"></div>
 						   
+							<div class="span-3 spanlabel">
+								<label for="nombre"><g:message code="alumno.nombre.label" default="Nombre" /></label>
+							</div>
+							<div class="span-5 spanlabel">
+								${alumnoInstance?.nombre}
+							</div>
+						   <div class="clear"></div>
+
 							<div class="span-3 spanlabel">
 								<label for="sexo"><g:message code="alumno.sexo.label" default="Sexo" /></label>
 							</div>

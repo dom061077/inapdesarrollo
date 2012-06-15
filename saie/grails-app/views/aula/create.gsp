@@ -210,8 +210,6 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-
-																	
                         
 							<g:hasErrors bean="${aulaInstance}" field="cupo">
 								<div class="ui-state-error ui-corner-all append-bottom">

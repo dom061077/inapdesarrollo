@@ -8,7 +8,7 @@ class Nivel {
 	
 	static belongsTo=[carrera:Carrera]
 	
-	static hasMany = [materias:Materia]
+	static hasMany = [materias:Materia,divisiones:Division]
 
     static constraints = {
 		descripcion(nullable:false,blank:false)

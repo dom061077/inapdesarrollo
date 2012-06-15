@@ -1,10 +1,10 @@
 
-<%@ page import="com.educacion.academico.InscripcionMateria" %>
+<%@ page import="com.educacion.academico.Division" %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
-        <g:set var="entityName" value="${message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')}" />
+        <g:set var="entityName" value="${message(code: 'division.label', default: 'Division')}" />
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
@@ -17,11 +17,13 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Nro.Insc.','Alumno','Carrera','Opciones'],
+					colNames:['Id','Carrera','Nivel','División','Operación'],
 				   	colModel:[
-				   		{name:'id',index:'id', width:40},
-				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
-				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true,sortable:true},
+				   		
+				   		{name:'id',index:'id', width:40, hidden:true},
+				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:92,sortable:false},
+				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
+				   		{name:'descripcion',index:'descripcion', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -38,14 +40,14 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a title='Ver' href='showdivisiones?id="+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}
 						
 						 
 					}, 						    
-				    caption:"Listado de ${message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')}"
+				    caption:"Listado de ${message(code: 'division.label', default: 'Division')}"
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
@@ -66,7 +68,7 @@
     <body>
         <div class="nav">
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
-            <span class="menuButton"><g:link class="create" action="alumnosinscripcion"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
+            <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
             <h1><g:message code="default.list.label" args="[entityName]" /></h1>

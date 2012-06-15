@@ -30,9 +30,10 @@
 	<parameter name="telefonoinstitucion" class="java.lang.String"/>
 	<field name="inscripcionMateria.carrera.denominacion" class="java.lang.String"/>
 	<field name="inscripcionMateria.anioLectivo.anioLectivo" class="java.lang.Integer"/>
-	<field name="inscripcionMateria.alumno.apellidoNombre" class="java.lang.String"/>
+	<field name="inscripcionMateria.alumno.apellido" class="java.lang.String"/>
 	<field name="estado.name" class="java.lang.String"/>
 	<field name="materia.denominacion" class="java.lang.String"/>
+	<field name="inscripcionMateria.alumno.nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -116,7 +117,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.alumno.apellidoNombre}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.alumno.apellido}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="165" y="0" width="100" height="14"/>

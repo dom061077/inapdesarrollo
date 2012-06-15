@@ -58,7 +58,7 @@
 								<label for="alumno"><g:message code="preinscripcion.alumno.label" default="Alumno:" /></label>
 							</div>
 							<div class="span-7">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content largeinput" id="alumnoId" name="alumnoDesc"  value="${preinscripcionInstance?.alumno?.apellidoNombre}" /> 
+								<g:textField class="ui-widget ui-corner-all ui-widget-content largeinput" id="alumnoId" name="alumnoDesc"  value="${preinscripcionInstance?.alumno?.apellido}" /> 
  								<g:hiddenField id="alumnoIdId" name="alumno.id" value="${preinscripcionInstance?.alumno?.id}" />
 							</div>
 										

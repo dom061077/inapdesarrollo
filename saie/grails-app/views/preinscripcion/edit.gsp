@@ -101,8 +101,8 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 						<div class="span-3 spanlabel">
 							<label for="alumno"><g:message code="preinscripcion.alumno.label" default="Alumno" /></label>
 						</div>
-						<div class="span-5 spanlabel">
-								${preinscripcionInstance.alumno.apellidoNombre}
+						<div class="span-6 spanlabel">
+								${preinscripcionInstance.alumno.apellido + ', ' + preinscripcionInstance.alumno.nombre}
 <!--							<g:textField class="ui-widget ui-corner-all ui-widget-content" id="alumnoId" name="alumnoDesc"  value="colocar el valor del field descripcion" /> -->
 <!-- 							<g:hiddenField id="alumnoIdId" name="alumno.id" value="${alumno?.id}" />-->
 						</div>

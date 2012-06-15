@@ -38,8 +38,6 @@ class AulaController {
 		log.info "PARAMETROS: $params"
 		
 		def carrerasJson
-		
-		
 				  
 		if(params.detalleaulaSerialized)
 			carrerasJson = grails.converters.JSON.parse(params.detalleaulaSerialized)

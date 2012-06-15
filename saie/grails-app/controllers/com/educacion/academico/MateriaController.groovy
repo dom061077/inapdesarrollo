@@ -528,14 +528,15 @@ class MateriaController {
 			}
 			inscripcionMateria{
 				alumno{
-					order("apellidoNombre", "asc")
+					order("apellido", "asc")
+					order("nombre", "asc")
 				}
 			}
 		}
 		
 		listAlumnos.each {
 			it.materia.denominacion
-			it.inscripcionMateria.alumno.apellidoNombre
+			it.inscripcionMateria.alumno.apellido
 		}
 
 		params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))

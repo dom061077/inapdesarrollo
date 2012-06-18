@@ -245,15 +245,15 @@ class InscripcionMateriaController {
 		
 		//def preinscripciones = Preinscripcion.executeQuery(hqlstr,["alumno":inscripcionMateriaInstance.alumno.id,"estado":EstadoPreinscripcion.ESTADO_INSCRIPTO])
 		
-		def preinscripcionInstance = Preinscripcion.get(params.preinscripcion.id)
-		if(params.preinsversion)
-			if(preinscripcionInstance.version>params.preinsversion.toLong()){
-				inscripcionMateriaInstance.preinscripcion = preinscripcionInstance
-				inscripcionMateriaInstance.carrera = preinscripcionInstance.carrera
-				inscripcionMateriaInstance.alumno = preinscripcionInstance.alumno
-				inscripcionMateriaInstance.anioLectivo = preinscripcionInstance.anioLectivo
+		def inscripcionMatriculaInstance = InscripcionMatricula.get(params.inscripcionMatricula.id)
+		if(params.incripcionMatriculaVersion)
+			if(inscripcionMatriculaInstance.version>params.incripcionMatriculaVersion.toLong()){
+				inscripcionMateriaInstance.preinscripcion = inscripcionMatriculaInstance
+				inscripcionMateriaInstance.carrera = inscripcionMatriculaInstance.carrera
+				inscripcionMateriaInstance.alumno = inscripcionMatriculaInstance.alumno
+				inscripcionMateriaInstance.anioLectivo = inscripcionMatriculaInstance.anioLectivo
 				inscripcionMateriaInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria')] as Object[], "Another user has updated this InscripcionMateria while you were editing")
-				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance,preinscripcionInstance:preinscripcionInstance])
+				render(view:"create",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
 				return
 			}
 			
@@ -269,7 +269,7 @@ class InscripcionMateriaController {
 				render(view:"show",model:[inscripcionMateriaInstance:inscripcionMateriaInstance])
 				return
 			}catch(InscripcionMateriaException e){
-				log.debug "ERRORES: "+inscripcionMateriaInstance.errors.allErrors
+				log.debug("ERROR DE VALIDACION: "+inscripcionMateriaInstance.errors.allErrors)
 				render (view:"create", model:[inscripcionMateriaInstance:e.inscripcionMateria,materiasSerialized:params.materiasSerialized])
 				return
 			}
@@ -400,7 +400,7 @@ class InscripcionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'"]}'
 			 
 			flagaddcomilla=true
 		}

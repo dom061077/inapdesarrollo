@@ -371,7 +371,7 @@ class PreinscripcionController {
 				||
 				preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)){
 				if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO))
-					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
+					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellido+"-"+preinscripcionInstance?.alumno?.nombre,preinscripcionInstance?.alumno?.numeroDocumento])
 				else
 					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.anulado",args:[preinscripcionInstance?.alumno?.apellidoNombre,preinscripcionInstance?.alumno?.numeroDocumento])
 				redirect(action:"list")	

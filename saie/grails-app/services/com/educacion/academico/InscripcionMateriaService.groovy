@@ -5,6 +5,7 @@ import com.educacion.academico.exceptions.InscripcionMateriaException;
 import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.util.GUtilDomainClass
+import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 
 class InscripcionMateriaService {
@@ -161,10 +162,10 @@ class InscripcionMateriaService {
 			materiaAntInstance=materiaInstance
 		}
 		
-		def anioLectivo = GUtilDomainClass.getAnioLectivoCarrera(inscripcionMateriaInstance.carrera.id)
+		//def anioLectivo = GUtilDomainClass.getAnioLectivoCarrera(inscripcionMateriaInstance.carrera.id)
 		
 		 
-				
+		inscripcionMateriaInstance.origen = OrigenInscripcionMateriaEnum .ORIGENINSCMATERIA_POSMATRICULA		
 		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save()){
 			
 		}else{

@@ -17,21 +17,11 @@
 			        $('#materiasId').jqGrid('clearGridData');
 			    }
 
-			    function seleccionanio(){
-				    $.ajax({url:'<% out << createLink(controller:"inscripcionMateria",action:"anioscascadedata") %>/?carreraId='+$('#carreraIdId').val()+'&anioLectivoId='+$('#anioLectivoIdId').val()+'&alumnoId='+$('#alumnoIdId').val() 
-							,success: function(data){
-									alert(data);
-								}	
-					    })
-
-					    
-				}
 		
 		        function initsubmit(){
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
 		            $('#materiasSerializedId').val(postDataMaterias);
-		            $.post('<% out << createLink(controller:"inscripcionMateria",action:"save")%>',$('#formInscripcionMateriaId').serialize());
 		        }
 		        
 		        function bindmaterias(){
@@ -225,6 +215,7 @@
                          <g:hiddenField id="carreraIdId" name="carrera.id" value="${inscripcionMateriaInstance?.carrera?.id}" />
                          <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${inscripcionMateriaInstance?.anioLectivo?.id}"/>
                          <g:hiddenField id="inscripcionMatriculaIdId" name="inscripcionMatricula.id" value="${inscripcionMateriaInstance?.inscripcionMatricula?.id}"/>
+                         <g:hiddenField id="inscripcionMatriculaVersionId" name="incripcionMatriculaVersion" value="${inscripcionMateriaInstance?.inscripcionMatricula?.version}"/>
                          
                          <div class="span-2 spanlabel">
                          	<label>Alumno</label>

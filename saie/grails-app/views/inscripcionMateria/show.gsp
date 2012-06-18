@@ -65,7 +65,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.alumno.label" default="Alumno" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMateriaInstance?.alumno?.id}">${inscripcionMateriaInstance?.alumno?.apellido?.encodeAsHTML()+inscripcionMateriaInstance?.alumno?.nombre?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     

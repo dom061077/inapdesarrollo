@@ -133,6 +133,7 @@ class DuracionMateriaController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+		
 		def gud=new GUtilDomainClass(DuracionMateria,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
@@ -152,7 +153,7 @@ class DuracionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.nombre==null?"":it.nombre)+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.descripcion==null?"":it.descripcion)+'"]}'
 			 
 			flagaddcomilla=true
 		}

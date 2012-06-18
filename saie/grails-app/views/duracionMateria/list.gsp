@@ -8,7 +8,7 @@
         <title><g:message code="default.list.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
+		<script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>        
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">
@@ -17,13 +17,10 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Descripción'],
 				   	colModel:[
-				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
-				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+				   		{name:'id',index:'id', width:10, hidden:true},
+				   		{name:'descripcion',index:'descripcion', width:100,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,
@@ -50,14 +47,6 @@
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
-				jQuery("#list").jqGrid('navButtonAdd','#pager',{
-				       caption:"Informe", 
-				       onClickButton : function () { 
-				           //jQuery("#list").excelExport();
-				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
-				       } 
-				});
-
 				jQuery("#list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});						
 	
             });
@@ -70,7 +59,7 @@
             <span class="menuButton"><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1><g:message code="duracionMateria.label" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message}</H2> </div>
             </g:if>

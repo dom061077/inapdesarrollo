@@ -113,7 +113,7 @@ class InscripcionMatriculaController {
 			materiasSerializedJson?.each {
 				if(it.seleccion.toUpperCase().equals("YES")){
 					
-					if(!AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
+					if(AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 						 materiaInstance = Materia.load(it.idid.toLong())
 						 if(materiaInstance.equals(materiaAntInstance)){
 							 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
@@ -195,23 +195,26 @@ class InscripcionMatriculaController {
 			
 			def flagcomilla = false
 			def flagseleccionado
+			def idinscmatdetalle
 			def materiasSerialized = "["
 			materiasCursar.each{ matcursar->
 				if(flagcomilla)
 					materiasSerialized = materiasSerialized + ","
 				flagseleccionado="No"
+				idinscmatdetalle = 0
 				inscripcionMatriculaInstance.inscripcionesmaterias.each{inscmateria ->
 					if (inscmateria.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
 						inscmateria.detalleMateria.each{detinsc->  
 							if(detinsc.materia.id==matcursar.id){
 								flagseleccionado="Si"
+								idinscmatdetalle = detinsc.id
 								return
 							}
 						}
 						return
 					}
 				}	
-				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
 				flagcomilla = true
 			}
 			materiasSerialized += "]"
@@ -240,15 +243,67 @@ class InscripcionMatriculaController {
                     return
                 }
             }
-            inscripcionMatriculaInstance.properties = params
-			
-            if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
-                redirect(action: "show", id: inscripcionMatriculaInstance.id)
-            }
-            else {
-                render(view: "edit", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
-            }
+			InscripcionMatricula.withTransaction{TransactionStatus status ->
+	            inscripcionMatriculaInstance.properties = params
+				
+				//------modificacion del detalle de la inscripcion de materias dentro de la matricula--
+				
+				def materiaAntInstance
+				def materiaInstance
+				def inscripcionMateriaDetalleInstance
+				def inscripcionMateriaInstance 
+				inscripcionMatriculaInstance.inscripcionesmaterias.each{inscmat->
+					if(inscmat.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
+						inscripcionMateriaInstance = inscmat
+				}
+				materiasSerializedJson?.each {
+					log.debug "ID DEL DETALLE: "+it.idid+" ID DE LA MATERIA: "+it.idmateria.toLong()+" id del alumno: "+inscripcionMateriaInstance.alumno.id
+					if(it.seleccion.toUpperCase().equals("YES")){
+						log.debug "INGRESANDO POR EL YES"
+						materiaInstance = Materia.load(it.idmateria.toLong())
+						if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
+							 
+							 if(materiaInstance.equals(materiaAntInstance)){
+								 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
+									 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
+							 }else{
+							 	 log.debug( "EL IDID TIENE VALOR: "+it.idid.toInteger())
+							 	 if(it.idid.toInteger()==0){
+									 log.debug "ANTES DE HACER UN NES DEL DETALLE DE MATERIA INSTANCE"
+									 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+										 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+										 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+										 )
+									 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+							 	 }
+							 }
+							 materiaAntInstance=materiaInstance
+						}else{
+							inscripcionMateriaInstance.errors.rejectValue("detalleMateria","Error de correlatividad en la materia "+materiaInstance.denominacion)
+						}
+					}else{
+						if(it.idid.toInteger()>0){
+							inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
+							inscripcionMateriaInstance.removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
+							inscripcionMateriaDetalleInstance.delete()
+						}
+						
+					}
+					
+				}
+	
+				
+				
+	            if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true) && 
+					!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)) {
+	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
+	                redirect(action: "show", id: inscripcionMatriculaInstance.id)
+	            }
+	            else {
+	                render(view: "edit", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized,inscripcionMateriaInstance:inscripcionMateriaInstance])
+	            }
+			}
+				
         }
         else {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"

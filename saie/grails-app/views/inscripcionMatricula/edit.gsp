@@ -33,6 +33,7 @@
 	        	    }*/
 	        	    griddata[i]["id"] = data[i].id;
 	        	    griddata[i]["idid"] = data[i].idid;	        	    
+	        	    griddata[i]["idmateria"] = data[i].idmateria;
 	        	    griddata[i]["denominacion"] = data[i].denominacion;
 	        	    griddata[i]["seleccion"] = data[i].seleccion	        	    	        	    
 	        	}
@@ -48,11 +49,12 @@
 	        	$('#materiasId').jqGrid({
 	               	datatype:'local'
 	                ,width:500
-	                ,colNames:['Id','IdId','Denominación','Select']
+	                ,colNames:['Id','IdId','IdMateria','Denominación','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
-	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+	                       	,{name:'idid',index:'idid',width:50,hidden:false,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+	                       	,{name:'idmateria',index:'idmateria',width:50,hidden:false,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}	                       	
+	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                				
 	                ]
@@ -86,12 +88,21 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
             </g:if>
+            
             <g:hasErrors bean="${inscripcionMatriculaInstance}">
             <div class="ui-state-error ui-corner-all">
                 <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            
+            <g:hasErrors bean="${inscripcionMateriaInstance}">
+            <div class="ui-state-error ui-corner-all">
+                <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
+            </div>
+            </g:hasErrors>
+            
+            
+            <g:form onSubmit="initsubmit()" method="post" >
             	<div class="append-bottom">
 			                <g:hiddenField name="id" value="${inscripcionMatriculaInstance?.id}" />
 			                <g:hiddenField name="version" value="${inscripcionMatriculaInstance?.version}" />

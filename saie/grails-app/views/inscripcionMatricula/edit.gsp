@@ -111,7 +111,7 @@
 								<label for="alumno"><g:message code="inscripcionMatricula.alumno.label" default="Alumno" /></label>
 							</div>
 							<div class="span-5 spanlabel">
-								${inscripcionMatriculaInstance?.alumno?.apellidoNombre} 
+								${inscripcionMatriculaInstance?.alumno?.apellido+"-"+inscripcionMatriculaInstance?.alumno?.nombre} 
  								<g:hiddenField id="alumnoIdId" name="alumno.id" value="${inscripcionMatriculaInstance?.alumno?.id}" />
 							</div>
 						   <div class="clear"></div>

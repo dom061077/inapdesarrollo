@@ -17,11 +17,12 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Alumno','Fecha Insc.','Carrera','A�o Lectivo','Opciones'],
+					colNames:['Id','Apellido Alumno','Nombre Alumno','Fecha Insc.','Carrera','A�o Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40,hidden:true},
-				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:true},
+				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
+				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},				   		
 				   		{name:'fechaAlta',index:'fechaAlta', width:92,sortable:true,search:true,searchoptions:{sopt:['ge']
 							   		,dataInit:function(el){
 							   			$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
@@ -33,6 +34,7 @@
 				   				}},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true},
 				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:100,search:false},				   		
+				   		{name:'estado',index:'estado', width:100,search:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	

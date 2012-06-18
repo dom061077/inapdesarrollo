@@ -356,7 +356,7 @@ class InscripcionMatriculaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellidoNombre+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

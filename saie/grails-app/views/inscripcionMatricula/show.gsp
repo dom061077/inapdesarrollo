@@ -50,7 +50,7 @@
                     
                             <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.alumno.label" default="Alumno" /></div>
                             
-                            <div class="span-3 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMatriculaInstance?.alumno?.id}">${inscripcionMatriculaInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${inscripcionMatriculaInstance?.alumno?.id}">${inscripcionMatriculaInstance?.alumno?.apellido?.encodeAsHTML()+"-"+inscripcionMatriculaInstance?.alumno?.nombre?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
@@ -62,7 +62,7 @@
                     
                             <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-3 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMatriculaInstance?.carrera?.id}">${inscripcionMatriculaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${inscripcionMatriculaInstance?.carrera?.id}">${inscripcionMatriculaInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
 							<div class="clear"></div>
 							
 							<div class="span-3 spanlabel"><g:message code="inscripcionMatricula.estado.label" default="Estado" /></div>

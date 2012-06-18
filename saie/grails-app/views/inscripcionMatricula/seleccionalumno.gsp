@@ -16,11 +16,12 @@
 					datatype: "json",
 					postData:{estado:'ESTADO_INSCRIPTO'},
 					width:700,
-					colNames:['Id','Apellido y Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
+					colNames:['Id','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:true,searchoptions:{sopt:['eq']}},
-				   		{name:'alumno_apellidoNombre',index:'alumno_apellidoNombre', width:92,sortable:false},
+				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
+				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
 				   		{name:'fechaAlta',hidden:true,index:'fechaAlta',width:40,search:false},
 				   		{name:'anioLectivo_anioLectivo',hidden:true,index:'anioLectivo_anioLectivo', width:40,search:false},

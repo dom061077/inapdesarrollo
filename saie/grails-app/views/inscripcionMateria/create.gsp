@@ -230,17 +230,17 @@
                          	<label>Alumno</label>
                          </div>
                          <div class="span-4 spanlabel">
-                         	${inscripcionMateriaInstance?.alumno.apellidoNombre}
+                         	${inscripcionMateriaInstance?.alumno.apellido+"-"+inscripcionMateriaInstance?.alumno.nombre}
                          </div>
 						<div class="clear"></div>
 						
 						
                          <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.carrera.label" default="Carrera" /></label></div>
-                         <div class="span-4"><g:select id="carreraId" onChange="clearMaterias()" name="carrera" from="${carrerasInsc}" value="${inscripcionMateriaInstance?.carrera?.id}" optionValue="denominacion" optionKey="id"/> </div>
+                         <div class="span-4 spanlabel">${inscripcionMateriaInstance?.carrera?.denominacion}</div>
                          <div class="clear"></div>
                          
                          <div class="span-2 spanlabel"><label><g:message code="inscripcionMateria.anioLectivo.label" default="Año Lectivo" /></label></div>
-                         <div class="span-4"><g:select id="anioLectivoId" onChange="seleccionanio()" name="anioLectivo" from="${aniosLectivos}" value="${inscripcionMateriaInstance?.anioLectivo?.id}" optionValue="anioLectivo" optionKey="id"/> </div>
+                         <div class="span-4 spanlabel">${inscripcionMateriaInstance?.anioLectivo?.anioLectivo}</div>
                          <div class="clear"></div>
                           
                          

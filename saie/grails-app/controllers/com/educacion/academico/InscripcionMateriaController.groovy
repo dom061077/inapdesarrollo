@@ -174,63 +174,15 @@ class InscripcionMateriaController {
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
-		def primerAnioLectivoInstance
-		def alumnoInstance
-		def preinscripciones
-		def carrerasInsc = new ArrayList()
 		
 		def matriculas
-		def aniosLectivos = new ArrayList()
+		def inscripcionMatriculaInstance
 		if(params.id){
 			
-			preinscripciones = Preinscripcion.createCriteria().list{
-				alumno{
-					eq("id",params.id.toLong())
-				}
-				eq("estado",EstadoPreinscripcion.ESTADO_INSCRIPTO)
-				isNotNull("inscripcionMatricula")
-				carrera{
-					order("denominacion","asc")
-				}
-			} 
-			 
-			preinscripciones.each{
-				carrerasInsc.add(it.inscripcionMatricula.carrera)
-			}
-			
-			//obtengo la primera carrear que se mostrará en el combo de las carreras inscriptas
-			def primeraCarreraInstance
-			if(carrerasInsc.size()>0) 
-				primeraCarreraInstance = carrerasInsc.get(0)
-			
-			if(primeraCarreraInstance){
-					matriculas = InscripcionMatricula.createCriteria().list{
-						alumno{
-							eq("id",params.id.toLong())
-						}
-						carrera{
-							eq("id",primeraCarreraInstance?.id)
-						}
-						ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
-					}
-			}
-			
-			def primeraInscripcionMatriculaInstance
-			
-			matriculas?.each{
-				if(!primeraInscripcionMatriculaInstance)
-					primeraInscripcionMatriculaInstance = it
-				aniosLectivos.add(it.anioLectivo)
-			}
-			
-			if(aniosLectivos.size()>0)
-				primerAnioLectivoInstance = aniosLectivos.get(0) 
-			
-			alumnoInstance = Alumno.get(params.id)
-			
+			inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
 			
 			def materiasSerialized
-			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(primeraCarreraInstance?.id,alumnoInstance.id)
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance.carrera.id,inscripcionMatriculaInstance.alumno.id)
 			
 			def flagcomilla = false
 			materiasSerialized = "["
@@ -256,15 +208,14 @@ class InscripcionMateriaController {
 //					render(view:"alumnosinscripcion",model:[])
 //					return
 //			   }else{
-				if(carrerasInsc.size()>0){
-			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:alumnoInstance
-					   		,carrera:primeraCarreraInstance      
-							,anioLectivo:primerAnioLectivoInstance   
-							,inscripcionMatricula:primeraInscripcionMatriculaInstance                                                     
+				if(inscripcionMatriculaInstance){
+			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:inscripcionMatriculaInstance.alumno
+					   		,carrera:inscripcionMatriculaInstance.carrera      
+							,anioLectivo:inscripcionMatriculaInstance.anioLectivo   
+							,inscripcionMatricula:inscripcionMatriculaInstance                                                     
 							//,preinscripcion:preinscripcionInstance,anioLectivo:preinscripcionInstance.anioLectivo
 							)
-			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,carrerasInsc: carrerasInsc
-							,materiasSerialized: materiasSerialized,aniosLectivos:aniosLectivos]
+			        return [inscripcionMateriaInstance: inscripcionMateriaInstance,materiasSerialized: materiasSerialized]
 				}else{
 								flash.message = "${message(code:'com.educacion.academico.InscripcionMateria.materias.blank.error')}"
 								render(view:"alumnosinscripcion",model:[])
@@ -449,7 +400,7 @@ class InscripcionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellidoNombre)+'","'+it.carrera.denominacion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'"]}'
 			 
 			flagaddcomilla=true
 		}

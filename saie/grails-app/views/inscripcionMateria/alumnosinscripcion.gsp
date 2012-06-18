@@ -12,17 +12,20 @@
         <script type="text/javascript">
         	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
-				   	url:'<%out << createLink(controller:'alumno',action:'listjson')%>',
+				   	url:'<%out << createLink(controller:'inscripcionMatricula',action:'listjson')%>',
 					datatype: "json",
+					postData:{estado:'ESTADO_INSCRIPTO'},
 					width:700,
-					colNames:['Legajo','Apellido y Nombre'
-								,'Tipo Doc.','Nro.Doc.','Opciones'],
+					colNames:['Id','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,hidden:false,search:true,sortable:true,searchoptions:{sopt:['eq']}},
-				   		{name:'apellidoNombre',index:'apellidoNombre', width:92,sortable:true,search:true},
-				   		{name:'tipoDocumento',index:'tipoDocumento',sortable:false, width:100,search:false},
-				   		{name:'numeroDocumento',index:'numeroDocumento', width:100,search:true,sortable:true,searchoptions:{sopt:['eq']}},
+				   		{name:'id',index:'id', width:70, hidden:true,searchoptions:{sopt:['eq']}},
+				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
+				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
+				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
+				   		{name:'fechaAlta',hidden:true,index:'fechaAlta',width:40,search:false},
+				   		{name:'anioLectivo_anioLectivo',hidden:false,index:'anioLectivo_anioLectivo', width:40,search:false},
+				   		{name:'estado',index:'estado',hidden:false, width:40,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	
@@ -39,7 +42,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Inscribir Materia' href='<%out << createLink(controller:'inscripcionMateria',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Inscribir' href='<%out << createLink(controller:'inscripcionMateria',action:'create')%>/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							//var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be}); 
 							}
@@ -65,7 +68,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1><g:message code="inscripcionmateria.seleccionalumno" /></h1>
+            <h1><g:message code="inscripcionMateria.label" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

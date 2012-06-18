@@ -15,7 +15,8 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-        $('#fechaNacimientoId' ).datepicker($.datepicker.regional[ 'es' ]);
+        		$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
+        		$('#fechaNacimientoId' ).datepicker({changeYear:true});
 
 
 

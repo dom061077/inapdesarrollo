@@ -57,7 +57,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="preinscripcion.alumno.label" default="Alumno:" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${preinscripcionInstance?.alumno?.id}">${preinscripcionInstance?.alumno?.apellidoNombre?.encodeAsHTML()}</g:link></div>
+	                            <div class="span-4 spanlabel"><g:link controller="alumno" action="show" id="${preinscripcionInstance?.alumno?.id}">${preinscripcionInstance?.alumno?.apellido?.encodeAsHTML()+"-"+preinscripcionInstance?.alumno?.nombre?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
 

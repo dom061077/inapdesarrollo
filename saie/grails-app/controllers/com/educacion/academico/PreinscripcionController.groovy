@@ -441,6 +441,13 @@ class PreinscripcionController {
 		
 		if(params.materiasSerialized)
 			materiasJson = grails.converters.JSON.parse(params.materiasSerialized)
+			
+		if(!materiasJson || materiasJson.size()==0){
+			preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
+			render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
+			return 
+		}
+			
 		
 		if (preinscripcionInstance) {
 			if (params.version) {
@@ -491,17 +498,25 @@ class PreinscripcionController {
 				
 				if(materiasJson){
 					def materiaInstance
+					def cantselect = 0
 					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
 						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
 						,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
 					materiasJson.each{
-						log.debug "MATERIA JSON VINCULADA: "+it
 						if(it.seleccion.toUpperCase().equals("YES")){
 							materiaInstance = Materia.load(it.idid)
 							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
 											,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
 							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+							cantselect++
 						}
+					}
+					if(cantselect==0){
+						status.setRollbackOnly()
+						preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
+						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
+						return
+			
 					}
 				}
 

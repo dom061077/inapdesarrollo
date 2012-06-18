@@ -96,10 +96,17 @@ class InscripcionMatriculaController {
 		
 		if(params.materiasSerialized)
 			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
-
+			
+		
         def inscripcionMatriculaInstance = new InscripcionMatricula(params)
 		inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
 		
+		if(!materiasSerializedJson || materiasSerializedJson.size()==0){
+			inscripcionMateriaInstance.errors.rejectValue("inscripcionesmaterias", "com.educacion.academico.InscripcionMateria.materias.blank.error")
+			render(view:"create",model:[inscripcionMatriculaInstance:inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
+			return
+		}
+			
 		
 		InscripcionMatricula.withTransaction{TransactionStatus status ->
 			
@@ -160,10 +167,8 @@ class InscripcionMatriculaController {
         }
         else {
 			if(params.idinscmateria){
-				log.debug "PARAMETRO: "+params.idinscmateria
 				idinscmateria = params.idinscmateria
 			}else{
-				log.debug "idinscmateria a asignar por la busqueda en el detalle de la inscripcion"
 				def inscripcionMateriaInstance
 				inscripcionMatriculaInstance.inscripcionesmaterias.each{
 					if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
@@ -257,9 +262,13 @@ class InscripcionMatriculaController {
 						inscripcionMateriaInstance = inscmat
 				}
 				materiasSerializedJson?.each {
-					log.debug "ID DEL DETALLE: "+it.idid+" ID DE LA MATERIA: "+it.idmateria.toLong()+" id del alumno: "+inscripcionMateriaInstance.alumno.id
 					if(it.seleccion.toUpperCase().equals("YES")){
-						log.debug "INGRESANDO POR EL YES"
+						if(!inscripcionMateriaInstance){
+							inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
+								,alumno:inscripcionMatriculaInstance.alumno,anioLectivo:inscripcionMatriculaInstance.anioLectivo
+								,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_POSMATRICULA)
+							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+						}
 						materiaInstance = Materia.load(it.idmateria.toLong())
 						if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 							 
@@ -267,9 +276,7 @@ class InscripcionMatriculaController {
 								 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
 									 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
 							 }else{
-							 	 log.debug( "EL IDID TIENE VALOR: "+it.idid.toInteger())
 							 	 if(it.idid.toInteger()==0){
-									 log.debug "ANTES DE HACER UN NES DEL DETALLE DE MATERIA INSTANCE"
 									 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 										 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
 										 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
@@ -300,12 +307,14 @@ class InscripcionMatriculaController {
 	                redirect(action: "show", id: inscripcionMatriculaInstance.id)
 	            }
 	            else {
+					status.setRollbackOnly()
 	                render(view: "edit", model: [inscripcionMatriculaInstance: inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized,inscripcionMateriaInstance:inscripcionMateriaInstance])
 	            }
 			}
 				
         }
         else {
+			log.debug "SALE POR LA VALIDACION DE SI ENCUENTRA LA MATRICULA"
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
             redirect(action: "list")
         }

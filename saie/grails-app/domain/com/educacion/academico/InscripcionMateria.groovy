@@ -15,7 +15,7 @@ class InscripcionMateria extends Inscripcion{
 	static belongsTo = [inscripcionMatricula:InscripcionMatricula]
 	
     static constraints = {
-		inscripcionMatricula(nullable:true,blank:true)
+		inscripcionMatricula(nullable:false,blank:false)
 		detalleMateria validator : {
 			it?.every{
 				it?.validate()

@@ -103,6 +103,13 @@
 												<li><a href="${createLink(controller:'aula',action:'list')}">Listado de Aulas</a></li>								
 											</ul>
 										</li>
+										<li><span class="dir">Divisiones</span>
+											<ul>
+												<li><a href="${createLink(controller:'division',action:'create')}">Actualización de Divisiones</a></li>
+												<li><a href="${createLink(controller:'division',action:'list')}">Listado de Divisiones</a></li>								
+											</ul>
+										</li>
+
 										
 										
 									</ul>

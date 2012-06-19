@@ -6,6 +6,7 @@ import com.educacion.enums.TipoMateriaEnum
 class Materia {
 	String denominacion
 	boolean promocional
+	boolean troncal = false
 	DuracionMateria duracion
 	String descripcion
 	EstadoMateriaEnum estado

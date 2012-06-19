@@ -22,13 +22,13 @@
                            	{name:'id',index:'id',width:50,editable:false,hidden:true}
                            	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}}
                            	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:120},editrules:{required:false}}
-                           	,{name:'estado',index:'estado',width:120,editable:true,sortable:false
+                           	,{name:'estado',index:'estado',hidden:true,width:120,editable:true,sortable:false
                                		,editoptions:{readOnly:false,size:40
                                    					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
                                        			 }
                            	}
-                           	,{name:'tipo',index:'tipo',width:120,editable:true,sortable:false,editoptions:{readOnly:true,size:120},editrules:{required:false}}
-               				,{name:'nota',index:'nota',width:30,editable:true,sortable:false,editoptions:{readOnly:true,size:20},editrules:{required:false}}
+                           	,{name:'tipo',index:'tipo',width:120,hidden:true,editable:true,sortable:false,editoptions:{readOnly:true,size:120},editrules:{required:false}}
+               				,{name:'nota',index:'nota',width:30,hidden:true,editable:true,sortable:false,editoptions:{readOnly:true,size:20},editrules:{required:false}}
                     ]
                 	,sortname:'denominacion'
                 	,sortorder:'asc'
@@ -93,8 +93,8 @@
             <div class="buttons">
                 <g:form id="${inscripcionMateriaInstance?.id}">
 <!--                    <g:hiddenField name="idIns" value="${inscripcionMateriaInstance?.id}" />-->
-                    <span class="button"><g:actionSubmit class="edit" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

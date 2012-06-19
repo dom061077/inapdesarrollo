@@ -197,19 +197,13 @@ class InscripcionMateriaService {
 				materiaInstance = Materia.load(it.idmateria.toLong())
 				if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 					 
-					 if(materiaInstance.equals(materiaAntInstance)){
-						 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
-							 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
-					 }else{
-						  if(it.idid.toInteger()==0){
-							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-								 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
-								 )
-							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
-						  }
-					 }
-					 materiaAntInstance=materiaInstance
+					  if(it.idid.toInteger()==0){
+						 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+							 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+							 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+							 )
+						 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+					  }
 				}else{
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria","Error de correlatividad en la materia "+materiaInstance.denominacion)
 				}

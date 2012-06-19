@@ -92,7 +92,7 @@
 				<reportElement x="0" y="0" width="802" height="14" backcolor="#CCCCCC"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="161" y="3" width="51" height="11"/>
+				<reportElement x="205" y="3" width="51" height="11"/>
 				<textElement>
 					<font size="8"/>
 				</textElement>
@@ -113,14 +113,15 @@
 	<detail>
 		<band height="15" splitType="Stretch">
 			<textField>
-				<reportElement x="0" y="0" width="151" height="14"/>
+				<reportElement x="0" y="0" width="195" height="14"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.alumno.apellido}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{inscripcionMateria.alumno.apellido}.concat(', ').concat($F{inscripcionMateria.alumno.nombre})
+]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="165" y="0" width="100" height="14"/>
+				<reportElement x="205" y="0" width="100" height="14"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>

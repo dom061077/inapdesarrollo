@@ -16,10 +16,12 @@ class InscripcionMateria extends Inscripcion{
 	
     static constraints = {
 		inscripcionMatricula(nullable:false,blank:false)
-		detalleMateria validator : {
+		detalleMateria validator : {val,obj ->
 			it?.every{
 				it?.validate()
 			}
+			if(obj.detalleMateria.size()==0)
+				return["size.error"]
 		} 
 		
 		

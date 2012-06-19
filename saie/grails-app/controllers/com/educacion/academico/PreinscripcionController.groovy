@@ -442,11 +442,11 @@ class PreinscripcionController {
 		if(params.materiasSerialized)
 			materiasJson = grails.converters.JSON.parse(params.materiasSerialized)
 			
-		if(!materiasJson || materiasJson.size()==0){
+		/*if(!materiasJson || materiasJson.size()==0){
 			preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
 			render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
 			return 
-		}
+		}*/
 			
 		
 		if (preinscripcionInstance) {
@@ -533,7 +533,9 @@ class PreinscripcionController {
 					}
 				}
 				else {
-					log.debug "ERROR EN EL SAVE DE MATRICULA INSTANCE Y HASERRORS DE PREINSCRIPCION"
+					log.debug "ERROR DE VALIDACION EN preinscripcionInstance: "+preinscripcionInstance.errors.allErrors
+					log.debug "ERROR DE VALIDACION EN inscripcionMateriaInstance"+inscripcionMatriculaInstance.errors.allErrors
+					
 					status.setRollbackOnly()
 					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized,inscripcionMatriculaInstance:inscripcionMatriculaInstance])
 				}

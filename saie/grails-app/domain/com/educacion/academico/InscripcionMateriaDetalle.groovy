@@ -15,7 +15,7 @@ class InscripcionMateriaDetalle {
 	static belongsTo = [inscripcionMateria:InscripcionMateria]
 	
     static constraints = {
-		materia(unique:'inscripcionMateria',validator:{v,obj->
+		materia(validator:{v,obj->
 			if(!obj.id){
 				def cantDet = InscripcionMateriaDetalle.createCriteria().get{
 					and{
@@ -40,7 +40,7 @@ class InscripcionMateriaDetalle {
 					}
 				}
 				if(cantDet>0)
-					return ["xxx.error"]
+					return ["uniquexx.error"]
 			}
 		})
 		

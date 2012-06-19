@@ -263,12 +263,12 @@ class InscripcionMatriculaController {
 				}
 				materiasSerializedJson?.each {
 					if(it.seleccion.toUpperCase().equals("YES")){
-						if(!inscripcionMateriaInstance){
+						/*if(!inscripcionMateriaInstance){
 							inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
 								,alumno:inscripcionMatriculaInstance.alumno,anioLectivo:inscripcionMatriculaInstance.anioLectivo
 								,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_POSMATRICULA)
 							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
-						}
+						}*/
 						materiaInstance = Materia.load(it.idmateria.toLong())
 						if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 							 
@@ -300,9 +300,8 @@ class InscripcionMatriculaController {
 				}
 	
 				
-				
-	            if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true) && 
-					!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)) {
+	            if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save() /*&& 
+					!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)*/) {
 	                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
 	                redirect(action: "show", id: inscripcionMatriculaInstance.id)
 	            }

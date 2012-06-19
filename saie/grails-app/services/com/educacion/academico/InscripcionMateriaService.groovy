@@ -6,6 +6,7 @@ import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.util.GUtilDomainClass
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
+import com.educacion.academico.util.AcademicoUtil
 
 
 class InscripcionMateriaService {
@@ -187,47 +188,38 @@ class InscripcionMateriaService {
 			materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized)
 		}
 		
-		if(params.materiasDeletedSerialized){
-			materiasDeletedJson = grails.converters.JSON.parse(params.materiasDeletedSerialized)
-		}
-		
-		
 
 		def inscripcionMateriaDetalleInstance
 		def materiaInstance
-		materiasDeletedJson.each{
-			try{
-				inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.load(it.id.toLong())
-				inscripcionMateriaInstance.removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
-				inscripcionMateriaDetalleInstance.delete()
-			}catch(org.hibernate.ObjectNotFoundException e){
-			}catch (org.springframework.dao.DataIntegrityViolationException e){
-				log.debug "Error de integridad "+e.message
-			}
-		}
-		def materiaAntInstance
+		
 		materiasSerializedJson.each {
-			if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
-				 inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idDet)
-				 materiaInstance = Materia.load(it.idid.toLong())
-				 if(materiaInstance.equals(materiaAntInstance)){
+			if(it.seleccion.toUpperCase().equals("YES")){
+				materiaInstance = Materia.load(it.idmateria.toLong())
+				if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 					 
-				 }else{
-					 if(inscripcionMateriaDetalleInstance){
-					 	inscripcionMateriaDetalleInstance.materia = materiaInstance
-						inscripcionMateriaDetalleInstance.estado = EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-						inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateriaEnum."${it.tipovalue}"
-						inscripcionMateriaDetalleInstance.save()
+					 if(materiaInstance.equals(materiaAntInstance)){
+						 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"
+							 ,[materiaInstance.denominacion] as Object[],"Error de validacion materia repetida")
 					 }else{
-					 	inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
-							 ,estado:EstadoInscripcionMateriaDetalleEnum."${it.estadovalue}"
-							 ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
-							 )
-						inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+						  if(it.idid.toInteger()==0){
+							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+								 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+								 )
+							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+						  }
 					 }
-				 }
+					 materiaAntInstance=materiaInstance
+				}else{
+					inscripcionMateriaInstance.errors.rejectValue("detalleMateria","Error de correlatividad en la materia "+materiaInstance.denominacion)
+				}
+			}else{
+				if(it.idid.toInteger()>0){
+					inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
+					inscripcionMateriaInstance.removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
+					inscripcionMateriaDetalleInstance.delete()
+				}
 			}
-			materiaAntInstance = materiaInstance
 		}
 
 				

@@ -300,8 +300,6 @@ class InscripcionMateriaController {
     def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
-		def materiasSerialized="["
-		def flagcoma=false
 		
 		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
         if (!inscripcionMateriaInstance) {
@@ -309,16 +307,34 @@ class InscripcionMateriaController {
             redirect(action: "list")
         }
         else {
-			inscripcionMateriaInstance.detalleMateria.each{
-				if(flagcoma){
-					materiasSerialized  = materiasSerialized +','+ '{"id":"'+it.id+'","idid":"'+it.materia.id+'","denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'","estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota":"'+it.nota+'"}'
-				}else{
-					materiasSerialized = materiasSerialized + '{"id":"'+it.id+'","idid":"'+it.materia.id+'","denominacion":"'+it.materia.denominacion+'","estadovalue":"'+it.estado+'","estado":"'+it.estado.name+'","tipovalue":"'+it.tipo+'","tipo":"'+it.tipo.name+'","nota":"'+it.nota+'"}'
-					flagcoma=true
+			
+			def materiasSerialized
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMateriaInstance.carrera.id,inscripcionMateriaInstance.alumno.id)
+			
+			def flagcomilla = false
+			def flagseleccionado
+			def idinscmatdetalle
+
+			materiasSerialized = "["
+			materiasCursar.each{matcursar->
+				if(flagcomilla)
+					materiasSerialized = materiasSerialized + ","
+				flagseleccionado="No"
+				idinscmatdetalle = 0
+				inscripcionMateriaInstance.detalleMateria.each{detinsc->
+					if(detinsc.materia.id==matcursar.id){
+						flagseleccionado="Si"
+						idinscmatdetalle = detinsc.id
+						return
+					}
 				}
 
+				//materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+				flagcomilla = true
 			}
-			materiasSerialized = materiasSerialized + "]"
+			materiasSerialized += "]"
+			
             return [inscripcionMateriaInstance: inscripcionMateriaInstance,materiasSerialized:materiasSerialized]
         }
     }

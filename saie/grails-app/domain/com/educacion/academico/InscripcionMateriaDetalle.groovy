@@ -34,13 +34,16 @@ class InscripcionMateriaDetalle {
 						materia{
 							eq("id",obj.materia.id)
 						}
+						eq("tipo",obj.tipo)
 					}
 					projections{
 						rowCount()
 					}
 				}
 				if(cantDet>0)
-					return ["uniquexx.error"]
+					return ["unique.error",obj.materia.denominacion,obj.inscripcionMateria.alumno.apellido+","+obj.inscripcionMateria.alumno.nombre
+							,obj.inscripcionMateria.carrera.denominacion,obj.inscripcionMateria.anioLectivo.anioLectivo
+							,obj.tipo.name]
 			}
 		})
 		

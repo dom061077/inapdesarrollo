@@ -263,12 +263,6 @@ class InscripcionMatriculaController {
 				}
 				materiasSerializedJson?.each {
 					if(it.seleccion.toUpperCase().equals("YES")){
-						/*if(!inscripcionMateriaInstance){
-							inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
-								,alumno:inscripcionMatriculaInstance.alumno,anioLectivo:inscripcionMatriculaInstance.anioLectivo
-								,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_POSMATRICULA)
-							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
-						}*/
 						materiaInstance = Materia.load(it.idmateria.toLong())
 						if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 							 

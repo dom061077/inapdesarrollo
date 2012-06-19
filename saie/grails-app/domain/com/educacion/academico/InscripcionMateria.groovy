@@ -20,8 +20,9 @@ class InscripcionMateria extends Inscripcion{
 			it?.every{
 				it?.validate()
 			}
-			if(obj.detalleMateria.size()==0)
-				return["size.error"]
+			if(!obj.detalleMateria)
+				return ["size.error"]
+
 		} 
 		
 		

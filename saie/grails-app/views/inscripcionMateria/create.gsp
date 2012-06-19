@@ -13,9 +13,6 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 		        //var arrayDeletedMaterias = [];
-		        function clearMaterias(){
-			        $('#materiasId').jqGrid('clearGridData');
-			    }
 
 		
 		        function initsubmit(){
@@ -43,6 +40,7 @@
 		        	    griddata[i]["tipovalue"] = data[i].tipovalue;
 		        	    griddata[i]["tipo"] = data[i].tipo;
 		        	    griddata[i]["nota"] = data[i].nota;
+		        	    griddata[i]["seleccion"] = data[i].seleccion;
 		        	}
 		
 		        	for (var i = 0; i <= griddata.length; i++) {
@@ -51,39 +49,6 @@
 		        }
 				
 		    	$(document).ready(function (){
-					$('#busquedaMateriaId').jqGrid({
-						url:'<%out << g.createLink(controller:"materia",action:"listjson")%>'
-						,datatype:'json'
-						,width:400
-						,colNames:['Id','Denominación','Nivel','Carrera']
-						,colModel:[
-									{name:'id',index:'id',width:50,hidden:true}
-									,{name:'denominacion',index:'denominacion',width:100,sortable:true,search:true}
-									,{name:'nivel_descripcion',index:'nivel_descripcion',width:100,sortable:false,search:false}
-									,{name:'carrera_denominacion',index:'carrera_denominacion',width:100,sortable:true,search:true}
-							]
-						,pager:'#pagerBusquedaMateriaId'
-						,caption:'Buscar Materias'
-						,ondblClickRow: function(id){
-								var obj=$('#busquedaMateriaId').getRowData(id);
-								$('#idid').val(obj.id)
-								$('#denominacion').val(obj.denominacion);
-								$('#dialogBusquedaMateria').dialog("close");
-							} 
-						});
-						jQuery("#busquedaMateriaId").jqGrid('navGrid','#pagerBusquedaRequisitoId',{search:false,edit:false,add:false,del:false,pdf:true});
-						jQuery('#busquedaMateriaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-						jQuery("#busquedaMateriaId").jqGrid('navButtonAdd','#pagerBusquedaMateriaId',{
-						       caption:"Informe", 
-						       onClickButton : function () {
-						    	   var id = jQuery('#busquedaMateriaId').jqGrid('getGridParam','selrow');
-						    	   if(id)
-						    		   window.location = locvademecdetalle+'?target=_blank&id='+id;
-						    	   else
-						    		   $('<div>Seleccione una fila para activar esta opción</div>').dialog({title:'Mensaje',modal: true});
-						    	   
-						       } 
-						});	
 		        	
 		        	$('#materiasId').jqGrid({
 		               	datatype:'local'
@@ -102,89 +67,7 @@
 		                ,caption: 'Materias Inscriptas'
 		            });
 		
-		        	jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:false,edit:false,del:false,search:false,refresh:false}, //options 
-		        			{height:280,width:350,reloadAfterSubmit:false
-		        				, recreateForm:true
-		        				,modal:false
-		        				,editCaption:'Modificar Materias'
-		        				, beforeShowForm:function(form){
-		        					//$('#TblGrid_materiasId').before('<a style="width:50px" id="searchlinkformgridId" href="#"><span  class="ui-icon ui-icon-search"></span>Vademecum</a>');
-		        					//listRequisitosId
-		        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-		        					$('#searchlinkformgridId').bind('click',function(){
-		        		            	$('#dialogBusquedaMateria').dialog({
-		        		            		title:'Buscar',
-		        		            		modal:true,
-		        		            		resizable:false,
-		        		            		autoOpen:true,
-		        		            		width : 600,
-		        		            		height: 'auto',
-		        		            		minHeight:350,
-		        		            		position:'center'
-		        		            	});
-		        					});
-		        				}
-		        				,bSubmit:'Modificar'
-	                			,beforeSubmit : function(postData,formId){
-		                    			postData.estadovalue = $('#estado').val();
-		                    			postData.tipovalue = $('#tipo').val();
-		           						return [true,''];
-	                    		}
-			        				
-		        			
-		        			}, // edit options 
-		        			{height:280,width:350,reloadAfterSubmit:false
-		        				,recreateForm:true
-		        				,modal:false
-		        				,addCaption:'Agregar Materia'
-		        				,onclickSubmit: function(eparams){
-		        						//var obj=$('#busquedaMateriaId').jqGrid('getGridParam','selrow');
-		        						//if(obj){
-		        						//	return {descripcion:obj.descripcion};
-		        						//}else{
-		        						//	return{}
-		        						//}
-		        				}
-		            			,beforeSubmit : function(postData,formId){
-		                			postData.estadovalue = $('#estado').val();
-		                			postData.tipovalue = $('#tipo').val();
-		       						return [true,''];
-		                		}
-		        				,beforeShowForm:function(form){
-		        					$('#tr_denominacion').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
-		        					$('#searchlinkformgridId').bind('click',function(){
-		        		            	$('#dialogBusquedaMateria').dialog({
-		        		            		title:'Buscar',
-		        		            		modal:true,
-		        		            		resizable:false,
-		        		            		autoOpen:true,
-		        		            		width : 600,
-		        		            		height: 'auto',
-		        		            		minHeight:350,
-		        		            		position:'center'
-		        		            	});
-		        					});
-		        					
-		        				}
-		        				,bSubmit:'Agregar'
-		        			
-		        			}, // add options 
-		        			{reloadAfterSubmit:false
-		            			/*,beforeSubmit : function(postData,formId){
-		                			var row = $('#materiasId').getRowData(postData);
-		                			arrayDeletedMaterias.push({id:row.idid});
-		                			return[true,'']
-		                		
-		                		}*/
-		            		}, // del options 
-		        			{} // search options 
-		        		);	
-
-			        	$('#carreraId').cascade({
-		                    source: '<%out << createLink(controller:'inscripcionMateria',action:'anioscascade',params:[alumnoId:inscripcionMateriaInstance?.alumno?.id])%>',
-		                    cascaded: "anioLectivoId"
-		                });		    		
-		        		bindmaterias();
+	        		bindmaterias();
 		
 		            
 		        });

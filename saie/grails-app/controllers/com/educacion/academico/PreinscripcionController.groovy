@@ -591,6 +591,30 @@ class PreinscripcionController {
 
 	}
 
+	
+	def reportepreinscripcion = {
+		log.info "INGRESANDO AL CLOSURE reportepreinscripcion"
+		log.info "PARAMETROS $params"
+		
+		def preinscripcionInstance = Preinscripcion.get(params.id)
+		def list = new ArrayList()
+		list.add(preinscripcionInstance)
+		
+		if (preinscripcionInstance) { 
+			
 
+			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/preinscripcion/"))
+			params.put("_format","PDF")
+			
+			params.put("_name","reportepreinscripcion")
+			params.put("_file","preinscripcion/reportepreinscripcion")
+			chain(controller:'jasper', action:'index', model:[data:list], params:params)
+	
+			
+		} else {
+			redirect(action: "list")
+		}
+		
+    }
 	
 }

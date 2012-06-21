@@ -598,11 +598,13 @@ class PreinscripcionController {
 		
 		def preinscripcionInstance = Preinscripcion.get(params.id)
 		def list = new ArrayList()
-		list.add(preinscripcionInstance)
 		
 		if (preinscripcionInstance) { 
+			def materias = AcademicoUtil.getMateriasCursarDisponibles(
+				preinscripcionInstance.carrera.id, preinscripcionInstance.alumno.id)
+	
+			list.add([preinscripcionInstance, materias])
 			
-
 			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/preinscripcion/"))
 			params.put("_format","PDF")
 			

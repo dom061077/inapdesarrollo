@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -63,14 +63,14 @@
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Denominación]]></text>
+				<text><![CDATA[DenominaciÃ³n]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="216" y="2" width="125" height="15"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Duración (Años)]]></text>
+				<text><![CDATA[DuraciÃ³n (AÃ±os)]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="341" y="2" width="198" height="15"/>

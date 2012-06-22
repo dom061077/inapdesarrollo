@@ -27,17 +27,6 @@
 				});
 				jQuery("#tablaBusquedaRequisitoId").jqGrid('navGrid','#pagerBusquedaRequisitoId',{search:false,edit:false,add:false,del:false,pdf:true});
 				jQuery('#tablaBusquedaRequisitoId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-				jQuery("#tablaBusquedaRequisitoId").jqGrid('navButtonAdd','#pagerBusquedaRequisitoId',{
-				       caption:"Informe", 
-				       onClickButton : function () {
-				    	   var id = jQuery('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
-				    	   if(id)
-				    		   window.location = locvademecdetalle+'?target=_blank&id='+id;
-				    	   else
-				    		   $('<div>Seleccione una fila para activar esta opción</div>').dialog({title:'Mensaje',modal: true});
-				    	   
-				       } 
-				});	
 				
 				//-----------------------------------------------------------------------------------------
 				
@@ -162,7 +151,7 @@ $(document).ready(function(){
 				}
 				,bSubmit:'Modificar'
 			}, // edit options 
-			{height:300,width:450,reloadAfterSubmit:false
+			{height:330,width:420,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,addCaption:'Agregar Requisito'

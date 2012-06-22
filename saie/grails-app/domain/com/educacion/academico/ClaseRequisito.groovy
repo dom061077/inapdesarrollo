@@ -4,6 +4,6 @@ class ClaseRequisito {
 	String descripcion
 	
     static constraints = {
-		descripcion(nullable:false,blank:false,size:1..20)
+		descripcion(nullable:false,blank:false,size:1..250)
     }
 }

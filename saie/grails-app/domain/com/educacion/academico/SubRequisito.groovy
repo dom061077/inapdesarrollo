@@ -11,7 +11,7 @@ class SubRequisito {
 
 	
     static constraints = {
-		descripcion(nullable:false,blank:false,size:1..35)
+		descripcion(nullable:false,blank:false,size:1..250)
 
     }
 	

@@ -17,17 +17,17 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Nro.Preinsc.','Apellido Alumno','Nombre Alumno','Carrera','Fecha Alta','Año Lectivo','Estado','Operaciones'],
+					colNames:['Nro.Preinsc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Operaciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:false,searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
-				   		{name:'fechaAlta',index:'fechaAlta',width:40,search:false},
+				   		{name:'fechaAlta',index:'fechaAlta',width:55,search:false},
 				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:40,search:false},
 				   		{name:'estado',index:'estado', width:40,search:false,sortable:false},
-				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+				   		{name:'operaciones',index:'operaciones', width:65,search:false,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,
@@ -44,8 +44,9 @@
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
 							be = "<a title='Matricular' href='inscribir/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var pr = "<a title='Ver' href='reportepreinscripcion/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se+be}); 
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se+pr+be}); 
 							}
 						
 						 

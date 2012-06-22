@@ -11,7 +11,7 @@ class Division {
 	static belongsTo=[nivel:Nivel]
 	
     static constraints = {
-		descripcion(nullable:false,blank:false,size:1..36)
-		letra(nullable:false,blank:false,size:1..1)
+		descripcion(nullable:false,blank:false,size:1..50)
+		letra(nullable:false,blank:false,size:1..2)
     }
 }

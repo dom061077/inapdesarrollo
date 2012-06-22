@@ -60,7 +60,7 @@
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
 							//var se = "<a title='Mostrar' href='reporteasistencia/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a title='Mostrar' href='#' onClick='clickreporte("+ids[i]+")'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var se = "<a title='Mostrar' href='#' onClick='clickreporte("+ids[i]+")'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se}); 
 							}
 						

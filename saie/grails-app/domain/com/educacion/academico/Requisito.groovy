@@ -13,7 +13,7 @@ class Requisito {
 	
 	
     static constraints = {
-		descripcion(nullable:false,blank:false,size:1..35)
+		descripcion(nullable:false,blank:false,size:1..250)
 		claseRequisito(nullable:false,blank:false)
     }
 	

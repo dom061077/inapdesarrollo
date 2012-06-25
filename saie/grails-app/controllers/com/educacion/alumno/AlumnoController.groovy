@@ -13,6 +13,7 @@ import org.springframework.transaction.TransactionStatus
 
 
 class AlumnoController {
+    //TODO copiar cambios de apellido nombre
 	def imageUploadService
 	RecaptchaService recaptchaService
 	
@@ -91,7 +92,7 @@ class AlumnoController {
 		}
 		else {
 			if(!recaptchaOK)
-				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un código de pueba correcto al pie de la página")
+				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un cï¿½digo de pueba correcto al pie de la pï¿½gina")
 			render(view: "register", model: [alumnoInstance: alumnoInstance])
 		}
 	}

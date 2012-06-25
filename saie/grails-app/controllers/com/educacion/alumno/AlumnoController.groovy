@@ -13,7 +13,6 @@ import org.springframework.transaction.TransactionStatus
 
 
 class AlumnoController {
-    //TODO copiar cambios de apellido nombre
 	def imageUploadService
 	RecaptchaService recaptchaService
 	
@@ -92,7 +91,7 @@ class AlumnoController {
 		}
 		else {
 			if(!recaptchaOK)
-				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un cï¿½digo de pueba correcto al pie de la pï¿½gina")
+				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un código de pueba correcto al pie de la página")
 			render(view: "register", model: [alumnoInstance: alumnoInstance])
 		}
 	}
@@ -348,12 +347,15 @@ class AlumnoController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def alumnos = Alumno.createCriteria().list(){
-				like('apellidoNombre','%'+params.term+'%')
+			or{
+				ilike('apellido','%'+params.term+'%')
+				ilike('nombre','%'+params.term+'%')
+			}
 		}
 		render(contentType:"text/json"){
 			array{
 				for (alu in alumnos){
-					alumno id:alu.id,label:alu.apellido,value:alu.apellido
+					alumno id:alu.id,label:alu.apellido+'-'+alu.nombre,value:alu.apellido+'-'+alu.nombre
 				}
 			}
 			

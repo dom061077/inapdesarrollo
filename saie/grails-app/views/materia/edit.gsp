@@ -355,7 +355,7 @@
 							<div class="span-3 spanlabel">
 								<label for="promocional"><g:message code="materia.promocional.label" default="Promocional" /></label>
 							</div>
-							<div class="span-5">
+							<div class="span-5 spanlabel">
 								<g:checkBox name="promocional" value="${materiaInstance?.promocional}" />
 							</div>
 										
@@ -380,7 +380,15 @@
 							<g:hasErrors bean="${materiaInstance}" field="tipo">
 								<g:renderErrors bean="${materiaInstance}" as="list" field="tipo"/>
 								</div>
-						   </g:hasErrors>
+						   	</g:hasErrors>
+						   	<div class="clear"> </div>
+						   	
+						   	<div class="span-3 spanlabel">
+						   		<label for=""><g:message code="materia.troncal.label" default="Troncal" /> </label>
+						   	</div>
+						   	<div class="span-5 spanlabel"> 
+						   		<g:checkBox name="troncal" value="${materiaInstance?.troncal}" />
+						   	</div>
 						   <div class="clear"></div>
 		
 						   <div id="tabs">

@@ -130,46 +130,66 @@
                             <div class="span-4 spanlabel"><g:message code="materia.denominacion.label" default="Denominacion" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "denominacion")}</div>
-                            
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.descripcion.label" default="Descripcion" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: materiaInstance, field: "descripcion")}</div>
-                            
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.duracion.label" default="Duracion" /></div>
                             
                             <div class="span-4 spanlabel"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.descripcion?.encodeAsHTML()}</g:link></div>
-                            
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.estado.label" default="Estado" /></div>
                             
                             <div class="span-4 spanlabel">${materiaInstance?.estado?.name?.encodeAsHTML()}</div>
-                            
 							<div class="clear"></div>
 							
                             <div class="span-4 spanlabel"><g:message code="materia.nivel.carrera.label" default="Carrera" /></div>
                             
                             <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
-                            
 							<div class="clear"></div>
 							
                     
                             <div class="span-4 spanlabel"><g:message code="materia.nivel.label" default="Nivel" /></div>
                             
                             <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${materiaInstance?.nivel?.carrera?.id}">${materiaInstance?.nivel?.descripcion?.encodeAsHTML()}</g:link></div>
-                            
 							<div class="clear"></div>
                     
                     
                             <div class="span-4 spanlabel"><g:message code="materia.tipo.label" default="Tipo" /></div>
                             
                             <div class="span-4 spanlabel">${materiaInstance?.tipo?.name?.encodeAsHTML()}</div>
-                            
 							<div class="clear"></div>
+							
+							
+							<div class="span-4 spanlabel"><g:message code="materia.promocional.label" default="Promocional" /> </div>
+							<div class="span-4 spanlabel">
+								<g:if test="${materiaInstance?.promocional}">
+									<g:set var="promocional" value="SI"/>
+								</g:if>	
+								<g:if test="${!materiaInstance?.promocional}">
+									<g:set var="promocional" value="NO"/>
+								</g:if>
+								${promocional}	
+							</div>
+							<div class="clear"></div>
+							
+							<div class="span-4 spanlabel"><g:message code="materia.troncal.label" default="Troncal" /> </div>
+							<div class="span-4 spanlabel">
+								<g:if test="${materiaInstance?.troncal}">
+									<g:set var="troncal" value="SI"/>
+								</g:if>	
+								<g:if test="${!materiaInstance?.troncal}">
+									<g:set var="troncal" value="NO"/>
+								</g:if>
+								${troncal}	
+							</div>
+							<div class="clear"></div>
+							
+							
 						   <div id="tabs">
 						   		<ul>
 						   			<li><a href="#tabs-matregcursar">Mat. Regulares para Cursar</a></li>

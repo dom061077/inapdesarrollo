@@ -1,8 +1,5 @@
-
-
-<%@ page import="com.educacion.academico.Preinscripcion"
-  @ page import="com.educacion.academico.Carrera"	
- %>
+<%@ page import="com.educacion.academico.Preinscripcion"  %>
+<%@ page import="com.educacion.academico.Carrera"%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -25,7 +22,12 @@
         
                 
     <script type="text/javascript">
-    </script>    
+        var locpaissearch= '<%out << createLink(controller:"pais",action:"listsearchjson")%>';
+        var locprovinciasearch= '<%out << createLink(controller:"provincia",action:"listsearchjson")%>';
+        var loclocsearch= '<%out << createLink(controller:"localidad",action:"listsearchjson")%>';
+        var locsitadministrativa='<%out << createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>';
+        var locvalidate = '<%out << createLink(controller:"preinscripcion",action:"validate")%>'
+    </script>
         
  		
     </head>
@@ -149,7 +151,7 @@
 									<legend>Datos de Nacimiento</legend>
 									
 									<div class="span-3 ">
-										<label for="paisNac"><g:message code="alumno.paisNac.label" default="Pais de Nacimiento" /></label>
+										<label for="paisNacDesc"><g:message code="alumno.paisNac.label" default="Pais de Nacimiento" /></label>
 									</div>
 									<div class="span-9">
 										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisNacId" name="paisNacDesc"  value="${alumnoInstance?.localidadNac?.provincia?.pais?.nombre}" /> 
@@ -158,7 +160,7 @@
 									<div class="clear"></div>	
 			
 									<div class="span-3 ">
-										<label for="provinciaNac"><g:message code="alumno.provinciaNac.label" default="Provincia de Nacimiento" /></label>
+										<label for="provinciaNacDesc"><g:message code="alumno.provinciaNac.label" default="Provincia de Nacimiento" /></label>
 									</div>
 									<div class="span-9">
 										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaNacId" name="provinciaNacDesc"  value="${alumnoInstance?.localidadNac?.provincia?.nombre}" /> 
@@ -170,7 +172,7 @@
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
 									<div class="span-3 ">
-										<label for="localidadNac"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
+										<label for="localidadNacDesc"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 									</div>
 									<div class="span-9">
 										<g:textField  class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
@@ -195,7 +197,7 @@
 														<label for="calleDomicilio"><g:message code="alumno.calleDomicilio.label" default="Calle Domicilio" /></label>
 													</div>
 													<div class="span-5">
-														<g:textField name="calleDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleDomicilio}" />
+														<g:textField name="calleDomicilio" id="calleDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleDomicilio}" />
 													</div>
 																
 													<g:hasErrors bean="${alumnoInstance}" field="calleDomicilio">

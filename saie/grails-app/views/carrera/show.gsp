@@ -97,70 +97,72 @@
             </g:if>
             <div class="dialog">
             	<div class="span-16">
-		                <table>
-		                    <tbody>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.id.label" default="Id" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "id")}</td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.campoOcupacional.label" default="Campo Ocupacional" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "campoOcupacional")}</td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.denominacion.label" default="Denominacion" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "denominacion")}</td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.duracion.label" default="Duracion" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "duracion")}</td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.modalidadFormacion.label" default="Modalidad Formacion" /></td>
-		                            
-		                            <td valign="top" class="value">${carreraInstance?.modalidadFormacion?.name?.encodeAsHTML()}</td>
-		                            
-		                        </tr>
-		                    
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.perfilEgresado.label" default="Perfil Egresado" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "perfilEgresado")}</td>
-		                            
-		                        </tr>
-		                    
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.titulo.label" default="Titulo" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "titulo")}</td>
-		                            
-		                        </tr>
-		                    
-		                        <tr class="prop">
-		                            <td valign="top" class="name"><g:message code="carrera.validezTitulo.label" default="Validez Titulo" /></td>
-		                            
-		                            <td valign="top" class="value">${fieldValue(bean: carreraInstance, field: "validezTitulo")}</td>
-		                            
-		                        </tr>
-		                    
-		                    </tbody>
-		                </table>
-				</div>	
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.campoOcupacional.label" default="Campo Ocupacional" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "campoOcupacional")}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.denominacion.label" default="Denominacion" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "denominacion")}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.duracion.label" default="Duracion" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "duracion")}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.modalidadFormacion.label" default="Modalidad Formacion" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${carreraInstance?.modalidadFormacion?.name?.encodeAsHTML()}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.perfilEgresado.label" default="Perfil Egresado" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "perfilEgresado")}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.titulo.label" default="Titulo" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "titulo")}
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-3 spanlabel">
+                        <label><g:message code="carrera.validezTitulo.label" default="Validez Titulo" /></label>
+                    </div>
+                    <div class="span-5 spanlabel">
+                        ${fieldValue(bean: carreraInstance, field: "validezTitulo")}
+                    </div>
+                    <div class="clear"></div>
+
+
+				</div>
 			   <div class="clear"></div>
 			   <div id="tabs">
 				   		<ul>

@@ -234,7 +234,7 @@ class CarreraController {
 						 nivelInstance.descripcion=it.descripcion
 						 nivelInstance.esprimernivel = it.esprimernivelvalue.toBoolean()
 						nivelInstance.save()
-						log.debug "ENCUENTRA EL NIVEL Y LO MODIFICA"
+						log.debug "ENCUENTRA EL NIVEL Y LO MODIFICA " + it.esprimernivelvalue.toBoolean()
 					 }else{
 						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
 						log.debug "NO ENCUENTRA EL NIVEL Y LO AGREGA"
@@ -297,7 +297,7 @@ class CarreraController {
 				}catch(org.springframework.dao.DataIntegrityViolationException e){
 						log.debug "EXCEPTION ATRAPADA DE NUEVO"
 						status.setRollbackOnly()
-						flash.message = "Algun registro eliminado en las grillas de registros, niveles o Años Lectivos esta referenciado en otros datos. Verifique antes de eliminar y vuelva a intentar la modificacion "
+						flash.message = "Algun registro eliminado en las grillas de registros, niveles o Aï¿½os Lectivos esta referenciado en otros datos. Verifique antes de eliminar y vuelva a intentar la modificacion "
 						redirect(action:"list")
 						return 
 				}

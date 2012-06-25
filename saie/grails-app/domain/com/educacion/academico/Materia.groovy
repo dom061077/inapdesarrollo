@@ -7,7 +7,7 @@ class Materia {
 	String denominacion
 	boolean promocional
 	boolean troncal = false
-	DuracionMateria duracion
+	Integer duracion
 	String descripcion
 	EstadoMateriaEnum estado
 	Nivel nivel

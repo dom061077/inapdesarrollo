@@ -276,16 +276,17 @@
 
 																	
                         
+                        
+                        
 							<g:hasErrors bean="${materiaInstance}" field="duracion">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="duracion"><g:message code="materia.duracion.label" default="Duracion" /></label>
+								<label for="duracion"><g:message code="materia.duracion.label" default="Duracion (días)" /></label>
 							</div>
 							<div class="span-5">
-								<g:select name="duracion.id" from="${DuracionMateria.list()}"	value="${materiaInstance?.duracion?.id}"
-								optionKey="id" optionValue="descripcion" />
+								<g:textField id="duracion" name="duracion" class="ui-widget ui-corner-all ui-widget-content" value="${materiaInstance?.duracion}" />
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="duracion">
@@ -293,7 +294,7 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
-
+								
 																	
                         
 							<g:hasErrors bean="${materiaInstance}" field="estado">

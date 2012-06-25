@@ -9,12 +9,13 @@
 				rownumbers:true,
 				pager:'pagerBusquedaRequisitoId',
 				datatype:'json',
-				colNames:['Id','Descripción','Clase'],
+				colNames:['Id','Descripción','Estado','Clase'],
 				colModel:[
 						{name:'id',index:'id',width:10,hidden:true},
 						{name:'descripcion',index:'descripcion',width:100,sorttype:'text',sortable:true},
-						{name:'claseRequisito_descripcion',index:'claseRequisito_descripcion',width:100,sorttype:'text',sortable:true}
-				],
+                        {name:'estado',index:'estado',width:100,sorttype:'text',sortable:true},
+                        {name:'claseRequisito_descripcion',index:'claseRequisito_descripcion',width:100,sorttype:'text',sortable:true}
+   				],
 				ondblClickRow: function(id){
 						var obj=$('#tablaBusquedaRequisitoId').getRowData(id);
 						$('#idid').val(obj.id)
@@ -168,7 +169,7 @@ $(document).ready(function(){
 				,bSubmit:'Modificar'
 			
 			}, // edit options 
-			{height:320,width:400,reloadAfterSubmit:false
+			{height:350,width:430,reloadAfterSubmit:false
 				,recreateForm:true
 				,modal:false
 				,addCaption:'Agregar Requisito'

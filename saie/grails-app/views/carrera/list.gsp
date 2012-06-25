@@ -23,7 +23,7 @@
 					colNames:['Id','Denomicación','Campo Ocupacional','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
+				   		{name:'id',index:'id', width:40, hidden:true},
 				   		{name:'denominacion',index:'denominacion', width:92,sortable:false},
 				   		{name:'campoOcupacional',index:'campoOcupacional', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}

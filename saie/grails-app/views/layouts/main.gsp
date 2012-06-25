@@ -92,7 +92,6 @@
 										</li>
 										<li><span class="dir">Materias</span>
 											<ul>
-												<li><a href="${createLink(controller:'duracionMateria',action:'list')}">Duración de Materias</a></li>
 												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización de materia</a></li>
 												<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
 											</ul>

@@ -23,8 +23,6 @@ class Carrera {
     }
 	
 	static mapping = {
-		niveles sort : 'descripcion'
 		niveles lazy: false
-
 	}
 }

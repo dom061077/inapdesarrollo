@@ -37,6 +37,13 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
      }
 
+    def validate = {
+        log.info "INGRESANDO AL CLOSURE validate"
+        log.info "PARAMETROS: $params"
+
+        render "false"
+    }
+
     def create = {
 		log.info "INGRESANDO AL CLOSURE create"
 		log.info "PARAMETROS: $params"
@@ -118,7 +125,7 @@ class PreinscripcionController {
 		
 		//el indice 6 es el cupo, el 7 cupo suplente, el 8 la cantidad de preinscripciones
 		if((!datosCarrera[6]) || (datosCarrera[6]==0)){
-			flash.message = "No hay un cupo cargado para el año lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
+			flash.message = "No hay un cupo cargado para el aï¿½o lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
 			render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
 			return
 		}
@@ -557,6 +564,8 @@ class PreinscripcionController {
 		log.info "PARAMETROS $params"
 		
 		def preinscripcionInstance = Preinscripcion.get(params.id)
+
+
 		
 		def listinscmaterias = preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias
 		def listinscdetallematerias

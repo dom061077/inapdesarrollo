@@ -2,12 +2,14 @@
 				//-------------wizard ------------------
 				$("#inscripcionFormId").formwizard({
 					//formPluginEnabled: true,
-				 	//validationEnabled: true,
+				 	validationEnabled: true,
+
 				 	historyEnabled: true,
 				 	focusFirstInput : true,
 				 	textSubmit: 'Enviar',
 				 	textNext: 'Siguiente',
 				 	textBack: 'Anterior',
+                    disableUIStyles : true,
 				 	formOptions :{
 						success: function(data){$("#status").fadeTo(500,1,function(){ $(this).html("You are now registered!").fadeTo(5000, 0); })},
 						beforeSubmit: function(data){$("#data").html("data sent to the server: " + $.param(data));},
@@ -15,8 +17,15 @@
 						resetForm: true
 				 	},
 				 	validationOptions : {
+                        messages:{remote:'ya existe el documento'},
 				 		rules: {
-							surname: "required",
+                            numeroDocumento:{
+
+                                remote : {
+                                    url: locvalidate,
+                                    type:'post'
+                                }
+                            },
 							firstname : {
 								required: true,
 								email: true
@@ -39,7 +48,7 @@
 
 
 
-				$('#paisDomicilioId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+				$('#paisDomicilioId').lookupfield({source:locpaissearch,
 					 title:'Pais de Domicilio' 
 					,colNames:['Id','Nombre'] 
 					,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:true,search:false} 
@@ -84,7 +93,7 @@
 						 
 				//---------------------------------- 
 				
-				$('#provinciaDomicilioId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+				$('#provinciaDomicilioId').lookupfield({source:locprovinciasearch,
 		 				 title:'Provincia del Domicilio' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -114,7 +123,7 @@
 				//---------------------------------- 
 				
 		        
-				$('#localidadDomicilioId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+				$('#localidadDomicilioId').lookupfield({source:loclocsearch,
 		 				 title:'Localidad del Domicilio' 
 						,colNames:['Id','Nombre','Código Postal'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
@@ -133,7 +142,7 @@
 		
 		        
 				//---------------------------------- 	
-				$('#paisLaboralId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+				$('#paisLaboralId').lookupfield({source:locpaissearch,
 					 title:'Pais de Laboral' 
 					,colNames:['Id','Nombre'] 
 					,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -165,7 +174,7 @@
 						 
 				//---------------------------------- 
 				
-				$('#provinciaLaboralId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+				$('#provinciaLaboralId').lookupfield({source:locprovinciasearch,
 		 				 title:'Provincia del Laboral' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -196,7 +205,7 @@
 		
 		
 		
-				$('#localidadLaboralId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+				$('#localidadLaboralId').lookupfield({source:loclocsearch,
 		 				 title:'Localidad Laboral' 
 						,colNames:['Id','Nombre','Código Postal'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -210,7 +219,7 @@
 		
 		
 		//---------------------------------- 	
-				$('#paisNacId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+				$('#paisNacId').lookupfield({source:locpaissearch,
 					 title:'Pais de Nacimiento' 
 					,colNames:['Id','Nombre'] 
 					,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -255,7 +264,7 @@
 						 
 				//---------------------------------- 
 				
-				$('#provinciaNacId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+				$('#provinciaNacId').lookupfield({source:locprovinciasearch,
 		 				 title:'Provincia del Nacimiento' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -285,7 +294,7 @@
 				//---------------------------------- 
 		
 		
-				$('#localidadNacId').lookupfield({source:'<%out << createLink(controller:"localidad",action:"listsearchjson")%>',
+				$('#localidadNacId').lookupfield({source:loclocsearch,
 		 				 title:'Localidad de Nacimiento' 
 						,colNames:['Id','Nombre','Código Postal'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -303,7 +312,7 @@
 		
 		
 				//---------------------------------- 	
-				$('#paisTutorId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+				$('#paisTutorId').lookupfield({source:locpaissearch,
 					 title:'Pais de Laboral' 
 					,colNames:['Id','Nombre'] 
 					,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -335,7 +344,7 @@
 						 
 				//---------------------------------- 
 				
-				$('#provinciaTutorId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+				$('#provinciaTutorId').lookupfield({source:locprovinciasearch,
 		 				 title:'Provincia del Tutor' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -367,7 +376,7 @@
 				
 				
 		
-				$('#localidadTutorId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+				$('#localidadTutorId').lookupfield({source:loclocsearch,
 		 				 title:'Localidad Tutor' 
 						,colNames:['Id','Nombre','Código Postal'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -383,7 +392,7 @@
 		
 		//----------------------------------
 		
-				$('#paisGaranteId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
+				$('#paisGaranteId').lookupfield({source:locpaissearch,
 					 title:'Pais del Garante' 
 					,colNames:['Id','Nombre'] 
 					,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -415,7 +424,7 @@
 						 
 				//---------------------------------- 
 				
-				$('#provinciaGaranteId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
+				$('#provinciaGaranteId').lookupfield({source:locprovinciasearch,
 		 				 title:'Provincia del Garante' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -446,7 +455,7 @@
 		
 		
 		
-				$('#localidadGaranteId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+				$('#localidadGaranteId').lookupfield({source:loclocsearch,
 		 				 title:'Localidad Garante' 
 						,colNames:['Id','Nombre','Código Postal'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
@@ -461,7 +470,7 @@
 		
 		
 		
-				$('#situacionAdministrativaId').lookupfield({source:'<%createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>',
+				$('#situacionAdministrativaId').lookupfield({source:locsitadministrativa,
 		 				 title:'Situacion Admistrativa' 
 						,colNames:['Id','Nombre'] 
 						,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 

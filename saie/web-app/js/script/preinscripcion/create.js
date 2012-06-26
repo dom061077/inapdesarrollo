@@ -1,5 +1,12 @@
+    function bindalumnodata(json){
+       for(var i=0; i < json.length;i++){
+           //$('#'+)
+       }
+    }
+
 			$(function(){
 				//-------------wizard ------------------
+                var flagerror = false;
 				$("#inscripcionFormId").formwizard({
 					//formPluginEnabled: true,
 				 	validationEnabled: true,
@@ -17,26 +24,38 @@
 						resetForm: true
 				 	},
 				 	validationOptions : {
-                        messages:{remote:'ya existe el documento'},
+                        messages:{
+                            numeroDocumento:{
+                                remote:'ya existe el documento'
+                            }
+                        },
 				 		rules: {
                             numeroDocumento:{
 
                                 remote : {
                                     url: locvalidate,
-                                    type:'post'
+                                    type:'post',
+                                    beforeSend: function(xhr){
+                                        if(!flagerror){
+                                            $('#numerodocumentoId').css('float','left');
+                                            $('<div class=\"spinnerwait\" id=\"numeroDocumentoWaitId\"></div>').insertAfter('#numeroDocumentoId');
+                                            flagerror = true;
+                                        }
+                                    },
+                                    success:function(data){
+                                        $('#numeroDocumentoWaitId').fadeOut(function(){
+                                            flagerror = false;
+                                        });
+                                    },
+                                    error:function(jqXHR, textStatus, errorThrown){
+                                        if(textStatus=='abort')
+                                            $('#numeroDocumentoWaitId').fadeOut(function(){
+                                                flagerror = false;
+                                            });
+                                    }
                                 }
-                            },
-							firstname : {
-								required: true,
-								email: true
-							}
-						},
-						messages: {
-							country: "Please specify your country",
-							email: {
-								required: "Please specify your email",
-								email: "Correct format is name@domain.com"
-							}
+
+                            }
 						}
 				 	}
 				 }

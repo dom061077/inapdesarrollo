@@ -27,3 +27,11 @@ h1,h2{
 .hidden{
 	display:none;
 }
+
+.spinnerwait {
+    background-image: url("../images/spinner.gif");
+    background-repeat: no-repeat;
+    width: 15px;
+    height: 15px;
+    float: right;
+}

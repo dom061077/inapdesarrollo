@@ -26,7 +26,7 @@
         var locprovinciasearch= '<%out << createLink(controller:"provincia",action:"listsearchjson")%>';
         var loclocsearch= '<%out << createLink(controller:"localidad",action:"listsearchjson")%>';
         var locsitadministrativa='<%out << createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>';
-        var locvalidate = '<%out << createLink(controller:"preinscripcion",action:"validate")%>'
+        var locvalidate = '<%out << createLink(controller:"preinscripcion",action:"validatedocexistente")%>'
     </script>
         
  		

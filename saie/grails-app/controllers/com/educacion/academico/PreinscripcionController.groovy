@@ -37,11 +37,26 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
      }
 
-    def validate = {
+    def validatedocexistente = {
         log.info "INGRESANDO AL CLOSURE validate"
         log.info "PARAMETROS: $params"
+        def documento
+        try{
+            documento = Long.parseLong (params.numeroDocumento)
+        }catch(NumberFormatException e){
+            render "false"
+            return
+        }
+        def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
+        if(alumnoInstance){
+            log.debug "RETORNO DE ALUMNOINSTANCE"
+            render alumnoInstance as grails.converters.JSON
+            return
+        }else{
+            render ""
+            return
+        }
 
-        render "false"
     }
 
     def create = {

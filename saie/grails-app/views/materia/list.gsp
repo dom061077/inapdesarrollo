@@ -17,7 +17,7 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Nombre','Nivel','Carrera','Operaciones'],
+					colNames:['Código','Nombre','Nivel','Carrera','Operaciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:40},

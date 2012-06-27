@@ -23,6 +23,6 @@ class Carrera {
     }
 	
 	static mapping = {
-		niveles lazy: false
+		niveles lazy: false, sort: "id",order: "desc"
 	}
 }

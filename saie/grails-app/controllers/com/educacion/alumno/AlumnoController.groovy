@@ -91,7 +91,7 @@ class AlumnoController {
 		}
 		else {
 			if(!recaptchaOK)
-				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un código de pueba correcto al pie de la página")
+				alumnoInstance.errors.rejectValue("id","com.educacion.alumno.Alumno.captcha.error","Ingrese un cï¿½digo de pueba correcto al pie de la pï¿½gina")
 			render(view: "register", model: [alumnoInstance: alumnoInstance])
 		}
 	}
@@ -400,6 +400,28 @@ class AlumnoController {
 			alumno apellidoNombre:alumnoInstance.apellido,documento:alumnoInstance?.numeroDocumento,tipoDocumento:alumnoInstance?.tipoDocumento?.name,sexo:alumnoInstance.sexo.name,fechaNacimiento:g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)
 		}
 	}
+
+
+    def validatedocexistente = {
+        log.info "INGRESANDO AL CLOSURE validate"
+        log.info "PARAMETROS: $params"
+        def documento
+        try{
+            documento = Long.parseLong (params.numeroDocumento)
+        }catch(NumberFormatException e){
+            render "false"
+            return
+        }
+        def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
+        if(alumnoInstance){
+            log.debug "RETORNO DE ALUMNOINSTANCE"
+            render alumnoInstance as grails.converters.JSON
+            return
+        }else{
+            render "false"
+        }
+
+    }
 
 	
 }

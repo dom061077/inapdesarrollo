@@ -1,7 +1,33 @@
     function bindalumnodata(json){
-       for(var i=0; i < json.length;i++){
-           //$('#'+)
-       }
+        if(json){
+            $('#anioEgresoId').val(json.anioEgreso);
+            $('#apellidoId').val(json.apellido);
+            $('#apellidoId').val(json.apellido);
+            $('#apellidoNombreGaranteId').val(json.apellidoNombreGarante);
+            $('#apellidoNombreTutorId').val(json.apellidoNombreTutor);
+            $('#barrioDomicilioId').val(json.apellido);
+            $('#barrioGaranteId').val(json.barrioGarante);
+            $('#barrioLaboralId').val(json.barrioLaboral);
+            $('#barrioTutorId').val(json.barrioTutor);
+            $('#calleDomicilioId').val(json.calleDomicilio);
+            $('#calleGaranteId').val(json.calleGarante);
+            $('#calleLaboralId').val(json.calleLaboral);
+            $('#calleTutorId').val(json.calleTutor);
+            $('#emailId').val(json.email);
+            $('#establecimientoProcedenciaId').val(json.establecimientoProcedencia);
+            $('#estadoAcademicoId').val(json.estadoAcademico.name);
+            $('#fechaAltaId').val(json.fechaAlta.substring(8,9) );
+            $('#fechaNacimientoId').val(json.fechaNacimiento.substring(8,10)+'/'+json.fechaNacimiento.substring(5,7)+'/'
+                +json.fechaNacimiento.substring(0,4));
+            $('#legajoId').val(json.legajo);
+            $('#localidadNacimientoId').val(json.localidadNacimiento.nombre);
+            $('#localidadNacimientoIdId').val(json.localidadNacimiento.id);
+
+
+
+
+        }
+
     }
 
 			$(function(){
@@ -46,6 +72,9 @@
                                         $('#numeroDocumentoWaitId').fadeOut(function(){
                                             flagerror = false;
                                         });
+                                        if(data!='false')
+                                            bindalumnodata(data);
+
                                     },
                                     error:function(jqXHR, textStatus, errorThrown){
                                         if(textStatus=='abort')

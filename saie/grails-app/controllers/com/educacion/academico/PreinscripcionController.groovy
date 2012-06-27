@@ -46,13 +46,14 @@ class PreinscripcionController {
 		//def carreras = Carrera.listOrderByDenominacion()
 		//niveles = carreras?.get(0)?.niveles
 		def carreraInstance = Carrera.get(params.id)
-		def anioLectivoInstance
-		def sortedList= carreraInstance.anios.sort{it.anioLectivo}.reverse()
+		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(carreraInstance.id)
+		/*def sortedList= carreraInstance.anios.sort{it.anioLectivo}.reverse()
 		if(sortedList.size()>0){
 			def cupo= sortedList.get(0).cupo
 			def cupoSuplementes = sortedList.get(0).cupoSuplentes
 			anioLectivoInstance = sortedList.get(0)
-		}
+		}*/
+
 		if(!anioLectivoInstance){
 			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[carreraInstance?.denominacion])
 			redirect(action:"carrerasdisponibles")
@@ -63,15 +64,46 @@ class PreinscripcionController {
 			log.debug "SE ENCONTRO EL ALUMNOID: "+params.alumnoId
 			preinscripcionInstance.alumno = Alumno.get(params.alumnoId)
 		}
-		
         preinscripcionInstance.properties = params
 		preinscripcionInstance.carrera = carreraInstance
-        return [preinscripcionInstance: preinscripcionInstance]
+        def materiasSerialized
+
+        def listmaterias = Materia.createCriteria().list(){
+            and{
+                nivel{
+                    carrera{
+                        eq("id",preinscripcionInstance.carrera.id)
+                    }
+                    //matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+                }
+                isEmpty("matregcursar")
+                isEmpty("mataprobcursar")
+                sizeEq("matregrendir",1)
+                isEmpty("mataprobrendir")
+            }
+        }
+        def flagcomilla = false
+        materiasSerialized = "["
+        listmaterias.each{
+            if(flagcomilla)
+                materiasSerialized = materiasSerialized + ","
+            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+            flagcomilla = true
+        }
+        materiasSerialized += "]"
+
+
+        return [preinscripcionInstance: preinscripcionInstance,materiasSerialized: materiasSerialized]
     }
 
     def save = {
 		log.info "INGRESANDO AL CLOSURE save"
 		log.info "PARAMETROS: $params"
+        def inscripcionMatriculaInstance
+        def materiasJson
+
+        if(params.materiasSerialized)
+            materiasJson = grails.converters.JSON.parse(params.materiasSerialized)
 
 		
         def preinscripcionInstance = new Preinscripcion(params)
@@ -152,8 +184,42 @@ class PreinscripcionController {
 				inscripcionDetalleInstance.estado = EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
 				preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
 			}
-			
-			if (preinscripcionInstance.save()) {
+
+            def inscripcionMateriaInstance
+
+
+            inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
+                    ,anioLectivo:preinscripcionInstance.anioLectivo
+                    ,carrera:preinscripcionInstance.carrera
+                    ,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA)
+
+            if(materiasJson){
+                def materiaInstance
+                def cantselect = 0
+                inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
+                        ,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
+                        ,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
+                materiasJson.each{
+                    if(it.seleccion.toUpperCase().equals("YES")){
+                        materiaInstance = Materia.load(it.idid)
+                        inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
+                                ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
+                        inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
+                        cantselect++
+                    }
+                }
+                if(cantselect==0){
+                    status.setRollbackOnly()
+                    preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
+                    render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
+                    return
+
+                }
+            }
+
+            preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
+
+			if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save()) {
 				flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 				redirect(action: "show", id: preinscripcionInstance.id)
 			}

@@ -36,16 +36,23 @@
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
-			<form id="inscripcionFormId" name="form1" method="post" onsubmit="return false" action="json.html">
+            <div class="span-10">
+                <h1>Preinscripción en ${preinscripcionInstance.carrera.denominacion}</h1>
+            </div>
+            <div class="clear"></div>
+
+			<form id="inscripcionFormId" name="forminscripcion" method="post" onsubmit="initsubmit()" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
-								<h1>Datos del Alumno </h1>        
+								<h1>Datos del Alumno </h1>
+                                <g:hiddenField name="alumno.id" id="alumnoId" />
+
 			                    <fieldset>
 			                     	<legend>Datos Personales</legend>
 										<g:hasErrors bean="${alumnoInstance}" field="tipoDocumento">
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="tipoDocumento"><g:message code="alumno.tipoDocumento.label" default="Tipo Documento" /></label>
 										</div>
 										<div class="span-5">
@@ -62,7 +69,7 @@
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="numeroDocumento"><g:message code="alumno.numeroDocumento.label" default="Numero Documento" /></label>
 										</div>
 										<div class="span-5">
@@ -79,7 +86,7 @@
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="apellido"><g:message code="alumno.apellido.label" default="Apellido" /></label>
 										</div>
 										<div class="span-5">
@@ -98,7 +105,7 @@
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="nombre"><g:message code="alumno.nombre.label" default="Nombre" /></label>
 										</div>
 										<div class="span-5">
@@ -115,7 +122,7 @@
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="sexo"><g:message code="alumno.sexo.label" default="Sexo" /></label>
 										</div>
 										<div class="span-5">
@@ -132,7 +139,7 @@
 											<div class="ui-state-error ui-corner-all">
 										</g:hasErrors>
 										
-										<div class="span-3 ">
+										<div class="span-3 spanlabel">
 											<label for="fechaNacimiento"><g:message code="alumno.fechaNacimiento.label" default="Fecha Nacimiento" /></label>
 										</div>
 										<div class="span-5">
@@ -150,7 +157,7 @@
 								<fieldset>
 									<legend>Datos de Nacimiento</legend>
 									
-									<div class="span-3 ">
+									<div class="span-3 spanlabel">
 										<label for="paisNacDesc"><g:message code="alumno.paisNac.label" default="Pais de Nacimiento" /></label>
 									</div>
 									<div class="span-9">
@@ -159,7 +166,7 @@
 									</div>
 									<div class="clear"></div>	
 			
-									<div class="span-3 ">
+									<div class="span-3 spanlabel">
 										<label for="provinciaNacDesc"><g:message code="alumno.provinciaNac.label" default="Provincia de Nacimiento" /></label>
 									</div>
 									<div class="span-9">
@@ -171,7 +178,7 @@
 									<g:hasErrors bean="${alumnoInstance}" field="localidadNac">
 										<div class="ui-state-error ui-corner-all">
 									</g:hasErrors>
-									<div class="span-3 ">
+									<div class="span-3 spanlabel">
 										<label for="localidadNacDesc"><g:message code="alumno.localidadNac.label" default="Localidad Nac" /></label>
 									</div>
 									<div class="span-9">
@@ -193,7 +200,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="calleDomicilio"><g:message code="alumno.calleDomicilio.label" default="Calle Domicilio" /></label>
 													</div>
 													<div class="span-5">
@@ -211,7 +218,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="numeroDomicilio"><g:message code="alumno.numeroDomicilio.label" default="Numero Domicilio" /></label>
 													</div>
 													<div class="span-5">
@@ -228,7 +235,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="barrioDomicilio"><g:message code="alumno.barrioDomicilio.label" default="Barrio Domicilio" /></label>
 													</div>
 													<div class="span-5">
@@ -241,7 +248,7 @@
 												   </g:hasErrors>
 												   <div class="clear"></div>
 												   
-												   <div class="span-3 ">
+												   <div class="span-3 spanlabel">
 												   		<label for="paisDomicilio"><g:message code="alumno.paisDomicilio.label" default="Pais" /></label>
 												   </div>
 												   <div class="span-9">
@@ -250,7 +257,7 @@
 												   </div>
 													<div class="clear"></div>
 													
-												   <div class="span-3 ">
+												   <div class="span-3 spanlabel">
 												   		<label for="provinciaDomicilio"><g:message code="alumno.provinciaDomicilio.label" default="Provincia" /></label>
 												   </div>
 												   <div class="span-9">
@@ -264,7 +271,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="localidadDomicilio"><g:message code="alumno.localidadDomicilio.label" default="Localidad Domicilio" /></label>
 													</div>
 													<div class="span-9">
@@ -285,7 +292,7 @@
 													<g:hasErrors bean="${alumnoInstance}" field="telefonoParticular">
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="telefonoParticular"><g:message code="alumno.telefonoParticular.label" default="Telefono Particular" /></label>
 													</div>
 													<div class="span-5">
@@ -301,7 +308,7 @@
 													<g:hasErrors bean="${alumnoInstance}" field="telefonoCelular">
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="telefonoCelular"><g:message code="alumno.telefonoCelular.label" default="Telefono Celular" /></label>
 													</div>
 													<div class="span-5">
@@ -317,7 +324,7 @@
 													<g:hasErrors bean="${alumnoInstance}" field="email">
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="email"><g:message code="alumno.email.label" default="Email" /></label>
 													</div>
 													<div class="span-5">
@@ -334,7 +341,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="telefonoAlternativo"><g:message code="alumno.telefonoAlternativo.label" default="telefono Alternativo" /></label>
 													</div>
 													<div class="span-5">
@@ -355,7 +362,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="establecimientoProcedencia"><g:message code="alumno.establecimientoProcedencia.label" default="Establecimiento Procedencia" /></label>
 													</div>
 													<div class="span-5">
@@ -373,7 +380,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="titulo"><g:message code="alumno.titulo.label" default="Titulo" /></label>
 													</div>
 													<div class="span-5">
@@ -391,7 +398,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="anioEgreso"><g:message code="alumno.anioEgreso.label" default="Anio Egreso" /></label>
 													</div>
 													<div class="span-5">
@@ -409,7 +416,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="situacionAcademicas"><g:message code="alumno.situacionAcademicas.label" default="Situacion Academicas" /></label>
 													</div>
 													<div class="span-5">
@@ -428,7 +435,7 @@
 														<div class="ui-state-error ui-corner-all">
 													</g:hasErrors>
 													
-													<div class="span-3 ">
+													<div class="span-3 spanlabel">
 														<label for="legajo"><g:message code="alumno.legajo.label" default="Legajo" /></label>
 													</div>
 													<div class="span-5">
@@ -465,7 +472,7 @@
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="telefonoLaboral"><g:message code="alumno.telefonoLaboral.label" default="Telefono Laboral" /></label>
 											</div>
 											<div class="span-5">
@@ -483,7 +490,7 @@
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="calleLaboral"><g:message code="alumno.calleLaboral.label" default="Calle Laboral" /></label>
 											</div>
 											<div class="span-5">
@@ -501,7 +508,7 @@
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="numeroLaboral"><g:message code="alumno.numeroLaboral.label" default="Numero Laboral" /></label>
 											</div>
 											<div class="span-5">
@@ -520,7 +527,7 @@
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="barrioLaboral"><g:message code="alumno.barrioLaboral.label" default="Barrio Laboral" /></label>
 											</div>
 											<div class="span-5">
@@ -535,7 +542,7 @@
 				
 		
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="paisLaboral"><g:message code="alumno.paisLaboral.label" default="Pais Laboral" /></label>
 											</div>
 											<div class="span-9">
@@ -559,7 +566,7 @@
 												<div class="ui-state-error ui-corner-all">
 											</g:hasErrors>
 											
-											<div class="span-3 ">
+											<div class="span-3 spanlabel">
 												<label for="localidadLaboral"><g:message code="alumno.localidadLaboral.label" default="Localidad Laboral" /></label>
 											</div>
 											<div class="span-9">
@@ -586,7 +593,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="apellidoNombreTutor"><g:message code="alumno.apellidoNombreTutor.label" default="Apellido y Nombre Tutor" /></label>
 								</div>
 								<div class="span-5">
@@ -605,7 +612,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="profesionTutor"><g:message code="alumno.profesionTutor.label" default="Profesión Tutor" /></label>
 								</div>
 								<div class="span-5">
@@ -624,7 +631,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="parentescoTutor"><g:message code="alumno.parentescoTutor.label" default="Teléfono Tutor" /></label>
 								</div>
 								<div class="span-5">
@@ -642,7 +649,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="telefonoTutor"><g:message code="alumno.telefonoTutor.label" default="Teléfono Tutor" /></label>
 								</div>
 								<div class="span-5">
@@ -660,7 +667,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="calleTutor"><g:message code="alumno.calleTutor.label" default="Calle Tutor" /></label>
 								</div>
 								<div class="span-5">
@@ -679,7 +686,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="numeroTutor"><g:message code="alumno.barrioTutor.label" default="Número Tutor" /></label>
 								</div>
 								<div class="span-9">
@@ -711,7 +718,7 @@
 							   <div class="clear"></div>
 
 
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="paisTutorDesc"><g:message code="alumno.paisTutor.label" default="Pais Tutor" /></label>
 								</div>
 								<div class="span-9">
@@ -721,7 +728,7 @@
 							   <div class="clear"></div>
 
 
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="provinciaTutorDesc"><g:message code="alumno.provinciaTutor.label" default="Provincia Tutor" /></label>
 								</div>
 								<div class="span-9">
@@ -734,7 +741,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 	                    
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="localidadTutorDesc"><g:message code="alumno.localidadTutor.label" default="Localidad Tutor" /></label>
 								</div>
 								<div class="span-9">
@@ -755,7 +762,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="apellidoNombreGarante"><g:message code="alumno.apellidoNombreGarante.label" default="Apellido y Nombre del Garante" /></label>
 								</div>
 								<div class="span-5">
@@ -811,7 +818,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="telefonoGarante"><g:message code="alumno.telefonoGarante.label" default="Teléfono Garante" /></label>
 								</div>
 								<div class="span-5">
@@ -829,7 +836,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="calleTutor"><g:message code="alumno.calleTutor.label" default="Calle Garante" /></label>
 								</div>
 								<div class="span-5">
@@ -848,7 +855,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="numeroGarante"><g:message code="alumno.barrioGarante.label" default="Número Garante" /></label>
 								</div>
 								<div class="span-9">
@@ -866,7 +873,7 @@
 									<div class="ui-state-error ui-corner-all">
 								</g:hasErrors>
 								
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="barrioTutor"><g:message code="alumno.barrioGarante.label" default="Barrio Garante" /></label>
 								</div>
 								<div class="span-9">
@@ -880,7 +887,7 @@
 							   <div class="clear"></div>
 	                    
 	                    
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="paisGarante"><g:message code="alumno.paisGarante.label" default="Pais Garante" /></label>
 								</div>
 								<div class="span-9">
@@ -889,7 +896,7 @@
 								</div>
 							   <div class="clear"></div>								
 	                    
-								<div class="span-3 ">
+								<div class="span-3 spanlabel">
 									<label for="provinciaGarante"><g:message code="alumno.provinciaGarante.label" default="Provincia Garante" /></label>
 								</div>
 								<div class="span-9">
@@ -926,7 +933,7 @@
 							<g:hasErrors bean="${alumnoInstance}" field="estadoAcademico">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
-							<div class="span-3 ">
+							<div class="span-3 spanlabel">
 								<label for="estadoAcademico"><g:message code="alumno.estadoAcademico.label" default="Situacion Academicas" /></label>
 							</div>
 							<div class="span-5">
@@ -941,7 +948,7 @@
 							<g:hasErrors bean="${alumnoInstance}" field="situacionAdministrativa">
 								<div class="ui-state-error ui-corner-all">
 							</g:hasErrors>
-							<div class="span-3 ">
+							<div class="span-3 spanlabel">
 								<label for="situacionAdministrativa"><g:message code="alumno.situacionAdministrativa.label" default="Situacion Administrativa" /></label>
 							</div>
 							<div class="span-5">
@@ -955,7 +962,7 @@
 						   </g:hasErrors>
 						   <div class="clear"></div>
 						   
-						   <div class="span-3 ">
+						   <div class="span-3 spanlabel">
 						   		<label for="photo"> <g:message code="alumno.photo.label" default="Foto"/></label>
 						   </div>
 						   <div class="span-5">
@@ -964,7 +971,13 @@
 						   <div class="clear"></div>
 					
 					</fieldset>        	
-	        	
+	        	    <fieldset class="step" id="materiasPreinscId">
+                        <h1>Materias Preinscriptas</h1>
+                        <table id='materiasId'></table>
+                        <div id = 'pagermateriasId'></div>
+                        <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+
+	        	    </fieldset>
 						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anterior" value="Anterior" type="reset" />
 						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="sibuiente" value="Siguiente" type="submit" />
         	

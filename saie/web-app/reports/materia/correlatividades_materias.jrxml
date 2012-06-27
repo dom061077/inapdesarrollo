@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="correlatividades_materias" language="groovy" pageWidth="555" pageHeight="802" columnWidth="555" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0">
-	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.zoom" value="2.357947691000002"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<style name="table" isDefault="false">
@@ -62,49 +62,49 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Mat.Reg.Cursar]]></text>
+				<text><![CDATA[RPC]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="211" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Mat.Aprob.Cursar]]></text>
+				<text><![CDATA[APC]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="294" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Mat.Reg.Rendir]]></text>
+				<text><![CDATA[RPR]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="376" y="0" width="80" height="20"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
-				<text><![CDATA[Mat.Aprob.Rendir]]></text>
+				<text><![CDATA[APR]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="20" splitType="Stretch">
+		<band height="12" splitType="Stretch">
 			<textField>
-				<reportElement x="2" y="0" width="26" height="20"/>
+				<reportElement x="2" y="0" width="28" height="12"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{codigo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="30" y="0" width="100" height="20"/>
+				<reportElement x="30" y="0" width="100" height="12"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement x="130" y="0" width="80" height="20"/>
+				<reportElement x="130" y="0" width="80" height="12"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -112,7 +112,7 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="211" y="0" width="80" height="20"/>
+				<reportElement x="211" y="0" width="80" height="12"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -120,7 +120,7 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_mataprobcursar.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="294" y="0" width="80" height="20"/>
+				<reportElement x="294" y="0" width="80" height="12"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -128,7 +128,7 @@
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"correlatividades_matregrendir.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="376" y="0" width="80" height="20"/>
+				<reportElement x="376" y="0" width="80" height="12"/>
 				<subreportParameter name="SUBREPORT_DIR">
 					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 				</subreportParameter>

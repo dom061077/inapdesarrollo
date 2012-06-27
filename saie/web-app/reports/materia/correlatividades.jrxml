@@ -45,23 +45,23 @@
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="173" splitType="Stretch">
+		<band height="81" splitType="Stretch">
 			<staticText>
-				<reportElement x="79" y="54" width="137" height="20"/>
+				<reportElement x="79" y="0" width="137" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PLAN DE ESTUDIO]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="230" y="54" width="311" height="20"/>
+				<reportElement x="231" y="0" width="311" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="12"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{carrera}]]></textFieldExpression>
 			</textField>
 			<componentElement>
-				<reportElement x="8" y="74" width="516" height="91"/>
+				<reportElement x="14" y="20" width="516" height="58"/>
 				<jr:table xmlns:jr="http://jasperreports.sourceforge.net/jasperreports/components" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/components http://jasperreports.sourceforge.net/xsd/components.xsd">
 					<datasetRun subDataset="Table Dataset 1">
 						<datasetParameter name="SUBREPORT_DIR">
@@ -86,7 +86,7 @@
 								<text><![CDATA[Nivel]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="129" rowSpan="1">
+						<jr:detailCell height="38" rowSpan="1">
 							<box>
 								<pen lineWidth="0.25"/>
 								<topPen lineWidth="0.25"/>
@@ -95,7 +95,7 @@
 								<rightPen lineWidth="0.25"/>
 							</box>
 							<textField>
-								<reportElement x="0" y="0" width="50" height="64"/>
+								<reportElement x="0" y="0" width="50" height="38"/>
 								<textElement textAlignment="Center" verticalAlignment="Middle">
 									<font fontName="Arial" size="8"/>
 								</textElement>
@@ -120,7 +120,7 @@
 								<text><![CDATA[Materias]]></text>
 							</staticText>
 						</jr:columnHeader>
-						<jr:detailCell height="129" rowSpan="1">
+						<jr:detailCell height="38" rowSpan="1">
 							<box>
 								<pen lineWidth="0.25"/>
 								<topPen lineWidth="0.25"/>
@@ -129,7 +129,7 @@
 								<rightPen lineWidth="0.25"/>
 							</box>
 							<subreport>
-								<reportElement x="0" y="0" width="456" height="129"/>
+								<reportElement x="0" y="0" width="456" height="38"/>
 								<subreportParameter name="SUBREPORT_DIR">
 									<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
 								</subreportParameter>
@@ -142,10 +142,4 @@
 			</componentElement>
 		</band>
 	</title>
-	<pageFooter>
-		<band height="54" splitType="Stretch"/>
-	</pageFooter>
-	<summary>
-		<band height="42" splitType="Stretch"/>
-	</summary>
 </jasperReport>

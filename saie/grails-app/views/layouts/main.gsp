@@ -52,61 +52,57 @@
 			       
 					<div class="clear"></div>
 					<ul id="nav" class="dropdown dropdown-horizontal">
-						<li><span class="dir">Ayuda</span>
-					
-							<ul>
-								<li><a href="./">Acerca de...</a></li>
-							</ul>
-						</li>
-						<li><span class="dir">Actualización</span>
+
+
+                        <li><span class="dir">Actualización</span>
 							<ul>
 								<li><span class="dir">Académica</span>
 									<ul>
 										<li><span class="dir">Clase Requisitos</span>
 											<ul>
-												<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Actualización de Clase de Requisito</a></li>
-												<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado de Clase de Requisitos</a></li>
+												<li><a href="${createLink(controller:'claseRequisito',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'claseRequisito',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
 										<li><span class="dir">Requisitos</span>
 											<ul>
-												<li><a href="${createLink(controller:'requisito',action:'create')}">Actualización de Requisito</a></li>
-												<li><a href="${createLink(controller:'requisito',action:'list')}">Listado de Requisitos</a></li>
+												<li><a href="${createLink(controller:'requisito',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'requisito',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
 										
 										<li><span class="dir">Carreras</span>
 											<ul>
-												<li><a href="${createLink(controller:'carrera',action:'create')}">Actualización de Carrera</a></li>
-												<li><a href="${createLink(controller:'carrera',action:'list')}">Listado de Carrera</a></li>
-												<li><a href="${createLink(controller:'documentoCarrera',action:'create')}">Documentación de Carrera</a></li>
+												<li><a href="${createLink(controller:'carrera',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'carrera',action:'list')}">Listado</a></li>
+												<li><a href="${createLink(controller:'documentoCarrera',action:'create')}">Documentos adjuntos</a></li>
 											</ul>
 										</li>
 										
 										<li><span class="dir">Alumnos</span>
 											<ul>
-												<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización de Alumno</a></li>
-												<li><a href="${createLink(controller:'alumno')}">Listado de Alumnos</a></li>
+												<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'alumno')}">Listado</a></li>
 												<li><a href="${createLink(controller:'alumno',action:'register')}">Registro Online de Alumno</a></li>
 											</ul>
 										</li>
 										<li><span class="dir">Materias</span>
 											<ul>
-												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización de materia</a></li>
-												<li><a href="${createLink(controller:'materia',action:'list')}">Listado de Materias</a></li>								
+												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'materia',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
 
 										<li><span class="dir">Aulas</span>
 											<ul>
-												<li><a href="${createLink(controller:'aula',action:'create')}">Actualización de Aulas</a></li>
-												<li><a href="${createLink(controller:'aula',action:'list')}">Listado de Aulas</a></li>								
+												<li><a href="${createLink(controller:'aula',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'aula',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
 										<li><span class="dir">Divisiones</span>
 											<ul>
-												<li><a href="${createLink(controller:'division',action:'create')}">Actualización de Divisiones</a></li>
-												<li><a href="${createLink(controller:'division',action:'list')}">Listado de Divisiones</a></li>								
+												<li><a href="${createLink(controller:'division',action:'create')}">Actualización</a></li>
+												<li><a href="${createLink(controller:'division',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
 

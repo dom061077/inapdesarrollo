@@ -14,8 +14,8 @@ environments {
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "root"
 			password = "exito"
-		    dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost/saie"
+		    //dbCreate = "update" // one of 'create', 'create-drop','update'
+            url = "jdbc:mysql://localhost/saiecristian"
         }
     }
     test {
@@ -54,7 +54,7 @@ environments {
 			driverClassName = "com.mysql.jdbc.Driver"
 			username = "root"
 			password = "exito"
-			dbCreate = "update" // one of 'create', 'create-drop','update'
+			//dbCreate = "update" // one of 'create', 'create-drop','update'
 			url = "jdbc:mysql://localhost/saiecristian"
 		}
 

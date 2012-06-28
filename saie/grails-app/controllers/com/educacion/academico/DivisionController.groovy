@@ -280,12 +280,21 @@ class DivisionController {
 	def reportedivision = {
         log.info "INGRESANDO AL CLOSURE reportedivision"
         log.info "PARAMETROS: $params"
+
+        params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
+        params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
+        params.put("telefonoinstitucion", g.message(code:"caratula.institucion.telefono"))
+
         params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/divisiones/"))
         params.put("_format","PDF")
         params.put("_name","reportedivisiones")
         params.put("_file","divisiones/reportedivisiones")
-        //params.put("encoding","UTF-8")
         def listDivisiones = Division.list()
+
+        listDivisiones.each {
+            it.nivel.carrera.denominacion
+        }
+
         chain(controller:'jasper', action:'index', model:[data:listDivisiones], params:params)
     }
 	

@@ -2,6 +2,7 @@
         var gridDataMaterias = $("#materiasId").getRowData();
         var postDataMaterias = JSON.stringify(gridDataMaterias);
         $("#materiasSerializedId").val(postDataMaterias);
+
     }
     function bindmaterias(){
         var griddata = [];
@@ -21,14 +22,14 @@
             jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
         }
     }
-
+    var lastsel2;
 
     function bindalumnodata(json){
         if(json){
-            $('#alumnoId').val(json.alumno.id)
+            $('#alumnoId').val(json.id)
             $('#anioEgresoId').val(json.anioEgreso);
             $('#apellidoId').val(json.apellido);
-            $('#apellidoId').val(json.apellido);
+            $('#nombreId').val(json.nombre);
             $('#apellidoNombreGaranteId').val(json.apellidoNombreGarante);
             $('#apellidoNombreTutorId').val(json.apellidoNombreTutor);
             $('#barrioDomicilioId').val(json.barrioDomicilio);
@@ -41,10 +42,11 @@
             $('#calleTutorId').val(json.calleTutor);
             $('#emailId').val(json.email);
             $('#establecimientoProcedenciaId').val(json.establecimientoProcedencia);
-            $('#estadoAcademicoId').val(json.estadoAcademico.name);
-            $('#fechaAltaId').val(json.fechaAlta.substring(8,9) );
-            $('#fechaNacimientoId').val(json.fechaNacimiento.substring(8,10)+'/'+json.fechaNacimiento.substring(5,7)+'/'
-                +json.fechaNacimiento.substring(0,4));
+            if(json.estadoAcademico)
+                $('#estadoAcademicoId').val(json.estadoAcademico.name);
+            if(json.fechaNacimiento)
+                $('#fechaNacimientoId').val(json.fechaNacimiento.substring(8,10)+'/'+json.fechaNacimiento.substring(5,7)+'/'
+                    +json.fechaNacimiento.substring(0,4));
             $('#legajoId').val(json.legajo);
 
             if(json.localidaDomicilio){
@@ -64,8 +66,7 @@
                 $('#localidadLocIdId').val(json.localidadLoc.id);
             }
             $('#lugarLaboralId').val(json.lugarLaboral);
-            $('#nombre').val(json.nombre.id);
-            $('#numeroDocumentoId').val(json.numeroDocumento);
+            $('#nombre').val(json.nombre);
             $('#numeroDomicilioId').val(json.numeroDomicilio);
             $('#numeroGaranteId').val(json.numeroGarante);
             $('#numeroLaboralId').val(json.numeroLaboral);
@@ -74,7 +75,8 @@
             $('#parentezcoTutorId').val(json.parentezcoTutor);
             $('#profesionGaranteId').val(json.profesionGarante);
             $('#profesionTutorId').val(json.profesionTutor);
-            $('#sexoId').val(json.sexo.name);
+            if(json.sexo)
+                $('#sexoId').val(json.sexo.name);
             if(json.situacionAcademicas)
                 $('#situacionAcademicaId').val(json.situacionAcademicas.name);
             if(json.situacionAdministrativa)
@@ -93,32 +95,26 @@
 
 			$(function(){
 				//-------------wizard ------------------
-                var flagerror = false;
+                var flagerror = false ;
 				$("#inscripcionFormId").formwizard({
-					//formPluginEnabled: true,
 				 	validationEnabled: true,
-
 				 	historyEnabled: true,
 				 	focusFirstInput : true,
 				 	textSubmit: 'Enviar',
 				 	textNext: 'Siguiente',
 				 	textBack: 'Anterior',
                     disableUIStyles : true,
-				 	formOptions :{
-						success: function(data){$("#status").fadeTo(500,1,function(){ $(this).html("You are now registered!").fadeTo(5000, 0); })},
-						beforeSubmit: function(data){$("#data").html("data sent to the server: " + $.param(data));},
-						dataType: 'json',
-						resetForm: true
-				 	},
 				 	validationOptions : {
                         messages:{
-                            numeroDocumento:{
-                                remote:'ya existe el documento'
+                            "alumno.numeroDocumento":{
+                                remote:'ya existe el documento' ,
+                                required : 'Este campo es requerido'
                             }
                         },
 				 		rules: {
-                            numeroDocumento:{
 
+                            "alumno.numeroDocumento":{
+                                 required: true,
                                 remote : {
                                     url: locvalidate,
                                     type:'post',
@@ -135,13 +131,14 @@
                                         });
                                         if(data!='false')
                                             bindalumnodata(data);
-
+                                        return true;
                                     },
                                     error:function(jqXHR, textStatus, errorThrown){
                                         if(textStatus=='abort')
                                             $('#numeroDocumentoWaitId').fadeOut(function(){
                                                 flagerror = false;
                                             });
+                                        return false;
                                     }
                                 }
 

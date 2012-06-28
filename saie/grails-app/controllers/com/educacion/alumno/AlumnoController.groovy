@@ -409,7 +409,7 @@ class AlumnoController {
         try{
             documento = Long.parseLong (params.numeroDocumento)
         }catch(NumberFormatException e){
-            render "false"
+            render "true"
             return
         }
         def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
@@ -418,7 +418,7 @@ class AlumnoController {
             render alumnoInstance as grails.converters.JSON
             return
         }else{
-            render "false"
+            render "true"
         }
 
     }

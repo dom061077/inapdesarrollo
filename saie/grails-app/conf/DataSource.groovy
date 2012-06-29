@@ -15,7 +15,7 @@ environments {
 			username = "root"
 			password = "exito"
 		    //dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost/saie"
+            url = "jdbc:mysql://localhost/saiecristian"
         }
     }
     test {

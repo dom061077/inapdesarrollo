@@ -207,7 +207,35 @@ class AcademicoUtil {
 		return materiasDisponibles
 	}
 
-	
+    public static def formatDateParms(def field,def params){
+        if (params."$field"){
+            if (params."$field".length()<10){
+                params."${field+"_year"}"="0"
+                params."${field+"_month"}"="0"
+                params."${field+"_day"}"="0"
+            }else{
+                params."${field+"_year"}"=params."${field}".substring(6,10)
+                params."${field+"_month"}"=params."${field}".substring(3,5)
+                params."${field+"_day"}"=params."${field}".substring(0,2)
+            }
+            try{
+                if(params.fechaNacimiento_month.toInteger()>12)
+                    params."${field+"_month"}"="0"
+                if(params.fechaNacimiento_day.toInteger()>31){
+                    params."${field+"_day"}"="0"
+                }
+            }catch(NumberFormatException e){
+                params."${field+"_year"}"="0"
+                params."${field+"_month"}"="0"
+                params."${field+"_day"}"="0"
+
+            }
+
+        }
+
+    }
+
+
 
 	
 }

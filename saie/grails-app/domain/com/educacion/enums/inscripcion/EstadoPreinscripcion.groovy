@@ -3,8 +3,9 @@ package com.educacion.enums.inscripcion
 
 public enum EstadoPreinscripcion {
 	ESTADO_ASPIRANTE("Aspirante"),
+    ESTADO_ASPIRANTESUPLENTE("Aspirante Suplente"),
 	ESTADO_PREINSCRIPTO("Preinscripto"),
-	ESTADO_PREINSCRIPTOSUPLENTE("Preinscripto como suplente"),
+	ESTADO_PREINSCRIPTOSUPLENTE("Preinscripto Suplente"),
 	ESTADO_INSCRIPTO("Matriculado"),
 	ESTADO_PREINSCIRPTOANULADO("Anulado")
 	String name

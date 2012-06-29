@@ -157,7 +157,19 @@
 				);
 				//--------------fin wizard----------------
         		$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
-        		$('#fechaNacimientoId' ).datepicker({changeYear:true});
+        		$('#fechaNacimientoId' ).datepicker(
+                    {changeYear:true
+                    ,onSelect: function(dateText, inst) {
+                        $('#'+this.id+'_yearId').val(inst.currentYear);
+                        $('#'+this.id+'_monthId').val(inst.currentMonth+1);
+                        $('#'+this.id+'_dayId').val(inst.currentDay);
+                        if($('#'+this.id+'_monthId').val().length==1)
+                            $('#'+this.id+'_monthId').val('0'+$('#'+this.id+'_monthId').val());
+                        if($('#'+this.id+'_dayId').val().length==1)
+                            $('#'+this.id+'_dayId').val('0'+$('#'+this.id+'_dayId').val());
+                        }
+                    }
+                  );
 
 
 

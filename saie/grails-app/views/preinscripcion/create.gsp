@@ -47,10 +47,17 @@
                 </div>
             </g:hasErrors>
 
+            <g:hasErrors bean="${alumnoInstance}">
+                <div class="ui-state-error ui-corner-all">
+                    <g:renderErrors bean="${alumnoInstance}" as="list" />
+                </div>
+            </g:hasErrors>
+
+
 			<form id="inscripcionFormId" name="forminscripcion" method="post"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
 								<h1>Datos del Alumno </h1>
-                                <g:hiddenField name="alumno.id" id="alumnoId"/>
+                                <g:hiddenField name="alumnoId" id="alumnoId"/>
                                 <g:hiddenField name="carrera.id" id="carreraId" value="${preinscripcionInstance.carrera.id}" />
 
 			                    <fieldset>
@@ -80,7 +87,7 @@
 											<label for="alumno.numeroDocumento"><g:message code="alumno.numeroDocumento.label" default="Numero Documento" /></label>
 										</div>
 										<div class="span-5">
-											<g:textField id="numeroDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="alumno.numeroDocumento" value="${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}" />
+											<g:textField id="numeroDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="numeroDocumento" value="${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}" />
 										</div>
 													
 										<g:hasErrors bean="${alumnoInstance}" field="numeroDocumento">
@@ -97,7 +104,7 @@
 											<label for="apellido"><g:message code="alumno.apellido.label" default="Apellido" /></label>
 										</div>
 										<div class="span-5">
-											<g:textField style="text-transform:uppercase" name="alumno.apellido" id="apellidoId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellido}" />
+											<g:textField style="text-transform:uppercase" name="apellido" id="apellidoId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellido}" />
 										</div>
 													
 										<g:hasErrors bean="${alumnoInstance}" field="apellido">
@@ -116,7 +123,7 @@
 											<label for="nombre"><g:message code="alumno.nombre.label" default="Nombre" /></label>
 										</div>
 										<div class="span-5">
-											<g:textField style="text-transform:uppercase" name="alumno.nombre" id="nombreId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.nombre}" />
+											<g:textField style="text-transform:uppercase" name="nombre" id="nombreId" onkeyup="this.value=this.value.toUpperCase()" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.nombre}" />
 										</div>
 													
 										<g:hasErrors bean="${alumnoInstance}" field="nombre">
@@ -150,7 +157,10 @@
 											<label for="fechaNacimiento"><g:message code="alumno.fechaNacimiento.label" default="Fecha Nacimiento" /></label>
 										</div>
 										<div class="span-5">
-											<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="alumno.fechaNacimiento" value="${g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)}" />
+											<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content dateformat" name="fechaNacimiento" value="${g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)}" />
+                                            <g:textField name="fechaNacimiento_year" id="fechaNacimientoId_yearId" value="${g.formatDate(format:'yyyy',date:alumnoInstance?.fechaNacimiento)}"/>
+                                            <g:textField name="fechaNacimiento_month" id="fechaNacimientoId_monthId" value="${g.formatDate(format:'MM',date:alumnoInstance?.fechaNacimiento)}"/>
+                                            <g:textField name="fechaNacimiento_day" id="fechaNacimientoId_dayId" value="${g.formatDate(format:'dd',date:alumnoInstance?.fechaNacimiento)}"/>
 										</div>
 													
 										<g:hasErrors bean="${alumnoInstance}" field="fechaNacimiento">
@@ -190,7 +200,7 @@
 									</div>
 									<div class="span-9">
 										<g:textField  class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
-										<g:hiddenField id="localidadNacIdId" name="alumno.localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
+										<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
 									</div>
 									
 									<g:hasErrors bean="${alumnoInstance}" field="localidadNac">

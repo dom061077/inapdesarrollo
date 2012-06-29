@@ -130,9 +130,9 @@ class CarreraController {
 			flagcoma=false
 			carreraInstance.niveles.each{
 				if(flagcoma){
-					nivelesSerialized  = nivelesSerialized +','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+(it.esprimernivel?"Es el Primer Nivel":"No es el Primer Nivel")+'"}'
+					nivelesSerialized  = nivelesSerialized +','+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+it.esprimernivel+'"}'
 				}else{
-					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+(it.esprimernivel?"Es el Primer Nivel":"No es el Primer Nivel")+'"}'
+					nivelesSerialized = nivelesSerialized+ '{"id":'+it.id+',"idNivel":'+it.id+',"descripcion":"'+it.descripcion+'","esprimernivel":"'+it.esprimernivel+'"}'
 					flagcoma=true
 				}
 			}
@@ -232,12 +232,10 @@ class CarreraController {
 					 nivelInstance = Nivel.get(it.idNivel)
 					 if(nivelInstance){
 						 nivelInstance.descripcion=it.descripcion
-						 nivelInstance.esprimernivel = it.esprimernivelvalue.toBoolean()
+						 nivelInstance.esprimernivel = it.esprimernivel.toBoolean()
 						nivelInstance.save()
-						log.debug "ENCUENTRA EL NIVEL Y LO MODIFICA " + it.esprimernivelvalue.toBoolean()
 					 }else{
 						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
-						log.debug "NO ENCUENTRA EL NIVEL Y LO AGREGA"
 					 }
 				}
 

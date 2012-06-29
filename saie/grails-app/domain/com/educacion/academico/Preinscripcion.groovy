@@ -36,6 +36,10 @@ class Preinscripcion extends Inscripcion {
 		})
 
 	}
+
+    static mapping = {
+        alumno cascade: "save-update"
+    }
 	
 
 	

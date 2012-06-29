@@ -27,6 +27,7 @@
         var loclocsearch= '<%out << createLink(controller:"localidad",action:"listsearchjson")%>';
         var locsitadministrativa='<%out << createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>';
         var locvalidate = '<%out << createLink(controller:"alumno",action:"validatedocexistente")%>'
+        var locgetdataalumno = '<%out << createLink(controller:"alumno",action:"getalumnobydocumento")%>';
     </script>
         
  		
@@ -40,11 +41,17 @@
                 <h1>Preinscripción en ${preinscripcionInstance.carrera.denominacion}</h1>
             </div>
             <div class="clear"></div>
+            <g:hasErrors bean="${preinscripcionInstance}">
+                <div class="ui-state-error ui-corner-all">
+                    <g:renderErrors bean="${preinscripcionInstance}" as="list" />
+                </div>
+            </g:hasErrors>
 
-			<form id="inscripcionFormId" name="forminscripcion" method="post" action="hola.html">
+			<form id="inscripcionFormId" name="forminscripcion" method="post"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
 								<h1>Datos del Alumno </h1>
-                                <g:hiddenField name="alumno.id" id="alumnoId" />
+                                <g:hiddenField name="alumno.id" id="alumnoId"/>
+                                <g:hiddenField name="carrera.id" id="carreraId" value="${preinscripcionInstance.carrera.id}" />
 
 			                    <fieldset>
 			                     	<legend>Datos Personales</legend>

@@ -405,20 +405,23 @@ class AlumnoController {
     def validatedocexistente = {
         log.info "INGRESANDO AL CLOSURE validate"
         log.info "PARAMETROS: $params"
+        render true
+    }
+
+    def getalumnobydocumento = {
         def documento
         try{
-            documento = Long.parseLong (params.numeroDocumento)
+            documento = Long.parseLong (params.value)
         }catch(NumberFormatException e){
-            render "true"
+            render "false"
             return
         }
         def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
         if(alumnoInstance){
             log.debug "RETORNO DE ALUMNOINSTANCE"
             render alumnoInstance as grails.converters.JSON
-            return
         }else{
-            render "true"
+            render "false"
         }
 
     }

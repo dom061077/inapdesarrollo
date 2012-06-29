@@ -107,31 +107,39 @@
 				 	validationOptions : {
                         messages:{
                             "alumno.numeroDocumento":{
-                                remote:'ya existe el documento' ,
-                                required : 'Este campo es requerido'
+                                remote:''
                             }
                         },
 				 		rules: {
 
                             "alumno.numeroDocumento":{
-                                 required: true,
                                 remote : {
                                     url: locvalidate,
                                     type:'post',
+                                    dataType: 'json',
                                     beforeSend: function(xhr){
                                         if(!flagerror){
-                                            $('#numerodocumentoId').css('float','left');
+                                            $('#numeroDocumentoId').css('float','left');
                                             $('<div class=\"spinnerwait\" id=\"numeroDocumentoWaitId\"></div>').insertAfter('#numeroDocumentoId');
                                             flagerror = true;
                                         }
                                     },
-                                    success:function(data){
+                                    complete: function(){
                                         $('#numeroDocumentoWaitId').fadeOut(function(){
                                             flagerror = false;
                                         });
-                                        if(data!='false')
-                                            bindalumnodata(data);
-                                        return true;
+                                        $.ajax({
+                                            url:locgetdataalumno
+                                            ,dataType:'json'
+                                            ,data:{value:$('#numeroDocumentoId').val()}
+                                            ,success: function(data){
+                                                if(data!='false')
+                                                    bindalumnodata(data);
+
+                                            }
+                                        });
+
+
                                     },
                                     error:function(jqXHR, textStatus, errorThrown){
                                         if(textStatus=='abort')
@@ -587,8 +595,7 @@
 		 				,descfield:['descripcion']});
 
                 $('#materiasId').jqGrid({
-                    url:''//url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion",id:preinscripcionInstance.id)%>'
-                    ,datatype:'local'
+                    datatype:'local'
                     ,width:500
                     ,colNames:['Id','IdId','Denominación','Select']
                     ,colModel:[

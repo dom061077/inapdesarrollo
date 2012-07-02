@@ -38,14 +38,13 @@
 					,datatype: "json"
 					,width:600
 					//,rownumbers:true
-					,colNames:['Id','Id', 'Descripción','Es primer nivel value','Nivel Introductorio?']
+					,colNames:['Id','Id', 'Descripción','Nivel Introductorio?']
 					,colModel:[ 
 						{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 
 						,{name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 						,{name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
-						,{name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
-						,{name:'esprimernivel',index:'esprimernivel',sortable:false}						
+						,{name:'esprimernivel',width:30,index:'esprimernivel',sortable:false,formatter:"checkbox"}
 					]
 					//, rowNum:10, rowList:[10,20,30]
 					, pager: '#pagerNiveles'

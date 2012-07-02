@@ -92,7 +92,6 @@
 	        	    griddata[i]["id"] = data[i].id 
 	        	    griddata[i]["descripcion"] = data[i].descripcion;
 	        	    griddata[i]["esprimernivel"] = data[i].esprimernivel;
-	        	    griddata[i]["esprimernivelvalue"] = data[i].esprimernivelvalue;
 	        	}
 
 	        	for (var i = 0; i <= griddata.length; i++) {
@@ -242,16 +241,12 @@ $(document).ready(function(){
 		,datatype: "json"
 		,width:600
 		,rownumbers:true
-		,colNames:['Id','Descripción de Nivel','Es primer nivel value','Nivel Introductorio?']
+		,colNames:['Id','Descripción de Nivel','Nivel Introductorio?']
 		,colModel:[ 
 			{name:'id',index:'id', width:55,editable:false,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
 			, {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{readOnly:false,size:30},editrules:{required:true}, sortable:false}
-			, {name:'esprimernivelvalue',index:'esprimernivelvalue',hidden:true}
-			, {name:'esprimernivel',index:'esprimernivel', width:100, align:"left",editable:true
-					,editoptions:{readOnly:false,size:30,value:'false:No es Nivel Introductorio;true:Es Nivel Introductorio'}
-					,edittype:'select'
-					,editrules:{required:true}, sortable:false}
-		]
+            , {name:'esprimernivel',index:'esprimernivel',width:10,formatter: 'checkbox', formatoptions: { disabled: false }, editable: true, edittype: "checkbox"}
+        ]
 		//, rowNum:10, rowList:[10,20,30]
 		, pager: '#pagerListNivelesId'
 		, sortname: 'id'

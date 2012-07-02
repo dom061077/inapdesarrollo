@@ -12,6 +12,7 @@ class Nivel {
 
     static constraints = {
 		descripcion(nullable:false,blank:false)
+
     }
 	
 	static mapping = {

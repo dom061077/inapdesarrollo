@@ -66,7 +66,7 @@ class CarreraController {
 				carreraInstance.addToRequisitos(requisitoInstance)
 			}
 			nivelesJson.each{
-				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
+				carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:(it.esprimernivel.toUpperCase()=='YES'?true:false) ))
 			}
 			java.sql.Date fechaInicio
 			java.sql.Date fechaFin
@@ -227,15 +227,17 @@ class CarreraController {
 						status.setRollbackOnly()
 					}
 				}
-				
+				def esprimernivel
 				nivelesJson.each {
 					 nivelInstance = Nivel.get(it.idNivel)
+                     esprimernivel = (it.esprimernivel.toUpperCase() == "YES"?true:false )
+
 					 if(nivelInstance){
 						 nivelInstance.descripcion=it.descripcion
-						 nivelInstance.esprimernivel = it.esprimernivel.toBoolean()
+						 nivelInstance.esprimernivel = esprimernivel
 						nivelInstance.save()
 					 }else{
-						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel:it.esprimernivelvalue.toBoolean()))
+						 carreraInstance.addToNiveles(new Nivel(descripcion:it.descripcion,esprimernivel: esprimernivel  ))
 					 }
 				}
 
@@ -289,6 +291,7 @@ class CarreraController {
 						redirect(controller:'carrera',action: "show", id: carreraInstance.id)
 					}
 					else {
+                        log.debug("ERRORES DE VALIDACION: "+carreraInstance.errors.allErrors)
 						status.setRollbackOnly()
 						render(view: "edit", model: [carreraInstance: carreraInstance,requisitosSerialized:requisitosSerialized,nivelesSerialized:nivelesSerialized,aniosSerialized:aniosSerialized])
 					}
@@ -479,7 +482,7 @@ class CarreraController {
 				 if (flagaddcomilla)
 					 result=result+','
 				 
-				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+it.esprimernivel+'","'+(it.esprimernivel?"Nivel Introductorio":"No es Nivel Introductorio")+'"]}'
+				 result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.descripcion+'","'+(it.esprimernivel?"Yes":"No")+'"]}'
 				  
 				 flagaddcomilla=true
 			 }

@@ -7,8 +7,9 @@ class Division {
 	String descripcionTurno
 	Integer cupoComision
 	Nivel nivel
+    Aula aula
 	
-	static belongsTo=[nivel:Nivel]
+	static belongsTo=[nivel:Nivel,aula:Aula]
 	
     static constraints = {
 		descripcion(nullable:false,blank:false,size:1..50)

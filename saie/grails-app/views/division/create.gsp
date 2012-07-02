@@ -15,6 +15,8 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 
+        var locaulas = '<%out << g.createLink(controller:'aula',action:'listjson')%>';
+
         function initsubmit(){
     		var gridData = jQuery("#divisionesId").getRowData();
         	var postData = JSON.stringify(gridData);
@@ -186,14 +188,16 @@
 		jQuery("#divisionesId").jqGrid({ 
 			datatype: "local"
 			,editurl:'editdivisiones'
-			,width:600
-			,colNames:['Descripción','Letra','Turno', 'Descripción Turno', 'Cupo']
+			,width:800
+            ,colNames:['Descripción','Letra','Turno', 'Descripción Turno', 'Cupo', 'Aula', 'IdAula']
 			,colModel:[ 
 				  {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
 			    , {name:'letra',index:'letra', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
 			    , {name:'turno',index:'turno', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
 			    , {name:'descriturno',index:'descriturno', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
-			    , {name:'cupo',index:'cupo', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
+			    , {name:'cupo',index:'cupo', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{integer:true,required:true}, sortable:false}
+                , {name:'aula',index:'aula', width:70, align:"left",editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
+                , {name:'aulaid',index:'aulaid', width:70, align:"left",hidden:true,editable:true,editoptions:{readonly:true,size:30},editrules:{required:true}, sortable:false}
 			]
 			, pager: '#pagerdivisionesId'
 			, sortname: 'id'
@@ -216,7 +220,7 @@
 					}
 				
 				}, // edit options 
-				{height:170,width:310,reloadAfterSubmit:false
+				{height:205,width:310,reloadAfterSubmit:false
 					,recreateForm:true
 					,modal:true
 					,addCaption:'Agregar Divisiones'
@@ -225,7 +229,19 @@
 						return [true,'']
 					}
 					,beforeShowForm:function(form){
-						$('#descripcion').focus();
+                    $('#tr_aula').append('<td><a  id="searchlinkformgridId" href="#"><span style="float:left;"  class="ui-icon ui-icon-search"></span></a></td>');
+                    $('#searchlinkformgridId').bind('click',function(){
+                        $('#busquedaAulaDialogId').dialog({
+                            title:'Buscar',
+                            modal:true,
+                            resizable:false,
+                            autoOpen:true,
+                            width : 425,
+                            height: 'auto',
+                            minHeight:250,
+                            position:'center'
+                        });
+                    });
 					}
 				}, // add options 
 				{reloadAfterSubmit:false}, // del options 
@@ -234,7 +250,33 @@
 
     		binddivisiones();
 			
-		});
+
+        // Grilla de búsqueda de Aulas para asociarlo con Divisiones
+        $('#tablaBusquedaAulaId').jqGrid({
+            caption:'Búsqueda de Aulas',
+            url:locaulas,
+            mtype:'POST',
+            width:400,
+            rownumbers:true,
+            pager:'pagerBusquedaAulaId',
+            datatype:'json',
+            colNames:['Id','Denominación'],
+            colModel:[
+                {name:'id',index:'id',width:10,hidden:true},
+                {name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true}
+            ],
+            ondblClickRow: function(id){
+                var obj=$('#tablaBusquedaAulaId').getRowData(id);
+                $('#aula').val(obj.denominacion);
+                $('#aulaid').val(obj.id);
+                $('#busquedaAulaDialogId').dialog("close");
+                $('#aula').focus();
+            }
+        });
+        jQuery("#tablaBusquedaAulaId").jqGrid('navGrid','#pagerBusquedaAulaId',{search:false,edit:false,add:false,del:false,pdf:true});
+        jQuery('#tablaBusquedaaulaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
+        });
 
         </script>
     </head>
@@ -287,7 +329,14 @@
 									
 		       					</table>
 							</fieldset>
-							
+
+
+                            <div style="display:none" id="busquedaAulaDialogId">
+                                <table id="tablaBusquedaAulaId"></table><div id="pagerBusquedaAulaId"></div>
+                            </div>
+
+
+
 				</div>                        
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

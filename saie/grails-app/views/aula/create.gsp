@@ -14,7 +14,8 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
-			function binddetallecarreras(){
+
+            function binddetallecarreras(){
 		    	var griddata = [];
 		    	
 		    	var data = jQuery.parseJSON($("#detalleaulaSerializedId").val());

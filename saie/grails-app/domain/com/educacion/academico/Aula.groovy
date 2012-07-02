@@ -9,7 +9,7 @@ class Aula {
 	String localizacion
 	EstadoAulaEnum estado
 	
-	static hasMany=[detalle:DetalleAula]
+	static hasMany=[detalle:DetalleAula,divisiones:Division]
 
 	static constraints = {
 		nombre(nullable:false,blank:false,size:1..100,unique:true)

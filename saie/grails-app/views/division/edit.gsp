@@ -129,9 +129,16 @@
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
-		
-																
-		            
+
+                       <div class="span-3 spanlabel">
+                         <label for="aula"><g:message code="division.aula.label" default="Aula" /></label>
+                         </div>
+                        <div class="span-5">
+                            <g:textField class="ui-widget ui-corner-all ui-widget-content" id="aulaId" name="aulaid"  value="${divisionInstance?.aula?.nombre}" />
+                            <g:hiddenField id="aulaIdId" name="aulaId" value="${divisionInstance?.aula?.id}" />
+                        </div>
+                       <div class="clear"></div>
+
                 </div>
                 <div class="buttons">
                     <span class="button"><g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>

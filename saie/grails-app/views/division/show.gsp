@@ -18,15 +18,16 @@
         			,editurl:'<%out << createLink(controller:"division",action:"editdivisiones")%>'
             		,postData: {id: <%out << nivelInstance.id %>}
         			,datatype: "json"
-        			,width:600
+        			,width:780
         			,rownumbers:true
-        			,colNames:['Descripción','Letra','Turno', 'Descripción Turno', 'Cupo']
+        			,colNames:['Descripción','Letra','Turno', 'Descripción Turno', 'Cupo', 'Aula']
         			,colModel:[ 
    						  {name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
    					    , {name:'letra',index:'letra', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
    					    , {name:'turno',index:'turno', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
    					    , {name:'descriturno',index:'descriturno', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:false}, sortable:false}						
-   					    , {name:'cupo',index:'cupo', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}						
+   					    , {name:'cupo',index:'cupo', width:50, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+                        , {name:'aula',index:'aula', width:90, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
   					]
         			, pager: '#pagerdivisionId'
         			, sortname: 'descripcion'

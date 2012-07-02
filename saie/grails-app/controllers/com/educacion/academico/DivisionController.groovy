@@ -43,10 +43,11 @@ class DivisionController {
 			if(params.divisionesSerialized)
 				divisionesJson = grails.converters.JSON.parse(params.divisionesSerialized)
 	
-				
+			def aulaInstance	
 			Nivel.withTransaction{TransactionStatus status ->
-				divisionesJson.each{
-					nivelInstance.addToDivisiones(new Division(descripcion:it.descripcion,letra:it.letra,turno:it.turno,descripcionTurno:it.descriturno,cupoComision:it.cupo ) )
+                divisionesJson.each{
+                    aulaInstance = Aula.get(it.aulaid)
+                    nivelInstance.addToDivisiones(new Division(descripcion:it.descripcion,letra:it.letra,turno:it.turno,descripcionTurno:it.descriturno,cupoComision:it.cupo,aula:aulaInstance))
 									
 				}
 				if (nivelInstance.save(flush: true)) {
@@ -249,9 +250,9 @@ class DivisionController {
 			result =  '{"page":1,"total":"'+1+'","records":"'+nivelInstance.divisiones.size()+'","rows":['
 			nivelInstance.divisiones.each{
 				if(flagcomilla)
-					result = result + ',{"id":"'+it.id+'","cell":["'+it.descripcion+'","'+it.letra+'","'+it.turno+'","'+it.descripcionTurno+'","'+it.cupoComision+'"]}'
+					result = result + ',{"id":"'+it.id+'","cell":["'+it.descripcion+'","'+it.letra+'","'+it.turno+'","'+it.descripcionTurno+'","'+it.cupoComision+'","'+it.aula.nombre+'"]}'
 				else
-					result = result + '{"id":"'+it.id+'","cell":["'+it.descripcion+'","'+it.letra+'","'+it.turno+'","'+it.descripcionTurno+'","'+it.cupoComision+'"]}'
+					result = result + '{"id":"'+it.id+'","cell":["'+it.descripcion+'","'+it.letra+'","'+it.turno+'","'+it.descripcionTurno+'","'+it.cupoComision+'","'+it.aula.nombre+'"]}'
 					
 				if(!flagcomilla)
 					flagcomilla=true

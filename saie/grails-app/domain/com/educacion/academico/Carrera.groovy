@@ -17,9 +17,23 @@ class Carrera {
     static constraints = {
 		denominacion(nullable:false,blank:false,size:1..100)
 		campoOcupacional(nullable:false,blank:false,size:1..250)
-		anios validator: {
-			it?.every{ it?.validate()}
-		}
+		/*anios validator: {val,obj->
+			val.each{
+                it.validate()
+            }
+		}*/
+        niveles validator:  {val, obj ->
+            def cantEsprimernivel=0
+            val.each{
+                it.validate()
+                if(it.esprimernivel)
+                    cantEsprimernivel+=1
+            }
+
+            if(cantEsprimernivel>1)
+                return["esprimernivel.unique.error"]
+            return true
+        }
     }
 	
 	static mapping = {

@@ -17,7 +17,7 @@ class AnioLectivo {
 	
     static constraints = {
 		carrera(unique: 'anioLectivo')
-		validator : {cupo,obj ->
+		cupo validator : {val,obj ->
 			def hql = """
                        SELECT COUNT(pre.id) as cantidad FROM Preinscripcion pre WHERE pre.estado<>:estado 
 						AND pre.carrera= :carrera AND pre.anioLectivo=:aniolectivo

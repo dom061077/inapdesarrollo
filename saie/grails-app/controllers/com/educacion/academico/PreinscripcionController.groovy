@@ -561,82 +561,17 @@ class PreinscripcionController {
 				}
 			}
 			Preinscripcion.withTransaction{TransactionStatus status->
+                inscripcionMatriculaInstance = preinscripcionInstance.inscripcionMatricula
+                inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
 				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
-				def inscripcionMateriaInstance
-				
-				
-				
-				/*def listmaterias = Materia.createCriteria().list(){
-					and{
-						nivel{
-							carrera{
-								eq("id",preinscripcionInstance.carrera.id)
-							}
-							//matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
-						}
-						isEmpty("matregcursar")
-						isEmpty("mataprobcursar")
-						sizeEq("matregrendir",1)
-						isEmpty("mataprobrendir")
-					}
-				}*/
-				inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
-					,anioLectivo:preinscripcionInstance.anioLectivo
-					,carrera:preinscripcionInstance.carrera
-					,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA)
-
-				/*if(listmaterias.size()>0){
-					
-					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo)
-
-					listmaterias.each{materia->
-						inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materia
-									,tipo:TipoInscripcionMateria.TIPOINSMATERIA_CURSAR))
-					}
-					inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
-				}*/
-				
-				if(materiasJson){
-					def materiaInstance
-					def cantselect = 0
-					inscripcionMateriaInstance = new InscripcionMateria(alumno:preinscripcionInstance.alumno
-						,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
-						,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
-					materiasJson.each{
-						if(it.seleccion.toUpperCase().equals("YES")){
-							materiaInstance = Materia.load(it.idid)
-							inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
-											,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
-							inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
-							cantselect++
-						}
-					}
-					if(cantselect==0){
-						status.setRollbackOnly()
-						preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
-						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
-						return
-			
-					}
-				}
-
-				
-				if (!preinscripcionInstance.hasErrors() && inscripcionMatriculaInstance.save(flush: true)) {
-					preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
-					if(preinscripcionInstance.save()){
-						flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-						redirect(action: "show", id: preinscripcionInstance.id)
-					}else{
-						log.debug "ERROR EN EL SAVE DE PREINSCRIPCION"
-						status.setRollbackOnly()
-						render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
-					}
+				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save() &&
+                        !inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save()) {
+					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+					redirect(action: "show", id: preinscripcionInstance.id)
 				}
 				else {
 					log.debug "ERROR DE VALIDACION EN preinscripcionInstance: "+preinscripcionInstance.errors.allErrors
 					log.debug "ERROR DE VALIDACION EN inscripcionMateriaInstance"+inscripcionMatriculaInstance.errors.allErrors
-					
 					status.setRollbackOnly()
 					render(view: "inscribir", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized,inscripcionMatriculaInstance:inscripcionMatriculaInstance])
 				}

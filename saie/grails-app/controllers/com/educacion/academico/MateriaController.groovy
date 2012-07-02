@@ -82,9 +82,9 @@ class MateriaController {
 
 			materiaInstance.validate()
 	        if (!materiaInstance.hasErrors() && materiaInstance.save(flush: true)) {
-				materiaInstanceSearch = Materia.load(materiaInstance.id)
-				materiaInstance.addToMatregrendir(materiaInstanceSearch)
-				materiaInstance.save()
+				//materiaInstanceSearch = Materia.load(materiaInstance.id)
+				//materiaInstance.addToMatregrendir(materiaInstanceSearch)
+				//materiaInstance.save()
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'materia.label', default: 'Materia'), materiaInstance.id])}"
 	            redirect(controller:'materia',action: "show", id: materiaInstance.id)
 	        }

@@ -1,7 +1,6 @@
 
 
 <%@ page import="com.educacion.academico.Materia" %>
-<%@ page import="com.educacion.academico.DuracionMateria" %>
 
 
 <html>

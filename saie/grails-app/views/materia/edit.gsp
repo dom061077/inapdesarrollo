@@ -1,7 +1,6 @@
 
 
 <%@ page import="com.educacion.academico.Materia" %>
-<%@ page import="com.educacion.academico.DuracionMateria" %>
 
 
 <html>
@@ -286,8 +285,7 @@
 								<label for="duracion"><g:message code="materia.duracion.label" default="Duracion" /></label>
 							</div>
 							<div class="span-5">
-								<g:select name="duracion.id" from="${DuracionMateria.list()}"	value="${materiaInstance?.duracion?.id}"
-								optionKey="id" optionValue="descripcion" />
+								<g:textField name="duracion" value="${materiaInstance?.duracion}"/>
 							</div>
 										
 							<g:hasErrors bean="${materiaInstance}" field="duracion">

@@ -139,7 +139,7 @@
                     
                             <div class="span-4 spanlabel"><g:message code="materia.duracion.label" default="Duracion" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="duracionMateria" action="show" id="${materiaInstance?.duracion?.id}">${materiaInstance?.duracion?.descripcion?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel">${materiaInstance?.duracion}</div>
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="materia.estado.label" default="Estado" /></div>

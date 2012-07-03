@@ -113,17 +113,18 @@
         	
 	$('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
 				 title:'Búsqueda de niveles' 
-			,colNames:['Id','Descripcion','Carrera','Es primer nivel'] 
-			,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
-				,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}
-				,{name:'carrera',index:'carrear',hidden:false}
-			,{name:'esprimernivel',index:'esprimernivel',width:100,sortable:false,search:false} ]
+			    ,colNames:['Id','Descripcion','Carrera','Es primer nivel']
+			    ,colModel:[
+                            {name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+				            ,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}
+				            ,{name:'carrera',index:'carrear',hidden:false}
+			                ,{name:'esprimernivel',index:'esprimernivel',width:100,sortable:false,search:false} ]
 				,hiddenid:'nivelIdId' 
 				,descid:'nivelId' 
 				,hiddenfield:'id' 
 				,descfield:['descripcion']
-			,onShowgrid:function(){
-				if(($("#matregcursarId").getRowData().length>0)
+			    ,onShowgrid:function(){
+				    if(($("#matregcursarId").getRowData().length>0)
 						 || 
 						   ($("#mataprobcursarId").getRowData().length>0)||
 						   ($("#matregrendirId").getRowData().length>0) ||
@@ -142,7 +143,7 @@
 		   		}
 			}
 	
-				}); 
+			});
 
 	$('#nivelId' ).autocomplete({
 			source: function( request, response ) {

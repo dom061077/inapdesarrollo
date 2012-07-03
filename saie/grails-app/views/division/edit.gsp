@@ -15,6 +15,8 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 
+
+
         </script>
         
     </head>
@@ -130,6 +132,7 @@
 					   </g:hasErrors>
 					   <div class="clear"></div>
 
+
                        <div class="span-3 spanlabel">
                          <label for="aula"><g:message code="division.aula.label" default="Aula" /></label>
                          </div>
@@ -138,6 +141,7 @@
                             <g:hiddenField id="aulaIdId" name="aulaId" value="${divisionInstance?.aula?.id}" />
                         </div>
                        <div class="clear"></div>
+
 
                 </div>
                 <div class="buttons">

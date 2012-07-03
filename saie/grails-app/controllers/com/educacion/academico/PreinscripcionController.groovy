@@ -80,7 +80,7 @@ class PreinscripcionController {
                 }
                 isEmpty("matregcursar")
                 isEmpty("mataprobcursar")
-                sizeEq("matregrendir",1)
+                isEmpty("matregrendir")
                 isEmpty("mataprobrendir")
             }
         }

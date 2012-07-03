@@ -258,7 +258,7 @@ class PreinscripcionController {
                         redirect(action: "show", id: preinscripcionInstance.id)
                     }else{
                         status.setRollbackOnly()
-                        render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance])
+                        render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
                     }
                 }
             }else {

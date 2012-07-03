@@ -17,12 +17,12 @@ class AnioLectivo {
 	
     static constraints = {
 		carrera(unique: 'anioLectivo')
-		cupo validator : {val,obj ->
+		/*cupo validator : {val,obj ->
 			def hql = """
                        SELECT COUNT(pre.id) as cantidad FROM Preinscripcion pre WHERE pre.estado<>:estado 
-						AND pre.carrera= :carrera AND pre.anioLectivo=:aniolectivo
+						AND pre.carrera.id= :carrera AND pre.anioLectivo.id=:aniolectivo
 			"""
-			def parameters = [estado:EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO,anioLectivo:obj,carrera:obj.carrera]
+			def parameters = [estado:EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO,anioLectivo:obj.id,carrera:obj.carrera.id]
 			def list = Carrera.executeQuery(hql)
 			def row = list.get(0)
 			if(list.size()>0){
@@ -30,6 +30,6 @@ class AnioLectivo {
 				return false
 			}
 			return true
-		}
+		}*/
     }
 }

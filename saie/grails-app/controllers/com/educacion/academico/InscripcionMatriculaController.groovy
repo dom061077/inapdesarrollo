@@ -211,7 +211,7 @@ class InscripcionMatriculaController {
 					if (inscmateria.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
 						inscmateria.detalleMateria.each{detinsc->  
 							if(detinsc.materia.id==matcursar.id){
-								flagseleccionado="Si"
+								flagseleccionado="Yes"
 								idinscmatdetalle = detinsc.id
 								return
 							}

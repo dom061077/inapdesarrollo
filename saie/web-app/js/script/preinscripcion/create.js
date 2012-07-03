@@ -106,13 +106,13 @@
                     disableUIStyles : true,
 				 	validationOptions : {
                         messages:{
-                            "alumno.numeroDocumento":{
+                            "numeroDocumento":{
                                 remote:''
                             }
                         },
 				 		rules: {
 
-                            "alumno.numeroDocumento":{
+                            "numeroDocumento":{
                                 remote : {
                                     url: locvalidate,
                                     type:'post',

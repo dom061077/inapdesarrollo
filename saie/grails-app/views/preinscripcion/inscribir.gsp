@@ -37,7 +37,8 @@
     	        	for (var i = 0; i < data.length; i++) {
     	        	    griddata[i] = {};
     	        	    griddata[i]['id'] = data[i].id;
-    	        	    griddata[i]['idid'] = data[i].idid;	        	    
+    	        	    griddata[i]['idid'] = data[i].idid;
+                        griddata[i]['idmateria'] = data[i].idmateria;
     	        	    griddata[i]['denominacion'] = data[i].denominacion;
     	        	    griddata[i]['seleccion'] = data[i].seleccion;	        	    	        	    
     	        	}
@@ -53,10 +54,11 @@
 	            	url:''//url:'<%out << createLink(controller:"preinscripcion",action:"materiasmatriculacion",id:preinscripcionInstance.id)%>'
 	               	,datatype:'local'
 	                ,width:500
-	                ,colNames:['Id','IdId','Denominación','Select']
+	                ,colNames:['Id','IdId','Id materia  ','Denominación','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+                            ,{name:'idmateria',index:'idmateria',hidden:true}
 	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                				

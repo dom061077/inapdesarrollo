@@ -53,6 +53,12 @@
                 </div>
             </g:hasErrors>
 
+            <g:hasErrors bean="${inscripcionMatriculaInstance}">
+                <div class="ui-state-error ui-corner-all">
+                    <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
+                </div>
+            </g:hasErrors>
+
 
 			<form id="inscripcionFormId" name="forminscripcion" method="post"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">

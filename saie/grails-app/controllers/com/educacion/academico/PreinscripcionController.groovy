@@ -217,7 +217,7 @@ class PreinscripcionController {
             //preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
 
             if(!alumnoInstance.hasErrors() && alumnoInstance.save()){
-                if(!alumnoInstance.photo.isEmpty())
+                if(alumnoInstance.photo && !alumnoInstance.photo?.isEmpty())
                     imageUploadService.save(alumnoInstance)
 
                 preinscripcionInstance.alumno = alumnoInstance
@@ -260,10 +260,15 @@ class PreinscripcionController {
                         status.setRollbackOnly()
                         render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
                     }
+                }else{
+                    log.debug "ERROR: "
+                    status.setRollbackOnly()
+                    render(view: "create", model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance,preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
+
                 }
             }else {
 				status.setRollbackOnly()
-				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance])
+				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
 			}
 		}
     }

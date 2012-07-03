@@ -7,16 +7,26 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'division.label', default: 'Division')}" />
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'ui.jqgrid.css')}" />
-        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/css',file:'jquery.searchFilter.css')}" />
-        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
-        
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
 
+            $(document).ready(function(){
+                $('#aulaId').lookupfield({source:'<%out << createLink(controller:"aula",action:"listjson")%>',
+                    title:'Aula'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', editoptions:{readonly:true},width:100,  sortable:true,search:true}]
+                    ,hiddenid:'aulaIdId'
+                    ,descid:'aulaId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']
+              });
 
-
+            });
         </script>
         
     </head>
@@ -138,7 +148,7 @@
                          </div>
                         <div class="span-5">
                             <g:textField class="ui-widget ui-corner-all ui-widget-content" id="aulaId" name="aulaid"  value="${divisionInstance?.aula?.nombre}" />
-                            <g:hiddenField id="aulaIdId" name="aulaId" value="${divisionInstance?.aula?.id}" />
+                            <g:hiddenField id="aulaIdId" name="aula.id" value="${divisionInstance?.aula?.id}" />
                         </div>
                        <div class="clear"></div>
 

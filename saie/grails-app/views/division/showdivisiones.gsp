@@ -65,7 +65,13 @@
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance, field: "cupoComision")}</div>
                             
 							<div class="clear"></div>
-							
+
+                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Carrera" /></div>
+
+                            <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance.aula, field: "nombre")}</div>
+
+                            <div class="clear"></div>
+
             </div>
         </div>
     </body>

@@ -88,7 +88,7 @@ class DivisionController {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
 
-			
+
         def divisionInstance = Division.get(params.id)
         if (!divisionInstance) {
             flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'nivel.label', default: 'Nivel'), params.id])}"

@@ -2,6 +2,13 @@
         var gridDataMaterias = $("#materiasId").getRowData();
         var postDataMaterias = JSON.stringify(gridDataMaterias);
         $("#materiasSerializedId").val(postDataMaterias);
+        $('#'+$('#fechaNacimientoId').id+'_yearId').val(inst.currentYear);
+        $('#'+$('#fechaNacimientoId').id+'_monthId').val(inst.currentMonth+1);
+        $('#'+$('#fechaNacimientoId').id+'_dayId').val(inst.currentDay);
+        if($('#'+$('#fechaNacimientoId').id+'_monthId').val().length==1)
+            $('#'+$('#fechaNacimientoId').id+'_monthId').val('0'+$('#'+this.id+'_monthId').val());
+        if($('#'+$('#fechaNacimientoId').id+'_dayId').val().length==1)
+            $('#'+$('#fechaNacimientoId').id+'_dayId').val('0'+$('#'+$('#fechaNacimientoId').id+'_dayId').val());
 
     }
     function bindmaterias(){
@@ -111,7 +118,9 @@
                             }
                         },
 				 		rules: {
-
+                            'fechaNacimiento':{
+                                required: true
+                            },
                             "numeroDocumento":{
                                 remote : {
                                     url: locvalidate,
@@ -157,7 +166,7 @@
 				);
 				//--------------fin wizard----------------
         		$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
-        		$('#fechaNacimientoId' ).datepicker(
+        		/*$('#fechaNacimientoId' ).datepicker(
                     {changeYear:true
                     ,onSelect: function(dateText, inst) {
                         $('#'+this.id+'_yearId').val(inst.currentYear);
@@ -169,7 +178,7 @@
                             $('#'+this.id+'_dayId').val('0'+$('#'+this.id+'_dayId').val());
                         }
                     }
-                  );
+                  );*/
 
 
 
@@ -616,14 +625,15 @@
                         ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                         ,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
 
+
                     ]
-                    ,onSelectRow: function(id){
+                    /*,onSelectRow: function(id){
                         if(id && id!==lastsel2){
                             $('#materiasId').jqGrid('restoreRow',lastsel2);
                             $('#materiasId').jqGrid('editRow',id,true);
                             lastsel2=id;
                         }
-                    }
+                    } */
                     ,sortname:'denominacion'
                     //,pager: '#pagermateriasId'
                     ,sortorder:'asc'

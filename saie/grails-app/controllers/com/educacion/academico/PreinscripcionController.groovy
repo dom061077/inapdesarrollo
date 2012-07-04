@@ -233,6 +233,7 @@ class PreinscripcionController {
                             ,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
                             ,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
                     materiasJson.each{
+                        log.debug "SELECCION: "+it.seleccion
                         if(it.seleccion.toUpperCase().equals("YES")){
                             materiaInstance = Materia.load(it.idid)
                             inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance

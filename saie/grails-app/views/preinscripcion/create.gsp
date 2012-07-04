@@ -60,7 +60,7 @@
             </g:hasErrors>
 
 
-			<form id="inscripcionFormId" name="forminscripcion" method="post"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
+			<form id="inscripcionFormId" name="forminscripcion" method="post" onsubmit="initsubmit()"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
 								<h1>Datos del Alumno </h1>
                                 <g:hiddenField name="alumnoId" id="alumnoId"/>

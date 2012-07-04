@@ -20,7 +20,11 @@ class AcademicoUtil {
 								eq("id",idAlu)
 							}
 						}
-						eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
+                        or{
+                            eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO)
+                            eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
+                            eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+                        }
 						materia{
 							eq("id",matreg.id)
 						}
@@ -126,8 +130,11 @@ class AcademicoUtil {
 		else{
 			
 		}
-				
-		def anioLectivoInstance = list?.get(0)
+
+        if(list)
+            return list?.get(0)
+        else
+            null
 	}
 	
 	private static def validaMateriaCursar(def materiaInstance,def idAlu){

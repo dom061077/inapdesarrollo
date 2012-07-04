@@ -132,7 +132,6 @@ class DivisionController {
 		log.info "INGRESANDO AL CLOSURE delete"
 		log.info "PARAMETROS: $params"
 
-		
         def divisionInstance = Division.get(params.id)
         if (divisionInstance) {
             try {
@@ -164,8 +163,6 @@ class DivisionController {
 			totalpaginas=1;
 		totalpaginas=totalpaginas.intValue()
 
-		
-		
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
 		list.each{
@@ -174,7 +171,7 @@ class DivisionController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nivel.carrera.denominacion+'","'+it.nivel.descripcion+'","'+it.descripcion+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.nivel.carrera.denominacion+'","'+it.nivel.descripcion+'","'+it.descripcion+'","'+it.aula.nombre+'"]}'
 			 
 			flagaddcomilla=true
 		}
@@ -211,7 +208,6 @@ class DivisionController {
 			totalpaginas=1;
 		totalpaginas=totalpaginas.intValue()
 
-		
 		 
 		def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
@@ -243,7 +239,8 @@ class DivisionController {
 	def listdivisiones = {
 		log.info "INGRESANDO AL CLOSURE listdivisiones"
 		log.info "PARAMETROS: $params"
-		def nivelInstance = Nivel.get(params.id)
+
+        def nivelInstance = Nivel.get(params.id)
 		def result
 		def flagcomilla = false
 		if(nivelInstance){

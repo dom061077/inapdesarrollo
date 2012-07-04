@@ -180,8 +180,8 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 							</div>
 					   </g:hasErrors>
 					   <div class="clear"></div>
-		
-																
+
+
 		            
                 </div>
                 <div class="buttons">

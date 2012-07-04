@@ -164,9 +164,9 @@
 										</div>
 										<div class="span-5">
 											<g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content dateformat" name="fechaNacimiento" value="${g.formatDate(format:'dd/MM/yyyy',date:alumnoInstance?.fechaNacimiento)}" />
-                                            <g:textField name="fechaNacimiento_year" id="fechaNacimientoId_yearId" value="${g.formatDate(format:'yyyy',date:alumnoInstance?.fechaNacimiento)}"/>
-                                            <g:textField name="fechaNacimiento_month" id="fechaNacimientoId_monthId" value="${g.formatDate(format:'MM',date:alumnoInstance?.fechaNacimiento)}"/>
-                                            <g:textField name="fechaNacimiento_day" id="fechaNacimientoId_dayId" value="${g.formatDate(format:'dd',date:alumnoInstance?.fechaNacimiento)}"/>
+                                            <g:hiddenField name="fechaNacimiento_year" id="fechaNacimientoId_yearId" value="${g.formatDate(format:'yyyy',date:alumnoInstance?.fechaNacimiento)}"/>
+                                            <g:hiddenField name="fechaNacimiento_month" id="fechaNacimientoId_monthId" value="${g.formatDate(format:'MM',date:alumnoInstance?.fechaNacimiento)}"/>
+                                            <g:hiddenField name="fechaNacimiento_day" id="fechaNacimientoId_dayId" value="${g.formatDate(format:'dd',date:alumnoInstance?.fechaNacimiento)}"/>
 										</div>
 
 										<g:hasErrors bean="${alumnoInstance}" field="fechaNacimiento">

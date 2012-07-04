@@ -2,13 +2,13 @@
         var gridDataMaterias = $("#materiasId").getRowData();
         var postDataMaterias = JSON.stringify(gridDataMaterias);
         $("#materiasSerializedId").val(postDataMaterias);
-        $('#'+$('#fechaNacimientoId').id+'_yearId').val(inst.currentYear);
-        $('#'+$('#fechaNacimientoId').id+'_monthId').val(inst.currentMonth+1);
-        $('#'+$('#fechaNacimientoId').id+'_dayId').val(inst.currentDay);
-        if($('#'+$('#fechaNacimientoId').id+'_monthId').val().length==1)
-            $('#'+$('#fechaNacimientoId').id+'_monthId').val('0'+$('#'+this.id+'_monthId').val());
-        if($('#'+$('#fechaNacimientoId').id+'_dayId').val().length==1)
-            $('#'+$('#fechaNacimientoId').id+'_dayId').val('0'+$('#'+$('#fechaNacimientoId').id+'_dayId').val());
+        $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
+        $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
+        $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
+        if($('#fechaNacimientoId_monthId').val().length==1)
+            $('#fechaNacimientoId_monthId').val('0'+$('#fechaNacimientoId_monthId').val());
+        if($('#fechaNacimientoId_dayId').val().length==1)
+            $('#fechaNacimientoId_dayId').val('0'+$('#fechaNacimientoId_dayId').val());
 
     }
     function bindmaterias(){
@@ -113,8 +113,11 @@
                     disableUIStyles : true,
 				 	validationOptions : {
                         messages:{
-                            "numeroDocumento":{
+                            'numeroDocumento':{
                                 remote:''
+                            },
+                            'fechaNacimiento':{
+                                required: 'dato obligatorio'
                             }
                         },
 				 		rules: {
@@ -166,9 +169,9 @@
 				);
 				//--------------fin wizard----------------
         		$.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
-        		/*$('#fechaNacimientoId' ).datepicker(
+        		$('#fechaNacimientoId' ).datepicker(
                     {changeYear:true
-                    ,onSelect: function(dateText, inst) {
+                    /*,onSelect: function(dateText, inst) {
                         $('#'+this.id+'_yearId').val(inst.currentYear);
                         $('#'+this.id+'_monthId').val(inst.currentMonth+1);
                         $('#'+this.id+'_dayId').val(inst.currentDay);
@@ -177,8 +180,9 @@
                         if($('#'+this.id+'_dayId').val().length==1)
                             $('#'+this.id+'_dayId').val('0'+$('#'+this.id+'_dayId').val());
                         }
+                        */
                     }
-                  );*/
+                  );
 
 
 

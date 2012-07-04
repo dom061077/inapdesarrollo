@@ -150,7 +150,10 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 							<label for="estado"><g:message code="preinscripcion.estado.label" default="Estado" /></label>
 						</div>
 						<div class="span-5">
-							<g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" from="${com.educacion.enums.inscripcion.EstadoPreinscripcion?.values()}" keys="${com.educacion.enums.inscripcion.EstadoPreinscripcion?.values()*.name()}" value="${preinscripcionInstance?.estado?.name()}"  optionValue="name"/>
+                            <%-- com.medfire.enums.EstadoEvent?.list().findAll{it!=com.medfire.enums.EstadoEvent.EVENT_ATENDIDO} --%>
+							<g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" 
+                                      from="${com.educacion.enums.inscripcion.EstadoPreinscripcion?.list().findAll{(it==com.educacion.enums.inscripcion.EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO || it==preinscripcionInstance?.estado)}}"
+                                      value="${preinscripcionInstance?.estado?.name()}"  optionValue="name"/>
 						</div>
 									
 						<g:hasErrors bean="${preinscripcionInstance}" field="estado">

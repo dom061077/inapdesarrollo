@@ -53,9 +53,8 @@
 
 				jQuery("#list").jqGrid('navButtonAdd','#pager',{
 				       caption:"Informe", 
-				       onClickButton : function () { 
-				           //jQuery("#list").excelExport();
-				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
+				       onClickButton : function () {
+                           window.location = '<%out << createLink(controller:"materia",action:"reportemateria") %>';
 				       } 
 				});
 

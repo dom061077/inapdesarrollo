@@ -351,6 +351,11 @@ class PreinscripcionController {
     def update = {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
+        def materiasSerializedJson
+
+        if(params.materiasSerialized)
+            materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
+
 
         def preinscripcionInstance = Preinscripcion.get(params.id)
         if (preinscripcionInstance) {
@@ -363,13 +368,48 @@ class PreinscripcionController {
                     return
                 }
             }
-            preinscripcionInstance.properties = params
-            if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
-                redirect(action: "show", id: preinscripcionInstance.id)
-            }
-            else {
-                render(view: "edit", model: [preinscripcionInstance: preinscripcionInstance])
+            Preinscripcion.withTransaction {TransactionStatus status->
+                preinscripcionInstance.properties = params
+                def materiaInstance
+                def inscripcionMateriaDetalleInstance
+                def indice=0
+                preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each{
+                    indice++
+                    if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
+                        return
+                }
+
+                materiasSerializedJson.each{mat ->
+                    if(mat.seleccion.toUpperCase.equals("YES")){
+                        materiaInstance = Materia.load(it.idmateria.toLong())
+                        if (materiaInstance){
+                            if(it.idid.toInteger()==0){
+                                inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
+                                        ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
+                                        ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                                preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.get(indice).addToDetalleMateria(inscripcionMateriaDetalleInstance)
+                            }
+                        }
+                    }else{
+                        if(it.idid.toInteger()>0){
+                            inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
+                            preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.get(indice).removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
+                            inscripcionMateriaDetalleInstance.delete()
+                        }
+
+                    }
+
+                }
+
+
+
+                if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
+                    flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
+                    redirect(action: "show", id: preinscripcionInstance.id)
+                }
+                else {
+                    render(view: "edit", model: [preinscripcionInstance: preinscripcionInstance])
+                }
             }
         }
         else {

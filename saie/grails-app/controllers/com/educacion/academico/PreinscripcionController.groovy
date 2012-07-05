@@ -300,7 +300,51 @@ class PreinscripcionController {
             redirect(action: "list")
         }
         else {
-            return [preinscripcionInstance: preinscripcionInstance]
+
+            def flagcomilla = false
+            def flagseleccionado
+            def idinscmatdetalle
+            def materiasSerialized = "["
+
+            def materiasCursar = Materia.createCriteria().list(){
+                and{
+                    nivel{
+                        carrera{
+                            eq("id",preinscripcionInstance.carrera.id)
+                        }
+                        //matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+                    }
+                    isEmpty("matregcursar")
+                    isEmpty("mataprobcursar")
+                    isEmpty("matregrendir")
+                    isEmpty("mataprobrendir")
+                }
+            }
+
+            materiasCursar.each{ matcursar->
+                if(flagcomilla)
+                    materiasSerialized = materiasSerialized + ","
+                flagseleccionado="No"
+                idinscmatdetalle = 0
+                preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each{inscmateria ->
+                    if (inscmateria.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+                        inscmateria.detalleMateria.each{detinsc->
+                            if(detinsc.materia.id==matcursar.id){
+                                flagseleccionado="Yes"
+                                idinscmatdetalle = detinsc.id
+                                return
+                            }
+                        }
+                        return
+                    }
+                }
+                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+                flagcomilla = true
+            }
+            materiasSerialized += "]"
+
+
+            return [preinscripcionInstance: preinscripcionInstance, materiasSerialized: materiasSerialized]
         }
     }
 
@@ -341,14 +385,18 @@ class PreinscripcionController {
 		
         def preinscripcionInstance = Preinscripcion.get(params.id)
         if (preinscripcionInstance) {
-            try {
-                preinscripcionInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), params.id])}"
-                redirect(action: "show", id: params.id)
+            Preinscripcion.withTransaction {TransactionStatus status ->
+                try {
+                    preinscripcionInstance.inscripcionMatricula.delete()
+                    preinscripcionInstance.delete(flush: true)
+                    flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), params.id])}"
+                    redirect(action: "list")
+                }
+                catch (org.springframework.dao.DataIntegrityViolationException e) {
+                    flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), params.id])}"
+                    status.rollbackOnly()
+                    redirect(action: "show", id: params.id)
+                }
             }
         }
         else {

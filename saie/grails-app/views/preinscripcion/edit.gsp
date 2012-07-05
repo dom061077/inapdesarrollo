@@ -13,6 +13,7 @@
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
+        <script type="text/javascript" src='${resource(dir:'js/script/preinscripcion',file:'edit.js')}'></script>
         <script type="text/javascript">
         	$(document).ready(function(){
         		$('#alumnoId').lookupfield({source:'colocar aqui la url',
@@ -181,6 +182,13 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 					   </g:hasErrors>
 					   <div class="clear"></div>
 
+                        <fieldset class="step" id="materiasPreinscId">
+                            <h1>Materias Preinscriptas</h1>
+                            <table id='materiasId'></table>
+                            <div id = 'pagermateriasId'></div>
+                            <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+
+                        </fieldset>
 
 		            
                 </div>

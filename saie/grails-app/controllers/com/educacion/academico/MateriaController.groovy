@@ -557,21 +557,23 @@ class MateriaController {
         log.info "INGRESANDO AL CLOSURE reportemateria"
         log.info "PARAMETROS: $params"
 
+        // TODO: Debo aplicar el filtro cuando entro al list
+
         params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
         params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
         params.put("telefonoinstitucion", g.message(code:"caratula.institucion.telefono"))
 
-        params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/divisiones/"))
+        params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/materia/"))
         params.put("_format","PDF")
-        params.put("_name","reportedivisiones")
-        params.put("_file","divisiones/reportedivisiones")
-        def listDivisiones = Division.list()
+        params.put("_name","materiasreporte")
+        params.put("_file","materia/materiasreporte")
+        def listMaterias = Materia.list()
 
-        listDivisiones.each {
+        listMaterias.each {
             it.nivel.carrera.denominacion
         }
 
-        chain(controller:'jasper', action:'index', model:[data:listDivisiones], params:params)
+          chain(controller:'jasper', action:'index', model:[data:listMaterias], params:params)
     }
 
 }

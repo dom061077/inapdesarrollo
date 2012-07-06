@@ -19,7 +19,7 @@
 					width:680,
 					colNames:['Nro.Insc.','Apellido Alumno','Nombre Alumno','Carrera','Año Lectivo','Opciones'],
 				   	colModel:[
-				   		{name:'id',index:'id', width:40},
+				   		{name:'id',index:'id', width:40,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},				   		
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true,sortable:true},

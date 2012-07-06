@@ -20,7 +20,7 @@
 					colNames:['Id','Apellido Alumno','Nombre Alumno','Fecha Insc.','Carrera','A�o Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40,hidden:true},
+				   		{name:'id',index:'id', width:40,hidden:true,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},				   		
 				   		{name:'fechaAlta',index:'fechaAlta', width:92,sortable:true,search:true,searchoptions:{sopt:['ge']

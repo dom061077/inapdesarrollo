@@ -372,28 +372,29 @@ class PreinscripcionController {
                 preinscripcionInstance.properties = params
                 def materiaInstance
                 def inscripcionMateriaDetalleInstance
-                def indice=0
+                def inscripcionMateriaInstance
                 preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each{
-                    indice++
-                    if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
+                    if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+                        inscripcionMateriaInstance = it
                         return
+                    }
                 }
 
                 materiasSerializedJson.each{mat ->
-                    if(mat.seleccion.toUpperCase.equals("YES")){
-                        materiaInstance = Materia.load(it.idmateria.toLong())
+                    if(mat.seleccion.toUpperCase().equals("YES")){
+                        materiaInstance = Materia.load(mat.idmateria.toLong())
                         if (materiaInstance){
-                            if(it.idid.toInteger()==0){
+                            if(mat.idid.toInteger()==0){
                                 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
                                         ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
                                         ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
-                                preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.get(indice).addToDetalleMateria(inscripcionMateriaDetalleInstance)
+                                preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.getElement(inscripcionMateriaInstance).addToDetalleMateria(inscripcionMateriaDetalleInstance)
                             }
                         }
                     }else{
-                        if(it.idid.toInteger()>0){
-                            inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
-                            preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.get(indice).removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
+                        if(mat.idid.toInteger()>0){
+                            inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(mat.idid);
+                            preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.getElement(inscripcionMateriaInstance).removeFromDetalleMateria(inscripcionMateriaDetalleInstance)
                             inscripcionMateriaDetalleInstance.delete()
                         }
 

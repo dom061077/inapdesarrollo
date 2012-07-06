@@ -20,7 +20,7 @@
 					colNames:['Nro.Preinsc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Operaciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:70, hidden:false,searchoptions:{sopt:['eq']}},
+				   		{name:'id',index:'id', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},

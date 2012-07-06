@@ -90,7 +90,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
                 <g:renderErrors bean="${preinscripcionInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" onsubmit="initsubmit();" >
             	<div class="append-bottom">
                 <g:hiddenField name="id" value="${preinscripcionInstance?.id}" />
                 <g:hiddenField name="version" value="${preinscripcionInstance?.version}" />

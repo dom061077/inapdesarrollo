@@ -2,13 +2,6 @@ function initsubmit(){
     var gridDataMaterias = $("#materiasId").getRowData();
     var postDataMaterias = JSON.stringify(gridDataMaterias);
     $("#materiasSerializedId").val(postDataMaterias);
-    $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
-    $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
-    $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
-    if($('#fechaNacimientoId_monthId').val().length==1)
-        $('#fechaNacimientoId_monthId').val('0'+$('#fechaNacimientoId_monthId').val());
-    if($('#fechaNacimientoId_dayId').val().length==1)
-        $('#fechaNacimientoId_dayId').val('0'+$('#fechaNacimientoId_dayId').val());
 
 }
 function bindmaterias(){
@@ -22,6 +15,7 @@ function bindmaterias(){
         griddata[i]['id'] = data[i].id;
         griddata[i]['idid'] = data[i].idid;
         griddata[i]['denominacion'] = data[i].denominacion;
+        griddata[i]['idmateria'] = data[i].idmateria;
         griddata[i]['seleccion'] = data[i].seleccion;
     }
 
@@ -36,7 +30,7 @@ $(document).ready(function(){
     $('#materiasId').jqGrid({
         datatype:'local'
         ,width:500
-        ,colNames:['Id','IdId','Denominación','Select']
+        ,colNames:['Id','IdId','Id materia','Denominación','Select']
         ,colModel:[
             {name:'id',index:'id',width:50,editable:false,hidden:true}
             ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}

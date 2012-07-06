@@ -20,11 +20,11 @@
 					colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.','Ver'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
+				   		{name:'id',index:'id', width:40,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
 				   		{name:'apellido',index:'apellido', width:92,search:true,sortable:true},
 				   		{name:'nombre',index:'nombre', width:92,search:true,sortable:true},
 				   		{name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
-				   		{name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sortable:true,searchoptions:{sopt:['eq']}},
+				   		{name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
 				   		{name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],

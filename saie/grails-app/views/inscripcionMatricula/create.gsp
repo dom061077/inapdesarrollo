@@ -34,6 +34,8 @@
 	        	    griddata[i]["id"] = data[i].id;
 	        	    griddata[i]["idid"] = data[i].idid;	        	    
 	        	    griddata[i]["denominacion"] = data[i].denominacion;
+                    griddata[i]["nivel"] = data[i].nivel;
+                    griddata[i]["codigomateria"] = data[i].codigomateria;
 	        	    griddata[i]["seleccion"] = data[i].seleccion	        	    	        	    
 	        	}
 	
@@ -47,10 +49,12 @@
 	        	$('#materiasId').jqGrid({
 	               	datatype:'local'
 	                ,width:500
-	                ,colNames:['Id','IdId','Denominación','Select']
+	                ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+                            ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                            ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                				

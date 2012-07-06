@@ -89,7 +89,7 @@ class PreinscripcionController {
         listmaterias.each{
             if(flagcomilla)
                 materiasSerialized = materiasSerialized + ","
-            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
             flagcomilla = true
         }
         materiasSerialized += "]"
@@ -338,7 +338,7 @@ class PreinscripcionController {
                         return
                     }
                 }
-                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
                 flagcomilla = true
             }
             materiasSerialized += "]"
@@ -755,7 +755,7 @@ class PreinscripcionController {
 			
 			if (flagaddcomilla)
 				result=result+','
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'","'+it.materia.nivel.descripcion+'","Yes"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.codigo+'","'+it.materia.denominacion+'","'+it.materia.nivel.descripcion+'","Yes"]}'
 			flagaddcomilla=true
 		}
 		result=result+']}'

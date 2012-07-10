@@ -549,7 +549,7 @@ class CarreraController {
 					count('id')
 				}	
 				and{
-					ne("estado",EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)
+					ne("estado",EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO)
 					carrera{
 						eq("id",params.carreraId.toLong())
 					}
@@ -648,7 +648,7 @@ class CarreraController {
 		hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
 		hqlstr = hqlstr	+")";
 		hqlstr = hqlstr	+"  ,(SELECT";
-		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.estado<>'ESTADO_PREINSCIRPTOANULADO' AND pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
+		hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.estado<>'ESTADO_PREINSCRIPTOANULADO' AND pre.carrera.id=c.id AND pre.anioLectivo.anioLectivo=";
 		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
 		hqlstr = hqlstr	+"  )";
 		hqlstr = hqlstr	+" FROM Carrera c";

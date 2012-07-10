@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="126"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
@@ -25,9 +25,9 @@
 		</band>
 	</title>
 	<detail>
-		<band height="100" splitType="Prevent">
+		<band height="149" splitType="Prevent">
 			<subreport>
-				<reportElement x="0" y="47" width="555" height="10"/>
+				<reportElement stretchType="RelativeToTallestObject" x="0" y="47" width="247" height="30"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
@@ -55,6 +55,26 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="0" y="77" width="539" height="32"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Courier New" size="8"/>
+				</textElement>
+				<text><![CDATA[Para modificación de la presente, deberá comunicarlo al Preceptor antes del 31 de marzo del presente año.
+Caso contrario, esta información será tomada como válida para el cobro de los aranceles.
+RECIBI CONFORME COPIA DEL REGLAMENTO INTERNO DE ALUMNOS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="418" y="109" width="137" height="40"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[............................................
+Firma del solicitante]]></text>
+			</staticText>
+			<subreport>
+				<reportElement stretchType="RelativeToTallestObject" x="292" y="47" width="247" height="30"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
+				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
+			</subreport>
 		</band>
 		<band height="100">
 			<textField>

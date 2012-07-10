@@ -147,7 +147,7 @@ class PreinscripcionController {
 		hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
 		hqlstr = hqlstr	+"  )";
 		hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
-		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id,"estado":EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO])
+		def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id,"estado":EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO])
 		def datosCarrera = list?.get(0)
 		def cupodisponible=0
 		def cupo = 0
@@ -156,7 +156,7 @@ class PreinscripcionController {
 		
 		//el indice 6 es el cupo, el 7 cupo suplente, el 8 la cantidad de preinscripciones
 		if((!datosCarrera[6]) || (datosCarrera[6]==0)){
-			flash.message = "No hay un cupo cargado para el a�o lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
+			flash.message = "No hay un cupo cargado para el año lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
 			render(view: "create", model: [preinscripcionInstance: preinscripcionInstance])
 			return
 		}
@@ -191,7 +191,7 @@ class PreinscripcionController {
             if (flagprimernivel)
                 preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTE
             else
-			    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE
+			    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
         }
 																 
 
@@ -369,6 +369,7 @@ class PreinscripcionController {
                 }
             }
             Preinscripcion.withTransaction {TransactionStatus status->
+                def oldEstado = preinscripcionInstance.estado
                 preinscripcionInstance.properties = params
                 def materiaInstance
                 def inscripcionMateriaDetalleInstance
@@ -379,6 +380,8 @@ class PreinscripcionController {
                         return
                     }
                 }
+
+
 
                 materiasSerializedJson.each{mat ->
                     if(mat.seleccion.toUpperCase().equals("YES")){
@@ -403,6 +406,35 @@ class PreinscripcionController {
                 }
 
 
+                //------------si la preinscripcion es modificada para ser anulada es necesario reorganizar el estado
+                //------------ de acuerdo a si era suplente o no------
+                if(preinscripcionInstance.estado == EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO &&
+                    (oldEstado == EstadoPreinscripcion.ESTADO_ASPIRANTE || oldEstado == EstadoPreinscripcion.ESTADO_PREINSCRIPTO)){
+                    def preinscripcionInstanceparaCupo = Preinscripcion.createCriteria().get {
+                        and{
+                            carrera{
+                                eq("id",preinscripcionInstance.carrera.id)
+                            }
+                            anioLectivo{
+                                eq("id",preinscripcionInstance.anioLectivo.id)
+                            }
+                            or{
+                                eq("estado",EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE)
+                                eq("estado",EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE)
+                            }
+                        }
+                        maxResults(1)
+                        order("fechaAlta","asc")
+                    }
+                    if (preinscripcionInstanceparaCupo){
+                        if (preinscripcionInstanceparaCupo.estado == EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE)
+                            preinscripcionInstanceparaCupo.estado = EstadoPreinscripcion.ESTADO_ASPIRANTE
+                        if (preinscripcionInstanceparaCupo.estado == EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE)
+                            preinscripcionInstanceparaCupo.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
+                        preinscripcionInstanceparaCupo.save()
+                    }
+                }
+                //-------------------------------------------------------
 
                 if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save(flush: true)) {
                     flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
@@ -574,7 +606,7 @@ class PreinscripcionController {
 		if(preinscripcionInstance){
 			if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO)
 				||
-				preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)){
+				preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO)){
 				if(preinscripcionInstance.estado.equals(EstadoPreinscripcion.ESTADO_INSCRIPTO))
 					flash.message = g.message(code:"com.educacion.academico.Preinscripcion.estado.inscripto",args:[preinscripcionInstance?.alumno?.apellido+"-"+preinscripcionInstance?.alumno?.nombre,preinscripcionInstance?.alumno?.numeroDocumento])
 				else

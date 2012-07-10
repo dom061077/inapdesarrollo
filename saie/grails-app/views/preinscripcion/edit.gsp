@@ -153,7 +153,7 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 						<div class="span-5">
                             <%-- com.medfire.enums.EstadoEvent?.list().findAll{it!=com.medfire.enums.EstadoEvent.EVENT_ATENDIDO} --%>
 							<g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" 
-                                      from="${com.educacion.enums.inscripcion.EstadoPreinscripcion?.list().findAll{(it==com.educacion.enums.inscripcion.EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO || it==preinscripcionInstance?.estado)}}"
+                                      from="${com.educacion.enums.inscripcion.EstadoPreinscripcion?.list().findAll{(it==com.educacion.enums.inscripcion.EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO || it==preinscripcionInstance?.estado)}}"
                                       value="${preinscripcionInstance?.estado?.name()}"  optionValue="name"/>
 						</div>
 									

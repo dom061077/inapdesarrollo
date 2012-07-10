@@ -22,7 +22,7 @@ class Preinscripcion extends Inscripcion {
 						anioLectivo{
 							eq("id",obj.anioLectivo.id)
 						}
-						ne("estado",EstadoPreinscripcion.ESTADO_PREINSCIRPTOANULADO)
+						ne("estado",EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO)
 					}
 					projections{
 						rowCount()

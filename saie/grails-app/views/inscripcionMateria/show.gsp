@@ -17,10 +17,12 @@
                 	url:'<%out<< g.createLink(controller:"inscripcionMateria",action:"listjsonmaterias",params:[id:inscripcionMateriaInstance.id])%>'
                    	,datatype:'json'
                     ,width:650
-                    ,colNames:['Id','IdId','Denominación','Estado Insc.','Tipo Insc.','Nota']
+                    ,colNames:['Id','IdId','Nivel','Código','Denominación','Estado Insc.','Tipo Insc.','Nota']
                 	,colModel:[
                            	{name:'id',index:'id',width:50,editable:false,hidden:true}
                            	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:30},editrules:{required:false}}
+                            ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:120},editrules:{required:false}}
+                            ,{name:'codigo',index:'codigo',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:120},editrules:{required:false}}
                            	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:120},editrules:{required:false}}
                            	,{name:'estado',index:'estado',hidden:true,width:120,editable:true,sortable:false
                                		,editoptions:{readOnly:false,size:40

@@ -502,7 +502,7 @@ class InscripcionMateriaController {
 						result=result+','
 						
 					
-					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.materia.denominacion+'","'+it.estado.name+'","'+it.tipo.name+'","'+it.nota+'"]}'
+					result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.materia.nivel.descripcion+'","'+it.materia.codigo+'","'+it.materia.denominacion+'","'+it.estado.name+'","'+it.tipo.name+'","'+it.nota+'"]}'
 					 
 					flagaddcomilla=true
 				}

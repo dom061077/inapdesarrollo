@@ -45,16 +45,8 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
         def preinscripcionInstance = new Preinscripcion()
 		def niveles
-		//def carreras = Carrera.listOrderByDenominacion()
-		//niveles = carreras?.get(0)?.niveles
 		def carreraInstance = Carrera.get(params.id)
 		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(carreraInstance.id)
-		/*def sortedList= carreraInstance.anios.sort{it.anioLectivo}.reverse()
-		if(sortedList.size()>0){
-			def cupo= sortedList.get(0).cupo
-			def cupoSuplementes = sortedList.get(0).cupoSuplentes
-			anioLectivoInstance = sortedList.get(0)
-		}*/
 
 		if(!anioLectivoInstance){
 			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[carreraInstance?.denominacion])
@@ -68,6 +60,53 @@ class PreinscripcionController {
 		}
         preinscripcionInstance.properties = params
 		preinscripcionInstance.carrera = carreraInstance
+
+
+
+        def hqlstr = "SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) ";
+        hqlstr = hqlstr +" FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+        hqlstr = hqlstr 	+",(SELECT acup.cupo FROM AnioLectivo acup";
+        hqlstr = hqlstr		+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+        hqlstr = hqlstr		+" AND acup.carrera.id=c.id";
+        hqlstr = hqlstr		+")";
+        hqlstr = hqlstr	+",(SELECT acup.cupoSuplentes FROM AnioLectivo acup";
+        hqlstr = hqlstr	+" WHERE acup.anioLectivo=(SELECT MAX(anioLectivo) FROM AnioLectivo suba WHERE suba.carrera.id=c.id GROUP BY suba.carrera.id)";
+        hqlstr = hqlstr	+" AND acup.carrera.id=c.id";
+        hqlstr = hqlstr	+")";
+        hqlstr = hqlstr	+"  ,(SELECT";
+        hqlstr = hqlstr	+"	COUNT(pre.id) FROM Preinscripcion pre WHERE pre.carrera.id=c.id AND pre.estado<>:estado AND pre.anioLectivo.anioLectivo=";
+        hqlstr = hqlstr	+"(SELECT MAX(anioLectivo) FROM AnioLectivo a WHERE a.carrera.id=c.id)";
+        hqlstr = hqlstr	+"  )";
+        hqlstr = hqlstr	+" FROM Carrera c WHERE c.id=:carrera";
+        def list =  Carrera.executeQuery(hqlstr,["carrera":preinscripcionInstance.carrera?.id,"estado":EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO])
+        def datosCarrera = list?.get(0)
+        def cupodisponible=0
+        def cupo = 0
+        def cuposuplentes = 0
+        def inscriptos = 0
+
+        //el indice 6 es el cupo, el 7 cupo suplente, el 8 la cantidad de preinscripciones
+        if((!datosCarrera[6]) || (datosCarrera[6]==0)){
+            flash.message = "No hay un cupo cargado para el año lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}"
+            redirect(action:"carrerasdisponibles")
+            return
+        }
+        cupo = anioLectivoInstance.cupo
+        if(datosCarrera[7])
+            cuposuplentes = datosCarrera[7]
+        if(datosCarrera[8])
+            inscriptos = datosCarrera[8]
+
+        if((cupo+cuposuplentes)<(inscriptos+1)){
+            flash.message="No hay un cupo para esta inscripción"
+            redirect(action:"carrerasdisponibles")
+            return
+        }
+
+
+
+
+
         def materiasSerialized
 
         def listmaterias = Materia.createCriteria().list(){
@@ -123,7 +162,6 @@ class PreinscripcionController {
 				preinscripcionInstance.anioLectivo = sortedList.get(0)
 			}*/
 			preinscripcionInstance.anioLectivo = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
-			
 		}
 		if(!preinscripcionInstance.anioLectivo){
 			flash.message = g.message(code:"com.educacion.academico.Carrera.flash.message.aniolectivo",args:[preinscripcionInstance?.carrera?.denominacion])
@@ -806,8 +844,15 @@ class PreinscripcionController {
 		if (preinscripcionInstance) { 
 			def materias = AcademicoUtil.getMateriasCursarDisponibles(
 				preinscripcionInstance.carrera.id, preinscripcionInstance.alumno.id)
-	
-			list.add([preinscripcionInstance, materias])
+            def materiasIz
+            def materiasDer
+            if (materias?.size()>7){
+            materiasIz = materias.subList(0,5)
+            materiasDer = materias.subList(6,materias.size()-1)
+            }else
+                materiasIz = materias
+
+			list.add([preinscripcionInstance,materiasIz,materiasDer])
 			
 			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/preinscripcion/"))
 			params.put("_format","PDF")

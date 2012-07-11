@@ -70,7 +70,7 @@
                             
 							<div class="clear"></div>
                     
-                            <div class="span-4 spanlabel"><g:message code="preinscripcion.estado.label" default="Estado:" /></div>
+                            <div class="span-4 spanlabel"><g:message code="preinscripcion.estado.label" default="Inscripto como:" /></div>
                             
                             <div class="span-4 spanlabel">${preinscripcionInstance?.estado?.name?.encodeAsHTML()}</div>
                             

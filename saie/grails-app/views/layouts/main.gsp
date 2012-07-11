@@ -126,10 +126,10 @@
 													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listar Preinscripciones</a></li>
 												</ul>
 											</li>
-											<li><span class="dir">Inscripción Materia</span>
+											<li><span class="dir">Inscripciones</span>
 												<ul>
-													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Inscripción en Materia</a></li>
-													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado de Inscripciones en Materia</a></li>								
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Actualización</a></li>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado</a></li>
 												</ul>
 											</li>
 											

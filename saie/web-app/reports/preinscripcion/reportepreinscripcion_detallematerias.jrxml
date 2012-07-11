@@ -18,26 +18,4 @@
 			</textField>
 		</band>
 	</detail>
-	<pageFooter>
-		<band height="133">
-			<line>
-				<reportElement x="0" y="12" width="555" height="1"/>
-			</line>
-			<staticText>
-				<reportElement x="0" y="13" width="539" height="32"/>
-				<textElement textAlignment="Justified">
-					<font fontName="Courier New" size="8"/>
-				</textElement>
-				<text><![CDATA[Para modificación de la presente, deberá comunicarlo al Preceptor antes del 31 de marzo del presente año.
-Caso contrario, esta información será tomada como válida para el cobro de los aranceles.
-RECIBI CONFORME COPIA DEL REGLAMENTO INTERNO DE ALUMNOS]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="402" y="83" width="137" height="40"/>
-				<textElement textAlignment="Center"/>
-				<text><![CDATA[............................................
-Firma del solicitante]]></text>
-			</staticText>
-		</band>
-	</pageFooter>
 </jasperReport>

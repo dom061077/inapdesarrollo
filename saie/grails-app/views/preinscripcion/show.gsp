@@ -96,6 +96,7 @@
                     <g:hiddenField name="id" value="${preinscripcionInstance?.id}" />
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <a href="${createLink(controller:"preinscripcion", action:"reportepreinscripcion",params:[id:preinscripcionInstance.id])}">Comprobante</a>
                 </g:form>
             </div>
         </div>

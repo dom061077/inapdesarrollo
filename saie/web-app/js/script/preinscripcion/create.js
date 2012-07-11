@@ -11,6 +11,8 @@
             $('#fechaNacimientoId_dayId').val('0'+$('#fechaNacimientoId_dayId').val());
 
     }
+
+
     function bindmaterias(){
         var griddata = [];
 
@@ -648,6 +650,8 @@
                     ,caption: 'Materias a Inscribir'
                 });
                 bindmaterias();
+
+
 
 				
   		});

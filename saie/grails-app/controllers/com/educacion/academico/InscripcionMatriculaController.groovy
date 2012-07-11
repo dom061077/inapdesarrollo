@@ -102,7 +102,7 @@ class InscripcionMatriculaController {
 		inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
 		
 		if(!materiasSerializedJson || materiasSerializedJson.size()==0){
-			inscripcionMateriaInstance.errors.rejectValue("inscripcionesmaterias", "com.educacion.academico.InscripcionMateria.materias.blank.error")
+            inscripcionMatriculaInstance.errors.rejectValue("inscripcionesmaterias", "com.educacion.academico.InscripcionMateria.materias.blank.error")
 			render(view:"create",model:[inscripcionMatriculaInstance:inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
 			return
 		}

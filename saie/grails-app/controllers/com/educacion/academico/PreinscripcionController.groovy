@@ -637,7 +637,7 @@ class PreinscripcionController {
                     return
                 }
             }
-            materiasSerialized = materiasSerialized + '{"id":'+idinscmatdetalle+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+            materiasSerialized = materiasSerialized + '{"id":'+idinscmatdetalle+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","denominacion":"'+matcursar.denominacion+'","codigo":"'+matcursar.codigo+'","seleccion":"'+flagseleccionado+'"}'
             flagcomilla = true
         }
         materiasSerialized += "]"

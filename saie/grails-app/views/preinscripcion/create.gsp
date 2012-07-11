@@ -28,6 +28,25 @@
         var locsitadministrativa='<%out << createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>';
         var locvalidate = '<%out << createLink(controller:"alumno",action:"validatedocexistente")%>'
         var locgetdataalumno = '<%out << createLink(controller:"alumno",action:"getalumnobydocumento")%>';
+
+        function initsubmitRequisitos(){
+
+        }
+
+        function bindRequisitos(){
+
+        }
+
+        $(document).ready(function(){
+            $('#tableRequisitosId').jqGrid({
+                datatype:'local'
+                ,width:500
+                ,colNames:['']
+                ,colModel:[
+
+                ]
+            });
+        });
     </script>
         
  		
@@ -993,7 +1012,13 @@
 						   </div>
 						   <div class="clear"></div>
 					
-					</fieldset>        	
+					</fieldset>
+                    <fieldset class="step" id="requisitosId">
+                        <h1>Requisitos</h1>
+                        <table id='tableRequisitosId'></table>
+                        <g:hiddenField id='requisitosSerializedId' name="requisitosSerialized" value="${requisitosSerialized}"/>
+                    </fieldset>
+
 	        	    <fieldset class="step" id="materiasPreinscId">
                         <h1>Materias Preinscriptas</h1>
                         <table id='materiasId'></table>

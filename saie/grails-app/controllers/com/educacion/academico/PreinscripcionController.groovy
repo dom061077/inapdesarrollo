@@ -133,8 +133,18 @@ class PreinscripcionController {
         }
         materiasSerialized += "]"
 
-
-        return [preinscripcionInstance: preinscripcionInstance,materiasSerialized: materiasSerialized]
+        def requisitosSerialized = "["
+        flagcomilla = false
+        log.debug("MATERIAS SERIALIZADAS: "+materiasSerialized )
+        carreraInstance.requisitos.each {
+            if (flagcomilla)
+                requisitosSerialized = requisitosSerialized + ","
+            requisitosSerialized = requisitosSerialized + '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.descripcion+'","seleccion":"Yes"}'
+            flagcomilla = true
+        }
+        requisitosSerialized += "]"
+        log.debug("REQUISITOS: "+requisitosSerialized)
+        return [preinscripcionInstance: preinscripcionInstance,materiasSerialized: materiasSerialized,requisitosSerialized:requisitosSerialized]
     }
 
     def save = {
@@ -142,10 +152,13 @@ class PreinscripcionController {
 		log.info "PARAMETROS: $params"
         def inscripcionMatriculaInstance
         def materiasJson
+        def requisitosJson
 
         if(params.materiasSerialized)
             materiasJson = grails.converters.JSON.parse(params.materiasSerialized)
-
+        
+        if (params.requisitosSerialized)
+            requisitosJson = grails.converters.JSON.parse(params.requisitosSerialized)
 
         def preinscripcionInstance = new Preinscripcion(params)
         def alumnoInstance = Alumno.get(params.alumnoId)
@@ -236,12 +249,26 @@ class PreinscripcionController {
 		Preinscripcion.withTransaction{TransactionStatus status ->
 			def inscripcionDetalleInstance = new InscripcionDetalleRequisito()
 			
-			preinscripcionInstance.carrera?.requisitos?.each{
+			/*preinscripcionInstance.carrera?.requisitos?.each{
 				inscripcionDetalleInstance = new InscripcionDetalleRequisito()
 				inscripcionDetalleInstance.requisito = it
 				inscripcionDetalleInstance.estado = EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
 				preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
-			}
+			}*/
+
+            if (requisitosJson){
+                def requisitoInstance
+                requisitosJson.each{
+                    requisitoInstance = Requisito.get(it.idid)
+                    inscripcionDetalleInstance = new InscripcionDetalleRequisito(requisito: requisitoInstance)
+                    if (it.seleccion.toUpperCase().equals("YES"))
+                        inscripcionDetalleInstance.estado = EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO
+                    else
+                        inscripcionDetalleInstance.estado = EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
+                    preinscripcionInstance.addToDetalle(inscripcionDetalleInstance)
+                }
+            }
+            
 
             def inscripcionMateriaInstance
 
@@ -271,7 +298,6 @@ class PreinscripcionController {
                             ,carrera:preinscripcionInstance.carrera,anioLectivo:preinscripcionInstance.anioLectivo
                             ,origen:OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
                     materiasJson.each{
-                        log.debug "SELECCION: "+it.seleccion
                         if(it.seleccion.toUpperCase().equals("YES")){
                             materiaInstance = Materia.load(it.idid)
                             inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
@@ -297,17 +323,16 @@ class PreinscripcionController {
                         redirect(action: "show", id: preinscripcionInstance.id)
                     }else{
                         status.setRollbackOnly()
-                        render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
+                        render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
                     }
                 }else{
-                    log.debug "ERROR: "
                     status.setRollbackOnly()
-                    render(view: "create", model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance,preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
+                    render(view: "create", model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance,preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
 
                 }
             }else {
 				status.setRollbackOnly()
-				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized])
+				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
 			}
 		}
     }
@@ -867,5 +892,6 @@ class PreinscripcionController {
 		}
 		
     }
-	
+
+
 }

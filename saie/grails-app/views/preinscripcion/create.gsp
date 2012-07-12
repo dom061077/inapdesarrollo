@@ -29,11 +29,25 @@
         var locvalidate = '<%out << createLink(controller:"alumno",action:"validatedocexistente")%>'
         var locgetdataalumno = '<%out << createLink(controller:"alumno",action:"getalumnobydocumento")%>';
 
-        function initsubmitRequisitos(){
 
-        }
 
         function bindRequisitos(){
+            var griddata = [];
+
+            var data = jQuery.parseJSON($("#requisitosSerializedId").val());
+            if(data==null)
+                data=[];
+            for (var i = 0; i < data.length; i++) {
+                griddata[i] = {};
+                griddata[i]['id'] = data[i].id;
+                griddata[i]['idid'] = data[i].idid;
+                griddata[i]['descripcion'] = data[i].descripcion;
+                griddata[i]['seleccion'] = data[i].seleccion;
+            }
+
+            for (var i = 0; i <= griddata.length; i++) {
+                jQuery("#tableRequisitosId").jqGrid('addRowData', i + 1, griddata[i]);
+            }
 
         }
 
@@ -41,11 +55,19 @@
             $('#tableRequisitosId').jqGrid({
                 datatype:'local'
                 ,width:500
-                ,colNames:['']
+                ,colNames:['Id','IdId','Descripción','Select']
                 ,colModel:[
-
+                    {name:'id',index:'id',width:50,editable:false,hidden:true}
+                    ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
+                    ,{name:'descripcion',index:'descripcion',sortable:false,width:120,editable:true,editoptions:{readOnly:false,size:40},editrules:{required:true}}
+                    ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                 ]
+                ,sortname:'denominacion'
+                ,sortorder:'asc'
+                ,caption: 'Materias a Inscribir'
             });
+            bindRequisitos();
+
         });
     </script>
         
@@ -79,7 +101,7 @@
             </g:hasErrors>
 
 
-			<form id="inscripcionFormId" name="forminscripcion" method="post" onsubmit="initsubmit()"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
+			<form id="inscripcionFormId" name="forminscripcion" method="post" onsubmit="initsubmit();return false"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
 								<h1>Datos del Alumno </h1>
                                 <g:hiddenField name="alumnoId" id="alumnoId"/>
@@ -1023,7 +1045,7 @@
                         <h1>Materias Preinscriptas</h1>
                         <table id='materiasId'></table>
                         <div id = 'pagermateriasId'></div>
-                        <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+                        <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"/>
 
 	        	    </fieldset>
 						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anterior" value="Anterior" type="reset" />

@@ -1,7 +1,13 @@
     function initsubmit(){
         var gridDataMaterias = $("#materiasId").getRowData();
         var postDataMaterias = JSON.stringify(gridDataMaterias);
+
+        var gridDataRequisitos = $('#tableRequisitosId').getRowData();
+        var postDataRequisitos = JSON.stringify(gridDataRequisitos);
+
         $("#materiasSerializedId").val(postDataMaterias);
+        $('#tableRequisitosId').val(postDataRequisitos);
+
         $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
         $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
         $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
@@ -623,19 +629,21 @@
 		 				,hiddenfield:'id' 
 		 				,descfield:['descripcion']});
 
+
+
+
+
                 $('#materiasId').jqGrid({
                     datatype:'local'
                     ,width:500
                     ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Select']
                     ,colModel:[
                         {name:'id',index:'id',width:50,editable:false,hidden:true}
-                        ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
-                        ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-                        ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-                        ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                        ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
+                        ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
+                        ,{name:'codigomateria',index:'codigomateria',sortable:true,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
+                        ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:false,size:40},editrules:{required:true}}
                         ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
-
-
                     ]
                     /*,onSelectRow: function(id){
                         if(id && id!==lastsel2){
@@ -643,7 +651,7 @@
                             $('#materiasId').jqGrid('editRow',id,true);
                             lastsel2=id;
                         }
-                    } */
+                    }*/
                     ,sortname:'denominacion'
                     //,pager: '#pagermateriasId'
                     ,sortorder:'asc'

@@ -3,6 +3,10 @@ function initsubmit(){
     var postDataMaterias = JSON.stringify(gridDataMaterias);
     $("#materiasSerializedId").val(postDataMaterias);
 
+    var gridDataRequisitos = $("#requisitosId").getRowData();
+    var postDataRequisitos = JSON.stringify(gridDataRequisitos);
+    $("#requisitosSerializedId").val(postDataRequisitos);
+
 }
 function bindmaterias(){
     var griddata = [];
@@ -60,7 +64,7 @@ $(document).ready(function(){
             ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
             ,{name:'idmateria',index:'idmateria',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
             ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-            ,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+            ,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
 
 
         ]
@@ -79,7 +83,7 @@ $(document).ready(function(){
             {name:'id',index:'id',hidden:true}
             ,{name:'idid',index:'idid',hidden:true}
             ,{name:'descripcion',index:'descripcion',sotable:false,search:false,width:500}
-            ,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+            ,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
         ]
     });
     bindrequisitos();

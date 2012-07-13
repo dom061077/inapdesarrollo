@@ -428,10 +428,12 @@ class PreinscripcionController {
 		log.info "INGRESANDO AL CLOSURE update"
 		log.info "PARAMETROS: $params"
         def materiasSerializedJson
+        def requisitosSerializedJson
 
         if(params.materiasSerialized)
-            materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized);
-
+            materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized)
+        if(params.requisitosSerialized)
+            requisitosSerializedJson = grails.converters.JSON.parse(params.requisitosSerialized)
 
         def preinscripcionInstance = Preinscripcion.get(params.id)
         if (preinscripcionInstance) {
@@ -456,8 +458,14 @@ class PreinscripcionController {
                         return
                     }
                 }
-
-
+                def inscDetalleRequisitoInstance
+                requisitosSerializedJson.each{req->
+                    inscDetalleRequisitoInstance = InscripcionDetalleRequisito.get(req.idid)
+                    if(req.seleccion.toUpperCase().equals("YES"))
+                        preinscripcionInstance.detalle.getElement(inscDetalleRequisitoInstance).estado=EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO
+                    else
+                        preinscripcionInstance.detalle.getElement(inscDetalleRequisitoInstance).estado=EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
+                }
 
                 materiasSerializedJson.each{mat ->
                     if(mat.seleccion.toUpperCase().equals("YES")){
@@ -517,7 +525,7 @@ class PreinscripcionController {
                     redirect(action: "show", id: preinscripcionInstance.id)
                 }
                 else {
-                    render(view: "edit", model: [preinscripcionInstance: preinscripcionInstance])
+                    render(view: "edit", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized: params.materiasSerialized,requisitosSerialized:params.requisitosSerialized ])
                 }
             }
         }

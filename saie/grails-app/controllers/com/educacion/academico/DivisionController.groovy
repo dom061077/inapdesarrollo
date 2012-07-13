@@ -297,5 +297,12 @@ class DivisionController {
     }
 
 
+    def asignaula = {
+        log.info "INGRESANDO AL CLOSURE asignaula"
+        log.info "PARAMETROS: $params"
+
+
+    }
+
 
 }

@@ -6,7 +6,7 @@
         var postDataRequisitos = JSON.stringify(gridDataRequisitos);
 
         $("#materiasSerializedId").val(postDataMaterias);
-        $('#tableRequisitosId').val(postDataRequisitos);
+        $('#requisitosSerializedId').val(postDataRequisitos);
 
         $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
         $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);

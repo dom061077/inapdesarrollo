@@ -17,7 +17,6 @@
 		                	url:'${createLink(controller:"preinscripcion",action:"inscmateriasjson")}'
 		                    ,datatype:'json'
 		                    ,postData:{id:${preinscripcionInstance.id}}
-		                    ,with:680
 		                    ,colNames:['Id','Código','Denominación','Nivel']
 		                	,colModel:[
 		                           	{name:'id',index:'id',width:40,hidden:true}
@@ -29,6 +28,19 @@
 		                	,pager:'#pagermatriculamateriasId'
 		                    ,sortname: 'denominacion'	
 		                });
+                    jQuery('#requisitosId').jqGrid({
+                        url:'${createLink(controller:"preinscripcion",action:"listrequisitos")}'
+                        ,datatype:'json'
+                        ,postData:{id:${preinscripcionInstance.id}}
+                        ,colNames:['Id','Descripción','Cubierto']
+                        ,colModel:[
+                            {name:'id',index:'id',width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion',width:550,search:false,sortable:false}
+                            ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: true }, editable: false, edittype: "checkbox" }
+                        ]
+
+                    });
+                        $('#tabs').tabs();
 		                
 		            });
         </script>
@@ -82,11 +94,21 @@
                             
 							<div class="clear"></div>
 							<g:if test="${preinscripcionInstance.inscripcionMatricula}">
-								<fieldset>
-									<legend>Matriculación</legend>
-									<table id="matriculamateriasId"></table>
-									<div id="pagermatriculamateriasId"></div>
-								</fieldset>
+                                <div id='tabs'>
+                                    <ul>
+                                        <li><a href="#tabs-materias">Materias</a></li>
+                                        <li><a href="#tabs-requisitos">Requisitos</a></li>
+                                    </ul>
+                                    <div id="tabs-materias">
+                                            <table id="matriculamateriasId"></table>
+                                            <div id="pagermatriculamateriasId"></div>
+                                    </div>
+                                    <div id="tabs-requisitos">
+                                            <table id="requisitosId"></table>
+                                            <div id="pagerrequisitosId"></div>
+                                    </div>
+
+                                </div>
 							</g:if>
 							
                     

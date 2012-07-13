@@ -21,8 +21,8 @@
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
-				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
-				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
+				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
+				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
 				   		{name:'fechaAlta',index:'fechaAlta',width:55,search:false},
 				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:40,search:false},

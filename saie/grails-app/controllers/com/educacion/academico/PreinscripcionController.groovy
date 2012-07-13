@@ -135,15 +135,13 @@ class PreinscripcionController {
 
         def requisitosSerialized = "["
         flagcomilla = false
-        log.debug("MATERIAS SERIALIZADAS: "+materiasSerialized )
         carreraInstance.requisitos.each {
             if (flagcomilla)
                 requisitosSerialized = requisitosSerialized + ","
-            requisitosSerialized = requisitosSerialized + '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.descripcion+'","seleccion":"Yes"}'
+            requisitosSerialized = requisitosSerialized + '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.descripcion+'","seleccion":"No"}'
             flagcomilla = true
         }
         requisitosSerialized += "]"
-        log.debug("REQUISITOS: "+requisitosSerialized)
         return [preinscripcionInstance: preinscripcionInstance,materiasSerialized: materiasSerialized,requisitosSerialized:requisitosSerialized]
     }
 
@@ -891,6 +889,36 @@ class PreinscripcionController {
 			redirect(action: "list")
 		}
 		
+    }
+    
+    def listrequisitos = {
+        def preinscripcionInstance = Preinscripcion.get(params.id)
+        if (preinscripcionInstance){
+            def requisitos = preinscripcionInstance.detalle
+            def totalregistros=preinscripcionInstance.detalle.size()
+            totalregistros = (totalregistros==null?0:totalregistros)
+
+            def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+            if (totalpaginas>0 && totalpaginas<1)
+                totalpaginas=1;
+            totalpaginas=totalpaginas.intValue()
+
+
+
+            def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+            def flagaddcomilla=false
+            requisitos.each{
+
+                if (flagaddcomilla)
+                    result=result+','
+                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.requisito.descripcion+'","Yes"]}'
+                flagaddcomilla=true
+            }
+            result=result+']}'
+            render result
+
+        }else
+            render ""
     }
 
 

@@ -421,7 +421,13 @@ class InscripcionMatriculaController {
 		
 		
 	}
-	
+
+
+    def private requisitospendientes(def preinscripcionId){
+        def requisitosCumplidos
+        return null
+    }
+
 	
 	
 

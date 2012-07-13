@@ -409,6 +409,7 @@ class PreinscripcionController {
             preinscripcionInstance.detalle.each {
                 if(flagcomilla)
                     requisitosSerialized +=  ","
+                log.debug "ESTADO REQUISITO: "+it.estado
                 if(it.estado==EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO)
                     checked = "Yes"
                 else
@@ -461,9 +462,10 @@ class PreinscripcionController {
                 def inscDetalleRequisitoInstance
                 requisitosSerializedJson.each{req->
                     inscDetalleRequisitoInstance = InscripcionDetalleRequisito.get(req.idid)
-                    if(req.seleccion.toUpperCase().equals("YES"))
+                    if(req.seleccion.toUpperCase().equals("YES")){
+                        log.debug "REQUISITO CHECKED"
                         preinscripcionInstance.detalle.getElement(inscDetalleRequisitoInstance).estado=EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO
-                    else
+                    }else
                         preinscripcionInstance.detalle.getElement(inscDetalleRequisitoInstance).estado=EstadoDetalleInscripcionRequisito.ESTADOINSREQ_INSATISFECHO
                 }
 
@@ -930,11 +932,16 @@ class PreinscripcionController {
 
             def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
             def flagaddcomilla=false
+            def checked
             requisitos.each{
 
                 if (flagaddcomilla)
                     result=result+','
-                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.requisito.descripcion+'","Yes"]}'
+                if (it.estado==EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO)
+                    checked = true
+                else
+                    checked = false
+                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.requisito.descripcion+'","'+checked+'"]}'
                 flagaddcomilla=true
             }
             result=result+']}'

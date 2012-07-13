@@ -137,7 +137,7 @@
                             </div>
                             <div id="tab-requisitos">
                                 <table id="requisitosId"></table>
-                                <g:hiddenField id="requisitosSerializedId" name="requisitosSerialied" value="${requisitosSerialized}" />
+                                <g:hiddenField id="requisitosSerializedId" name="requisitosSerialized" value="${requisitosSerialized}" />
                             </div>
 
                         </div>

@@ -84,7 +84,7 @@
 												<li><a href="${createLink(controller:'alumno',action:'create')}">Actualización</a></li>
 												<li><a href="${createLink(controller:'alumno')}">Listado</a></li>
 												<li><a href="${createLink(controller:'alumno',action:'register')}">Registro Online de Alumno</a></li>
-                                                <li><a href="${createLink(controller:'division',action:'asignaula')}">Asignar Divisiones a los Supra Tetas</a></li>
+                                                <li><a href="${createLink(controller:'division',action:'asignaula')}">Asignar Divisiones</a></li>
 											</ul>
 										</li>
 										<li><span class="dir">Materias</span>

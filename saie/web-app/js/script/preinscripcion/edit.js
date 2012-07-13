@@ -26,6 +26,26 @@ function bindmaterias(){
     }
 }
 
+function bindrequisitos(){
+    var griddata = [];
+
+    var data = jQuery.parseJSON($("#requisitosSerializedId").val());
+    if(data==null)
+        data=[];
+    for (var i = 0; i < data.length; i++) {
+        griddata[i] = {};
+        griddata[i]['id'] = data[i].id;
+        griddata[i]['idid'] = data[i].idid;
+        griddata[i]['descripcion'] = data[i].descripcion;
+        griddata[i]['seleccion'] = data[i].seleccion;
+    }
+
+    for (var i = 0; i <= griddata.length; i++) {
+        jQuery("#requisitosId").jqGrid('addRowData', i + 1, griddata[i]);
+    }
+
+}
+
 
 $(document).ready(function(){
 
@@ -51,5 +71,18 @@ $(document).ready(function(){
     });
     bindmaterias();
 
+    $('#requisitosId').jqGrid({
+        datatype:'local'
+        ,width:500
+        ,colNames:['Id','IdId','Descripción','Cubierto']
+        ,colModel:[
+            {name:'id',index:'id',hidden:true}
+            ,{name:'idid',index:'idid',hidden:true}
+            ,{name:'descripcion',index:'descripcion',sotable:false,search:false,width:500}
+            ,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+        ]
+    });
+    bindrequisitos();
+    $('#tabs').tabs();
 
 });

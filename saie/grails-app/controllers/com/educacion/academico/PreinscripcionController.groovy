@@ -366,6 +366,7 @@ class PreinscripcionController {
             def flagseleccionado
             def idinscmatdetalle
             def materiasSerialized = "["
+            def requisitosSerialized = "["
 
             def materiasCursar = Materia.createCriteria().list(){
                 and{
@@ -402,10 +403,24 @@ class PreinscripcionController {
                 materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
                 flagcomilla = true
             }
+
+            flagcomilla = false
+            def checked
+            preinscripcionInstance.detalle.each {
+                if(flagcomilla)
+                    requisitosSerialized +=  ","
+                if(it.estado==EstadoDetalleInscripcionRequisito.ESTADOINSREQ_SATISFECHO)
+                    checked = "Yes"
+                else
+                    checked = "No"
+                requisitosSerialized = requisitosSerialized + '{"id":'+it.id+',"idid":'+it.id+',"descripcion":"'+it.requisito.descripcion+'","seleccion":"'+checked+'"}'
+                flagcomilla=true
+            }
+
             materiasSerialized += "]"
+            requisitosSerialized += "]"
 
-
-            return [preinscripcionInstance: preinscripcionInstance, materiasSerialized: materiasSerialized]
+            return [preinscripcionInstance: preinscripcionInstance, materiasSerialized: materiasSerialized, requisitosSerialized: requisitosSerialized]
         }
     }
 

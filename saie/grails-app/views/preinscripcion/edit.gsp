@@ -14,65 +14,7 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript" src='${resource(dir:'js/script/preinscripcion',file:'edit.js')}'></script>
-        <script type="text/javascript">
-        	$(document).ready(function(){
-        		$('#alumnoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'alumnoIdId' 
- 				,descid:'alumnoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-		$('#alumnoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#alumnoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'anioLectivoIdId' 
- 				,descid:'anioLectivoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#anioLectivoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-$('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]); 
-
-        	});
-		</script>
-        
     </head>
     <body>
         <div class="nav">
@@ -182,13 +124,23 @@ $('#fechaAltaId' ).datepicker($.datepicker.regional[ 'es' ]);
 					   </g:hasErrors>
 					   <div class="clear"></div>
 
-                        <fieldset class="step" id="materiasPreinscId">
-                            <h1>Materias Preinscriptas</h1>
-                            <table id='materiasId'></table>
-                            <div id = 'pagermateriasId'></div>
-                            <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+                        <div id="tabs">
+                            <ul>
+                                <li><a href="#tab-materias">Materias</a></li>
+                                <li><a href="#tab-requisitos">Requisitos</a></li>
+                            </ul>
 
-                        </fieldset>
+                            <div id="tab-materias">
+                                <table id='materiasId'></table>
+                                <div id = 'pagermateriasId'></div>
+                                <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+                            </div>
+                            <div id="tab-requisitos">
+                                <table id="requisitosId"></table>
+                                <g:hiddenField id="requisitosSerializedId" name="requisitosSerialied" value="${requisitosSerialized}" />
+                            </div>
+
+                        </div>
 
 		            
                 </div>

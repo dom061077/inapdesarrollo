@@ -6,6 +6,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
 
 class InscripcionMateriaDetalle {
 	Materia materia
+    Division division
 	EstadoInscripcionMateriaDetalleEnum estado = EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
 	TipoInscripcionMateriaEnum tipo
 	Float nota = new Float(0)
@@ -15,6 +16,7 @@ class InscripcionMateriaDetalle {
 	static belongsTo = [inscripcionMateria:InscripcionMateria]
 	
     static constraints = {
+        division(nullable: true,blank:true)
 		materia(validator:{v,obj->
 			if(!obj.id){
 				def cantDet = InscripcionMateriaDetalle.createCriteria().get{

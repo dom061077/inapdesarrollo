@@ -91,6 +91,7 @@
 											<ul>
 												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización</a></li>
 												<li><a href="${createLink(controller:'materia',action:'list')}">Listado</a></li>
+                                                <li><a href="${createLink(controller:'materia',action:'createcalificacion')}">Actualización de Calificaciones</a></li>
 											</ul>
 										</li>
 

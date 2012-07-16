@@ -576,4 +576,8 @@ class MateriaController {
           chain(controller:'jasper', action:'index', model:[data:listMaterias], params:params)
     }
 
+    def createcalificacion = {
+
+    }
+
 }

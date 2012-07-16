@@ -304,5 +304,12 @@ class DivisionController {
 
     }
 
+    def listalumnos = {
+        log.info "INGRESANDO AL CLOSURE listalumnos"
+        log.info "PARAMETROS: $params"
+
+
+
+    }
 
 }

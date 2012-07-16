@@ -93,6 +93,14 @@
                 ,descid:'nivelId'
                 ,hiddenfield:'id'
                 ,descfield:['descripcion']
+                ,onSelect:function(){
+                    var filter = { groupOp: "AND", rules: []};
+                    filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaDomicilioIdId').val()});
+                    var grid = $('#localidadDomicilioIdtablesearchId')
+                    grid[0].p.search = filter.rules.length>0;
+                    $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                    grid.trigger("reloadGrid",[{page:1}]);
+                }
                 ,onShowgrid:function(){
                     if(($("#matregcursarId").getRowData().length>0)
                             ||
@@ -155,6 +163,109 @@
             });
 
 
+            // Grilla Maestro detalle de Alumnos
+            jQuery(document).ready(function(){
+                jQuery("#divisionesId").jqGrid({
+                    url:'<%out << createLink(controller:"division",action:"listalumnos")%>',
+                    datatype: 'json',
+                    width:680,
+                    colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.','Ver'],
+                    colModel:[
+                        {name:'id',index:'id', width:40,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
+                        {name:'apellido',index:'apellido', width:92,search:true,sortable:true},
+                        {name:'nombre',index:'nombre', width:92,search:true,sortable:true},
+                        {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
+                        {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
+                        {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
+                        {name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+                    ],
+
+                    rowNum:10,
+                    //rownumbers:true,
+                    rowList:[10,20,30],
+                    pager: '#pager',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "desc",
+                    gridComplete: function(){
+                        var ids = jQuery("#list").jqGrid('getDataIDs');
+                        var obj;
+                        var se;
+                        var be;
+                        var co;
+                        for(var i=0;i < ids.length;i++){
+                            var cl = ids[i];
+                            obj = jQuery("#list").getRowData(ids[i]);
+                            be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+                            se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+                            co = "<a title='Correlatividades' href='reportecorrelatividades/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
+                            jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se+co});
+                        }
+                    }
+                    ,subGrid:true
+                    ,subGridRowExpanded: function(subgrid_id, row_id) {
+                        var subgrid_table_id, pager_id;
+                        subgrid_table_id = subgrid_id+"_t";
+                        pager_id = "p_"+subgrid_table_id;
+                        var obj=$('#list').getRowData(row_id);
+                        $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
+                        jQuery("#"+subgrid_table_id).jqGrid({
+                            url:'<%out<<createLink(controller:"carrera",action:"listdocumentos")%>?id='+obj.id,
+                            datatype: "json",
+                            mtype:'POST',
+                            colNames: ['Id','Nombre PDF','URL Doc.PDF','URL Image','URL Large Image','Documento PDF','Imagen','Opciones'],
+                            colModel: [
+                                {name:"id",index:"id",width:80,key:true,hidden:true},
+                                {name:"nombreOriginalDocumento",index:"nombreOriginalDocumento",width:80,hidden:true},
+                                {name:"urlDocumentoPDF",index:"urlDocumentoPDF",width:80,hidden:true},
+                                {name:"image",index:"image",width:70,hidden:true},
+                                {name:"largeImage",index:"largeImage",width:70,hidden:true},
+                                {name:"documentoPDF",index:"documentoPDF",width:80},
+                                {name:"documentoImagen",index:"documentoImagen",width:20},
+                                {name:'operaciones',index:'operaciones',width:20,sorttype:'text',sortable:false,search:false}
+                            ],
+                            rowNum:20,
+                            pager: pager_id,
+                            height: '100%',
+                            width: 600,
+                            gridComplete: function(){
+                                var ids = jQuery('#'+subgrid_table_id).jqGrid('getDataIDs');
+                                var be;
+                                var row;
+                                var image;
+                                var documentoPDF;
+                                for(var i=0;i < ids.length;i++){
+                                    var cl = ids[i];
+                                    row = jQuery('#'+subgrid_table_id).getRowData(cl);
+                                    be = "<a title='Editar' href='<%out << createLink(controller:"documentoCarrera",action:"edit")%>/"+row.id+"'><span style='float:left' class='ui-icon ui-icon-pencil'></span></a>";
+                                    image = "<a  class='thickbox' href='"+row.largeImage+"'><img src='"+row.image+"'/></a>";
+                                    documentoPDF = "<a href='"+row.urlDocumentoPDF+"'>"+row.nombreOriginalDocumento+"</a>";
+                                    jQuery("#"+subgrid_table_id).jqGrid('setRowData',ids[i],{operaciones:be,documentoImagen:image,documentoPDF:documentoPDF});
+                                }
+                                tb_init('a.thickbox, area.thickbox, input.thickbox');
+                            }
+                        });
+                        jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+                        //jQuery("#"+subgrid_table_id).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+                    },
+                    caption:"Listado de ${message(code: 'carrera.label', default: 'Carrera')}"
+                });
+                jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
+
+                jQuery("#list").jqGrid('navButtonAdd','#pager',{
+                    caption:"Informe",
+                    onClickButton : function () {
+                        //jQuery("#list").excelExport();
+                        //jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
+                        window.location = '<%out << createLink(controller:"carrera",action:"reportecarreras") %>';
+                    }
+                });
+
+                jQuery("#list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
+            });
+
+
 
 
         });
@@ -207,7 +318,7 @@
         <fieldset>
             <g:hiddenField id="divisionesSerializedId" name="divisionesSerialized" value="${divisionesSerialized}"/>
             <legend>Alumnos Matriculados</legend>
-            <div id="pagerdivisionesId"></div>
+            <div id="pager"></div>
             <table id="divisionesId">
 
             </table>
@@ -219,9 +330,6 @@
         </div>
 
 
-        </div>
-        <div class="buttons">
-            <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
         </div>
     </g:form>
 </div>

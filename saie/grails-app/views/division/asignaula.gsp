@@ -93,12 +93,9 @@
                 ,descid:'nivelId'
                 ,hiddenfield:'id'
                 ,descfield:['descripcion']
-                ,onSelect:function(){
-                    var filter = { groupOp: "AND", rules: []};
-                    filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaDomicilioIdId').val()});
-                    var grid = $('#localidadDomicilioIdtablesearchId')
-                    grid[0].p.search = filter.rules.length>0;
-                    $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                ,onSelected:function(){
+                    var grid = $('#divisionesId');
+                    $.extend(grid[0].p.postData,{nivelid:$('#nivelIdId').val(),carreraid:$('#carreraIdId').val()});
                     grid.trigger("reloadGrid",[{page:1}]);
                 }
                 ,onShowgrid:function(){

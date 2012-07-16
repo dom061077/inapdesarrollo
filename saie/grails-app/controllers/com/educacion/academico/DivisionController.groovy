@@ -6,6 +6,7 @@ import org.springframework.transaction.TransactionStatus
 import java.text.SimpleDateFormat 
 import java.text.DateFormat 
 import java.text.ParseException 
+import com.educacion.academico.util.AcademicoUtil
 
 
 
@@ -307,7 +308,45 @@ class DivisionController {
     def listalumnos = {
         log.info "INGRESANDO AL CLOSURE listalumnos"
         log.info "PARAMETROS: $params"
+        def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
+        def list =  InscripcionMateriaDetalle.createCriteria().list {
+            inscripcionMateria{
+               anioLectivo{
+                   eq("id",anioLectivoInstance.id)
+               }
+                
+            }
+            
+            materia{
+                nivel{
+                    eq("id",params.nivelid.toLong())
+                }
+            }
+        }
+
+
+        def totalregistros=list.size()
+
+        def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+        if (totalpaginas>0 && totalpaginas<1)
+            totalpaginas=1;
+        totalpaginas=totalpaginas.intValue()
+
+
+        def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+        def flagaddcomilla=false
+        list.each{
+
+            if (flagaddcomilla)
+                result=result+','
+
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.inscripcionMateria.alumno.apellido==null?"":it.inscripcionMateria.alumno.apellido)+'","'+(it.inscripcionMateria.alumno.nombre==null?"":it.inscripcionMateria.alumno.nombre)+'","'+(it.inscripcionMateria.alumno.tipoDocumento.name==null?"":it.inscripcionMateria.alumno.tipoDocumento.name)+'","'+(it.inscripcionMateria.alumno.numeroDocumento==null?"":it.inscripcionMateria.alumno.numeroDocumento)+'","'+(it.inscripcionMateria.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.inscripcionMateria.alumno.fechaNacimiento))+'"]}'
+
+            flagaddcomilla=true
+        }
+        result=result+']}'
+        render result
 
 
     }

@@ -516,5 +516,47 @@ class InscripcionMateriaController {
 		
 	}
 
+    def listdetalleinscripcion = {
+        log.info "INGRESANDO AL CLOSURE listdetalleinscripcion"
+        log.info "PARAMETROS: $params"
+        if(params.carrera){
+            def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carrera.toLong())
+            def list = InscripcionMateriaDetalle.createCriteria().list{
+                 inscripcionMateria{
+                     anioLectivo{
+                         eq("id",anioLectivoInstance.id)
+                     }
+                     carrera{
+                         eq("id",params.carrera.toLong())
+                     }
+                 }
+                 materia{
+                     nivel{
+                         eq("id",params.nivel.toLong())
+                     }
+                 }
+            }
+
+            def totalregistros=list.size()
+
+            def totalpaginas=1
+
+            result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+            def flagaddcomilla=false
+            list.each{
+
+                if (flagaddcomilla)
+                    result=result+','
+
+
+                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.id+'","'+it.materia.nivel.descripcion+'","'+it.materia.codigo+'","'+it.materia.denominacion+'","'+it.estado.name+'","'+it.tipo.name+'","'+it.nota+'"]}'
+
+                flagaddcomilla=true
+            }
+            result=result+']}'
+        }else
+            render "[]"
+    }
+
 	
 }

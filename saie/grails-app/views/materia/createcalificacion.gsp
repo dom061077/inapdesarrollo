@@ -8,6 +8,11 @@
     <meta name="layout" content="main" />
     <title><g:message code="materia.calificaciones.create.label"  /></title>
     <script type="text/javascript" src="${resource(dir: "js/jquery",file: "jquery.extend.ui.js")}"></script>
+    <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+    <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+    <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+
 
     <script type="text/javascript">
         $(document).ready(function(){
@@ -26,6 +31,24 @@
             $('#materiaId').combobox({
                 reload:{url:'<%out << createLink(controller:"materia",action:"listjsonautocomplete")%>'}
             });
+            $('#alumnosInscriptosId').jqGrid({
+                url:'<%out<<createLink(controller:"inscripcionMateria",action:"listdetalleinscripcion")%>',
+                datatype:'json',
+                colNames:['Id','IdId','Alumno','Calificación','Nota'],
+                colModel:[
+                    {name:'id',index:'id',hidden:true}
+                    ,{name:'idid',index:'idid',hidden:true}
+                    ,{name:'alumno',index:'alumno',width:150,search:true,sortable:true}
+                    ,{name:'estado',index:'estado',width:100}
+                    ,{name:'nota',index:'nota'}
+                ]
+                ,pager:'#pagerAlumnosInscriptosId'
+                ,caption:'Inscriptos'
+            });
+            //var grid = $('#divisionesId');
+            //$.extend(grid[0].p.postData,{nivelid:$('#nivelIdId').val(),carreraid:$('#carreraIdId').val()});
+            //grid.trigger("reloadGrid",[{page:1}]);
+
         });
 
     </script>
@@ -60,15 +83,18 @@
                 <div class="clear"></div>
             </div>
 
-            <div class="span-2">
-                <label for="materia"><g:message code="materia.label"/></label>
-            </div>
-            <div>
-                <g:select id="materiaId" name="materia"></g:select>
+            <div class="append-bottom">
+                <div class="span-2">
+                    <label for="materia"><g:message code="materia.label"/></label>
+                </div>
+                <div>
+                    <g:select id="materiaId" name="materia"></g:select>
+                </div>
             </div>
             <fieldset>
-                <legend
-
+                <legend>Alumnos Inscriptos</legend>
+                <table id="alumnosInscriptosId"></table>
+                <div id="pagerAlumnosInscriptosId"></div>
             </fieldset>
 
         </div>

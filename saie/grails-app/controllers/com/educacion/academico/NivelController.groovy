@@ -165,7 +165,8 @@ class NivelController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Nivel.createCriteria().list(){
-				like('descripcion','%'+params.term+'%')
+                if(params.term)
+				    like('descripcion','%'+params.term+'%')
 				if(params.carreraId){
 					carrera{
 						eq("id",params.carreraId.toLong())

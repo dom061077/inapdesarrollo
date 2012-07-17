@@ -1,34 +1,28 @@
 $(document).ready(function(){
     $.widget('ui.combobox',{
+        input:null,
+        localvar:null,
         options:{
-            fuente:  function( request, response ) {
-                var input,
-                    o = this.options,
-                    self = this,
-                    select = this.element.hide(),
-                    selected = select.children( ":selected" ),
-                    value = selected.val() ? selected.text() : "",
-                    wrapper = this.wrapper = $( "<span>" )
-                        .addClass( "ui-combobox" )
-                        .insertAfter( select );
-
-
-                var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
-                response( select.children( "option" ).map(function() {
-                    var text = $( this ).text();
-                    if ( this.value && ( !request.term || matcher.test(text) ) )
-                        return {
-                            label: text.replace(
-                                new RegExp(
-                                    "(?![^&;]+;)(?!<[^<>]*)(" +
-                                        $.ui.autocomplete.escapeRegex(request.term) +
-                                        ")(?![^<>]*>)(?![^&;]+;)", "gi"
-                                ), "<strong>$1</strong>" ),
-                            value: text,
-                            option: this
-                        };
-                }) );
+            reload: {
+                url:"<aqui va la url>",
+                params:{}
+            },
+            onSelect:function(event,ui){
             }
+        },
+        reloadcmb:function(params){
+            var select = this.localvar;
+            $.getJSON(this.options.reload.url,params,function(data){
+                var items = [];
+                $.each(data, function(key, val) {
+                    items.push('<option value="' + val.id + '">' + val.label + '</option>');
+                });
+                select.html(items.join(''));
+            });
+            //this.localvar.html('<option value="1">Option 1</option><option value="1">Option 1</option><option value="1">Option 1</option>');
+
+            this.input.val('');
+
         },
         _create: function() {
             var input,
@@ -40,7 +34,26 @@ $(document).ready(function(){
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
+            this.localvar = select;
+            var onSelect = this.options.onSelect;
+            var    source = function( request, response ) {
 
+                    var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
+                    response( select.children( "option" ).map(function() {
+                        var text = $( this ).text();
+                        if ( this.value && ( !request.term || matcher.test(text) ) )
+                            return {
+                                label: text.replace(
+                                    new RegExp(
+                                        "(?![^&;]+;)(?!<[^<>]*)(" +
+                                            $.ui.autocomplete.escapeRegex(request.term) +
+                                            ")(?![^<>]*>)(?![^&;]+;)", "gi"
+                                    ), "<strong>$1</strong>" ),
+                                value: text,
+                                option: this
+                            };
+                    }) );
+                };
             input = $( "<input>" )
                 .appendTo( wrapper )
                 .val( value )
@@ -48,12 +61,13 @@ $(document).ready(function(){
                 .autocomplete({
                     delay: 0,
                     minLength: 0,
-                    source: o.fuente,
+                    source: source,
                     select: function( event, ui ) {
                         ui.item.option.selected = true;
                         self._trigger( "selected", event, {
                             item: ui.item.option
                         });
+                        onSelect(event,ui);
                     },
                     change: function( event, ui ) {
                         if ( !ui.item ) {
@@ -83,10 +97,10 @@ $(document).ready(function(){
                     .append( "<a>" + item.label + "</a>" )
                     .appendTo( ul );
             };
-
+            this.input = input;
             $( "<a>" )
                 .attr( "tabIndex", -1 )
-                .attr( "title", "Show All Items" )
+                .attr( "title", "Mostrar todas las opciones" )
                 .appendTo( wrapper )
                 .button({
                     icons: {

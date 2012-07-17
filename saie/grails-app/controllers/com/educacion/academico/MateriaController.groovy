@@ -319,12 +319,20 @@ class MateriaController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Materia.createCriteria().list(){
+            if(params.term)
 				like('nombre','%'+params.term+'%')
+            if(params.nivelId)
+                nivel{
+                    eq("id",params.nivelId.toLong())
+                }
 		}
+
+
+
 		render(contentType:"text/json"){
 			array{
 				for (obj in list){
-					materia id:obj.id,label:obj.nombre,value:obj.nombre
+					materia id:obj.id,label:obj.denominacion,value:obj.denominacion
 				}
 			}
 			

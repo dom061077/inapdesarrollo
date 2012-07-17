@@ -122,15 +122,15 @@
 								<ul>
 									<li><span class="dir">Académica</span>
 										<ul>
-											<li><span class="dir">Preinscripciones</span>
+											<li><span class="dir">Ingresos</span>
 												<ul>
-													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">PreInscribir</a></li>
-													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listar Preinscripciones</a></li>
+													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">Ingreso</a></li>
+													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listar Ingresos</a></li>
 												</ul>
 											</li>
 											<li><span class="dir">Inscripciones</span>
 												<ul>
-													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Actualización</a></li>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Generar</a></li>
 													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado</a></li>
 												</ul>
 											</li>

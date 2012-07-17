@@ -17,7 +17,7 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Nro.Preinsc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Operaciones'],
+					colNames:['Nro.Preinsc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},

@@ -361,6 +361,14 @@ class PreinscripcionController {
             redirect(action: "list")
         }
         else {
+            if (preinscripcionInstance.estado!=EstadoPreinscripcion.ESTADO_ASPIRANTE
+                && preinscripcionInstance.estado!=EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE
+                && preinscripcionInstance.estado!=EstadoPreinscripcion.ESTADO_PREINSCRIPTO
+                && preinscripcionInstance.estado!=EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE){
+                flash.message="${message(code: 'preinscripcion.update.estado.error',args: [preinscripcionInstance.estado.name])}"
+                redirect(action: "show",id: preinscripcionInstance.id)
+                return
+            }
 
             def flagcomilla = false
             def flagseleccionado

@@ -7,12 +7,12 @@ import java.text.SimpleDateFormat
 import java.text.DateFormat 
 import java.text.ParseException 
 import com.educacion.academico.util.AcademicoUtil
-
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
+import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 
 
 class DivisionController {
-    //hola
-	
+
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def index = {
@@ -305,8 +305,52 @@ class DivisionController {
 
     }
 
+
     def listalumnos = {
         log.info "INGRESANDO AL CLOSURE listalumnos"
+        log.info "PARAMETROS: $params"
+        def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
+
+        def list =  InscripcionMatricula.createCriteria().list {
+            anioLectivo{
+                eq("id",anioLectivoInstance.id)
+            }
+            carrera{
+                eq("id",params.carreraid.toLong())
+            }
+            // TODO: Preguntar si filtramos por otro estado además de "Condirmado" en la inscripción de la Matrícula
+            or{
+                eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA)
+                eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA)
+            }
+
+        }
+
+        def totalregistros=list.size()
+
+        def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+        if (totalpaginas>0 && totalpaginas<1)
+            totalpaginas=1;
+        totalpaginas=totalpaginas.intValue()
+
+        def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+        def flagaddcomilla=false
+        list.each{
+
+            if (flagaddcomilla)
+                result=result+','
+
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.alumno.tipoDocumento.name==null?"":it.alumno.tipoDocumento.name)+'","'+(it.alumno.numeroDocumento==null?"":it.alumno.numeroDocumento)+'","'+(it.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.alumno.fechaNacimiento))+'"]}'
+
+            flagaddcomilla=true
+        }
+        result=result+']}'
+        render result
+    }
+
+
+    def listamateriainscripcion = {
+        log.info "INGRESANDO AL CLOSURE listamateriainscripcion"
         log.info "PARAMETROS: $params"
         def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
@@ -315,7 +359,7 @@ class DivisionController {
                anioLectivo{
                    eq("id",anioLectivoInstance.id)
                }
-                
+               eq("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA)
             }
             
             materia{

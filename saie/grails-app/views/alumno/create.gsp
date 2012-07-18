@@ -1,6 +1,9 @@
 
 
 <%@ page import="com.educacion.alumno.Alumno" %>
+<%@ page import="com.educacion.geografico.Pais"%>
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -10,7 +13,8 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.extend.ui.js')}"></script>
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
@@ -19,7 +23,7 @@
         		$('#fechaNacimientoId' ).datepicker({changeYear:true});
 
 
-
+          /*
 
 		$('#paisDomicilioId').lookupfield({source:'<%out << createLink(controller:"pais",action:"listsearchjson")%>',
 			 title:'Pais de Domicilio' 
@@ -61,11 +65,21 @@
 	   		if($.trim($(this).val())==""){
 	   			$('#paisDomicilioId').val("")
 	   		}
-	   	});	
-		
+	   	});	 */
+		 $('#paisDomicilioId').combobox({
+             onSelect:function(event,ui){
+                 $('#provinciaDomicilioId').combobox('reloadcmb',{paisId:$('#paisDomicilioId').val()})
+             }
+         });
 				 
-		//---------------------------------- 
-		
+		//----------------------------------
+         $('#provinciaDomicilioId').combobox({
+                reload:{url:'<%out << createLink(controller:"provincia",action:"listjsonautocomplete")%>'}
+            });
+
+
+
+		 /*
 		$('#provinciaDomicilioId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
  				 title:'Provincia del Domicilio' 
 				,colNames:['Id','Nombre'] 
@@ -90,7 +104,7 @@
 	   		if($.trim($(this).val())==""){
 	   			$('#provinciaDomicilioId').val("")
 	   		}
-	   	});	
+	   	});*/
 
 		
 		//---------------------------------- 
@@ -692,8 +706,10 @@
 										   		<label for="paisDomicilio"><g:message code="alumno.paisDomicilio.label" default="Pais" /></label>
 										   </div>
 										   <div class="span-9">
-												<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisDomicilioId" name="paisDomicilioDesc"  value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.nombre}" /> 
-				 								<g:hiddenField id="paisDomicilioIdId" name="paisDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" />
+												<g:select class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisDomicilioId"
+                                                          from="${Pais.list()}" optionValue="nombre" optionKey="id"
+                                                          name="paisDomicilio"  value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" />
+				 								<%-- g:hiddenField id="paisDomicilioIdId" name="paisDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" / --%>
 										   </div>
 											<div class="clear"></div>
 											
@@ -701,8 +717,10 @@
 										   		<label for="provinciaDomicilio"><g:message code="alumno.provinciaDomicilio.label" default="Provincia" /></label>
 										   </div>
 										   <div class="span-9">
-												<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaDomicilioId" name="provinciaDomicilioDesc"  value="${alumnoInstance.localidadDomicilio?.provincia?.nombre}" /> 
-				 								<g:hiddenField id="provinciaDomicilioIdId" name="provinciaDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" />
+												<g:select class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaDomicilioId"
+                                                          optionValue="nombre" optionKey="id"
+                                                          name="provinciaDomicilio"  value="${alumnoInstance.localidadDomicilio?.provincia?.id}" />
+				 								<%-- g:hiddenField id="provinciaDomicilioIdId" name="provinciaDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" / --%>
 										   </div>
 											<div class="clear"></div>
 											

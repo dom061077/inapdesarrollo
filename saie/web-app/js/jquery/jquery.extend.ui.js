@@ -4,13 +4,10 @@ $(document).ready(function(){
         localvar:null,
         options:{
             reload: {
-                url:"<aqui va la url>",
+                url:null,
                 params:{}
             },
             onSelect:function(event,ui){
-            },
-            onSearch:function(event,ui){
-
             }
         },
         reloadcmb:function(params){
@@ -23,8 +20,8 @@ $(document).ready(function(){
                 select.html(items.join(''));
             });
             //this.localvar.html('<option value="1">Option 1</option><option value="1">Option 1</option><option value="1">Option 1</option>');
-
-            this.input.val('');
+            if(!params.term)
+                this.input.val('');
 
         },
         _create: function() {
@@ -38,10 +35,14 @@ $(document).ready(function(){
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
             this.localvar = select;
-            var onSearch = this.options.onSearch;
             var onSelect = this.options.onSelect;
             var    source = function( request, response ) {
-
+                    if(o.reload.url){
+                        // TODO ORDENAR EL ENVIO DE PARAMETROS
+                        var params={paisId:1};
+                        $.extend(params,{term:request.term});
+                        self.reloadcmb(params);
+                    }
                     var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
                     response( select.children( "option" ).map(function() {
                         var text = $( this ).text();
@@ -73,7 +74,6 @@ $(document).ready(function(){
                         });
                         onSelect(event,ui);
                     },
-                    search:onSearch,
                     change: function( event, ui ) {
                         if ( !ui.item ) {
                             var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),

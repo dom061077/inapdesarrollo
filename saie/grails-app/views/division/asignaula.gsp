@@ -174,7 +174,7 @@
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
                         {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
-                        {name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+                        {name:'operaciones',index:'operaciones', width:30,search:false,sortable:false}
                     ],
 
                     rowNum:10,
@@ -185,18 +185,14 @@
                     viewrecords: true,
                     sortorder: "desc",
                     gridComplete: function(){
-                        var ids = jQuery("#list").jqGrid('getDataIDs');
+                        var ids = jQuery("#divisionesId").jqGrid('getDataIDs');
                         var obj;
-                        var se;
                         var be;
-                        var co;
                         for(var i=0;i < ids.length;i++){
                             var cl = ids[i];
-                            obj = jQuery("#list").getRowData(ids[i]);
+                            obj = jQuery("#divisionesId").getRowData(ids[i]);
                             be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
-                            se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
-                            co = "<a title='Correlatividades' href='reportecorrelatividades/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
-                            jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se+co});
+                            jQuery("#divisionesId").jqGrid('setRowData',ids[i],{operaciones:be});
                         }
                     }
                     ,subGrid:true
@@ -204,21 +200,16 @@
                         var subgrid_table_id, pager_id;
                         subgrid_table_id = subgrid_id+"_t";
                         pager_id = "p_"+subgrid_table_id;
-                        var obj=$('#list').getRowData(row_id);
+                        var obj=$('#divisionesId').getRowData(row_id);
                         $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
                         jQuery("#"+subgrid_table_id).jqGrid({
-                            url:'<%out<<createLink(controller:"carrera",action:"listdocumentos")%>?id='+obj.id,
+                            url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id,
                             datatype: "json",
                             mtype:'POST',
-                            colNames: ['Id','Nombre PDF','URL Doc.PDF','URL Image','URL Large Image','Documento PDF','Imagen','Opciones'],
+                            colNames: ['Id','Materia','Opciones'],
                             colModel: [
                                 {name:"id",index:"id",width:80,key:true,hidden:true},
-                                {name:"nombreOriginalDocumento",index:"nombreOriginalDocumento",width:80,hidden:true},
-                                {name:"urlDocumentoPDF",index:"urlDocumentoPDF",width:80,hidden:true},
-                                {name:"image",index:"image",width:70,hidden:true},
-                                {name:"largeImage",index:"largeImage",width:70,hidden:true},
-                                {name:"documentoPDF",index:"documentoPDF",width:80},
-                                {name:"documentoImagen",index:"documentoImagen",width:20},
+                                {name:"materia",index:"materia",width:80,hidden:false},
                                 {name:'operaciones',index:'operaciones',width:20,sorttype:'text',sortable:false,search:false}
                             ],
                             rowNum:20,
@@ -239,7 +230,6 @@
                                     documentoPDF = "<a href='"+row.urlDocumentoPDF+"'>"+row.nombreOriginalDocumento+"</a>";
                                     jQuery("#"+subgrid_table_id).jqGrid('setRowData',ids[i],{operaciones:be,documentoImagen:image,documentoPDF:documentoPDF});
                                 }
-                                tb_init('a.thickbox, area.thickbox, input.thickbox');
                             }
                         });
                         jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});

@@ -309,66 +309,65 @@ class DivisionController {
     def listalumnos = {
         log.info "INGRESANDO AL CLOSURE listalumnos"
         log.info "PARAMETROS: $params"
-        def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
-        def list =  InscripcionMatricula.createCriteria().list {
-            anioLectivo{
-                eq("id",anioLectivoInstance.id)
-            }
-            carrera{
-                eq("id",params.carreraid.toLong())
-            }
-            // TODO: Preguntar si filtramos por otro estado además de "Condirmado" en la inscripción de la Matrícula
-            or{
-                eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA)
-                eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA)
+        if(params.carreraid){
+            def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
+
+            def list =  InscripcionMatricula.createCriteria().list {
+                anioLectivo{
+                    eq("id",anioLectivoInstance.id)
+                }
+                carrera{
+                    eq("id",params.carreraid.toLong())
+                }
+                // TODO: Preguntar si filtramos por otro estado además de "Condirmado" en la inscripción de la Matrícula
+                or{
+                    eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA)
+                    eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA)
+                }
+
             }
 
+            def totalregistros=list.size()
+
+            def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+            if (totalpaginas>0 && totalpaginas<1)
+                totalpaginas=1;
+            totalpaginas=totalpaginas.intValue()
+
+            def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+            def flagaddcomilla=false
+            list.each{
+
+                if (flagaddcomilla)
+                    result=result+','
+
+                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.alumno.tipoDocumento.name==null?"":it.alumno.tipoDocumento.name)+'","'+(it.alumno.numeroDocumento==null?"":it.alumno.numeroDocumento)+'","'+(it.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.alumno.fechaNacimiento))+'"]}'
+
+                flagaddcomilla=true
+            }
+            result=result+']}'
+            render result
+        }else{
+            render "[]"
         }
 
-        def totalregistros=list.size()
-
-        def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
-        if (totalpaginas>0 && totalpaginas<1)
-            totalpaginas=1;
-        totalpaginas=totalpaginas.intValue()
-
-        def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
-        def flagaddcomilla=false
-        list.each{
-
-            if (flagaddcomilla)
-                result=result+','
-
-            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.alumno.tipoDocumento.name==null?"":it.alumno.tipoDocumento.name)+'","'+(it.alumno.numeroDocumento==null?"":it.alumno.numeroDocumento)+'","'+(it.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.alumno.fechaNacimiento))+'"]}'
-
-            flagaddcomilla=true
-        }
-        result=result+']}'
-        render result
     }
 
 
     def listamateriainscripcion = {
         log.info "INGRESANDO AL CLOSURE listamateriainscripcion"
         log.info "PARAMETROS: $params"
-        def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
         def list =  InscripcionMateriaDetalle.createCriteria().list {
             inscripcionMateria{
-               anioLectivo{
-                   eq("id",anioLectivoInstance.id)
-               }
                eq("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA)
-            }
-            
-            materia{
-                nivel{
-                    eq("id",params.nivelid.toLong())
+                inscripcionMatricula {
+                    eq("id",params.id.toLong())
                 }
             }
+            
         }
-
 
         def totalregistros=list.size()
 
@@ -385,7 +384,7 @@ class DivisionController {
             if (flagaddcomilla)
                 result=result+','
 
-            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.inscripcionMateria.alumno.apellido==null?"":it.inscripcionMateria.alumno.apellido)+'","'+(it.inscripcionMateria.alumno.nombre==null?"":it.inscripcionMateria.alumno.nombre)+'","'+(it.inscripcionMateria.alumno.tipoDocumento.name==null?"":it.inscripcionMateria.alumno.tipoDocumento.name)+'","'+(it.inscripcionMateria.alumno.numeroDocumento==null?"":it.inscripcionMateria.alumno.numeroDocumento)+'","'+(it.inscripcionMateria.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.inscripcionMateria.alumno.fechaNacimiento))+'"]}'
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'"]}'
 
             flagaddcomilla=true
         }

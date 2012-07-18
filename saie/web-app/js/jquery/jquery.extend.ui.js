@@ -8,6 +8,9 @@ $(document).ready(function(){
                 params:{}
             },
             onSelect:function(event,ui){
+            },
+            onSearch:function(event,ui){
+
             }
         },
         reloadcmb:function(params){
@@ -35,6 +38,7 @@ $(document).ready(function(){
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
             this.localvar = select;
+            var onSearch = this.options.onSearch;
             var onSelect = this.options.onSelect;
             var    source = function( request, response ) {
 
@@ -69,6 +73,7 @@ $(document).ready(function(){
                         });
                         onSelect(event,ui);
                     },
+                    search:onSearch,
                     change: function( event, ui ) {
                         if ( !ui.item ) {
                             var matcher = new RegExp( "^" + $.ui.autocomplete.escapeRegex( $(this).val() ) + "$", "i" ),

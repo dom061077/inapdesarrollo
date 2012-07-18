@@ -29,8 +29,21 @@
 			/*$(function(){
 				$( "input:submit" ).button();
 			});*/
+            $(document).ready(function(){
+                $.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
+            });
 		
 		</script>
+        <style type="text/css">
+            .ui-autocomplete {
+                max-height: 100px;
+                overflow-y: auto;
+                /* prevent horizontal scrollbar */
+                overflow-x: hidden;
+                /* add padding to account for vertical scrollbar */
+                padding-right: 20px;
+            }
+        </style>
 
        <g:javascript library="application" />
         
@@ -107,6 +120,20 @@
 												<li><a href="${createLink(controller:'division',action:'list')}">Listado</a></li>
 											</ul>
 										</li>
+                                        <li><span class="dir">Exámenes</span>
+                                            <ul>
+                                                <li><a href="${createLink(controller:"examen",action:"create")}">Actualización</a></li>
+                                                <li><a href="${createLink(controller: "examen", action:"list")}">Listado</a></li>
+                                            </ul>
+                                            
+                                        </li>
+                                        <li><span class="dir">Docentes</span>
+                                            <ul>
+                                                <li><a href="${createLink(controller:"docente",action:"create")}">Actualización</a></li>
+                                                <li><a href="${createLink(controller: "docente", action:"list")}">Listado</a></li>
+                                            </ul>
+
+                                        </li>
 
 									</ul>
 								</li>

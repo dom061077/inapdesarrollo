@@ -165,7 +165,13 @@ class LocalidadController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Localidad.createCriteria().list(){
+            if(params.provinciaId)
+                provincia{
+                    eq("id",params.provinciaId.toLong())
+                }
+            if(params.term)
 				like('nombre','%'+params.term+'%')
+            maxResults(40)
 		}
 		render(contentType:"text/json"){
 			array{

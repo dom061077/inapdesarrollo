@@ -165,13 +165,17 @@ class ProvinciaController {
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
 		def list = Provincia.createCriteria().list(){
-				like('nombre','%'+params.term+'%')
+                if(params.paisId)
+                   pais{
+                       eq("id",params.paisId.toLong())
+                   }
+                if(params.term)
+				    like('nombre','%'+params.term+'%')
 		}
-		log.debug "PROFESIONALES LISTADOS: "+profesionales.size()
 		render(contentType:"text/json"){
 			array{
-				for (prof in list){
-					provincia id:prof.id,label:prof.nombre,value:prof.nombre
+				for (p in list){
+					provincia id:p.id,label:p.nombre,value:p.nombre
 				}
 			}
 			

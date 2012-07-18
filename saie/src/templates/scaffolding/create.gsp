@@ -43,7 +43,7 @@
 					    else if (p.type == String.class)
 							out<< ""
 					    else if (p.type == Date.class || p.type == java.sql.Date.class || p.type == java.sql.Time.class || p.type == Calendar.class)
-							out << "\$('#${p.name+"Id"}' ).datepicker(\$.datepicker.regional[ 'es' ]); \n";
+							out << "\$('#${p.name+"Id"}' ).datepicker({changeYear:true}); \n";
 					    else if (p.type == URL.class)
 							out<< ""
 					    else if (p.isEnum())

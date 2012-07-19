@@ -7,13 +7,18 @@ $(document).ready(function(){
                 url:null,
                 params:{}
             },
+            emptyMsg:'',
             onSelect:function(event,ui){
             }
+        },
+        initvalue: function(value){
+            this.input.val(value);
         },
         reloadcmb:function(params){
             var select = this.localvar;
             $.getJSON(this.options.reload.url,params,function(data){
                 var items = [];
+                items.push('<option value="0">'+this.options.emptyMsg+'</option>');
                 $.each(data, function(key, val) {
                     items.push('<option value="' + val.id + '">' + val.label + '</option>');
                 });
@@ -22,7 +27,7 @@ $(document).ready(function(){
             //this.localvar.html('<option value="1">Option 1</option><option value="1">Option 1</option><option value="1">Option 1</option>');
             if(!params.term)
                 this.input.val('');
-
+            $.extend(this.options.reload.params,params);
         },
         _create: function() {
             var input,
@@ -37,16 +42,18 @@ $(document).ready(function(){
             this.localvar = select;
             var onSelect = this.options.onSelect;
             var    source = function( request, response ) {
+
                     if(o.reload.url){
                         // TODO ORDENAR EL ENVIO DE PARAMETROS
-                        var params={paisId:1};
+                        var params=o.reload.params;
                         $.extend(params,{term:request.term});
                         self.reloadcmb(params);
                     }
+
                     var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
                     response( select.children( "option" ).map(function() {
                         var text = $( this ).text();
-                        if ( this.value && ( !request.term || matcher.test(text) ) )
+                        if ( this.value && ( !request.term || matcher.test(text) ) ) {
                             return {
                                 label: text.replace(
                                     new RegExp(
@@ -57,6 +64,7 @@ $(document).ready(function(){
                                 value: text,
                                 option: this
                             };
+                        }
                     }) );
                 };
             input = $( "<input>" )
@@ -69,9 +77,10 @@ $(document).ready(function(){
                     source: source,
                     select: function( event, ui ) {
                         ui.item.option.selected = true;
-                        self._trigger( "selected", event, {
-                            item: ui.item.option
-                        });
+                        self.element.val(ui.item.option.value);
+                        //self._trigger( "selected", event, {
+                        //    item: ui.item.option
+                        //});
                         onSelect(event,ui);
                     },
                     change: function( event, ui ) {

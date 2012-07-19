@@ -103,7 +103,7 @@
     <content url="file://$USER_HOME$/.grails/1.3.9/projects/saie/plugins/webxml-1.4.1">
       <sourceFolder url="file://$USER_HOME$/.grails/1.3.9/projects/saie/plugins/webxml-1.4.1/src/groovy" isTestSource="false" />
     </content>
-    <orderEntry type="inheritedJdk" />
+    <orderEntry type="jdk" jdkName="1.6" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" scope="PROVIDED" name="grails-1.3.9" level="application" />
     <orderEntry type="module-library" exported="">

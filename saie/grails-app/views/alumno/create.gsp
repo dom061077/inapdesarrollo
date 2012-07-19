@@ -71,13 +71,30 @@
                  $('#provinciaDomicilioId').combobox('reloadcmb',{paisId:$('#paisDomicilioId').val()})
              }
          });
-				 
-		//----------------------------------
+         $('#paisDomicilioId').toggle();
+
          $('#provinciaDomicilioId').combobox({
+                emptyMsg:'Seleccione Provincia',
+                onSelect:function(event,ui){
+                  $('#localidadDomicilioId').combobox('reloadcmb',{provinciaId:$('#provinciaDomicilioId').val()})
+                  //$('#provinciaDomicilioId').val(4);
+                },
                 reload:{url:'<%out << createLink(controller:"provincia",action:"listjsonautocomplete")%>'}
             });
+         $('#provinciaDomicilioId').toggle();
+
+         $('#provinciaDomicilioId').combobox('reloadcmb',{paisId:<%out << (alumnoInstance?.localidadDomicilio?.provincia?.pais?.id?alumnoInstance?.localidadDomicilio?.provincia?.pais?.id:0)%>})
+         $('#provinciaDomicilioId').combobox('initvalue','<%out << alumnoInstance?.localidadDomicilio?.provincia?.nombre%>');
 
 
+         $('#localidadDomicilioId').combobox({
+                emptyMsg:'Seleccione Localidad',
+                reload:{url:'<%out << createLink(controller:"localidad",action:"listjsonautocomplete")%>'}
+         });
+
+         $('#localidadDomicilioId').toggle();
+         $('#localidadDomicilioId').combobox('reloadcmb',{provinciaId:<%out << (alumnoInstance?.localidadDomicilio?.provincia?.id?alumnoInstance?.localidadDomicilio?.provincia?.id:0)%>})
+         $('#localidadDomicilioId').combobox('initvalue','<%out << alumnoInstance?.localidadDomicilio?.nombre%>');
 
 		 /*
 		$('#provinciaDomicilioId').lookupfield({source:'<%out << createLink(controller:"provincia",action:"listsearchjson")%>',
@@ -110,7 +127,7 @@
 		//---------------------------------- 
 		
         
-		$('#localidadDomicilioId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
+		/*$('#localidadDomicilioId').lookupfield({source:'<%out<<createLink(controller:"localidad",action:"listsearchjson")%>',
  				 title:'Localidad del Domicilio' 
 				,colNames:['Id','Nombre','Código Postal'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
@@ -125,7 +142,7 @@
         	if($.trim($(this).val())==""){
         		$('#localidadDomicilioId').val("")
         	}
-        });	
+        });	  */
 
         
 		//---------------------------------- 	
@@ -707,8 +724,9 @@
 										   </div>
 										   <div class="span-9">
 												<g:select class="ui-widget ui-corner-all ui-widget-content geoinput" id="paisDomicilioId"
+                                                          noSelection="${['null':'Seleccione País']}"
                                                           from="${Pais.list()}" optionValue="nombre" optionKey="id"
-                                                          name="paisDomicilio"  value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" />
+                                                          name="paisDomicilio"  value="${alumnoInstance?.localidadDomicilio?.provincia?.pais?.id}" />
 				 								<%-- g:hiddenField id="paisDomicilioIdId" name="paisDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" / --%>
 										   </div>
 											<div class="clear"></div>
@@ -719,7 +737,7 @@
 										   <div class="span-9">
 												<g:select class="ui-widget ui-corner-all ui-widget-content geoinput" id="provinciaDomicilioId"
                                                           optionValue="nombre" optionKey="id"
-                                                          name="provinciaDomicilio"  value="${alumnoInstance.localidadDomicilio?.provincia?.id}" />
+                                                          name="provinciaDomicilio"  value="${alumnoInstance?.localidadDomicilio?.provincia?.id}" />
 				 								<%-- g:hiddenField id="provinciaDomicilioIdId" name="provinciaDomicilio" value="${alumnoInstance.localidadDomicilio?.provincia?.pais?.id}" / --%>
 										   </div>
 											<div class="clear"></div>
@@ -730,11 +748,12 @@
 											</g:hasErrors>
 											
 											<div class="span-3 spanlabel">
-												<label for="localidadDomicilio"><g:message code="alumno.localidadDomicilio.label" default="Localidad Domicilio" /></label>
+												<label for="localidadDomicilio.id"><g:message code="alumno.localidadDomicilio.label" default="Localidad Domicilio" /></label>
 											</div>
 											<div class="span-9">
-												<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadDomicilioId" name="localidadDomicilioDesc"  value="${alumnoInstance.localidadDomicilio?.nombre}" /> 
-				 								<g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${alumnoInstance.localidadDomicilio?.id}" />
+												<g:select class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadDomicilioId"
+                                                          name="localidadDomicilio.id"  value="${alumnoInstance?.localidadDomicilio?.id}" />
+				 								<%-- g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${alumnoInstance.localidadDomicilio?.id}" /--%>
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="localidadDomicilio">

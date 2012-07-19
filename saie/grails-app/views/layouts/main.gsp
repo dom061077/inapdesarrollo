@@ -151,14 +151,14 @@
 										<ul>
 											<li><span class="dir">Ingresos</span>
 												<ul>
-													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">Ingreso</a></li>
-													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Listar Ingresos</a></li>
+													<li><a href="${createLink(controller:'preinscripcion',action:'carrerasdisponibles')}">Generar Ingreso</a></li>
+													<li><a href="${createLink(controller:'preinscripcion',action:'list')}">Actualización de Ingresos</a></li>
 												</ul>
 											</li>
 											<li><span class="dir">Inscripciones</span>
 												<ul>
-													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Generar</a></li>
-													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Listado</a></li>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'alumnosinscripcion')}">Generar Inscripción</a></li>
+													<li><a href="${createLink(controller:'inscripcionMateria',action:'list')}">Actualización de Inscripciones</a></li>
 												</ul>
 											</li>
 											

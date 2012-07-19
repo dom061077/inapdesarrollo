@@ -164,14 +164,16 @@ class ProvinciaController {
 	def listjsonautocomplete={
 		log.info "INGRESANDO AL CLOSURE listjsonautocomplete"
 		log.info "PARAMETROS: ${params}"
-		def list = Provincia.createCriteria().list(){
-                if(params.paisId)
-                   pais{
-                       eq("id",params.paisId.toLong())
-                   }
-                if(params.term)
-				    like('nombre','%'+params.term+'%')
-		}
+		def list
+        if (params.paisId)
+            list = Provincia.createCriteria().list(){
+                    if(params.paisId)
+                       pais{
+                           eq("id",params.paisId.toLong())
+                       }
+                    if(params.term)
+                        like('nombre','%'+params.term+'%')
+            }
 		render(contentType:"text/json"){
 			array{
 				for (p in list){

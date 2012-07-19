@@ -16,9 +16,10 @@ $(document).ready(function(){
         },
         reloadcmb:function(params){
             var select = this.localvar;
+            var self = this
             $.getJSON(this.options.reload.url,params,function(data){
                 var items = [];
-                items.push('<option value="0">'+this.options.emptyMsg+'</option>');
+                items.push('<option value="0">'+self.options.emptyMsg+'</option>');
                 $.each(data, function(key, val) {
                     items.push('<option value="' + val.id + '">' + val.label + '</option>');
                 });

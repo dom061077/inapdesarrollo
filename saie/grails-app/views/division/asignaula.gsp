@@ -166,15 +166,16 @@
                     url:'<%out << createLink(controller:"division",action:"listalumnos")%>',
                     datatype: 'json',
                     width:680,
-                    colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.','Ver'],
+                    colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.', 'Opciones'],
                     colModel:[
+                        // TODO: Modificar el closure para que filtre
                         {name:'id',index:'id', width:40,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'apellido',index:'apellido', width:92,search:true,sortable:true},
                         {name:'nombre',index:'nombre', width:92,search:true,sortable:true},
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
                         {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
-                        {name:'operaciones',index:'operaciones', width:30,search:false,sortable:false}
+                        {name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
                     ],
 
                     rowNum:10,
@@ -233,22 +234,17 @@
                             }
                         });
                         jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
-                        //jQuery("#"+subgrid_table_id).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
                     },
                     caption:"Listado de ${message(code: 'carrera.label', default: 'Carrera')}"
                 });
-                jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
-                jQuery("#list").jqGrid('navButtonAdd','#pager',{
-                    caption:"Informe",
-                    onClickButton : function () {
-                        //jQuery("#list").excelExport();
-                        //jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
-                        window.location = '<%out << createLink(controller:"carrera",action:"reportecarreras") %>';
-                    }
-                });
+                // Pie de la Grilla
+                jQuery("#divisionesId").jqGrid('navGrid','#pager',{search:false,edit:true,add:false,del:false,pdf:false});
 
-                jQuery("#list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
+                // Búsqueda del fitro
+                jQuery("#divisionesId").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
 
             });
 

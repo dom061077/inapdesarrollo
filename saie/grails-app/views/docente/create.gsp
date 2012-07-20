@@ -20,6 +20,17 @@
                 $('#tipoDocumentoId').combobox();
                 $('#sexoId').combobox();
 
+                $('#paisNacimientoId').lookupfield({source:'<%out << createLink(controller: "pais",action:"listsearchjson")%>',
+                    title:'Paises'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                    ,hiddenid:'paisNacimientoIdId'
+                    ,descid:'paisNacimientoId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']});
+
+
                 $('#fechaNacimientoId' ).datepicker({changeYear:true});
         		$('#localidadDomicilioId').lookupfield({source:'<%out << createLink(controller:"localidad",action:"listsearchjson")%>',
  				 title:'Localidades'

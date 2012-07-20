@@ -397,6 +397,10 @@ class InscripcionMateriaController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+
+        params.altfilters = """{'groupOp':'OR','rules':[{'field':'inscripcionMatricula_estado','op':'eq','data':'${EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA}'},{'field':'inscripcionMatricula_estado','op':'eq','data':'${EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA}'}]}"""
+        params._search = "true"
+
 		def gud=new GUtilDomainClass(InscripcionMateria,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)
@@ -416,7 +420,7 @@ class InscripcionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.inscripcionMatricula.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

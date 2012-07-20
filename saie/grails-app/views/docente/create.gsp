@@ -16,10 +16,19 @@
         <script type="text/javascript" src="${resource(dir: "js/jquery",file: "jquery.extend.ui.js")}"></script>
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+            function initsubmit(){
+                $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
+                $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
+                $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
+
+
+            }
+
+
         	$(document).ready(function(){
                 $('#tipoDocumentoId').combobox();
                 $('#sexoId').combobox();
-
+                //---------------pais, provincia, localidad de nacimiento------------------------
                 $('#paisNacimientoId').lookupfield({source:'<%out << createLink(controller: "pais",action:"listsearchjson")%>',
                     title:'Paises'
                     ,colNames:['Id','Nombre']
@@ -28,32 +37,109 @@
                     ,hiddenid:'paisNacimientoIdId'
                     ,descid:'paisNacimientoId'
                     ,hiddenfield:'id'
-                    ,descfield:['nombre']});
+                    ,descfield:['nombre']
+                    ,onSelected:function(){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"pais_id",op:"eq",data:$('#paisNacimientoIdId').val()});
+                        var grid = $('#provinciaNacimientoIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                    }
 
+                });
+
+                $('#provinciaNacimientoId').lookupfield({source:'<%out << createLink(controller: "provincia",action:"listsearchjson")%>',
+                    title:'Provincias'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                    ,hiddenid:'provinciaNacimientoIdId'
+                    ,descid:'provinciaNacimientoId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']
+                    ,onSelected:function(){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaNacimientoIdId').val()});
+                        var grid = $('#localidadDomicilioIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+
+
+                    }
+
+                });
+                //--------------------------------------------------------------------------------------------
+
+                //--------------------------pais, provincia, localidad de domicilio------------------------
+
+                $('#paisDomicilioId').lookupfield({source:'<%out << createLink(controller: "pais",action:"listsearchjson")%>',
+                    title:'Paises'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                    ,hiddenid:'paisDomicilioIdId'
+                    ,descid:'paisDomicilioId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']
+                    ,onSelected:function(){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"pais_id",op:"eq",data:$('#paisDomicilioIdId').val()});
+                        var grid = $('#provinciaDomicilioIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                    }
+
+                });
+
+                $('#provinciaDomicilioId').lookupfield({source:'<%out << createLink(controller: "provincia",action:"listsearchjson")%>',
+                    title:'Provincias'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                    ,hiddenid:'provinciaDomicilioIdId'
+                    ,descid:'provinciaDomicilioId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']
+                    ,onSelected:function(){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaDomicilioIdId').val()});
+                        var grid = $('#localidadDomicilioIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                    }
+
+                });
+
+
+                $('#localidadDomicilioId').lookupfield({source:'<%out << createLink(controller: "localidad",action:"listsearchjson")%>',
+                    title:'Localidades'
+                    ,colNames:['Id','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                    ,hiddenid:'localidadDomicilioIdId'
+                    ,descid:'localidadDomicilioId'
+                    ,hiddenfield:'id'
+                    ,descfield:['nombre']
+                    ,onSelected:function(){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"provincia_id",op:"eq",data:$('#provinciaDomicilioIdId').val()});
+                        var grid = $('#localidadDomicilioIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                    }
+
+                });
+
+
+                //-----------------------------------------------------------------------------------------
 
                 $('#fechaNacimientoId' ).datepicker({changeYear:true});
-        		$('#localidadDomicilioId').lookupfield({source:'<%out << createLink(controller:"localidad",action:"listsearchjson")%>',
- 				 title:'Localidades'
-				,colNames:['Id','Nombre']
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true} ]
- 				,hiddenid:'localidadDomicilioIdId'
- 				,descid:'localidadDomicilioId' 
- 				,hiddenfield:'id' 
- 				,descfield:['nombre']});
 
-//----------------------------------
-                $('#provinciaNacimientoId').lookupfield({source:'<%out << createLink(controller: "provincia",action:"listsearchjson")%>',
-                         title:'Provincias'
-                        ,colNames:['Id','Nombre']
-                        ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
-                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
-                        ,hiddenid:'provinciaNacimientoIdId'
-                        ,descid:'provinciaNacimientoId'
-                        ,hiddenfield:'id'
-                        ,descfield:['nombre']});
-
-        //----------------------------------
 
         	});
 		</script>
@@ -75,7 +161,7 @@
                 <g:renderErrors bean="${docenteInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="save" onsubmit="initsubmit()" >
             		<div class="append-bottom">
                             <fieldset>
                                 <legend>Datos Personales</legend>
@@ -206,7 +292,7 @@
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content"
                                                   id="paisNacimientoId" name="paisNacimiento"  value="${docenteInstance?.provinciaNacimiento?.pais?.id}" />
-                                        <g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
+                                        <g:hiddenField id="paisNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="provinciaNacimiento">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="provinciaNacimiento"/>
@@ -294,13 +380,13 @@
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <div class="ui-state-error ui-corner-all append-bottom">
                                     </g:hasErrors>
-                                    <div class="span-3">
+                                    <div class="span-3 spanlabel">
                                         <label for="paisDomicilio"><g:message code="docente.paisDomicilio.label" default="Provincia Domicilio" /></label>
                                     </div>
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content" id="paisDomicilioId"
                                                   name="paisDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.pais?.id}" />
-                                        <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
+                                        <g:hiddenField id="paisDomicilioIdId" name="paisDomicilioId" value="${localidadDomicilio?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>
@@ -315,13 +401,13 @@
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <div class="ui-state-error ui-corner-all append-bottom">
                                     </g:hasErrors>
-                                    <div class="span-3">
+                                    <div class="span-3 spanlabel">
                                         <label for="provinciaDomicilio"><g:message code="docente.provinciaDomicilio.label" default="Provincia Domicilio" /></label>
                                     </div>
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaDomicilioId"
                                                   name="provinciaDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.id}" />
-                                        <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
+                                        <g:hiddenField id="provinciaDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>

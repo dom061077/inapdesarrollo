@@ -17,92 +17,32 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-                $('#paisNacimientoId').combobox({
-                    onSelect:function(event,ui){
-                        $('#provinciaNacimientoId').combobox('reloadcmb',{paisId:$('#paisNacimientoId').val()});
-                    }
-                });
-                $('#provinciaNacimientoId').combobox({
-                    reload:{url:'<%out << createLink(controller:"provincia",action:"listjsonautocomplete")%>'}
-                });
-                $('#provinciaNacimientoId').combobox('reloadcmb',{carreraId:$('#paisNacimientoId').val()})
                 $('#tipoDocumentoId').combobox();
                 $('#sexoId').combobox();
 
-                $('#paisDomicilioId').combobox({
-                    onSelect: function(event,ui){
-                        $('#provinciaDomicilioId').combobox('reloadcmb',{paisId:$('#paisDomicilioId').val()})
-                    }
-                });
-                $('#provinciaDomicilioId').combobox({
-                    onSelect: function(event,ui){
-                        $('#localidadDomicilioId').combobox('reloadcmb',{paisId:$('#provinciaDomicilioId').val()})
-                    },
-                    reload:{url:'<%out << createLink(controller:"provincia",action:"listjsonautocomplete")%>'}
-                });
-                $('#localidadDomicilioId').combobox({
-                    reload:{url:'<%out << createLink(controller:"localidad",action:"listjsonautocomplete")%>'}
-                    ,onSearch:function(event,ui){
-                        $('#localidadDomicilioId').html('<option value="1">Option 1</option><option value="2">Option 2</option><option value="3">Option 3</option>');
-                    }
-                });
-
-
-                /*
                 $('#fechaNacimientoId' ).datepicker({changeYear:true});
-		$('#localidadDomicilioId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
+        		$('#localidadDomicilioId').lookupfield({source:'<%out << createLink(controller:"localidad",action:"listsearchjson")%>',
+ 				 title:'Localidades'
+				,colNames:['Id','Nombre']
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'localidadDomicilioIdId' 
+ 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true} ]
+ 				,hiddenid:'localidadDomicilioIdId'
  				,descid:'localidadDomicilioId' 
  				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+ 				,descfield:['nombre']});
 
-		$('#localidadDomicilioId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#localidadDomicilioIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
-//---------------------------------- 
-		$('#provinciaNacimientoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'provinciaNacimientoIdId' 
- 				,descid:'provinciaNacimientoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
-
-		$('#provinciaNacimientoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#provinciaNacimientoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
 //----------------------------------
-                */
+                $('#provinciaNacimientoId').lookupfield({source:'<%out << createLink(controller: "provincia",action:"listsearchjson")%>',
+                         title:'Provincias'
+                        ,colNames:['Id','Nombre']
+                        ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                        ,hiddenid:'provinciaNacimientoIdId'
+                        ,descid:'provinciaNacimientoId'
+                        ,hiddenfield:'id'
+                        ,descfield:['nombre']});
+
+        //----------------------------------
 
         	});
 		</script>
@@ -253,10 +193,9 @@
                                         <label for="paisNacimiento"><g:message code="docente.paisNacimiento.label" default="País Nacimiento" /></label>
                                     </div>
                                     <div class="span-5">
-                                        <g:select class="ui-widget ui-corner-all ui-widget-content" from="${Pais.list()}"
-                                                  optionValue="nombre" optionKey="id"
+                                        <g:textField class="ui-widget ui-corner-all ui-widget-content"
                                                   id="paisNacimientoId" name="paisNacimiento"  value="${docenteInstance?.provinciaNacimiento?.pais?.id}" />
-                                        <%-- g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" / --%>
+                                        <g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="provinciaNacimiento">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="provinciaNacimiento"/>
@@ -273,8 +212,9 @@
                                     <label for="provinciaNacimiento.id"><g:message code="docente.provinciaNacimiento.label" default="Provincia Nacimiento" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <g:select class="ui-widget ui-corner-all ui-widget-content" id="provinciaNacimientoId" name="provinciaNacimiento.id"  value="${docenteInstance?.provinciaNacimiento?.id}" />
-                                    <%-- g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" / --%>
+                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaNacimientoId" name="provinciaNacimiento.id"
+                                                    value="${docenteInstance?.provinciaNacimiento?.id}" />
+                                    <g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
                                 </div>
                                 <g:hasErrors bean="${docenteInstance}" field="provinciaNacimiento">
                                     <g:renderErrors bean="${docenteInstance}" as="list" field="provinciaNacimiento"/>
@@ -347,10 +287,9 @@
                                         <label for="paisDomicilio"><g:message code="docente.paisDomicilio.label" default="Provincia Domicilio" /></label>
                                     </div>
                                     <div class="span-5">
-                                        <g:select class="ui-widget ui-corner-all ui-widget-content" id="paisDomicilioId"
-                                                  from="${Pais.list()}" optionKey="id" optionValue="nombre"
+                                        <g:textField class="ui-widget ui-corner-all ui-widget-content" id="paisDomicilioId"
                                                   name="paisDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.pais?.id}" />
-                                        <%-- g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" / --%>
+                                        <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>
@@ -369,10 +308,9 @@
                                         <label for="provinciaDomicilio"><g:message code="docente.provinciaDomicilio.label" default="Provincia Domicilio" /></label>
                                     </div>
                                     <div class="span-5">
-                                        <g:select class="ui-widget ui-corner-all ui-widget-content" id="provinciaDomicilioId"
-                                                  optionKey="id" optionValue="nombre"
+                                        <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaDomicilioId"
                                                   name="provinciaDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.id}" />
-                                        <%-- g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" / --%>
+                                        <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>
@@ -389,8 +327,8 @@
                                     <label for="localidad.id"><g:message code="docente.localidadDomicilio.label" default="Localidad Domicilio" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <g:select class="ui-widget ui-corner-all ui-widget-content" id="localidadDomicilioId" name="localidad.id"  value="${docenteInstance?.localidadDomicilio?.id}" />
-                                    <%-- g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" / --%>
+                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="localidadDomicilioId" name="localidad.id"  value="${docenteInstance?.localidadDomicilio?.id}" />
+                                    <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
                                 </div>
                                 <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                     <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>

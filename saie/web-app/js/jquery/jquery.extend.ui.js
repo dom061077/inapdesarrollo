@@ -14,9 +14,10 @@ $(document).ready(function(){
         initvalue: function(value){
             this.input.val(value);
         },
-        reloadcmb:function(params){
+        reloadcmb:function(params,initval,initdesc){
             var select = this.localvar;
-            var self = this
+            var input = this.input;
+            var self = this;
             $.getJSON(this.options.reload.url,params,function(data){
                 var items = [];
                 items.push('<option value="0">'+self.options.emptyMsg+'</option>');
@@ -24,6 +25,10 @@ $(document).ready(function(){
                     items.push('<option value="' + val.id + '">' + val.label + '</option>');
                 });
                 select.html(items.join(''));
+                if(initval)
+                    select.val(initval);
+                if(initdesc)
+                    input.val(initdesc);
             });
             //this.localvar.html('<option value="1">Option 1</option><option value="1">Option 1</option><option value="1">Option 1</option>');
             if(!params.term)

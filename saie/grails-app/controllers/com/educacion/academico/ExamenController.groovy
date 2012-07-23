@@ -233,10 +233,43 @@ class ExamenCommand{
     TipoExamenEnum tipo
     ModalidadExamenEnum moddalidad
     static constraints = {
-         carreraId(nullable: false, blank: false)
-         nivelId(nullable: false, blank: false)
-         materiaId(nullable: false, blank: false)
-         docenteId(nullable: false, blank: false)
+         carreraId(nullable: false, blank: false,validator: {v,cmd ->
+                if(v){
+                    def carreraInstance = Carrera.get(cmd.carreraId)
+                    if(carreraInstance){
+                        return true
+                    }else
+                        return false
+                }
+         })
+         nivelId(nullable: false, blank: false,validator: {v,cmd ->
+                if(v){
+                    def nivelInstance = Nivel.get(cmd.nivelId)
+                    if(nivelIInstance)
+                        return true
+                    else
+                        return false
+                }             
+         })
+         materiaId(nullable: false, blank: false,validator: {v,cmd ->
+                if(v){
+                    def materiaInstance = Materia.get(cmd.materiaId)
+                    if(materiaInstance)
+                        return true
+                    else
+                       return false
+                }
+             
+         })
+         docenteId(nullable: false, blank: false,validator: {v,cmd ->
+                if(v){
+                    def docenteInstance = Docente.get(cmd.docenteId)
+                    if(docenteInstance)
+                        return true
+                    else
+                        return false
+                }
+         })
     }
 }
 

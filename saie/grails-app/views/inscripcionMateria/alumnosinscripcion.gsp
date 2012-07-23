@@ -16,14 +16,14 @@
 					datatype: "json",
 					postData:{estado:'ESTADO_INSCRIPTO'},
 					width:700,
-					colNames:['Id','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
+					colNames:['Id','Apellido','Nombre','Carrera','Carrera','Año Lectivo','Matrícula','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:true,searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:false},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:false},				   		
-				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
 				   		{name:'fechaAlta',hidden:true,index:'fechaAlta',width:40,search:false},
+                        {name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},
 				   		{name:'anioLectivo_anioLectivo',hidden:false,index:'anioLectivo_anioLectivo', width:40,search:false},
 				   		{name:'estado',index:'estado',hidden:false, width:40,search:false,sortable:false},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
@@ -68,7 +68,7 @@
     </head>
     <body>
     	<div class="body">
-            <h1><g:message code="inscripcionMateria.label" /></h1>
+            <h1>Generar Inscripción</h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message} </H2></div>
             </g:if>

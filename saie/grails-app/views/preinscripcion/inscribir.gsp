@@ -64,7 +64,7 @@
                             ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                             ,{name:'codigo',index:'codigo',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: true }, editable: false, edittype: "checkbox" }
                				
 	                ]
 	        		,onSelectRow: function(id){ 

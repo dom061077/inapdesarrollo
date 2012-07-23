@@ -21,7 +21,7 @@
 				   	colModel:[
 				   		{name:'id',index:'id', width:40,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
-				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},				   		
+				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:true,sortable:true},
 				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:100,search:true,sortable:true},
                         {name:'inscripcionMatricula_estado',index:'inscripcionMatricula_estado', width:100,search:false,sortable:false},
@@ -72,7 +72,7 @@
             <span class="menuButton"><g:link class="create" action="alumnosinscripcion"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1>Actualización de Inscripciones </h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message}</H2> </div>
             </g:if>

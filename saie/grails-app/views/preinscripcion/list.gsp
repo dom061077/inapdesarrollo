@@ -43,7 +43,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Matricular' href='inscribir/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Confirmar' href='inscribir/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							var pr = "<a title='Ver' href='reportepreinscripcion/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se+pr+be}); 
@@ -75,7 +75,7 @@
             <span class="menuButton"><g:link class="create" action="carrerasdisponibles"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1>Actualización de Ingresos</h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2> ${flash.message}</H2> </div>
             </g:if>

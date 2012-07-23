@@ -203,7 +203,7 @@ class AcademicoUtil {
 					carrera{
 							eq("id",idCarrera)
 					}
-                    eq("esprimernivel",false)
+                    //eq("esprimernivel",false)
 				}
 			}
 		}

@@ -668,7 +668,7 @@ class PreinscripcionController {
 		log.info "PARAMETROS $params"
 		def preinscripcionInstance = Preinscripcion.get(params.id)
 
-        def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
+        //def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
 
         def flagcomilla = false
         def flagseleccionado
@@ -676,7 +676,7 @@ class PreinscripcionController {
         def materiasSerialized = "["
 
 
-        materiasCursar.each{ matcursar->
+        /*materiasCursar.each{ matcursar->
             if(flagcomilla)
                 materiasSerialized = materiasSerialized + ","
             flagseleccionado="No"
@@ -695,6 +695,18 @@ class PreinscripcionController {
             }
             materiasSerialized = materiasSerialized + '{"id":'+idinscmatdetalle+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","denominacion":"'+matcursar.denominacion+'","codigo":"'+matcursar.codigo+'","seleccion":"'+flagseleccionado+'"}'
             flagcomilla = true
+        }*/
+        preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each{inscmateria ->
+            if (inscmateria.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+                inscmateria.detalleMateria.each{detinsc->
+                    if (flagcomilla)
+                        materiasSerialized += ","
+                    materiasSerialized = materiasSerialized + '{"id":'+detinsc.id+',"idid":'+detinsc.id+',"idmateria":'+detinsc.materia.id+',"nivel":"'+detinsc.materia.nivel.descripcion+'","denominacion":"'+detinsc.materia.denominacion+'","codigo":"'+detinsc.materia.codigo+'","seleccion":"Yes"}'
+                    flagcomilla = true
+                    
+                }
+                return
+            }
         }
         materiasSerialized += "]"
 		if(preinscripcionInstance){

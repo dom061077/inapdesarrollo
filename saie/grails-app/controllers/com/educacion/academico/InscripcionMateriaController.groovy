@@ -180,6 +180,7 @@ class InscripcionMateriaController {
 		if(params.id){
 			
 			inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
+
 			
 			def materiasSerialized
 			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance.carrera.id,inscripcionMatriculaInstance.alumno.id)
@@ -209,6 +210,12 @@ class InscripcionMateriaController {
 //					return
 //			   }else{
 				if(inscripcionMatriculaInstance){
+                   if (inscripcionMatriculaInstance.estado!=EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA &&
+                        inscripcionMatriculaInstance.estado!=EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA ){
+                       flash.message = "No puede realizar la operación, la matrícula debe estar "+EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA.name+" o "+" "+EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA.name
+                       render(view:"alumnosinscripcion",model:[])
+                       return
+                   }
 			       def inscripcionMateriaInstance = new InscripcionMateria(alumno:inscripcionMatriculaInstance.alumno
 					   		,carrera:inscripcionMatriculaInstance.carrera      
 							,anioLectivo:inscripcionMatriculaInstance.anioLectivo   

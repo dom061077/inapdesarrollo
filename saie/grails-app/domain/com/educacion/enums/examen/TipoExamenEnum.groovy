@@ -2,8 +2,8 @@ package com.educacion.enums.examen
 
 public enum TipoExamenEnum {
     TIPOEXAMEN_TEORICO("Teórico"),
-    TIPOEXAMEN_PRACTICO("C.I"),
-    TIPOEXAMEN_MIXTO("L.E")
+    TIPOEXAMEN_PRACTICO("Práctico"),
+    TIPOEXAMEN_MIXTO("Mixto")
 
     String name
 

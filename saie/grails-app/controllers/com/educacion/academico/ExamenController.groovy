@@ -221,13 +221,22 @@ class ExamenController {
 }
 
 class ExamenCommand{
-    Materia materia
-    Docente docente
+    String carreraId
+    String carreraDesc
+    String nivelId
+    String nivelDesc
+    String materiaId
+    String materiaDesc
+    String docenteId
+    String docenteDesc
     String titulo
     TipoExamenEnum tipo
     ModalidadExamenEnum moddalidad
     static constraints = {
-
+         carreraId(nullable: false, blank: false)
+         nivelId(nullable: false, blank: false)
+         materiaId(nullable: false, blank: false)
+         docenteId(nullable: false, blank: false)
     }
 }
 

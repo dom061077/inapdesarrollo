@@ -320,7 +320,7 @@ class MateriaController {
 		log.info "PARAMETROS: ${params}"
 		def list = Materia.createCriteria().list(){
             if(params.term)
-				like('nombre','%'+params.term+'%')
+				like('denominacion','%'+params.term+'%')
             if(params.nivelId)
                 nivel{
                     eq("id",params.nivelId.toLong())

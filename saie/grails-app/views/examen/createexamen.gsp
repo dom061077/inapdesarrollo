@@ -21,6 +21,192 @@
            $('#tipoId').combobox();
             $('#modalidadId').combobox();
 
+
+            $('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',
+                title:'Búsqueda de Carreras'
+                ,colNames:['Id','Denominación']
+                ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:true,search:false}
+                    ,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}
+                ]
+                ,hiddenid:'carreraIdId'
+                ,descid:'carreraId'
+                ,hiddenfield:'id'
+                ,descfield:['denominacion']
+                ,onSelected:function(){
+                    var filter = { groupOp: "AND", rules: []};
+                    filter.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
+                    var grid = $('#nivelIdtablesearchId')
+                    grid[0].p.search = filter.rules.length>0;
+                    $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                    grid.trigger("reloadGrid",[{page:1}]);
+                    $('#nivelId').val('');
+                    $('#nivelIdId').val('');
+                }
+                ,onKeyup:function(){
+                    if($.trim($('#carreraId').val())==""){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"carrera_id",op:"eq",data:0});
+                        var grid = $('#nivelIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                        $('#nivelId').val('');
+                        $('#nivelIdId').val('');
+                    }
+                }
+            });
+
+            $('#carreraId' ).autocomplete({source: '<%out<<createLink(controller:'carrera',action:'listjsonautocomplete')%>',
+                minLength: 2,
+                select: function( event, ui ) {
+                    if(ui.item){
+                        $('#carreraIdId').val(ui.item.id)
+
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"carrera_id",op:"eq",data:ui.item.id});
+                        var grid = $('#nivelIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                        $('#nivelId').val('');
+                        $('#nivelIdId').val('');
+                        $('#matregcursarId').clearGridData();
+                        $('#mataprobcursarId').clearGridData();
+                        $('#matregrendirId').clearGridData();
+                        $('#mataprobrendirId').clearGridData();
+
+                    }
+                },
+                open: function() {
+                    $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                },
+                close: function() {
+                    $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                }
+            });
+
+
+
+            $('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
+                title:'Búsqueda de niveles'
+                ,colNames:['Id','Descripcion','Carrera','Es primer nivel']
+                ,colModel:[
+                    {name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:true,search:false}
+                    ,{name:'descripcion',index:'descripcion', width:100,  sortable:true,search:true}
+                    ,{name:'carrera',index:'carrear',hidden:false}
+                    ,{name:'esprimernivel',index:'esprimernivel',width:100,sortable:false,search:false} ]
+                ,hiddenid:'nivelIdId'
+                ,descid:'nivelId'
+                ,hiddenfield:'id'
+                ,descfield:['descripcion']
+            });
+
+            $('#nivelId' ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax({
+                        url: '<%out<<createLink(controller:'nivel',action:'listjsonautocomplete')%>',
+                        //dataType: "jsonp",
+                        data: {
+                            carreraId:$('#carreraIdId').val(),
+                            term: request.term
+                        },
+                        success: function( data ) {
+                            response( $.map( data, function( item ) {
+                                return {
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                }
+                            }));
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert('ERROR');
+                        }
+                    });
+                }
+                ,
+                minLength: 2,
+                select: function( event, ui ) {
+                    if(ui.item){
+                        $('#nivelIdId').val(ui.item.id);
+
+                    }
+                },
+                open: function() {
+                    $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                },
+                close: function() {
+                    $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                }
+            });
+
+            $('#materiaId').lookupfield({source:'<%out<<createLink(controller:'materia',action:'listsearchjson')%>',
+                title:'Búsqueda de Materias'
+                ,colNames:['Id','Denominación']
+                ,colModel:[
+                    {name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:true,search:false}
+                    ,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true} ]
+                ,hiddenid:'materiaIdId'
+                ,descid:'materiaId'
+                ,hiddenfield:'id'
+                ,descfield:['denominacion']
+
+            });
+
+            $('#materiaId' ).autocomplete({
+                source: function( request, response ) {
+                    $.ajax({
+                        url: '<%out<<createLink(controller:'materia',action:'listjsonautocomplete')%>',
+                        //dataType: "jsonp",
+                        data: {
+                            nivelId:$('#nivelIdId').val(),
+                            term: request.term
+                        },
+                        success: function( data ) {
+                            response( $.map( data, function( item ) {
+                                return {
+                                    label: item.label,
+                                    value: item.value,
+                                    id: item.id
+                                }
+                            }));
+                        },
+                        error:function(jqXHR, textStatus, errorThrown){
+                            alert('ERROR');
+                        }
+                    });
+                }
+                ,
+                minLength: 2,
+                select: function( event, ui ) {
+                    if(ui.item){
+                        $('#materiaIdId').val(ui.item.id);
+
+                    }
+                },
+                open: function() {
+                    $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                },
+                close: function() {
+                    $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                }
+            });
+
+            $('#docenteId').lookupfield({source:'<%out<<createLink(controller:'docente',action:'listsearchjson')%>',
+                title:'Búsqueda de Docentes'
+                ,colNames:['Id','Nº Documento','Apellido', 'Nombre']
+                ,colModel:[
+                    {name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:true,search:false}
+                    ,{name:'numeroDocumento',index:'numeroDocumento', width:100,  sortable:true,search:true,searchoptions:{sopt:['eq']} }
+                    ,{name:'apellido',index:'apellido', width:100,  sortable:true,search:true}
+                    ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true} ]
+                ,hiddenid:'docenteIdId'
+                ,descid:'docenteId'
+                ,hiddenfield:'id'
+                ,descfield:['apellido','nombre']
+
+            });
+
         });
     </script>
 </head>
@@ -55,7 +241,7 @@
             </div>
             <div class="span-4">
                 <g:textField name="nivelDesc" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" value="${nivelDesc}" />
-                <g:hiddenField name="carreraId" id="nivelIdId"  value="${nivelId}"/>
+                <g:hiddenField name="nivelId" id="nivelIdId"  value="${nivelId}"/>
             </div>
             <div class="clear"></div>
 
@@ -64,30 +250,41 @@
                 <label for="materiaDesc"><g:message code="examen.materia.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="materiaDesc" class="ui-widget ui-corner-all ui-widget-content" id="materiaIdId" value="${materiaDesc}" />
+                <g:textField name="materiaDesc" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" value="${materiaDesc}" />
                 <g:hiddenField id="materiaIdId" name="materiaId" value="${materiaId}"/>
             </div>
             <div class="clear"></div>
+
+            <div class="span-3 spanlabel">
+                <label for="materiaDesc"><g:message code="examen.docente.label"/></label>
+            </div>
+            <div class="span-4">
+                <g:textField name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" value="${docenteDesc}" />
+                <g:hiddenField id="docenteIdId" name="docenteId" value="${docenteId}"/>
+            </div>
+            <div class="clear"></div>
+
 
             <div class="span-3 spanlabel">
                 <label for="titulo"><g:message code="examen.titulo.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${materiaDesc}" />
-                <g:hiddenField id="materiaIdId" name="materiaId" value="${materiaId}"/>
+                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${titulo}" />
             </div>
             <div class="clear"></div>
 
-            <div class="span-3 spanlabel">
-                <label for="tipo"><g:message code="examen.tipo.label"/></label>
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label for="tipo"><g:message code="examen.tipo.label"/></label>
+                </div>
+                <div class="span-4">
+                    <g:select name="tipo" from="${TipoExamenEnum.list()}"  optionValue="name"
+                              class="ui-widget ui-corner-all ui-widget-content" id="tipoId" value="${tipo}" />
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <g:select name="tipo" from="${TipoExamenEnum.list()}"  optionValue="name"
-                          class="ui-widget ui-corner-all ui-widget-content" id="tipoId" value="${tipo}" />
-            </div>
-            <div class="clear"></div>
 
-            <div class="span-3 spanlabel">
+            <div class="span-3">
                 <label for="modalidad"><g:message code="examen.modalidad.label"/></label>
             </div>
             <div class="span-4">

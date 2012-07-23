@@ -342,7 +342,7 @@ class DivisionController {
                 if (flagaddcomilla)
                     result=result+','
 
-                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.alumno.tipoDocumento.name==null?"":it.alumno.tipoDocumento.name)+'","'+(it.alumno.numeroDocumento==null?"":it.alumno.numeroDocumento)+'","'+(it.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.alumno.fechaNacimiento))+'"]}'
+                result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.alumno.tipoDocumento.name==null?"":it.alumno.tipoDocumento.name)+'","'+(it.alumno.numeroDocumento==null?"":it.alumno.numeroDocumento)+'","'+(it.alumno.fechaNacimiento==null?"":g.formatDate(format:'dd/MM/yyyy',date:it.alumno.fechaNacimiento))+'",""]}'
 
                 flagaddcomilla=true
             }
@@ -391,6 +391,23 @@ class DivisionController {
         result=result+']}'
         render result
 
+
+    }
+
+
+    def listdivisionjson = {
+        log.info "INGRESANDO AL CLOSURE listdivisionjson"
+        log.info "PARAMETROS: $params"
+
+        def divisionInstance = Division.get(params.id)
+
+        if (!divisionInstance) {
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'division.label', default: 'Division'), params.id])}"
+            redirect(action: "list")
+        }
+        else {
+            [divisionInstance: divisionInstance]
+        }
 
     }
 

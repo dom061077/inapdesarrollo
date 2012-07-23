@@ -14,6 +14,32 @@
     <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
     <script type="text/javascript">
 
+        function initGridBusquedaDivisiones(){
+            jQuery("#tablaBusquedaDivisionId").jqGrid({
+                caption:'Búsqueda de Divisiones',
+                url:'listdivisionjson',
+                mtype:'POST',
+                //width:400,
+                rownumbers:true,
+                datatype:'json'
+                ,colNames:['Id','Descricpion','Letra','Cupo','Turno','Aula']
+                ,colModel:[
+                    {name:'id',index:'id', width:40, hidden:true},
+                    {name:'descripcion',index:'descripcion', width:92,sortable:false},
+                    {name:'letra',index:'letra', width:100,search:true},
+                    {name:'cupo',index:'cupo', width:100,search:true},
+                    {name:'turno',index:'turno', width:100,search:true},
+                    {name:'aula',index:'aula', width:100,search:true}
+                ]
+                , pager: '#pagerBusquedaDivisionId'
+                , sortname: 'id'
+                , viewrecords: true, sortorder: "desc"
+                , caption:"Lista de Divisiones"
+                //height:130
+            });
+        }
+
+
 
         $(document).ready(function(){
 
@@ -79,7 +105,6 @@
                     $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
                 }
             });
-
 
             $('#nivelId').lookupfield({source:'<%out<<createLink(controller:'nivel',action:'listsearchjson')%>',
                 title:'Búsqueda de niveles'
@@ -166,7 +191,7 @@
                     url:'<%out << createLink(controller:"division",action:"listalumnos")%>',
                     datatype: 'json',
                     width:680,
-                    colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.', 'Opciones'],
+                    colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.', 'Divisiones'],
                     colModel:[
                         // TODO: Modificar el closure para que filtre
                         {name:'id',index:'id', width:40,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
@@ -175,7 +200,7 @@
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
                         {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
-                        {name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+                        {name:'divisiones',index:'divisiones',editable:true, hidden:true,width:55,search:false,sortable:false}
                     ],
 
                     rowNum:10,
@@ -184,18 +209,7 @@
                     pager: '#pager',
                     sortname: 'id',
                     viewrecords: true,
-                    sortorder: "desc",
-                    gridComplete: function(){
-                        var ids = jQuery("#divisionesId").jqGrid('getDataIDs');
-                        var obj;
-                        var be;
-                        for(var i=0;i < ids.length;i++){
-                            var cl = ids[i];
-                            obj = jQuery("#divisionesId").getRowData(ids[i]);
-                            be = "<a title='Editar' href='edit?id="+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 10px'  ></span></a>";
-                            jQuery("#divisionesId").jqGrid('setRowData',ids[i],{operaciones:be});
-                        }
-                    }
+                    sortorder: "desc"
                     ,subGrid:true
                     ,subGridRowExpanded: function(subgrid_id, row_id) {
                         var subgrid_table_id, pager_id;
@@ -207,11 +221,11 @@
                             url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id,
                             datatype: "json",
                             mtype:'POST',
-                            colNames: ['Id','Materia','Opciones'],
+                            colNames: ['Id','Materia','Divisiones'],
                             colModel: [
                                 {name:"id",index:"id",width:80,key:true,hidden:true},
                                 {name:"materia",index:"materia",width:80,hidden:false},
-                                {name:'operaciones',index:'operaciones',width:20,sorttype:'text',sortable:false,search:false}
+                                {name:'divisiones',index:'divisiones',width:50,sorttype:'text',sortable:false,search:false}
                             ],
                             rowNum:20,
                             pager: pager_id,
@@ -234,14 +248,26 @@
                             }
                         });
                         jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+                        //para agregar la ventan de edicion
 
                     },
                     caption:"Listado de ${message(code: 'carrera.label', default: 'Carrera')}"
                 });
 
                 // Pie de la Grilla
-                jQuery("#divisionesId").jqGrid('navGrid','#pager',{search:false,edit:true,add:false,del:false,pdf:false});
+                jQuery("#divisionesId").jqGrid('navGrid','#pager', {add:false,edit:true,del:false,search:false,refresh:false}, //options
+                        {height:300,width:530,reloadAfterSubmit:false
+                            ,recreateForm:true
+                            ,editCaption:'Divisiones'
+                            ,beforeShowForm:function(form){
 
+                            $('#TblGrid_divisionesId').hide();
+                            $('#FrmGrid_divisionesId').append('<table id="tablaBusquedaDivisionId"></table><div id="pagerBusquedaDivisionId"></div>');
+                            initGridBusquedaDivisiones();
+
+                        }
+                    } ,{}
+                );
 
                 // Búsqueda del fitro
                 jQuery("#divisionesId").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
@@ -307,13 +333,7 @@
             </table>
         </fieldset>
 
-
-        <div style="display:none" id="busquedaAulaDialogId">
-            <table id="tablaBusquedaAulaId"></table><div id="pagerBusquedaAulaId"></div>
-        </div>
-
-
-        </div>
+         </div>
     </g:form>
 </div>
 </body>

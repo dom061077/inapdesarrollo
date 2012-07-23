@@ -43,6 +43,7 @@ class DocenteController {
             redirect(action: "show", id: docenteInstance.id)
         }
         else {
+            log.debug "ERRORES DE VALIDACION: "+docenteInstance.errors.allErrors
             render(view: "create", model: [docenteInstance: docenteInstance])
         }
     }
@@ -152,7 +153,7 @@ class DocenteController {
                 result = result + ','
 
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + (it.nombre == null ? "" : it.nombre) + '"]}'
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' +it.numeroDocumento +'","'+it.apellido+'","'+it.nombre+ '"]}'
 
             flagaddcomilla = true
         }

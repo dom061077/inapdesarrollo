@@ -17,12 +17,13 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Id','Prop.1','Prop.2','Prop.3'],
+					colNames:['Id','Nº Documento','Apellido','Nombre','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
-				   		{name:'prop1',index:'prop2', width:92,sortable:false},
-				   		{name:'prop3',index:'prop3', width:100,search:false},
+				   		{name:'id',index:'id', width:40,hidden:true},
+                        {name:'numeroDocumento',index:'numeroDocumento', width:92,sortable:false,search:true,searchoptions:{sopt:['eq']}},
+				   		{name:'apellido',index:'apellido', width:92,sortable:true},
+				   		{name:'nombre',index:'nombre', width:100,search:true},
 				   		{name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
 				   	],
 				   	

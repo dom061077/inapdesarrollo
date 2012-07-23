@@ -2,12 +2,9 @@ package com.educacion.academico
 
 
 import com.educacion.util.GUtilDomainClass
+import com.educacion.enums.examen.TipoExamenEnum
+import com.educacion.enums.examen.ModalidadExamenEnum
 
-import java.text.SimpleDateFormat
-
-import java.text.DateFormat
-
-import java.text.ParseException
 
 
 
@@ -207,5 +204,30 @@ class ExamenController {
 
     }
 
+    def createexamen = { ExamenCommand cmd ->
+        log.debug "INGRESANDO AL CLOSURE createexamen"
+        log.debug "PARAMETROS: $params"
+
+    }
+    
+    def saveexamen = { ExamenCommand cmd ->
+        log.info "INGRESANDO AL CLOSURE saveexamen"
+        log.info "PARAMETROS $params"
+        if (cmd.validate()){
+
+        }
+    }
 
 }
+
+class ExamenCommand{
+    Materia materia
+    Docente docente
+    String titulo
+    TipoExamenEnum tipo
+    ModalidadExamenEnum moddalidad
+    static constraints = {
+
+    }
+}
+

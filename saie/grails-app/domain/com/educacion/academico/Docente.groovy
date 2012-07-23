@@ -27,8 +27,11 @@ class Docente {
     String telefonoMensaje
 
     static constraints = {
-        apellido nullable: true,blank: true
-        nombre nullable: true, blank: true
+        apellido nullable: false,blank: false
+        nombre nullable: false, blank: false
+        localidadDomicilio nullable: true, blank:true
+        provinciaNacimiento( nullable: true,blank:true)
+        fechaNacimiento(nullable: true,blank:true)
 
     }
 }

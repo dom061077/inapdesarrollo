@@ -36,9 +36,46 @@
             </div>
             </g:hasErrors>
             <g:form action="save" >
-            		<div class="append-bottom">	
-                        
-				</div>                        
+            	<div class="append-bottom">
+                    <div class="span-4">
+                        <label for="carreraDesc"><g:message code="examen.carrera.label"/></label>
+                    </div>
+                    <div class="span-4">
+                        <g:textField name="carreraDesc" id="carreraId" value="${carreraDesc}" />
+                        <g:hiddenField name="carreraId" id="carreraIdId"  value="${carreId}"/>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="span-4">
+                        <label for="carreraDesc"><g:message code="examen.nivel.label"/></label>
+                    </div>
+                    <div class="span-4">
+                        <g:textField name="nivelDesc" id="nivelId" value="${nivelDesc}" />
+                        <g:hiddenField name="carreraId" id="nivelIdId"  value="${nivelId}"/>
+                    </div>
+                    <div class="clear"></div>
+
+
+                    <div class="span-4">
+                        <label for="materiaDesc"><g:message code="examen.materia.label"/></label>
+                    </div>
+                    <div class="span-4">
+                        <g:textField name="materiaDesc" id="materiaIdId" value="${materiaDesc}" />
+                        <g:hiddenField id="materiaIdId" name="materiaId" value="${materiaId}"/>
+                    </div>
+                    <div class="clear"></div>
+
+                    <div class="span-4">
+                        <label for="titulo"><g:message code="examen.titulo.label"/></label>
+                    </div>
+                    <div class="span-4">
+                        <g:textField name="titulo" id="tituloId" value="${materiaDesc}" />
+                        <g:hiddenField id="materiaIdId" name="materiaId" value="${materiaId}"/>
+                    </div>
+                    <div class="clear"></div>
+
+
+				</div>
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>

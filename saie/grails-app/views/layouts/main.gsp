@@ -122,7 +122,7 @@
 										</li>
                                         <li><span class="dir">Exámenes</span>
                                             <ul>
-                                                <li><a href="${createLink(controller:"examen",action:"create")}">Actualización</a></li>
+                                                <li><a href="${createLink(controller:"examen",action:"createexamen")}">Actualización</a></li>
                                                 <li><a href="${createLink(controller: "examen", action:"list")}">Listado</a></li>
                                             </ul>
                                             

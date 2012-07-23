@@ -17,9 +17,11 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
             function initsubmit(){
-                $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
-                $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
-                $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
+                if($('#fechaNacimientoId').val()!=''){
+                    $('#fechaNacimientoId_yearId').val($('#fechaNacimientoId').datepicker('getDate').getFullYear());
+                    $('#fechaNacimientoId_monthId').val($('#fechaNacimientoId').datepicker('getDate').getMonth()+1);
+                    $('#fechaNacimientoId_dayId').val($('#fechaNacimientoId').datepicker('getDate').getDate());
+                }
 
 
             }
@@ -161,7 +163,8 @@
                 <g:renderErrors bean="${docenteInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" onsubmit="initsubmit()" >
+            <%--  --%>
+            <g:form action="save" onsubmit="initsubmit()">
             		<div class="append-bottom">
                             <fieldset>
                                 <legend>Datos Personales</legend>
@@ -245,7 +248,11 @@
                                     <label for="fechaNacimiento"><g:message code="docente.fechaNacimiento.label" default="Fecha Nacimiento" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="fechaNacimiento" value="${fieldValue(bean: docenteInstance, field: 'fechaNacimiento')}" />
+
+                                    <g:textField id="fechaNacimientoId" class="ui-widget ui-corner-all ui-widget-content" name="fechaNacimiento" value="${g.formatDate(format:'dd/MM/yyyy',date:docenteInstance?.fechaNacimiento)}" />
+                                    <g:hiddenField name="fechaNacimiento_year" id="fechaNacimientoId_yearId" value="${g.formatDate(format:'yyyy',date:docenteInstance?.fechaNacimiento)}" />
+                                    <g:hiddenField name="fechaNacimiento_month" id="fechaNacimientoId_monthId" value="${g.formatDate(format:'MM',date:docenteInstance?.fechaNacimiento)}" />
+                                    <g:hiddenField name="fechaNacimiento_day" id="fechaNacimientoId_dayId" value="${g.formatDate(format:'dd',date:docenteInstance?.fechaNacimiento)}" />
                                 </div>
 
                                 <g:hasErrors bean="${docenteInstance}" field="fechaNacimiento">
@@ -291,8 +298,8 @@
                                     </div>
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content"
-                                                  id="paisNacimientoId" name="paisNacimiento"  value="${docenteInstance?.provinciaNacimiento?.pais?.id}" />
-                                        <g:hiddenField id="paisNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
+                                                  id="paisNacimientoId" name="paisNacimientoDesc"  value="${docenteInstance?.provinciaNacimiento?.pais?.nombre}" />
+                                        <g:hiddenField id="paisNacimientoIdId" name="paisNacimiento" value="${docenteInstance?.provinciaNacimiento?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="provinciaNacimiento">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="provinciaNacimiento"/>
@@ -306,12 +313,12 @@
                                     <div class="ui-state-error ui-corner-all append-bottom">
                                 </g:hasErrors>
                                 <div class="span-3">
-                                    <label for="provinciaNacimiento.id"><g:message code="docente.provinciaNacimiento.label" default="Provincia Nacimiento" /></label>
+                                    <label for="provinciaNacimientoDesc"><g:message code="docente.provinciaNacimiento.label" default="Provincia Nacimiento" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaNacimientoId" name="provinciaNacimiento.id"
-                                                    value="${docenteInstance?.provinciaNacimiento?.id}" />
-                                    <g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${provinciaNacimiento?.id}" />
+                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaNacimientoId" name="provinciaNacimientoDesc"
+                                                    value="${docenteInstance?.provinciaNacimiento?.nombre}" />
+                                    <g:hiddenField id="provinciaNacimientoIdId" name="provinciaNacimiento.id" value="${docenteInstance?.provinciaNacimiento?.id}" />
                                 </div>
                                 <g:hasErrors bean="${docenteInstance}" field="provinciaNacimiento">
                                     <g:renderErrors bean="${docenteInstance}" as="list" field="provinciaNacimiento"/>
@@ -385,8 +392,8 @@
                                     </div>
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content" id="paisDomicilioId"
-                                                  name="paisDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.pais?.id}" />
-                                        <g:hiddenField id="paisDomicilioIdId" name="paisDomicilioId" value="${localidadDomicilio?.id}" />
+                                                  name="paisDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.pais?.nombre}" />
+                                        <g:hiddenField id="paisDomicilioIdId" name="paisDomicilioId" value="${docenteInstance?.localidadDomicilio?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>
@@ -406,8 +413,8 @@
                                     </div>
                                     <div class="span-5">
                                         <g:textField class="ui-widget ui-corner-all ui-widget-content" id="provinciaDomicilioId"
-                                                  name="provinciaDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.id}" />
-                                        <g:hiddenField id="provinciaDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
+                                                  name="provinciaDomicilio"  value="${docenteInstance?.localidadDomicilio?.provincia?.nombre}" />
+                                        <g:hiddenField id="provinciaDomicilioIdId" name="provinciaDomicilio" value="${docenteInstance?.localidadDomicilio?.provincia?.id}" />
                                     </div>
                                     <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                         <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>
@@ -421,11 +428,11 @@
                                     <div class="ui-state-error ui-corner-all append-bottom">
                                 </g:hasErrors>
                                 <div class="span-3">
-                                    <label for="localidad.id"><g:message code="docente.localidadDomicilio.label" default="Localidad Domicilio" /></label>
+                                    <label for="localidadId"><g:message code="docente.localidadDomicilio.label" default="Localidad Domicilio" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="localidadDomicilioId" name="localidad.id"  value="${docenteInstance?.localidadDomicilio?.id}" />
-                                    <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${localidadDomicilio?.id}" />
+                                    <g:textField class="ui-widget ui-corner-all ui-widget-content" id="localidadDomicilioId" name="localidadId"  value="${docenteInstance?.localidadDomicilio?.nombre}" />
+                                    <g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${docenteInstance?.localidadDomicilio?.id}" />
                                 </div>
                                 <g:hasErrors bean="${docenteInstance}" field="localidadDomicilio">
                                     <g:renderErrors bean="${docenteInstance}" as="list" field="localidadDomicilio"/>

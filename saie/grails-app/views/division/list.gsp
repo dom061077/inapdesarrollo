@@ -19,7 +19,6 @@
 					width:680,
 					colNames:['Id','Carrera','Nivel','División','Aula','Operación'],
 				   	colModel:[
-				   		
 				   		{name:'id',index:'id', width:40, hidden:true},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:92,sortable:false},
 				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},

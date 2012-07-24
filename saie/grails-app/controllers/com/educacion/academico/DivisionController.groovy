@@ -399,15 +399,34 @@ class DivisionController {
         log.info "INGRESANDO AL CLOSURE listdivisionjson"
         log.info "PARAMETROS: $params"
 
-        def divisionInstance = Division.get(params.id)
+        def list = Division.createCriteria().list {
+            nivel {
+                eq("id", params.nivelID.toLong())
+            }    
+            
+        } 
+        
+        def totalregistros=list.size()
+        def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+        if (totalpaginas>0 && totalpaginas<1)
+            totalpaginas=1;
+        totalpaginas=totalpaginas.intValue()
 
-        if (!divisionInstance) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'division.label', default: 'Division'), params.id])}"
-            redirect(action: "list")
+
+        def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+        def flagaddcomilla=false
+        list.each{
+
+            if (flagaddcomilla)
+                result=result+','
+
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.descripcion+'","'+it.letra+'","'+it.cupoComision+'","'+it.turno+'","'+it.aula.nombre+'"]}'
+
+            flagaddcomilla=true
         }
-        else {
-            [divisionInstance: divisionInstance]
-        }
+        log.debug "RESULT RENDERED "+result
+        result=result+']}'
+        render result
 
     }
 

@@ -19,9 +19,9 @@
                 caption:'Búsqueda de Divisiones',
                 url:'listdivisionjson',
                 mtype:'POST',
-                //width:400,
-                rownumbers:true,
-                datatype:'json'
+                rownumbers:true
+                ,datatype:'json'
+                ,postData:{nivelID:$('#nivelIdId').val()}
                 ,colNames:['Id','Descricpion','Letra','Cupo','Turno','Aula']
                 ,colModel:[
                     {name:'id',index:'id', width:40, hidden:true},
@@ -35,7 +35,6 @@
                 , sortname: 'id'
                 , viewrecords: true, sortorder: "desc"
                 , caption:"Lista de Divisiones"
-                //height:130
             });
         }
 
@@ -191,6 +190,7 @@
                     url:'<%out << createLink(controller:"division",action:"listalumnos")%>',
                     datatype: 'json',
                     width:680,
+                    editurl:'editdivisiones',
                     colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.', 'Divisiones'],
                     colModel:[
                         // TODO: Modificar el closure para que filtre
@@ -200,11 +200,9 @@
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
                         {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
-                        {name:'divisiones',index:'divisiones',editable:true, hidden:true,width:55,search:false,sortable:false}
+                        {name:'divisiones',index:'divisiones',editable:true, hidden:false,width:55,search:false,sortable:false}
                     ],
-
                     rowNum:10,
-                    //rownumbers:true,
                     rowList:[10,20,30],
                     pager: '#pager',
                     sortname: 'id',
@@ -247,7 +245,7 @@
                                 }
                             }
                         });
-                        jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:false,add:false,del:false});
+                        jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:true,add:false,del:false});
                         //para agregar la ventan de edicion
 
                     },
@@ -258,15 +256,31 @@
                 jQuery("#divisionesId").jqGrid('navGrid','#pager', {add:false,edit:true,del:false,search:false,refresh:false}, //options
                         {height:300,width:530,reloadAfterSubmit:false
                             ,recreateForm:true
+                            ,beforeSubmit: function(postData,formId){
+                            var id = $('#tablaBusquedaDivisionId').jqGrid('getGridParam','selrow');
+                            var retornar = false;
+                            var obj;
+                            if(!id){
+                                alert('Seleccione una división de la Grilla');
+                                return [false,''];
+                            }else{
+                                obj = $('#tablaBusquedaDivisionId').getRowData(id);
+                                postData.divisiones = obj.id;
+                                //$('#editcntdivisionesId').dialog("close");
+                                return [true,''];
+                            }
+
+
+                        }
+
                             ,editCaption:'Divisiones'
                             ,beforeShowForm:function(form){
-
                             $('#TblGrid_divisionesId').hide();
                             $('#FrmGrid_divisionesId').append('<table id="tablaBusquedaDivisionId"></table><div id="pagerBusquedaDivisionId"></div>');
                             initGridBusquedaDivisiones();
 
                         }
-                    } ,{}
+                    }
                 );
 
                 // Búsqueda del fitro

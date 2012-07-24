@@ -188,7 +188,7 @@
 		// Grilla de Divisiones
 		jQuery("#divisionesId").jqGrid({ 
 			datatype: "local"
-			,editurl:'editdivisiones'
+			,editurl:'editdivision'
 			,width:800
             ,colNames:['Descripción','Letra','Turno', 'Descripción Turno', 'Cupo', 'Aula', 'IdAula']
 			,colModel:[ 

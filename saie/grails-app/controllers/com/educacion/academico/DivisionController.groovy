@@ -227,9 +227,37 @@ class DivisionController {
 	}
 
 
+    def editdivision = {
+        log.info "INGRESANDO AL CLOSURE editdivision"
+        log.info "PARAMETROS: $params"
+
+        render "[]"
+    }
+
+
 	def editdivisiones = {
 		log.info "INGRESANDO AL CLOSURE editdivisiones"
 		log.info "PARAMETROS: $params"
+        def divisionInstance = Division.get(params.divisiones.toLong())
+
+        if (divisionInstance){
+            def inscdetalleList = InscripcionMateriaDetalle.createCriteria().list{
+                inscripcionMateria{
+                    inscripcionMatricula{
+                        eq("id",params.id.toLong())
+                    }
+
+                }
+            }
+            InscripcionMateriaDetalle.withTransaction {TransactionStatus status ->
+                //InscripcionMateriaDetalle.executeUpdate("update InscripcionMateriaDetalle  set division.id =? where inscripcionMateria.inscripcionMatricula.id=?",[divisionInstance.id,params.id.toLong()])
+                inscdetalleList.each {
+                    it.division = divisionInstance
+                    it.save()
+                }
+
+            }
+        }
 		render(contentType:"text/json"){
 			array{
 				
@@ -384,7 +412,7 @@ class DivisionController {
             if (flagaddcomilla)
                 result=result+','
 
-            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'"]}'
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'","'+it.division.descripcion+'"]}'
 
             flagaddcomilla=true
         }

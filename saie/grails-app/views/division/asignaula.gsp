@@ -200,7 +200,7 @@
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
                         {name:'numeroDocumento',index:'numeroDocumento', width:55,search:true,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'fechaNacimiento',index:'fechaNacimiento', width:55,search:false,sortable:false},
-                        {name:'divisiones',index:'divisiones',editable:true, hidden:false,width:55,search:false,sortable:false}
+                        {name:'divisiones',index:'divisiones',editable:true, hidden:true,width:55,search:false,sortable:false}
                     ],
                     rowNum:10,
                     rowList:[10,20,30],
@@ -271,7 +271,11 @@
                             }
 
 
-                        }
+                            },
+                            afterSubmit: function(response, postdata){
+                                 $('#divisionesId_1_t').trigger("reloadGrid",[{page:1}]);
+                                 return [true,''];
+                            }
 
                             ,editCaption:'Divisiones'
                             ,beforeShowForm:function(form){

@@ -14,8 +14,8 @@
     <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
     <script type="text/javascript">
 
-        function initGridBusquedaDivisiones(){
-            jQuery("#tablaBusquedaDivisionId").jqGrid({
+        function initGridBusquedaDivisiones(idtable){
+            jQuery("#"+idtable).jqGrid({
                 caption:'Búsqueda de Divisiones',
                 url:'listdivisionjson',
                 mtype:'POST',
@@ -217,13 +217,14 @@
                         $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
                         jQuery("#"+subgrid_table_id).jqGrid({
                             url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id,
+                            //editurl:'',
                             datatype: "json",
                             mtype:'POST',
                             colNames: ['Id','Materia','Divisiones'],
                             colModel: [
                                 {name:"id",index:"id",width:80,key:true,hidden:true},
                                 {name:"materia",index:"materia",width:80,hidden:false},
-                                {name:'divisiones',index:'divisiones',width:50,sorttype:'text',sortable:false,search:false}
+                                {name:'divisiones',index:'divisiones',width:50,sorttype:'text',editable:true,sortable:false,search:false}
                             ],
                             rowNum:20,
                             pager: pager_id,
@@ -245,8 +246,39 @@
                                 }
                             }
                         });
-                        jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:true,add:false,del:false});
-                        //para agregar la ventan de edicion
+                        jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:true,add:false,del:false},
+                                {height:300,width:530,reloadAfterSubmit:false
+                                    ,recreateForm:true
+                                    ,beforeSubmit: function(postData,formId){
+                                        var id = $('#tablaBusquedaDivisionSubGridId').jqGrid('getGridParam','selrow');
+                                        var retornar = false;
+                                        var obj;
+                                        if(!id){
+                                            return [false,''];
+                                        }else{
+                                            obj = $('#tablaBusquedaDivisionSubGridId').getRowData(id);
+                                            postData.divisiones = obj.id;
+                                            return [true,''];
+                                        }
+
+
+                                    },
+                                    afterSubmit: function(response, postdata){
+                                        $('#divisionesId_1_t').trigger("reloadGrid",[{page:1}]);
+                                        return [true,''];
+                                    }
+
+                                    ,editCaption:'Asignar una division a la materia seleccionada...'
+                                    ,beforeShowForm:function(form){
+
+                                        $('#TblGrid_divisionesId_1_t').hide();
+                                        $('#FrmGrid_divisionesId_1_t').append('<table id="tablaBusquedaDivisionSubGridId"></table><div id="pagerBusquedaDivisionId"></div>');
+                                        initGridBusquedaDivisiones('tablaBusquedaDivisionSubGridId');
+
+                                    }
+                                }
+
+                        );
 
                     },
                     caption:"Listado de ${message(code: 'carrera.label', default: 'Carrera')}"
@@ -261,7 +293,6 @@
                             var retornar = false;
                             var obj;
                             if(!id){
-                                alert('Seleccione una división de la Grilla');
                                 return [false,''];
                             }else{
                                 obj = $('#tablaBusquedaDivisionId').getRowData(id);
@@ -277,14 +308,14 @@
                                  return [true,''];
                             }
 
-                            ,editCaption:'Divisiones'
+                            ,editCaption:'Asignar una division a todas las materias...'
                             ,beforeShowForm:function(form){
-                            $('#TblGrid_divisionesId').hide();
-                            $('#FrmGrid_divisionesId').append('<table id="tablaBusquedaDivisionId"></table><div id="pagerBusquedaDivisionId"></div>');
-                            initGridBusquedaDivisiones();
+                                $('#TblGrid_divisionesId').hide();
+                                $('#FrmGrid_divisionesId').append('<table id="tablaBusquedaDivisionId"></table><div id="pagerBusquedaDivisionId"></div>');
+                                initGridBusquedaDivisiones('tablaBusquedaDivisionId');
 
+                            }
                         }
-                    }
                 );
 
                 // Búsqueda del fitro

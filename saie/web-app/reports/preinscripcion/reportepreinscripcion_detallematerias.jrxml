@@ -3,7 +3,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<field name="denominacion" class="java.lang.String"/>
+	<field name="materia.denominacion" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -14,7 +14,7 @@
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{materia.denominacion}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

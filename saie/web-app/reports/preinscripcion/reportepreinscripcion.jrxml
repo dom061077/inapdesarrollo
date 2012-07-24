@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="553"/>
+	<property name="ireport.y" value="444"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
@@ -15,9 +15,9 @@
 		<band splitType="Stretch"/>
 	</background>
 	<detail>
-		<band height="260" splitType="Prevent">
+		<band height="231" splitType="Prevent">
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="3" y="71" width="260" height="62"/>
+				<reportElement x="1" y="59" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
@@ -46,7 +46,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="3" y="181" width="539" height="28"/>
+				<reportElement x="3" y="157" width="539" height="28"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
@@ -55,18 +55,24 @@ Caso contrario, esta información será tomada como válida para el cobro de los
 RECIBI CONFORME COPIA DEL REGLAMENTO INTERNO DE ALUMNOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="402" y="228" width="137" height="28"/>
+				<reportElement x="405" y="185" width="137" height="28"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[............................................
 Firma del solicitante]]></text>
 			</staticText>
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="281" y="71" width="260" height="62"/>
+				<reportElement x="281" y="59" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[2]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
+			<line>
+				<reportElement x="0" y="230" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
 		</band>
-		<band height="260">
+		<band height="230">
 			<textField>
 				<reportElement x="0" y="26" width="247" height="18"/>
 				<textElement>
@@ -92,7 +98,7 @@ Firma del solicitante]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="1" y="180" width="539" height="28"/>
+				<reportElement x="0" y="136" width="539" height="28"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
@@ -101,23 +107,23 @@ Caso contrario, esta información será tomada como válida para el cobro de los
 RECIBI CONFORME COPIA DEL REGLAMENTO INTERNO DE ALUMNOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="402" y="224" width="137" height="28"/>
+				<reportElement x="401" y="180" width="137" height="28"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[............................................
 Firma del solicitante]]></text>
 			</staticText>
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="281" y="72" width="260" height="62"/>
+				<reportElement x="281" y="58" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[2]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="0" y="72" width="260" height="62"/>
+				<reportElement x="1" y="58" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="260">
+		<band height="256">
 			<textField>
 				<reportElement x="0" y="23" width="247" height="18"/>
 				<textElement>
@@ -143,7 +149,7 @@ Firma del solicitante]]></text>
 				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="3" y="189" width="539" height="28"/>
+				<reportElement x="3" y="179" width="539" height="28"/>
 				<textElement textAlignment="Justified">
 					<font fontName="Courier New" size="8"/>
 				</textElement>
@@ -152,21 +158,27 @@ Caso contrario, esta información será tomada como válida para el cobro de los
 RECIBI CONFORME COPIA DEL REGLAMENTO INTERNO DE ALUMNOS]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="402" y="232" width="137" height="28"/>
+				<reportElement x="405" y="227" width="137" height="28"/>
 				<textElement textAlignment="Center"/>
 				<text><![CDATA[............................................
 Firma del solicitante]]></text>
 			</staticText>
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="282" y="69" width="260" height="62"/>
+				<reportElement x="282" y="69" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[2]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement stretchType="RelativeToTallestObject" x="1" y="69" width="260" height="62"/>
+				<reportElement x="1" y="69" width="260" height="62"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
+			<line>
+				<reportElement x="0" y="-1" width="555" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
 		</band>
 	</detail>
 </jasperReport>

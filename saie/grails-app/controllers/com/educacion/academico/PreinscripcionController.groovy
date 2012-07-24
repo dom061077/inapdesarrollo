@@ -910,16 +910,24 @@ class PreinscripcionController {
 		def list = new ArrayList()
 		
 		if (preinscripcionInstance) { 
-			def materias = AcademicoUtil.getMateriasCursarDisponibles(
-				preinscripcionInstance.carrera.id, preinscripcionInstance.alumno.id)
+			//def materias = AcademicoUtil.getMateriasCursarDisponibles(
+			//	preinscripcionInstance.carrera.id, preinscripcionInstance.alumno.id)
+            def materias
+            preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each {inscmat ->
+                if(inscmat.origen==OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+                    materias = inscmat.detalleMateria
+                    inscmat.detalleMateria.each{}
+                    return
+                }
+            }
             def materiasIz
             def materiasDer
             if (materias?.size()>7){
-            materiasIz = materias.subList(0,5)
-            materiasDer = materias.subList(6,materias.size()-1)
+            materiasIz = materias.subList(0,7)
+            materiasDer = materias.subList(8,materias.size()-1)
             }else
                 materiasIz = materias
-
+            preinscripcionInstance.alumno.apellido
 			list.add([preinscripcionInstance,materiasIz,materiasDer])
 			
 			params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/preinscripcion/"))

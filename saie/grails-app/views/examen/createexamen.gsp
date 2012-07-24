@@ -17,9 +17,22 @@
 
     <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
     <script type="text/javascript">
+
+        function initcascade(){
+            $('#nivelId').refreshGrid();
+            $('#materiaId').refreshGrid();
+
+        }
+
         $(document).ready(function(){
+           var filternivel = { groupOp: "AND", rules: []};
+           filternivel.rules.push({field:"carrera_id",op:"eq",data:$('#carreraIdId').val()});
+           var filtermateria = { groupOp: "AND", rules: []};
+           filtermateria.rules.push({field:"nivel_id",op:"eq",data:$('#nivelIdId').val()});
+
+
            $('#tipoId').combobox();
-            $('#modalidadId').combobox();
+           $('#modalidadId').combobox();
 
 
             $('#carreraId').lookupfield({source:'<%out<<createLink(controller:'carrera',action:'listsearchjson')%>',
@@ -41,6 +54,10 @@
                     grid.trigger("reloadGrid",[{page:1}]);
                     $('#nivelId').val('');
                     $('#nivelIdId').val('');
+                    $('#materiaId').val('');
+                    $('#materiaIdId').val('');
+
+
                 }
                 ,onKeyup:function(){
                     if($.trim($('#carreraId').val())==""){
@@ -52,6 +69,9 @@
                         grid.trigger("reloadGrid",[{page:1}]);
                         $('#nivelId').val('');
                         $('#nivelIdId').val('');
+                        $('#materiaId').val('');
+                        $('#materiaIdId').val('');
+
                     }
                 }
             });
@@ -70,11 +90,8 @@
                         grid.trigger("reloadGrid",[{page:1}]);
                         $('#nivelId').val('');
                         $('#nivelIdId').val('');
-                        $('#matregcursarId').clearGridData();
-                        $('#mataprobcursarId').clearGridData();
-                        $('#matregrendirId').clearGridData();
-                        $('#mataprobrendirId').clearGridData();
-
+                        $('#materiaId').val('');
+                        $('#materiaIdId').val('');
                     }
                 },
                 open: function() {
@@ -98,7 +115,31 @@
                 ,hiddenid:'nivelIdId'
                 ,descid:'nivelId'
                 ,hiddenfield:'id'
+                ,altfilters:filternivel
                 ,descfield:['descripcion']
+                ,onSelected:function(){
+                    var filter = { groupOp: "AND", rules: []};
+                    filter.rules.push({field:"nivel_id",op:"eq",data:$('#nivelIdId').val()});
+                    var grid = $('#materiaIdtablesearchId')
+                    grid[0].p.search = filter.rules.length>0;
+                    $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                    grid.trigger("reloadGrid",[{page:1}]);
+                    $('#materiaId').val('');
+                    $('#materiaIdId').val('');
+                }
+                ,onKeyup:function(){
+                    if($.trim($('#carreraId').val())==""){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"materia_id",op:"eq",data:0});
+                        var grid = $('#materiaIdtablesearchId')
+                        grid[0].p.search = filter.rules.length>0;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        grid.trigger("reloadGrid",[{page:1}]);
+                        $('#materiaId').val('');
+                        $('#materiaIdId').val('');
+                    }
+                }
+
             });
 
             $('#nivelId' ).autocomplete({
@@ -148,6 +189,7 @@
                     ,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true} ]
                 ,hiddenid:'materiaIdId'
                 ,descid:'materiaId'
+                ,altfilters:filtermateria
                 ,hiddenfield:'id'
                 ,descfield:['denominacion']
 
@@ -207,6 +249,8 @@
 
             });
 
+            initcascade();
+
         });
     </script>
 </head>
@@ -220,9 +264,9 @@
     <g:if test="${flash.message}">
         <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
     </g:if>
-    <g:hasErrors bean="${examenInstance}">
+    <g:hasErrors bean="${cmd}">
         <div class="ui-state-error ui-corner-all append-bottom">
-            <g:renderErrors bean="${examenInstance}" as="list" />
+            <g:renderErrors bean="${cmd}" as="list" />
         </div>
     </g:hasErrors>
     <g:form action="saveexamen" >
@@ -231,8 +275,8 @@
                 <label for="carreraDesc"><g:message code="examen.carrera.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="carreraDesc" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" value="${carreraDesc}" />
-                <g:hiddenField name="carreraId" id="carreraIdId"  value="${carreId}"/>
+                <g:textField name="carreraDesc" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" value="${cmd?.carreraDesc}" />
+                <g:hiddenField name="carreraId" id="carreraIdId"  value="${cmd?.carreraId}"/>
             </div>
             <div class="clear"></div>
 
@@ -240,8 +284,8 @@
                 <label for="carreraDesc"><g:message code="examen.nivel.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="nivelDesc" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" value="${nivelDesc}" />
-                <g:hiddenField name="nivelId" id="nivelIdId"  value="${nivelId}"/>
+                <g:textField name="nivelDesc" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" value="${cmd?.nivelDesc}" />
+                <g:hiddenField name="nivelId" id="nivelIdId"  value="${cmd?.nivelId}"/>
             </div>
             <div class="clear"></div>
 
@@ -250,8 +294,8 @@
                 <label for="materiaDesc"><g:message code="examen.materia.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="materiaDesc" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" value="${materiaDesc}" />
-                <g:hiddenField id="materiaIdId" name="materiaId" value="${materiaId}"/>
+                <g:textField name="materiaDesc" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" value="${cmd?.materiaDesc}" />
+                <g:hiddenField id="materiaIdId" name="materiaId" value="${cmd?.materiaId}"/>
             </div>
             <div class="clear"></div>
 
@@ -259,8 +303,8 @@
                 <label for="materiaDesc"><g:message code="examen.docente.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" value="${docenteDesc}" />
-                <g:hiddenField id="docenteIdId" name="docenteId" value="${docenteId}"/>
+                <g:textField name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" value="${cmd?.docenteDesc}" />
+                <g:hiddenField id="docenteIdId" name="docenteId" value="${cmd?.docenteId}"/>
             </div>
             <div class="clear"></div>
 
@@ -269,7 +313,7 @@
                 <label for="titulo"><g:message code="examen.titulo.label"/></label>
             </div>
             <div class="span-4">
-                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${titulo}" />
+                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${cmd?.titulo}" />
             </div>
             <div class="clear"></div>
 
@@ -279,7 +323,7 @@
                 </div>
                 <div class="span-4">
                     <g:select name="tipo" from="${TipoExamenEnum.list()}"  optionValue="name"
-                              class="ui-widget ui-corner-all ui-widget-content" id="tipoId" value="${tipo}" />
+                              class="ui-widget ui-corner-all ui-widget-content" id="tipoId" value="${cmd?.tipo}" />
                 </div>
                 <div class="clear"></div>
             </div>
@@ -289,7 +333,7 @@
             </div>
             <div class="span-4">
                 <g:select name="modalidad" from="${ModalidadExamenEnum.list()}"  optionValue="name"
-                          class="ui-widget ui-corner-all ui-widget-content" id="modalidadId" value="${modalidad}" />
+                          class="ui-widget ui-corner-all ui-widget-content" id="modalidadId" value="${cmd?.modalidad}" />
             </div>
             <div class="clear"></div>
 

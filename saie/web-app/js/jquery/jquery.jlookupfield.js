@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
 	$.fn.extend({
-		 
+
 		        lookupfield: function(settings) {
 		 
 		            var defaults = {
@@ -79,7 +79,7 @@ $(document).ready(function(){
 							} 
 						});
 						jQuery('#'+tableSearchId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
-		 
+
 		            	$('#'+searchDialogId).dialog({
 		            		title:'Buscar',
 		            		modal:true,
@@ -90,7 +90,7 @@ $(document).ready(function(){
 		            		minHeight:350,
 		            		position:'center',
 		            		open: function(event,ui){
-		            			
+
 		            		}
 		            	});
 		            	//$('#searchDialogId').height('auto'); 

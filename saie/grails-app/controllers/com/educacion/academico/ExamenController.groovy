@@ -215,6 +215,8 @@ class ExamenController {
         log.info "PARAMETROS $params"
         if (cmd.validate()){
 
+        }else{
+            render (view: "createexamen",model: [cmd:cmd])
         }
     }
 
@@ -231,7 +233,7 @@ class ExamenCommand{
     String docenteDesc
     String titulo
     TipoExamenEnum tipo
-    ModalidadExamenEnum moddalidad
+    ModalidadExamenEnum modalidad
     static constraints = {
          carreraId(nullable: false, blank: false,validator: {v,cmd ->
                 if(v){
@@ -245,7 +247,7 @@ class ExamenCommand{
          nivelId(nullable: false, blank: false,validator: {v,cmd ->
                 if(v){
                     def nivelInstance = Nivel.get(cmd.nivelId)
-                    if(nivelIInstance)
+                    if(nivelInstance)
                         return true
                     else
                         return false

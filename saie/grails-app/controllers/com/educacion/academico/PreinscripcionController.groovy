@@ -912,10 +912,10 @@ class PreinscripcionController {
 		if (preinscripcionInstance) { 
 			//def materias = AcademicoUtil.getMateriasCursarDisponibles(
 			//	preinscripcionInstance.carrera.id, preinscripcionInstance.alumno.id)
-            def materias
+            def materias = new ArrayList()
             preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.each {inscmat ->
                 if(inscmat.origen==OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
-                    materias = inscmat.detalleMateria
+                    materias.addAll(inscmat.detalleMateria)
                     inscmat.detalleMateria.each{}
                     return
                 }

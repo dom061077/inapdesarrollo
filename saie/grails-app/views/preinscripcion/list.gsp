@@ -44,7 +44,7 @@
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
 							be = "<a title='Confirmar' href='inscribir/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var pr = "<a title='Ver' href='reportepreinscripcion/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							var pr = "<a title='Formulario' href='reportepreinscripcion/"+ids[i]+"'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:se+pr+be}); 
 							}

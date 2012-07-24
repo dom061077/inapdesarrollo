@@ -18,11 +18,6 @@
     <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
     <script type="text/javascript">
 
-        function initcascade(){
-            $('#nivelId').refreshGrid();
-            $('#materiaId').refreshGrid();
-
-        }
 
         $(document).ready(function(){
            var filternivel = { groupOp: "AND", rules: []};
@@ -249,7 +244,6 @@
 
             });
 
-            initcascade();
 
         });
     </script>

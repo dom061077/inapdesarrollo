@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="444"/>
+	<property name="ireport.y" value="461"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
@@ -47,7 +47,7 @@
 			</textField>
 			<staticText>
 				<reportElement x="3" y="157" width="539" height="28"/>
-				<textElement textAlignment="Justified">
+				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<text><![CDATA[Para modificación de la presente, deberá comunicarlo al Preceptor antes del 31 de marzo del presente año.
@@ -99,7 +99,7 @@ Firma del solicitante]]></text>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="136" width="539" height="28"/>
-				<textElement textAlignment="Justified">
+				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<text><![CDATA[Para modificación de la presente, deberá comunicarlo al Preceptor antes del 31 de marzo del presente año.
@@ -150,7 +150,7 @@ Firma del solicitante]]></text>
 			</textField>
 			<staticText>
 				<reportElement x="3" y="179" width="539" height="28"/>
-				<textElement textAlignment="Justified">
+				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
 				<text><![CDATA[Para modificación de la presente, deberá comunicarlo al Preceptor antes del 31 de marzo del presente año.

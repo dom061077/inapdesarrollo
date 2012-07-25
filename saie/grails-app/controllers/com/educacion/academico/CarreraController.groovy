@@ -779,5 +779,24 @@ class CarreraController {
 		chain(controller:'jasper',action:'index',model:[data:listCarreras],params:params)
 
 	}
+
+    def anioslectivos = {
+        def anios
+        if (params.carreraid)
+            anios = AnioLectivo.createCriteria().list {
+                carrera{
+                    eq("id",params.carreraId.toLong())
+                }
+            }
+        render(contentType:"text/json"){
+            array{
+                for (obj in anios){
+                    carrera id:obj.id,label:obj.anioLectivo,value:obj.anioLectivo
+                }
+            }
+
+        }
+
+    }
 	
 }

@@ -1,11 +1,11 @@
 <html>
     <head>
-        <title>Welcome to Grails</title>
+        <title>Bienvenidos al SAIE</title>
         <meta name="layout" content="main" />
  
      </head>
     <body>
-    	<p>Bienvenidos</p>
+    	<p>Bienvenido</p>
     
     </body>
 </html>

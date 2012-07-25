@@ -132,7 +132,12 @@
                                                 <li><a href="${createLink(controller:"docente",action:"create")}">Actualización</a></li>
                                                 <li><a href="${createLink(controller: "docente", action:"list")}">Listado</a></li>
                                             </ul>
-
+                                        </li>
+                                        <li><span class="dir">Asignatura de Docentes</span>
+                                            <ul>
+                                                <li><a href="${createLink(controller:"asignaturaDocente",action:"create")}">Generar Asignatura</a></li>
+                                                <li><a href="${createLink(controller:"asignaturaDocente",action:"list")}">Actualización de Asignaturas</a></li>
+                                            </ul>
                                         </li>
 
 									</ul>

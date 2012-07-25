@@ -15,6 +15,13 @@
             </SvnBranchConfiguration>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/.idea">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://inapdesarrollo.googlecode.com/svn/saie/.idea" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
       </map>
     </option>
     <option name="mySupportsUserInfoFilter" value="true" />

@@ -338,7 +338,7 @@ class DivisionController {
         log.info "INGRESANDO AL CLOSURE listalumnos"
         log.info "PARAMETROS: $params"
 
-        if(params.carreraid){
+        if (params.carreraid && params.carreraid != ""){
             def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
             def list =  InscripcionMatricula.createCriteria().list {
@@ -394,6 +394,11 @@ class DivisionController {
                     eq("id",params.id.toLong())
                 }
             }
+            materia{
+                nivel{
+                    eq("id",params.nivelid.toLong())
+                }
+            }
             
         }
 
@@ -412,7 +417,7 @@ class DivisionController {
             if (flagaddcomilla)
                 result=result+','
 
-            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'","'+it.division.descripcion+'"]}'
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.denominacion+'","'+(it.division?.descripcion==null?"":it.division?.descripcion)+'"]}'
 
             flagaddcomilla=true
         }

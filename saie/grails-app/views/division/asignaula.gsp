@@ -61,6 +61,11 @@
                     grid.trigger("reloadGrid",[{page:1}]);
                     $('#nivelId').val('');
                     $('#nivelIdId').val('');
+
+                    grid = $('#divisionesId');
+                    $.extend(grid[0].p.postData,{nivelid:"",carreraid:""});
+                    grid.trigger("reloadGrid",[{page:1}]);
+
                 }
                 ,onKeyup:function(){
                     if($.trim($('#carreraId').val())==""){
@@ -211,12 +216,12 @@
                     ,subGrid:true
                     ,subGridRowExpanded: function(subgrid_id, row_id) {
                         var subgrid_table_id, pager_id;
-                        subgrid_table_id = subgrid_id+"_t";
+                        subgrid_table_id = "subdivisionesId_t";
                         pager_id = "p_"+subgrid_table_id;
                         var obj=$('#divisionesId').getRowData(row_id);
                         $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
                         jQuery("#"+subgrid_table_id).jqGrid({
-                            url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id,
+                            url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id+'&nivelid='+$('#nivelIdId').val(),
                             editurl:'editdivmateria',
                             datatype: "json",
                             mtype:'POST',
@@ -247,7 +252,11 @@
                             }
                         });
                         jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:true,add:false,del:false},
-                                {height:300,width:530,reloadAfterSubmit:false
+                                {height:300
+                                    ,width:530
+                                    ,top:50
+                                    ,left:200
+                                    ,reloadAfterSubmit:false
                                     ,recreateForm:true
                                     ,beforeSubmit: function(postData,formId){
                                         var id = $('#tablaBusquedaDivisionSubGridId').jqGrid('getGridParam','selrow');
@@ -271,8 +280,8 @@
                                     ,editCaption:'Asignar una division a la materia seleccionada...'
                                     ,beforeShowForm:function(form){
 
-                                        $('#TblGrid_divisionesId_1_t').hide();
-                                        $('#FrmGrid_divisionesId_1_t').append('<table id="tablaBusquedaDivisionSubGridId"></table><div id="pagerBusquedaDivisionId"></div>');
+                                        $('#TblGrid_subdivisionesId_t').hide();
+                                        $('#FrmGrid_subdivisionesId_t').append('<table id="tablaBusquedaDivisionSubGridId"></table><div id="pagerBusquedaDivisionId"></div>');
                                         initGridBusquedaDivisiones('tablaBusquedaDivisionSubGridId');
 
                                     }
@@ -286,7 +295,11 @@
 
                 // Pie de la Grilla
                 jQuery("#divisionesId").jqGrid('navGrid','#pager', {add:false,edit:true,del:false,search:false,refresh:false}, //options
-                        {height:300,width:530,reloadAfterSubmit:false
+                        {height:300
+                            ,width:530
+                            ,reloadAfterSubmit:false
+                            ,top:50
+                            ,left:200
                             ,recreateForm:true
                             ,beforeSubmit: function(postData,formId){
                             var id = $('#tablaBusquedaDivisionId').jqGrid('getGridParam','selrow');

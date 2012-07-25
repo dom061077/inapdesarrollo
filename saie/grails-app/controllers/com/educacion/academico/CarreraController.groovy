@@ -798,5 +798,41 @@ class CarreraController {
         }
 
     }
+
+    def listsearchjsonanioslectivos = {
+        log.info "INGRESANDO AL METODO listsearchjsonanioslectivos"
+        log.info "PARAMETROS: ${params}"
+        if(params.carrera_id){
+            params._search="true"
+            params.altfilters='{"groupOp":"AND","rules":[{"field":"carrera_id","op":"eq","data":"'+params.carrera_id+'"}]}'
+        }
+
+
+        def gud=new GUtilDomainClass(AnioLectivo,params,grailsApplication)
+        list=gud.listrefactor(false)
+        def totalregistros=gud.listrefactor(true)
+
+        def totalpaginas=new Float(totalregistros/Integer.parseInt(params.rows))
+        if (totalpaginas>0 && totalpaginas<1)
+            totalpaginas=1;
+        totalpaginas=totalpaginas.intValue()
+
+
+
+        def result='{"page":'+params.page+',"total":"'+totalpaginas+'","records":"'+totalregistros+'","rows":['
+        def flagaddcomilla=false
+        list.each{
+
+            if (flagaddcomilla)
+                result=result+','
+
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.anioLectivo+'"]}'
+
+            flagaddcomilla=true
+        }
+        result=result+']}'
+        render result
+
+    }
 	
 }

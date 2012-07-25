@@ -57,14 +57,6 @@
 				});
 				jQuery("#list").jqGrid('navGrid','#pager',{search:false,edit:false,add:false,del:false,pdf:true});
 
-				jQuery("#list").jqGrid('navButtonAdd','#pager',{
-				       caption:"Informe", 
-				       onClickButton : function () { 
-				           //jQuery("#list").excelExport();
-				           jQuery("#list").jqGrid("excelExport",{url:"excelexport"});
-				       } 
-				});
-
 				jQuery("#list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});						
 	
             });

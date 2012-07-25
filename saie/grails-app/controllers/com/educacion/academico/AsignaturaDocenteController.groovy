@@ -202,5 +202,10 @@ class AsignaturaDocenteController {
 
     }
 
+    def editmaterias = {
+        render ""
+    }
+
+
 
 }

@@ -979,5 +979,11 @@ class PreinscripcionController {
             render ""
     }
 
+    def editmateriajson = {
+
+        render ""
+    }
+
+
 
 }

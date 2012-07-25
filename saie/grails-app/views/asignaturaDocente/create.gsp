@@ -18,7 +18,34 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-                /*
+
+                function initGridBusquedaMaterias(){
+                    //---------------inicializacion de la grilla de busqueda del materia para sugerir los materias
+                    $('#tablaBusquedaMateriaId').jqGrid({
+                        caption:'Búsqueda de Materia',
+                        url:locrequisito,
+                        mtype:'POST',
+                        width:400,
+                        rownumbers:true,
+                        pager:'pagerBusquedaMateriaId',
+                        datatype:'json',
+                        colNames:['Id','Denominacion','Estado','Clase'],
+                        colModel:[
+                            {name:'id',index:'id',width:10,hidden:true},
+                            {name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true},
+                            {name:'descripcion',index:'descripcion',width:100,sorttype:'text',sortable:true},
+                            {name:'nivel_descripcion',index:'nivel_descripcion',width:100,sorttype:'text',sortable:true},
+                            {name:'carrera_denomincacion',index:'carrera_denomincacion',width:100,sorttype:'text',sortable:true}
+                        ]
+                    });
+                    jQuery("#tablaBusquedaMateriaId").jqGrid('navGrid','#pagerBusquedaMateriaId',{search:false,edit:false,add:false,del:false,pdf:true});
+                    jQuery('#tablaBusquedaMateriaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
+                    //-----------------------------------------------------------------------------------------
+
+                }
+
+
         		$('#carreraId').lookupfield({source:'colocar aqui la url',
  				 title:'Poner aqui titulo de busqueda' 
 				,colNames:['Prop.Id','Prop 1','Prop 2'] 
@@ -30,90 +57,147 @@
  				,hiddenfield:'id' 
  				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
 
-		$('#carreraId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#carreraIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
+                $('#carreraId' ).autocomplete({source: 'colocar aqui la url',
+                         minLength: 2,
+                         select: function( event, ui ) {
+                             if(ui.item){
+                                 $('#carreraIdId').val(ui.item.id)
+                             }
+                            },
+                         open: function() {
+                            $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                         },
+                         close: function() {
+                             $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                         }
+                        });
 //---------------------------------- 
-		$('#anioLectivoId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'anioLectivoIdId' 
- 				,descid:'anioLectivoId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+                $('#anioLectivoId').lookupfield({source:'<%out << createLink(controller:"",action:"")%>',
+                         title:'Búsqueda de Año Lectivo'
+                        ,colNames:['Prop.Id','Prop 1','Prop 2']
+                        ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true}
+                        ,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}]
+                        ,hiddenid:'anioLectivoIdId'
+                        ,descid:'anioLectivoId'
+                        ,hiddenfield:'id'
+                        ,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']});
 
-		$('#anioLectivoId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#anioLectivoIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				}); 
+                $('#anioLectivoId' ).autocomplete({source: '<%out << createLink(controller:"anioLectivo",action:"listsearchjson")%>',
+                         minLength: 2,
+                         select: function( event, ui ) {
+                             if(ui.item){
+                                 $('#anioLectivoIdId').val(ui.item.id)
+                             }
+                            },
+                         open: function() {
+                            $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                         },
+                         close: function() {
+                             $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                         }
+                        });
 //---------------------------------- 
-		$('#docenteId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
-				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
- 				,hiddenid:'docenteIdId' 
- 				,descid:'docenteId' 
- 				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+                $('#docenteId').lookupfield({source:'<%out << createLink(controller:"docente",action:"listsearchjson")%>',
+                         title:'Búsqueda de Docente'
+                        ,colNames:['Id','Apellido','Nombre']
+                        ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
+                        ,{name:'apellido',index:'apellido', width:100,  sortable:true,search:true}
+                        ,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}]
+                        ,hiddenid:'docenteIdId'
+                        ,descid:'docenteId'
+                        ,hiddenfield:'id'
+                        ,descfield:['apellido','nombre']});
 
-		$('#docenteId' ).autocomplete({source: 'colocar aqui la url',
- 				 minLength: 2, 
-  				 select: function( event, ui ) {
- 					 if(ui.item){ 
- 						 $('#docenteIdId').val(ui.item.id) 
-					 } 
-					}, 
- 				 open: function() { 
- 					$( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' ); 
- 				 }, 
- 				 close: function() {
- 					 $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' ); 
- 				 } 
-  				});  */
+                $('#docenteId' ).autocomplete({source: 'colocar aqui la url',
+                         minLength: 2,
+                         select: function( event, ui ) {
+                             if(ui.item){
+                                 $('#docenteIdId').val(ui.item.id)
+                             }
+                            },
+                         open: function() {
+                            $( this ).removeClass( 'ui-corner-all' ).addClass( 'ui-corner-top' );
+                         },
+                         close: function() {
+                             $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
+                         }
+                        });
 
-//---------------------------------- 
-                $('#fechaAltaId' ).datepicker({changeYear:true});
-                $('#carreraId').combobox({
-                    onSelect: function(event,ui){
-                        //$('#anioLectivoId').reloadcmb(params){
-                    }
+                $('#materiasId').jqGrid({
+                    url:'<%out << createLink(controller:"materia",action:"listjson")%>'
+                    ,editurl:'editmaterias'
+                    ,datatype: "local"
+                    ,width:600
+                    ,colNames:['Id','IdId', 'Denominación','Descripción']
+                    ,colModel:[
+                        {name:'id',index:'id', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+                        ,{name:'idid',index:'idid', width:30,editable:true,hidden:true	,editoptions:{readonly:true,size:10}, sortable:false}
+                        ,{name:'denominacion',index:'denominacion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+                        ,{name:'descripcion',index:'descripcion', width:100, align:"left",editable:true,editoptions:{size:30},editrules:{required:true}, sortable:false}
+                    ]
+                    , pager: '#pagermaterias'
+                    , sortname: 'id'
+                    , viewrecords: true, sortorder: "desc"
+                    , caption:"Materias"
+                    , height:140
                 });
-                $('#anioLectivoId').combobox({
-                    reload:{
-                        url:'<%out << createLink(controller:"carrera",action:"anioslectivos")%>'
-                        ,params:{
-                            carreraId:'<%out << asignaturaDocenteInstance?.carrera?.id%>'
+
+                $("#materiasId").jqGrid('navGrid','#pagermaterias', {add:true,edit:false,del:true,search:false,refresh:false}, //options
+                        {height:280,width:310,reloadAfterSubmit:false
+                            , recreateForm:true
+                            ,modal:false
+                            ,editCaption:'Modificar Materias'
+                            , beforeShowForm:function(form){
                         }
-                    }
-                });
+                            ,bSubmit:'Modificar'
 
-        	});
+                        }, // edit options
+                        {height:350,width:430,reloadAfterSubmit:false
+                            ,recreateForm:true
+                            ,modal:false
+                            ,addCaption:'Agregar Requisito'
+                            ,beforeSubmit: function(postData,formId){
+                            var id = $('#tablaBusquedaRequisitoId').jqGrid('getGridParam','selrow');
+                            var retornar = false;
+                            var obj;
+                            if(!id){
+                                alert('Seleccione un requisito de la Grilla');
+                                return [false,''];
+                            }else{
+                                obj = $('#tablaBusquedaRequisitoId').getRowData(id);
+                                var gridDataRequisitos = $('#listRequisitosId').getRowData();
+                                $.each( gridDataRequisitos, function(i, row){
+                                    if(obj.id==row.idid){
+                                        retornar=true;
+                                        return;
+                                    }
+                                });
+                                if(retornar){
+                                    alert('Ya agregó este Requisito');
+                                    return [false,'YA EXISTE EL REQUISITO AGREGADO'];
+                                }
+                                postData.idid = obj.id;
+                                postData.descripcion = obj.descripcion;
+                                postData.claseRequisito_descripcion = obj.claseRequisito_descripcion;
+                                return [true,''];
+                            }
+                        }
+                            ,beforeShowForm:function(form){
+                            $('#TblGrid_listRequisitosId').hide();
+                            $('#FrmGrid_listRequisitosId').append('<table id="tablaBusquedaMateriaId"></table><div id="pagerBusquedaMateriaId"></div>');
+                            initGridBusquedaMaterias();
+
+                        }
+                            ,bSubmit:'Agregar'
+
+                        }, // add options
+                        {reloadAfterSubmit:false}, // del options
+                        {} // search options
+                );
+
+
+            });
 		</script>
 		
     </head>
@@ -140,14 +224,11 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="carrera"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
+								<label for="carreraDesc"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-5">
-								<!--g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="colocar el valor del field descripcion" /-->
-                                <!--g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" /-->
-                                <g:select id="carreraId" name="carrera.id"
-                                        from="${Carrera.list()}" optionKey="id" optionValue="denominacion"
-                                />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="colocar el valor del field descripcion" />
+                                <g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">
@@ -163,12 +244,11 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="anioLectivo"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
+								<label for="anioLectivoDesc"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
 							</div>
 							<div class="span-5">
-								<!-- g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" / -->
-                                <!-- g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" / -->
-                                <g:select id="anioLectivoId" name="anioLectivo.id"></g:select>
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" />
+                                <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${asignaturaDocenteInstance}" field="anioLectivo">
@@ -184,11 +264,11 @@
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="docente"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
+								<label for="docenteDesc"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteDesc"  value="colocar el valor del field descripcion" /> 
- <g:hiddenField id="docenteIdId" name="docente.id" value="${docente?.id}" />
+                                <g:hiddenField id="docenteIdId" name="docente.id" value="${docente?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${asignaturaDocenteInstance}" field="docente">
@@ -196,28 +276,12 @@
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
+                           <fieldset>
+                               <legend>Materias a Dictar</legend>
+                               <table id="materiasId"></table>
+                               <div id="pagermaterias"></div>
+                           </fieldset>
 
-																	
-                        
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="fechaAlta">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="fechaAlta"><g:message code="asignaturaDocente.fechaAlta.label" default="Fecha Alta" /></label>
-							</div>
-							<div class="span-5">
-								<g:textField id="fechaAltaId" class="ui-widget ui-corner-all ui-widget-content" name="fechaAlta" value="${fieldValue(bean: asignaturaDocenteInstance, field: 'fechaAlta')}" />
-							</div>
-										
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="fechaAlta">
-								<g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="fechaAlta"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
-
-																	
-                        
 				</div>                        
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>

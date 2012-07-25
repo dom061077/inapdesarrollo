@@ -13,4 +13,15 @@ public enum TipoInscripcionMateriaEnum {
 	static list(){
 		[TIPOINSMATERIA_CURSAR,TIPOINSMATERIA_RENDIRLIBRE,TIPOINSMATERIA_RENDIRFINAL]
 	}
+    
+    static def listforselectview(){
+        //value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"
+        def result=""
+        list().each {
+            if(!result.equals(""))
+                result+=";"
+            result+="$it:"+it.name
+        }
+        return result
+    }
 }

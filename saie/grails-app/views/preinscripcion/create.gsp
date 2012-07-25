@@ -1,5 +1,7 @@
 <%@ page import="com.educacion.academico.Preinscripcion"  %>
 <%@ page import="com.educacion.academico.Carrera"%>
+<%@ page import="com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum"%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -28,7 +30,8 @@
         var locsitadministrativa='<%out << createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>';
         var locvalidate = '<%out << createLink(controller:"alumno",action:"validatedocexistente")%>'
         var locgetdataalumno = '<%out << createLink(controller:"alumno",action:"getalumnobydocumento")%>';
-
+        // value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"
+        var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
 
 
         function bindRequisitos(){

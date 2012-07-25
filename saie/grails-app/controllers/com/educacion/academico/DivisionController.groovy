@@ -458,4 +458,25 @@ class DivisionController {
 
     }
 
+
+    def editdivmateria = {
+        log.info "INGRESANDO AL CLOSURE editdivmateria"
+        log.info "PARAMETROS: $params"
+
+        def divisionInstance = Division.get(params.divisiones.toLong())
+
+        if (divisionInstance){
+            def inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(params.id.toLong())
+            inscripcionMateriaDetalleInstance.division = divisionInstance
+            inscripcionMateriaDetalleInstance.save()
+        }
+        render(contentType:"text/json"){
+            array{
+
+            }
+        }
+    }
+
+
+
 }

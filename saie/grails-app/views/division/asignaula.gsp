@@ -217,7 +217,7 @@
                         $("#"+subgrid_id).html("<table id='"+subgrid_table_id+"' class='scroll'></table><div id='"+pager_id+"' class='scroll'></div>");
                         jQuery("#"+subgrid_table_id).jqGrid({
                             url:'<%out<<createLink(controller:"division",action:"listamateriainscripcion")%>?id='+obj.id,
-                            //editurl:'',
+                            editurl:'editdivmateria',
                             datatype: "json",
                             mtype:'POST',
                             colNames: ['Id','Materia','Divisiones'],

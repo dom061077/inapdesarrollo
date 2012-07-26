@@ -32,6 +32,7 @@
             griddata[i]['nivel'] = data[i].nivel;
             griddata[i]['codigomateria'] = data[i].codigomateria;
             griddata[i]['denominacion'] = data[i].denominacion;
+            griddata[i]['tipo'] = data[i].tipo;
             griddata[i]['seleccion'] = data[i].seleccion;
         }
 
@@ -643,8 +644,8 @@
                         ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
                         ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
                         ,{name:'codigomateria',index:'codigomateria',sortable:true,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
-                        ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:false,size:40},editrules:{required:true}}
-                        ,{name:'estado',index:'estado',sortable:false,width:120,editable:true,edittype:"select"
+                        ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
+                        ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
                                 ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
                         ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                     ]

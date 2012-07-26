@@ -1,6 +1,9 @@
 
 
 <%@ page import="com.educacion.academico.Preinscripcion" %>
+<%@ page import="com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum" %>
+
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -14,6 +17,11 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript" src='${resource(dir:'js/script/preinscripcion',file:'edit.js')}'></script>
+        <script type="text/javascript">
+            var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
+            var locediturl = '<%out << createLink(controller:"preinscripcion",action:"editmateriajson")%>';
+
+        </script>
 
     </head>
     <body>
@@ -133,7 +141,7 @@
                             <div id="tab-materias">
                                 <table id='materiasId'></table>
                                 <div id = 'pagermateriasId'></div>
-                                <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"></g:hiddenField>
+                                <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}" ></g:hiddenField>
                             </div>
                             <div id="tab-requisitos">
                                 <table id="requisitosId"></table>

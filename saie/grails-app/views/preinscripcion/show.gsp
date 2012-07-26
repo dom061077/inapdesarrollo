@@ -17,13 +17,15 @@
 		                	url:'${createLink(controller:"preinscripcion",action:"inscmateriasjson")}'
 		                    ,datatype:'json'
 		                    ,postData:{id:${preinscripcionInstance.id}}
-		                    ,colNames:['Id','Código','Denominación','Nivel']
+		                    ,colNames:['Id','Código','Denominación','Nivel','Tipo']
 		                	,colModel:[
 		                           	{name:'id',index:'id',width:40,hidden:true}
                                     ,{name:'codigo',index:'codigo',width:'200',search:false,sortable:false}
 		                           	,{name:'denominacion',index:'denominacion',width:'200',search:false,sortable:false}
-		                           	,{name:'nivel',index:'nivel',width:'200',search:false,sortable:false}
-		                    ]
+		                           	,{name:'nivel',index:'nivel',width:'150',search:false,sortable:false}
+                                    ,{name:'tipo',index:'tipo',width:'100',search:false,sortable:false}
+
+                            ]
 		                	,rowNum:10
 		                	,pager:'#pagermatriculamateriasId'
 		                    ,sortname: 'denominacion'	

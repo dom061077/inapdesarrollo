@@ -128,7 +128,7 @@ class PreinscripcionController {
         listmaterias.each{
             if(flagcomilla)
                 materiasSerialized = materiasSerialized + ","
-            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","idid":'+it.id+',"estado":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name+'","denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
             flagcomilla = true
         }
         materiasSerialized += "]"
@@ -299,7 +299,7 @@ class PreinscripcionController {
                         if(it.seleccion.toUpperCase().equals("YES")){
                             materiaInstance = Materia.load(it.idid)
                             inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
-                                    ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
+                                    ,tipo:it.estado))
                             inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
                             cantselect++
                         }
@@ -373,6 +373,7 @@ class PreinscripcionController {
             def flagcomilla = false
             def flagseleccionado
             def idinscmatdetalle
+            def tipo
             def materiasSerialized = "["
             def requisitosSerialized = "["
 
@@ -402,13 +403,14 @@ class PreinscripcionController {
                             if(detinsc.materia.id==matcursar.id){
                                 flagseleccionado="Yes"
                                 idinscmatdetalle = detinsc.id
+                                tipo = detinsc.tipo.name
                                 return
                             }
                         }
                         return
                     }
                 }
-                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","tipo":"'+(tipo!=null?tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name)+'","seleccion":"'+flagseleccionado+'"}'
                 flagcomilla = true
             }
 
@@ -484,8 +486,12 @@ class PreinscripcionController {
                             if(mat.idid.toInteger()==0){
                                 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
                                         ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-                                        ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                                        ,tipo:TipoInscripcionMateriaEnum."${mat.tipovalue}")
                                 preinscripcionInstance.inscripcionMatricula.inscripcionesmaterias.getElement(inscripcionMateriaInstance).addToDetalleMateria(inscripcionMateriaDetalleInstance)
+                            }else{
+                                log.debug "TIPO VALUE: "+mat.tipovalue+" tipo: "+mat.tipo
+                                inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(mat.idid)
+                                inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateriaEnum."${mat.tipovalue}"
                             }
                         }
                     }else{
@@ -893,7 +899,7 @@ class PreinscripcionController {
 			
 			if (flagaddcomilla)
 				result=result+','
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.codigo+'","'+it.materia.denominacion+'","'+it.materia.nivel.descripcion+'","Yes"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.materia.codigo+'","'+it.materia.denominacion+'","'+it.materia.nivel.descripcion+'","'+it.tipo.name+'","Yes"]}'
 			flagaddcomilla=true
 		}
 		result=result+']}'

@@ -235,21 +235,6 @@
                             pager: pager_id,
                             height: '100%',
                             width: 600,
-                            gridComplete: function(){
-                                var ids = jQuery('#'+subgrid_table_id).jqGrid('getDataIDs');
-                                var be;
-                                var row;
-                                var image;
-                                var documentoPDF;
-                                for(var i=0;i < ids.length;i++){
-                                    var cl = ids[i];
-                                    row = jQuery('#'+subgrid_table_id).getRowData(cl);
-                                    be = "<a title='Editar' href='<%out << createLink(controller:"documentoCarrera",action:"edit")%>/"+row.id+"'><span style='float:left' class='ui-icon ui-icon-pencil'></span></a>";
-                                    image = "<a  class='thickbox' href='"+row.largeImage+"'><img src='"+row.image+"'/></a>";
-                                    documentoPDF = "<a href='"+row.urlDocumentoPDF+"'>"+row.nombreOriginalDocumento+"</a>";
-                                    jQuery("#"+subgrid_table_id).jqGrid('setRowData',ids[i],{operaciones:be,documentoImagen:image,documentoPDF:documentoPDF});
-                                }
-                            }
                         });
                         jQuery("#"+subgrid_table_id).jqGrid('navGrid',"#"+pager_id,{search:false,edit:true,add:false,del:false},
                                 {height:300
@@ -273,7 +258,7 @@
 
                                     },
                                     afterSubmit: function(response, postdata){
-                                        $('#divisionesId_1_t').trigger("reloadGrid",[{page:1}]);
+                                        $('#subdivisionesId_t').trigger("reloadGrid",[{page:1}]);
                                         return [true,''];
                                     }
 

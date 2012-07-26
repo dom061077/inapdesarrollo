@@ -153,7 +153,7 @@ class InscripcionMateriaService {
 					 }else{
 						 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 							 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-							 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+							 ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
 							 )
 						 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 					 }
@@ -200,10 +200,13 @@ class InscripcionMateriaService {
 					  if(it.idid.toInteger()==0){
 						 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 							 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-							 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+							 ,tipo:TipoInscripcionMateriaEnum."$it.tipovalue"
 							 )
 						 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
-					  }
+					  }else{
+                         inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid)
+                         inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateriaEnum."$it.tipovalue"
+                      }
 				}else{
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria","Error de correlatividad en la materia "+materiaInstance.denominacion)
 				}

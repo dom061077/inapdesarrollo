@@ -51,7 +51,7 @@ class InscripcionMatriculaController {
 		materiasCursar.each{
 			if(flagcomilla)
 				materiasSerialized = materiasSerialized + ","
-			materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+			materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","denominacion":"'+it.denominacion+'","tipo":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name+'","tipovalue":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR+'","seleccion":"Yes"}'
 			flagcomilla = true
 		}
 		materiasSerialized += "]"
@@ -128,7 +128,7 @@ class InscripcionMatriculaController {
 						 }else{
 							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-								 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+								 ,tipo:TipoInscripcionMateriaEnum."${it.tipoValue}"
 								 )
 							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 						 }
@@ -141,12 +141,10 @@ class InscripcionMatriculaController {
 			inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)	
 		
 	        if (inscripcionMatriculaInstance.save(flush: true)) {
-				log.debug "INSCRIPCION MATRICULA SALVADA, INSCRIPCIONMATERIA.ID:"+inscripcionMateriaInstance.id
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"
 	            redirect(action: "show", id: inscripcionMatriculaInstance.id,params:[idinscmateria: inscripcionMateriaInstance.id ])
 	        }
 	        else {
-				log.debug "ERRORES: "+inscripcionMatriculaInstance.errors.allErrors
 	            render(view:"create",model:[inscripcionMatriculaInstance:inscripcionMatriculaInstance,materiasSerialized:params.materiasSerialized])
 	        }
 		}
@@ -201,6 +199,8 @@ class InscripcionMatriculaController {
 			def flagcomilla = false
 			def flagseleccionado
 			def idinscmatdetalle
+            def tipo
+            def tipovalue
 			def materiasSerialized = "["
 			materiasCursar.each{ matcursar->
 				if(flagcomilla)
@@ -213,13 +213,15 @@ class InscripcionMatriculaController {
 							if(detinsc.materia.id==matcursar.id){
 								flagseleccionado="Yes"
 								idinscmatdetalle = detinsc.id
+                                tipo = detinsc.tipo.name
+                                tipovalue = detinsc.tipo
 								return
 							}
 						}
 						return
 					}
 				}	
-				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","denominacion":"'+matcursar.denominacion+'","tipo":"'+(tipo!=null?tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name)+'","tipovalue":"'+(tipovalue!=null?tipovalue:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)+'","seleccion":"'+flagseleccionado+'"}'
 				flagcomilla = true
 			}
 			materiasSerialized += "]"
@@ -273,10 +275,14 @@ class InscripcionMatriculaController {
 							 	 if(it.idid.toInteger()==0){
 									 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 										 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-										 ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+										 ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
 										 )
 									 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
-							 	 }
+							 	 }else{
+                                     inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
+                                     inscripcionMateriaDetalleInstance.tipo=TipoInscripcionMateriaEnum."${it.tipovalue}"
+
+                                 }
 							 }
 							 materiaAntInstance=materiaInstance
 						}else{
@@ -428,7 +434,10 @@ class InscripcionMatriculaController {
         return null
     }
 
-	
+
+    def editmaterias ={
+        render ""
+    }
 	
 
 	

@@ -1,3 +1,4 @@
+var lastSel;
     function initsubmit(){
         var gridDataMaterias = $("#materiasId").getRowData();
         var postDataMaterias = JSON.stringify(gridDataMaterias);
@@ -33,6 +34,7 @@
             griddata[i]['codigomateria'] = data[i].codigomateria;
             griddata[i]['denominacion'] = data[i].denominacion;
             griddata[i]['tipo'] = data[i].tipo;
+            griddata[i]['tipovalue'] = data[i].tipovalue;
             griddata[i]['seleccion'] = data[i].seleccion;
         }
 
@@ -40,7 +42,7 @@
             jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
         }
     }
-    var lastsel2;
+
 
     function bindalumnodata(json){
         if(json){
@@ -632,13 +634,21 @@
 
 
 
+                /*$('#siguienteId').click(function(){
+                    if(lastSel>0){
+                        $('#materiasId').jqGrid('saveRow', lastSel);
+                        $('#materiasId').jqGrid('restoreRow',lastSel);
+                        lastSel=0;
+                        return false;
+                    }
+                });*/
 
 
                 $('#materiasId').jqGrid({
                     datatype:'local'
                     ,editurl:''
                     ,width:500
-                    ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Estado','Select']
+                    ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
                     ,colModel:[
                         {name:'id',index:'id',width:50,editable:false,hidden:true}
                         ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:false,size:10},editrules:{required:false}}
@@ -647,14 +657,21 @@
                         ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
                         ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
                                 ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
+                        ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
                         ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                     ]
                     ,onSelectRow: function(id){
-                        if(id && id!==lastsel2){
-                            $('#materiasId').jqGrid('restoreRow',lastsel2);
+                        if(id && id!==lastSel){
+                            $('#materiasId').jqGrid('restoreRow',lastSel);
                             $('#materiasId').jqGrid('editRow',id,true);
-                            lastsel2=id;
+                            lastSel=id;
                         }
+                        return true;
+                    },
+                    serializeRowData: function (postData) {
+                        //postData.name = postData.name.toUpperCase();
+                        postData.tipovalue = postData.tipo;
+                        return postData;
                     }
                     ,sortname:'denominacion'
                     //,pager: '#pagermateriasId'

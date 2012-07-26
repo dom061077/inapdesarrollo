@@ -1051,8 +1051,8 @@
                         <g:hiddenField id='materiasSerializedId' name='materiasSerialized' value="${materiasSerialized}"/>
 
 	        	    </fieldset>
-						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anterior" value="Anterior" type="reset" />
-						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="sibuiente" value="Siguiente" type="submit" />
+						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anteriorId" value="Anterior" type="reset" />
+						<input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="siguienteId" value="Siguiente" type="submit" />
         	
         	</form>
     </body>

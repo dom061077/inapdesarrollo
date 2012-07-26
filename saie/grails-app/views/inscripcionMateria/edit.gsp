@@ -16,6 +16,7 @@
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+                 var lastSel;
 		        function initsubmit(){
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
@@ -38,7 +39,9 @@
 		        	    griddata[i]["idmateria"] = data[i].idmateria;
                         griddata[i]["nivel"] = data[i].nivel;
                         griddata[i]["codigomateria"] = data[i].codigomateria;
-		        	    griddata[i]["denominacion"] = data[i].denominacion;	        	    	        	    
+		        	    griddata[i]["denominacion"] = data[i].denominacion;
+                        griddata[i]["tipo"] = data[i].tipo;
+                        griddata[i]["tipovalue"] = data[i].tipovalue;
 		        	    griddata[i]["seleccion"] = data[i].seleccion;
 		        	}
 		
@@ -60,6 +63,9 @@
                                 ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                                 ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                                ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
+                                    ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
+                                ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
 		                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
 		           				
 		                ]
@@ -67,6 +73,20 @@
 		                //,pager: '#pagermateriasId'
 		            	,sortorder:'asc'
 		                ,caption: 'Materias Inscriptas'
+                        ,onSelectRow: function(id){
+                            if(id && id!==lastSel){
+                                $('#materiasId').jqGrid('restoreRow',lastSel);
+                                $('#materiasId').jqGrid('editRow',id,true);
+                                lastSel=id;
+                            }
+                            return true;
+                        },
+                        serializeRowData: function (postData) {
+                            //postData.name = postData.name.toUpperCase();
+                            postData.tipovalue = postData.tipo;
+                            return postData;
+                        }
+
 		            });
 		
 		    		bindmaterias();

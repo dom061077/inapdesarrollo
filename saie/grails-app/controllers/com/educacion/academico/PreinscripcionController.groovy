@@ -128,7 +128,7 @@ class PreinscripcionController {
         listmaterias.each{
             if(flagcomilla)
                 materiasSerialized = materiasSerialized + ","
-            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","idid":'+it.id+',"estado":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name+'","denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+            materiasSerialized = materiasSerialized + '{"id":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","idid":'+it.id+',"tipo":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name+'","tipovalue":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR+'","denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
             flagcomilla = true
         }
         materiasSerialized += "]"
@@ -299,7 +299,7 @@ class PreinscripcionController {
                         if(it.seleccion.toUpperCase().equals("YES")){
                             materiaInstance = Materia.load(it.idid)
                             inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
-                                    ,tipo:it.estado))
+                                    ,tipo:it.tipovalue))
                             inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
                             cantselect++
                         }
@@ -374,6 +374,7 @@ class PreinscripcionController {
             def flagseleccionado
             def idinscmatdetalle
             def tipo
+            def tipovalue
             def materiasSerialized = "["
             def requisitosSerialized = "["
 
@@ -403,14 +404,15 @@ class PreinscripcionController {
                             if(detinsc.materia.id==matcursar.id){
                                 flagseleccionado="Yes"
                                 idinscmatdetalle = detinsc.id
-                                tipo = detinsc.tipo.name
+                                tipo = detinsc.tipo?.name
+                                tipovalue = detinsc.tipo
                                 return
                             }
                         }
                         return
                     }
                 }
-                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","tipo":"'+(tipo!=null?tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name)+'","seleccion":"'+flagseleccionado+'"}'
+                materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","idmateria":'+matcursar.id+',"denominacion":"'+matcursar.denominacion+'","tipovalue":"'+(tipovalue!=null?tipovalue:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)+'","tipo":"'+(tipo!=null?tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name)+'","seleccion":"'+flagseleccionado+'"}'
                 flagcomilla = true
             }
 

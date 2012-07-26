@@ -1,6 +1,8 @@
 
 
 <%@ page import="com.educacion.academico.InscripcionMatricula" %>
+<%@ page import="com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum"%>
+
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -14,6 +16,8 @@
         
         
         <script type="text/javascript">
+            var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
+
 	        function initsubmit(){
 	            var gridDataMaterias = $('#materiasId').getRowData();
 	            var postDataMaterias = JSON.stringify(gridDataMaterias);
@@ -37,6 +41,8 @@
                     griddata[i]["nivel"] = data[i].nivel;
                     griddata[i]["codigomateria"] = data[i].codigomateria;
 	        	    griddata[i]["denominacion"] = data[i].denominacion;
+                    griddata[i]["tipo"] = data[i].tipo;
+                    griddata[i]["tipovalue"] = data[i].tipovalue;
 	        	    griddata[i]["seleccion"] = data[i].seleccion	        	    	        	    
 	        	}
 	
@@ -50,8 +56,9 @@
             	var lastsel;
 	        	$('#materiasId').jqGrid({
 	               	datatype:'local'
-	                ,width:500
-	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Select']
+                    ,editurl:'<%out << createLink(controller:"inscripcionMatricula",action:"editmaterias")%>'
+	                ,width:600
+	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
@@ -59,7 +66,10 @@
                             ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                             ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 	                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-	                       	,{ name: 'seleccion', index: 'seleccion',width:10,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+                            ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
+                                ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
+                            ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
+	                       	,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                				
 	                ]
 	            	,sortname:'denominacion'
@@ -69,9 +79,17 @@
 	                ,onSelectRow: function(id){ 
 		                if(id && id!==lastsel){ 
 			                jQuery('#materiasId').jqGrid('restoreRow',lastsel); 
-			                jQuery('#materiasId').jqGrid('editRow',id,true); lastsel=id; 
-			            } 
+			                jQuery('#materiasId').jqGrid('editRow',id,true);
+                            lastsel=id;
+			            }
+                        return true;
 			        },
+                    serializeRowData: function (postData) {
+                        //postData.name = postData.name.toUpperCase();
+                        postData.tipovalue = postData.tipo;
+                        return postData;
+                    }
+
 	            });
 	
 

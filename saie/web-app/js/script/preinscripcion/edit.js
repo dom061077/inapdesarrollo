@@ -23,6 +23,7 @@ function bindmaterias(){
         griddata[i]['denominacion'] = data[i].denominacion;
         griddata[i]['idmateria'] = data[i].idmateria;
         griddata[i]['tipo'] = data[i].tipo;
+        griddata[i]['tipovalue'] = data[i].tipovalue;
         griddata[i]['seleccion'] = data[i].seleccion;
     }
 
@@ -64,7 +65,14 @@ $(document).ready(function(){
             //$grid.jqGrid("setCell", rowid, 'name', newName.toUpperCase());
         }
     };
-
+    $('#updateButtonId').click(function(){
+        if(lastSel>0){
+            $('#materiasId').jqGrid('saveRow', lastSel);
+            $('#materiasId').jqGrid('restoreRow',lastSel);
+            lastSel=0;
+            return false;
+        }
+    });
     $('#materiasId').jqGrid({
         datatype:'local'
         ,editurl:'editmateriajson'
@@ -82,14 +90,20 @@ $(document).ready(function(){
             ,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
         ]
         ,onSelectRow: function(rowid){
+            if(rowid && rowid!=lastSel){
+                jQuery('#materiasId').jqGrid('restoreRow',lastSel);
+                jQuery('#materiasId').jqGrid('editRow',rowid,true);
+                lastSel=rowid;
+            }
 
-            if (rowid !== lastSel) {
+            /*if (rowid != lastSel) {
                 if (lastSel) {
                     $('#materiasId').jqGrid('saveRow', lastSel, inlineEditOptions);
                 }
                 lastSel = rowid;
             }
             $('#materiasId').jqGrid('editRow', rowid, inlineEditOptions);
+            */
             return true;
 
         },

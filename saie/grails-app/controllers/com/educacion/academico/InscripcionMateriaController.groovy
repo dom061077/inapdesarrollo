@@ -321,6 +321,8 @@ class InscripcionMateriaController {
 			def flagcomilla = false
 			def flagseleccionado
 			def idinscmatdetalle
+            def tipo
+            def tipovalue
 
 			materiasSerialized = "["
 			materiasCursar.each{matcursar->
@@ -330,14 +332,16 @@ class InscripcionMateriaController {
 				idinscmatdetalle = 0
 				inscripcionMateriaInstance.detalleMateria.each{detinsc->
 					if(detinsc.materia.id==matcursar.id){
-						flagseleccionado="Si"
+						flagseleccionado="Yes"
 						idinscmatdetalle = detinsc.id
+                        tipo = detinsc.tipo.name
+                        tipovalue = detinsc.tipo
 						return
 					}
 				}
 
 				//materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
-				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","denominacion":"'+matcursar.denominacion+'","seleccion":"'+flagseleccionado+'"}'
+				materiasSerialized = materiasSerialized + '{"id":'+matcursar.id+',"idid":'+idinscmatdetalle+',"idmateria":'+matcursar.id+',"nivel":"'+matcursar.nivel.descripcion+'","codigomateria":"'+matcursar.codigo+'","denominacion":"'+matcursar.denominacion+'","tipo":"'+tipo+'","tipovalue":"'+tipovalue+'","seleccion":"'+flagseleccionado+'"}'
 				flagcomilla = true
 			}
 			materiasSerialized += "]"
@@ -567,6 +571,10 @@ class InscripcionMateriaController {
             result=result+']}'
         }else
             render "[]"
+    }
+
+    def editmaterias = {
+        render ""
     }
 
 	

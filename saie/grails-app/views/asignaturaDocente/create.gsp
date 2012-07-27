@@ -14,6 +14,7 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.extend.ui.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.cascade.lookupfield.js')}"></script>
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
@@ -29,13 +30,13 @@
                         rownumbers:true,
                         pager:'pagerBusquedaMateriaId',
                         datatype:'json',
-                        colNames:['Id','Denominacion','Estado','Clase'],
+                        colNames:['Id','Denominacion','Descripcion','Nivel','Carrera'],
                         colModel:[
                             {name:'id',index:'id',width:10,hidden:true},
                             {name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true},
                             {name:'descripcion',index:'descripcion',width:100,sorttype:'text',sortable:true},
                             {name:'nivel_descripcion',index:'nivel_descripcion',width:100,sorttype:'text',sortable:true},
-                            {name:'carrera_denomincacion',index:'carrera_denomincacion',width:100,sorttype:'text',sortable:true}
+                            {name:'carrera_denominacion',index:'carrera_denominacion',width:100,sorttype:'text',sortable:true}
                         ]
                     });
                     jQuery("#tablaBusquedaMateriaId").jqGrid('navGrid','#pagerBusquedaMateriaId',{search:false,edit:false,add:false,del:false,pdf:true});
@@ -46,18 +47,17 @@
                 }
 
 
-        		$('#carreraId').lookupfield({source:'colocar aqui la url',
- 				 title:'Poner aqui titulo de busqueda' 
-				,colNames:['Prop.Id','Prop 1','Prop 2'] 
+        		$('#carreraId').lookupfield({source:'<%out << createLink(controller:"carrera",action:"listsearchjson")%>',
+ 				 title:'Búsqueda de Carrera' 
+				,colNames:['Id','Denominación'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
- 				,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true} 
- 				,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}] 
+ 				,{name:'denominacion',index:'denominacion', width:100,  sortable:true,search:true}]
  				,hiddenid:'carreraIdId' 
  				,descid:'carreraId' 
  				,hiddenfield:'id' 
- 				,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']}); 
+ 				,descfield:['denominacion']}); 
 
-                $('#carreraId' ).autocomplete({source: 'colocar aqui la url',
+                $('#carreraId' ).autocomplete({source: '<%out << createLink(controller:"carrera",action:"listjsonautocomplete")%>',
                          minLength: 2,
                          select: function( event, ui ) {
                              if(ui.item){
@@ -72,18 +72,17 @@
                          }
                         });
 //---------------------------------- 
-                $('#anioLectivoId').lookupfield({source:'<%out << createLink(controller:"",action:"")%>',
+                $('#anioLectivoId').lookupfield({source:'<%out << createLink(controller:"carrera",action:"listsearchjsonanioslectivos")%>',
                          title:'Búsqueda de Año Lectivo'
-                        ,colNames:['Prop.Id','Prop 1','Prop 2']
+                        ,colNames:['Id','Año']
                         ,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false}
-                        ,{name:'prop1',index:'prop1', width:100,  sortable:true,search:true}
-                        ,{name:'prop2',index:'prop2', width:100,  sortable:true,search:true}]
+                        ,{name:'anioLectivo',index:'anioLectivo', width:100,  sortable:true,search:true}]
                         ,hiddenid:'anioLectivoIdId'
                         ,descid:'anioLectivoId'
                         ,hiddenfield:'id'
-                        ,descfield:['aqui val prop. de la grilla que se mostrara en texto a buscar ']});
+                        ,descfield:['anioLectivo']});
 
-                $('#anioLectivoId' ).autocomplete({source: '<%out << createLink(controller:"anioLectivo",action:"listsearchjson")%>',
+                /*$('#anioLectivoId' ).autocomplete({source: '<%out << createLink(controller:"anioLectivo",action:"listsearchjson")%>',
                          minLength: 2,
                          select: function( event, ui ) {
                              if(ui.item){
@@ -96,7 +95,7 @@
                          close: function() {
                              $( this ).removeClass( 'ui-corner-top' ).addClass( 'ui-corner-all' );
                          }
-                        });
+                        });*/
 //---------------------------------- 
                 $('#docenteId').lookupfield({source:'<%out << createLink(controller:"docente",action:"listsearchjson")%>',
                          title:'Búsqueda de Docente'

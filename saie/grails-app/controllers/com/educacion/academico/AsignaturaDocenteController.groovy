@@ -3,6 +3,7 @@ package com.educacion.academico
 
 import com.educacion.util.GUtilDomainClass
 import com.educacion.academico.util.AcademicoUtil
+import grails.converters.JSON
 
 
 
@@ -31,8 +32,16 @@ class AsignaturaDocenteController {
     def save = {
         log.info "INGRESANDO AL CLOSURE save"
         log.info "PARAMETROS: $params"
+        def materiasSerializedJson
+        if (params.materiasSerialized)
+            materiasSerializedJson = JSON.parse(params.materiasSerialized)
+        
+        
 
         def asignaturaDocenteInstance = new AsignaturaDocente(params)
+        AsignaturaDocente.withTransaction {Tra
+
+        }
         if (asignaturaDocenteInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
             redirect(action: "show", id: asignaturaDocenteInstance.id)

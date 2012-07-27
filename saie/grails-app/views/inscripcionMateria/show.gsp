@@ -29,7 +29,7 @@
                                    					,value:'ESTADOINSMAT_INSCRIPTO:Inscripto;ESTADOINSMAT_REGULAR:Regular;ESTADOINSMAT_APROBADA:Aprobada;ESTADOINSMAT_DESAPROBADA:Desaprobada;ESTADOINSMAT_AUSENTE:Ausente'
                                        			 }
                            	}
-                           	,{name:'tipo',index:'tipo',width:120,hidden:true,editable:true,sortable:false,editoptions:{readOnly:true,size:120},editrules:{required:false}}
+                           	,{name:'tipo',index:'tipo',width:120,hidden:false,editable:true,sortable:false,editoptions:{readOnly:true,size:120},editrules:{required:false}}
                				,{name:'nota',index:'nota',width:30,hidden:true,editable:true,sortable:false,editoptions:{readOnly:true,size:20},editrules:{required:false}}
                     ]
                 	,sortname:'denominacion'

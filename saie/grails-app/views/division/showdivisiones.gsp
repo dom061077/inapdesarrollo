@@ -42,31 +42,31 @@
                             
 							<div class="clear"></div>
 							
-                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Letra" /></div>
+                            <div class="span-4 spanlabel"><g:message code="nivel.letra" default="Letra" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance, field: "letra")}</div>
                             
 							<div class="clear"></div>
 							
-                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Turno" /></div>
+                            <div class="span-4 spanlabel"><g:message code="nivel.turno" default="Turno" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance, field: "turno")}</div>
                             
 							<div class="clear"></div>
 							
-                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Descripcion" /></div>
+                            <div class="span-4 spanlabel"><g:message code="nivel.descripcion" default="Descripcion" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance, field: "descripcionTurno")}</div>
                             
 							<div class="clear"></div>
 							
-                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Cupo" /></div>
+                            <div class="span-4 spanlabel"><g:message code="nivel.cupo" default="Cupo" /></div>
                             
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance, field: "cupoComision")}</div>
                             
 							<div class="clear"></div>
 
-                            <div class="span-4 spanlabel"><g:message code="nivel.label" default="Carrera" /></div>
+                            <div class="span-4 spanlabel"><g:message code="nivel.aula" default="Aula" /></div>
 
                             <div class="span-4 spanlabel">${fieldValue(bean: divisionInstance.aula, field: "nombre")}</div>
 

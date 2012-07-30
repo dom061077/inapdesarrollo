@@ -16,6 +16,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
+import com.educacion.enums.SituacionAcademicaEnum
 
 
 
@@ -114,12 +115,14 @@ class InscripcionMatriculaController {
 			def materiaAntInstance
 			def materiaInstance
 			def inscripcionMateriaDetalleInstance
+            def flagInsMatRegular=false
 			def inscripcionMateriaInstance = new InscripcionMateria(carrera:inscripcionMatriculaInstance.carrera
 					,origen: OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA
 					,anioLectivo:inscripcionMatriculaInstance.anioLectivo,alumno:inscripcionMatriculaInstance.alumno)
 			materiasSerializedJson?.each {
 				if(it.seleccion.toUpperCase().equals("YES")){
-					
+					if(TipoInscripcionMateriaEnum."${it.tipoValue}"==TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                            flagInsMatRegular = true
 					if(AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 						 materiaInstance = Materia.load(it.idid.toLong())
 						 if(materiaInstance.equals(materiaAntInstance)){
@@ -139,6 +142,8 @@ class InscripcionMatriculaController {
 			}
 			
 			inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)	
+            if (flagInsMatRegular)
+               inscripcionMatriculaInstance.alumno.estadoAcademico = SituacionAcademicaEnum.SITACADE_REGULAR
 		
 	        if (inscripcionMatriculaInstance.save(flush: true)) {
 	            flash.message = "${message(code: 'default.created.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), inscripcionMatriculaInstance.id])}"

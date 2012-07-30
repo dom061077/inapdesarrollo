@@ -20,6 +20,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.mysql.jdbc.log.Log;
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 import com.educacion.academico.util.AcademicoUtil
+import com.educacion.enums.SituacionAcademicaEnum
 
 
 
@@ -299,7 +300,7 @@ class PreinscripcionController {
                         if(it.seleccion.toUpperCase().equals("YES")){
                             materiaInstance = Materia.load(it.idid)
                             inscripcionMateriaInstance.addToDetalleMateria(new InscripcionMateriaDetalle(materia:materiaInstance
-                                    ,tipo:it.tipovalue))
+                                    ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"))
                             inscripcionMatriculaInstance.addToInscripcionesmaterias(inscripcionMateriaInstance)
                             cantselect++
                         }
@@ -789,6 +790,7 @@ class PreinscripcionController {
 		def preinscripcionInstance = Preinscripcion.get(params.insid)
 		def inscripcionMatriculaInstance
 		def materiasSerializedJson
+        def flagInsMatRegular=false
 		
 		if(params.materiasSerialized)
             materiasSerializedJson = grails.converters.JSON.parse(params.materiasSerialized)
@@ -821,15 +823,20 @@ class PreinscripcionController {
                 }
                 materiasSerializedJson?.each {
                     if(it.seleccion.toUpperCase().equals("YES")){
+                        if(TipoInscripcionMateriaEnum."${it.tipovalue}"==TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                            flagInsMatRegular = true
                         materiaInstance = Materia.load(it.idmateria.toLong())
                         if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 
                                 if(it.idid.toInteger()==0){
                                     inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
                                             ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-                                            ,tipo:TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
+                                            ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
                                     )
                                     inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
+                                }else{
+                                    inscripcionMateriaDetalleInstance = InscripcionMateriaDetalle.get(it.idid);
+                                    inscripcionMateriaDetalleInstance.tipo = TipoInscripcionMateriaEnum."${it.tipovalue}"
                                 }
                         }else{
                             inscripcionMateriaInstance.errors.rejectValue("detalleMateria","Error de correlatividad en la materia "+materiaInstance.denominacion)
@@ -844,7 +851,10 @@ class PreinscripcionController {
                     }
 
                 }
-
+                if(flagInsMatRegular)
+                    preinscripcionInstance.alumno.estadoAcademico = SituacionAcademicaEnum.SITACADE_REGULAR
+                else
+                    preinscripcionInstance.alumno.estadoAcademico = SituacionAcademicaEnum.SITACADE_LIBRE
 
 
 

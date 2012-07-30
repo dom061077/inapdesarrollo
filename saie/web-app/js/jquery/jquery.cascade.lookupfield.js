@@ -1,8 +1,14 @@
 $(document).ready(function(){
+    var flagcascadelookupfield=false;
     $.widget('ui.cascadelookupfield',{
         input:null,
         localvar:null,
         options:{
+            grid:{
+                url:'',
+                colNames:[],
+                colModel:[]
+            },
             reload: {
                 url:null,
                 params:{}
@@ -14,41 +20,48 @@ $(document).ready(function(){
         _create: function() {
             var input,
                 o = this.options,
+                idobj = $(this).attr('id');
+                idobjlookup=$(this).attr('id')+'_lookupgrid',
+                idgrid='#'+idobjlookup+'_grid';
+                iddialog='#'+idobjlookup+'_dialog';
+                idpager='#'+idobjlookup+'_pager';
                 self = this,
                 select = this.element.hide(),
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
-            input = $( '<input id="'+$(this).attr('id')+'_oculto">' )
+            input = $( '<input class="ui-widget ui-corner-all ui-widget-content" id="'+idobjlookup+'"/>' )
                 .appendTo( wrapper );
+            $('#'+idobjlookup).keyup(function(e){
+                var grid = $(idgrid);
+                if(e.keyCode==27){
+                    $('#'+idobjlookup+'_wrapper').hide();
+                    flagcascadelookupfield = false;
+                }else{
+                    if($('#'+idobjlookup).val()!=''){
+                        var filter = { groupOp: "AND", rules: []};
+                        filter.rules.push({field:"denominacion",op:"bw",data:$('#'+idobjlookup).val()});
+                        grid[0].p.search = true;
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                    }else
+                        grid[0].p.search = false;
+                    grid.trigger("reloadGrid",[{page:1}]);
+                }
+            });
+            $('<div id="'+idobjlookup+'_wrapper" style="display:none;position:fixed;z-index:4001"><table id="'+idobjlookup+'_grid"></table> <div id="'+idobjlookup+'_pager"></div></div>').insertAfter(wrapper);
 
-            var table = $('<table id="'+$(this).attr('id')+'"></table>');
-            var dialog = $('<div></div>').append(table);
-
-            var grid=table.jqGrid({
+           $(idgrid).jqGrid({
                 //caption:'colocar caption',
-                width:380,
-                url:'',
+                width:300,
+                url:o.grid.url,
                 //postData:{profesionalId:$("#profesionalId").val()},
                 mtype:"POST",
-                rownumbers:false,
-                //pager:'#'+pagerSearchId,
+                rownumbers:true,
+                rowList:[10,20,30],
+                pager:idpager,
                 datatype:"json",
-                colnames:['Id','D.N.I','Apellido','Nombre'],
-                 colModel:[
-                 {name:'id',index:'id', width:10, sorttype:"int", sortable:false,hidden:true,search:false},
-                 {name:'dni',index:'dni', width:100, sorttype:"int", sortable:false,search:true, searchoptions: {sopt:['eq']} },
-                 {name:'apellido',index:'apellido', width:100,sortable:false,search:true},
-                 {name:'nombre',index:'nombre', width:100, sortable:false,search:true}
-                 ],
-                //colnames:settings.colnames,
-                //colModel:settings.colModel,
-                //hiddengrid:true,
-
-                //colNames:settings.colNames,
-                //colModel:settings.colModel,
-                //postData: settings.postData,
-                ajaxGridOptions: {cache: false},
+                colNames:o.grid.colNames,
+                colModel:o.grid.colModel,
                 ondblClickRow: function(id){
                     var obj=$('#'+tableSearchId).getRowData(id);
                     var descriptions = "";
@@ -66,6 +79,7 @@ $(document).ready(function(){
 
 
 
+
             $( "<a>" )
                 .attr( "tabIndex", -1 )
                 .attr( "title", "Mostrar todas las opciones" )
@@ -79,18 +93,15 @@ $(document).ready(function(){
                 .removeClass( "ui-corner-all" )
                 .addClass( "ui-corner-right ui-combobox-toggle" )
                 .click(function() {
-                    var top,left,height;
-                    var pos = $(wrapper).offset();
-                    left = pos.left;
-                    top = pos.top;
-                    height = input.attr("height");
-                    alert('height:'+height);
-
                     input.focus();
-                    dialog.dialog({show: "blind",  hide: "blind",position:[left,top+height]});
-                    dialog.dialog('widget').find(".ui-dialog-titlebar").hide();
-                    //$('#example').dialog('widget').find(".ui-dialog-titlebar").hide();
-
+                    $(idgrid).trigger("reloadGrid",[{page:1}]);
+                    if(!flagcascadelookupfield){
+                        $('#'+idobjlookup+'_wrapper').show();
+                        flagcascadelookupfield=true;
+                    }else{
+                        $('#'+idobjlookup+'_wrapper').hide();
+                        flagcascadelookupfield=false;
+                    }
                 });
         },
 

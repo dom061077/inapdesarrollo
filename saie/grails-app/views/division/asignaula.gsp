@@ -199,7 +199,7 @@
                     colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','Fecha Nac.', 'Divisiones'],
                     colModel:[
                         // TODO: Modificar el closure para que filtre
-                        {name:'id',index:'id', width:40,sorttype:'int',sortable:true,searchoptions:{sopt:['eq']}},
+                        {name:'id',index:'id', width:40,sorttype:'int',hidden:true,sortable:true,searchoptions:{sopt:['eq']}},
                         {name:'apellido',index:'apellido', width:92,search:true,sortable:true},
                         {name:'nombre',index:'nombre', width:92,search:true,sortable:true},
                         {name:'tipoDocumento',index:'tipoDocumento', width:55,search:false},
@@ -317,7 +317,7 @@
                 );
 
                 // Búsqueda del fitro
-                jQuery("#divisionesId").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : false});
+                jQuery("#divisionesId").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 
             });
 

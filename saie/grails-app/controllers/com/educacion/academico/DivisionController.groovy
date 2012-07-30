@@ -337,7 +337,13 @@ class DivisionController {
     def listalumnos = {
         log.info "INGRESANDO AL CLOSURE listalumnos"
         log.info "PARAMETROS: $params"
+        def filtersjson
 
+        if (params._search.toBoolean()){
+            filtersjson = grails.converters.JSON.parse(params.filters)
+        }
+        
+        
         if (params.carreraid && params.carreraid != ""){
             def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(params.carreraid.toLong())
 
@@ -352,6 +358,21 @@ class DivisionController {
                 or{
                     eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA)
                     eq("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA)
+                }
+                alumno{
+                    and{
+                        filtersjson?.rules?.each{
+                           if(it.field.toUpperCase().equals("NUMERODOCUMENTO"))
+                               try
+                                   {eq(it.field,it.data.toLong())}
+                               catch(Exception e){
+
+                                }
+                           else
+                               ilike(it.field,"%"+it.data+"%")
+
+                        }
+                    }
                 }
 
             }

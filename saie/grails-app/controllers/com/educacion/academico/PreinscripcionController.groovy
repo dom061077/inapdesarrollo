@@ -317,6 +317,7 @@ class PreinscripcionController {
 
                 if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save()){
                     preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
+                    preinscripcionInstance.inscripcionMatricula.alumno
                     if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save()) {
                         flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
                         redirect(action: "show", id: preinscripcionInstance.id)
@@ -821,10 +822,9 @@ class PreinscripcionController {
                     if(inscmat.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
                         inscripcionMateriaInstance = inscmat
                 }
-                materiasSerializedJson?.each {
+
+                /*materiasSerializedJson?.each {
                     if(it.seleccion.toUpperCase().equals("YES")){
-                        if(TipoInscripcionMateriaEnum."${it.tipovalue}"==TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
-                            flagInsMatRegular = true
                         materiaInstance = Materia.load(it.idmateria.toLong())
                         if(AcademicoUtil.validarCorrelatividades(it.idmateria.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 
@@ -850,17 +850,23 @@ class PreinscripcionController {
 
                     }
 
+                }*/
+                inscripcionMateriaInstance.detalleMateria.each{
+                    if(it.tipo == TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                        flagInsMatRegular = true
                 }
+
+                def alumnoInstance = Alumno.get(inscripcionMateriaInstance.alumno.id)
+
                 if(flagInsMatRegular)
-                    preinscripcionInstance.alumno.estadoAcademico = SituacionAcademicaEnum.SITACADE_REGULAR
+                    alumnoInstance.estadoAcademico = SituacionAcademicaEnum.SITACADE_REGULAR
                 else
-                    preinscripcionInstance.alumno.estadoAcademico = SituacionAcademicaEnum.SITACADE_LIBRE
-
-
+                    alumnoInstance.estadoAcademico = SituacionAcademicaEnum.SITACADE_LIBRE
 
 
 				if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save() &&
                         !inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save()) {
+                    alumnoInstance.save()
 					flash.message = "${message(code: 'default.updated.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
 					redirect(action: "show", id: preinscripcionInstance.id)
 				}

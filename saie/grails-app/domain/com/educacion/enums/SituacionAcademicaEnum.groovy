@@ -4,7 +4,7 @@ public enum SituacionAcademicaEnum {
 	SITACADE_INGRESANTE("INGRESANTE"),
 	SITACADE_REGULAR("REGULAR"),
 	SITACADE_LIBRE("LIBRE"),
-	SITACADE_LIBREPOROPCION("LIBRE POR OPCION"),
+	SITACADE_LIBREPOROPCION("LIBRE POR OPCION")
 	
 	String name
 	public SituacionAcademicaEnum(String name){

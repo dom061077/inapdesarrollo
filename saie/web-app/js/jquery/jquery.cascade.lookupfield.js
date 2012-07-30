@@ -21,10 +21,10 @@ $(document).ready(function(){
             var input,
                 o = this.options,
                 idobj = $(this).attr('id');
-                idobjlookup=$(this).attr('id')+'_lookupgrid',
-                idgrid='#'+idobjlookup+'_grid';
-                iddialog='#'+idobjlookup+'_dialog';
-                idpager='#'+idobjlookup+'_pager';
+                idobjlookup='#'+$(this).attr('id')+'_lookupgrid',
+                idgrid=idobjlookup+'_grid';
+                iddialog=idobjlookup+'_dialog';
+                idpager=idobjlookup+'_pager';
                 self = this,
                 select = this.element.hide(),
                 wrapper = this.wrapper = $( "<span>" )
@@ -32,15 +32,25 @@ $(document).ready(function(){
                     .insertAfter( select );
             input = $( '<input class="ui-widget ui-corner-all ui-widget-content" id="'+idobjlookup+'"/>' )
                 .appendTo( wrapper );
-            $('#'+idobjlookup).keyup(function(e){
+            $(idobjlookup).keyup(function(e){
                 var grid = $(idgrid);
                 if(e.keyCode==27){
-                    $('#'+idobjlookup+'_wrapper').hide();
+                    $(idobjlookup+'_wrapper').hide();
                     flagcascadelookupfield = false;
                 }else{
-                    if($('#'+idobjlookup).val()!=''){
+                    if($(idobjlookup).val()!=''){
+                        if(!flagcascadelookupfield){
+                            $(idobjlookup+'_wrapper').show();
+                            flagcascadelookupfield=true;
+                        }
+                        var colNames = $(idgrid).jqGrid('getGridParam','colNames');
+                        var colModel = $(idgrid).jqGrid('getGridParam','colModel');
                         var filter = { groupOp: "AND", rules: []};
-                        filter.rules.push({field:"denominacion",op:"bw",data:$('#'+idobjlookup).val()});
+                        var filterop = 'bw';
+                        if(colModel[2].searchoptions )
+                            filterop = colModel[2].searchoptions.sopt[0];
+
+                        filter.rules.push({field:colModel[2].name,op:filterop,data:$(idobjlookup).val()});
                         grid[0].p.search = true;
                         $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                     }else
@@ -63,16 +73,11 @@ $(document).ready(function(){
                 colNames:o.grid.colNames,
                 colModel:o.grid.colModel,
                 ondblClickRow: function(id){
-                    var obj=$('#'+tableSearchId).getRowData(id);
-                    var descriptions = "";
-                    $.each(settings.descfield,function(index,value){
-                        descriptions=descriptions+"-"+obj[value];
-                    });
-                    descriptions = descriptions.substring(1,descriptions.length);
-                    $('#'+settings.hiddenid).val(obj[settings.hiddenfield]);
-                    $('#'+settings.descid).val(descriptions);
-                    $('#'+searchDialogId).dialog("close");
-                    settings.onSelected();
+                    var colModel = $(idgrid).jqGrid('getGridParam','colModel');
+                    var obj=$(idgrid).getRowData(id);
+                    $(idobj).val(obj.id);
+                    // TODO continuar con las modificaciones de busqueda
+                    $(idobjlookupj).val(obj.);
 
                 }
             });
@@ -96,10 +101,10 @@ $(document).ready(function(){
                     input.focus();
                     $(idgrid).trigger("reloadGrid",[{page:1}]);
                     if(!flagcascadelookupfield){
-                        $('#'+idobjlookup+'_wrapper').show();
+                        $(idobjlookup+'_wrapper').show();
                         flagcascadelookupfield=true;
                     }else{
-                        $('#'+idobjlookup+'_wrapper').hide();
+                        $(idobjlookup+'_wrapper').hide();
                         flagcascadelookupfield=false;
                     }
                 });

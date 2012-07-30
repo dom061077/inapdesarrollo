@@ -22,7 +22,7 @@
                  $('#carreraId').cascadelookupfield({grid:{
                      colNames:['Id','Denominación']
                      ,colModel:[{name:'id',index:'id', width:40,hidden:true}
-                                ,{name:'denominacion',index:'denominacion', width:92,sortable:true}
+                                ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
                                 ],
                      url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'}
                  });
@@ -93,8 +93,7 @@
 								<label for="carreraDesc"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraDesc"  value="colocar el valor del field descripcion" />
-                                <g:hiddenField id="carreraIdId" name="carrera.id" value="${carrera?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carrera.id"  value="${carrera?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">

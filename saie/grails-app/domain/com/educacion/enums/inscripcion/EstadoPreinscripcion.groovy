@@ -6,7 +6,7 @@ public enum EstadoPreinscripcion {
     ESTADO_ASPIRANTESUPLENTE("Aspirante Suplente"),
 	ESTADO_PREINSCRIPTO("Preinscripto"),
 	ESTADO_PREINSCRIPTOSUPLENTE("Preinscripto Suplente"),
-	ESTADO_INSCRIPTO("Matriculado"),
+	ESTADO_INSCRIPTO("Confirmada"),
 	ESTADO_PREINSCRIPTOANULADO("Anulado")
 	String name
 	public EstadoPreinscripcion(String name){

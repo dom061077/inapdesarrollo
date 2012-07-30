@@ -2,7 +2,8 @@ package com.educacion.enums.inscripcion
 
 
 public enum EstadoInscripcionMateriaEnum {
-	ESTADOINSMAT_ACTIVA("Activa"),
+    ESTADOINSMAT_CREADA("Creada"),
+	ESTADOINSMAT_ACTIVA("Confirmada"),
 	ESTADOINSMAT_ANULADA("Anulada")
 	
 	String name

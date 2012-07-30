@@ -3,7 +3,7 @@ package com.educacion.enums.inscripcion
 
 public enum EstadoInscripcionMatriculaEnum {
 	ESTADOINSMAT_GENERADA("Generada"),
-    ESTADOINSMAT_CONFIRMADA("Confirmada"),
+    ESTADOINSMAT_CONFIRMADA("Matriculado"),
 	ESTADOINSMAT_PAGADA("Pagada"),
 	ESTADOINSMAT_ANULADA("Anulada")
 	

@@ -1,8 +1,9 @@
 $(document).ready(function(){
-    var flagcascadelookupfield=false;
+
     $.widget('ui.cascadelookupfield',{
         input:null,
         localvar:null,
+        option:null,
         options:{
             grid:{
                 url:'',
@@ -15,7 +16,30 @@ $(document).ready(function(){
             },
             inputNameDesc:''
         },
+        show:function(){
+            var o = this.option;
+            var grid = $('#'+this.idgrid);
+            if(o.paramName!='') {
+                //input.focus();
+                $.extend(grid[0].p.postData, {paramName:o.paramName, paramData:$('#' + o.elementCascadeId).val()});
+            }
+
+            grid.trigger("reloadGrid",[{page:1}]);
+            if(!this.flagcascadelookupfield){
+                $('#'+this.idwrapper).show();
+                //carreraId_lookupgrid_wrapper
+                this.flagcascadelookupfield=true;
+            }else{
+                $('#'+this.idwrapper).hide();
+                this.flagcascadelookupfield=false;
+            }
+
+        },
         _create: function() {
+            this.flagcascadelookupfield=false
+            this.idwrapper=this.element[0].id+'_lookupgrid'+'_wrapper';
+            this.idgrid = this.element[0].id+'_lookupgrid'+'_grid';
+            this.option = this.options;
             var input,
                 o = this.options,
                 idobj = this.element[0].id;
@@ -24,29 +48,29 @@ $(document).ready(function(){
                 idpager=idobjlookup+'_pager';
                 idwrapper=idobjlookup+'_wrapper';
                 self = this,
-                select = this.element.hide(),
+                select = this.element.hide();
                 //select = this.element,
-                wrapper = this.wrapper = $( "<span>" )
+                this.wrapper = $( '<span id="'+idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
             input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
-                .appendTo( wrapper );
+                .appendTo( this.wrapper );
             input.val($('#'+idobj).attr('descValue'));
             $('#'+idobjlookup).keyup(function(e){
                 var grid = $('#'+idgrid);
                 if(e.keyCode==27){
                     $('#'+idobjlookup+'_wrapper').hide();
-                    flagcascadelookupfield = false;
+                    this.flagcascadelookupfield = false;
                 }else{
                     if(e.keyCode==40){
-                        if(!flagcascadelookupfield)
+                        if(!this.flagcascadelookupfield)
                             $('#'+idobjlookup+'_wrapper').show();
                         $('#'+idgrid).focus();
                     }
                     if(e.keyCode==8){
                         if($('#'+idobjlookup).val()==''){
                             $('#'+idobj).val('');
-                            flagcascadelookupfield = false;
+                            this.flagcascadelookupfield = false;
                             $('#'+idwrapper).hide();
                             return
                         }
@@ -54,15 +78,15 @@ $(document).ready(function(){
                     if(e.keyCode==46){
                         if($('#'+idobjlookup).val()==''){
                             $('#'+idobj).val('');
-                            flagcascadelookupfield = false;
+                            this.flagcascadelookupfield = false;
                             $('#'+idwrapper).hide();
                             return
                         }
                     }
                     if($('#'+idobjlookup).val()!=''){
-                        if(!flagcascadelookupfield){
+                        if(!this.flagcascadelookupfield){
                             $('#'+idobjlookup+'_wrapper').show();
-                            flagcascadelookupfield=true;
+                            this.flagcascadelookupfield=true;
                         }
                         var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
                         var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
@@ -82,7 +106,7 @@ $(document).ready(function(){
                     grid.trigger("reloadGrid",[{page:1}]);
                 }
             });
-            $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
+            $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(this.wrapper);
 
            $('#'+idgrid).jqGrid({
                 //caption:'colocar caption',
@@ -97,45 +121,42 @@ $(document).ready(function(){
                 colNames:o.grid.colNames,
                 colModel:o.grid.colModel,
                 ondblClickRow: function(id){
-                    var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
-                    var obj=$('#'+idgrid).getRowData(id);
-                    $('#'+idobj).val(obj.id);
-                    $('#'+idobjlookup).val(obj[colModel[2].name]);
-                    $('#'+idobjlookup+'_wrapper').hide();
-                    flagcascadelookupfield = false;
+
                 }
             });
 
+            var mostrar = this.show;
 
 
-
-            $( "<a>" )
+            $( '<a id="'+idobj+'_triangle">' )
                 .attr( "tabIndex", -1 )
                 .attr( "title", "Mostrar todas las opciones" )
-                .appendTo( wrapper )
+                .appendTo( this.wrapper )
                 .button({
                     icons: {
                         primary: "ui-icon-triangle-1-s"
                     },
-                    text: false
+                    text: true
+                    ,label:idobj
                 })
                 .removeClass( "ui-corner-all" )
                 .addClass( "ui-corner-right ui-combobox-toggle" )
                 .click(function() {
-                    var grid = $('#'+idgrid);
+                    mostrar();
+                    /*var grid = $('#'+idgrid);
                     input.focus();
                     if(o.paramName!='')
                         $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val()});
 
                     grid.trigger("reloadGrid",[{page:1}]);
-                    if(!flagcascadelookupfield){
+                    if(!this.flagcascadelookupfield){
                         $('#'+idwrapper).show();
                         //carreraId_lookupgrid_wrapper
-                        flagcascadelookupfield=true;
+                        this.flagcascadelookupfield=true;
                     }else{
                         $('#'+idwrapper).hide();
-                        flagcascadelookupfield=false;
-                    }
+                        this.flagcascadelookupfield=false;
+                    }*/
                 });
         },
 

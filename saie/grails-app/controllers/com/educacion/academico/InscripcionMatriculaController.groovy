@@ -169,7 +169,7 @@ class InscripcionMatriculaController {
             redirect(action: "list")
         }
         else {
-			if(params.idinscmateria){
+			/*if(params.idinscmateria){
 				idinscmateria = params.idinscmateria
 			}else{
 				def inscripcionMateriaInstance
@@ -177,13 +177,13 @@ class InscripcionMatriculaController {
 					if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
 						idinscmateria = it.id
 				}
-			}
-			if(idinscmateria)
+			} */
+			//if(idinscmateria)
             	[inscripcionMatriculaInstance: inscripcionMatriculaInstance,idinscmateria:idinscmateria]
-			else{
-				flash.message = g.message(code:"com.educacion.inscripcion.InscripcionMatricula.error.inscripcionmateria")
-				redirect(action:"list")
-			}	
+			//else{
+			//	flash.message = g.message(code:"com.educacion.inscripcion.InscripcionMatricula.error.inscripcionmateria")
+			//	redirect(action:"list")
+			//}
         }
     }
 	

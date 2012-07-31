@@ -33,12 +33,13 @@ class InscripcionMatricula extends Inscripcion {
 			}
 			
 		})
+        /*
 		inscripcionesmaterias (validator:{val,obj ->
 			if(!obj.inscripcionesmaterias)
 				return ["size.error"]
 			if(obj.inscripcionesmaterias?.size()==0)
 				return ["size.error"]	
-		})
+		})*/
     }
 	
 	

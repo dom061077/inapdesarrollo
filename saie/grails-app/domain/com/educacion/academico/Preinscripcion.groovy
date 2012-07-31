@@ -6,6 +6,7 @@ import com.educacion.enums.inscripcion.EstadoPreinscripcion;
 class Preinscripcion extends Inscripcion {
 	
 	EstadoPreinscripcion estado
+    // TODO DECIDIR COMO DAR DE BAJA EN CASCADA O EN FORMA MANUAL->Preinscripcion, InscripcionMatricula, InscripcionMateria
 	InscripcionMatricula inscripcionMatricula
 	static constraints = {
 		inscripcionMatricula(nullable:true)

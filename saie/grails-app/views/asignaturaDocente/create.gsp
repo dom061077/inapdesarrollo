@@ -19,16 +19,6 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-                 $('#carreraId').cascadelookupfield({
-                     grid:{
-                        colNames:['Id','Denominación']
-                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
-                                ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
-                                ],
-                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
-                     },
-                     inputNameDesc:'carreraDesc'
-                 });
 
                 $('#anioLectivoId').cascadelookupfield({
                     grid:{
@@ -44,6 +34,18 @@
                         paramName:'carrera_id'
                     }
                 });
+
+                $('#carreraId').cascadelookupfield({
+                    grid:{
+                        colNames:['Id','Denominación']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
+                        ],
+                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
+                    },
+                    inputNameDesc:'carreraDesc'
+                });
+
 
                 jQuery("#materiasId").jqGrid({
                     url:'listjson',
@@ -123,22 +125,6 @@
 
 																	
                         
-							<g:hasErrors bean="${cmd}" field="anioLectivo">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3">
-								<label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
-							</div>
-							<div class="span-5">
-								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
-							</div>
-										
-							<g:hasErrors bean="${cmd}" field="anioLectivo">
-								<g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
 
 																	
                         
@@ -163,6 +149,23 @@
                                <table id="materiasId"></table>
                                <div id="pagermateriasId"></div>
                            </fieldset>
+                        <g:hasErrors bean="${cmd}" field="anioLectivo">
+                            <div class="ui-state-error ui-corner-all append-bottom">
+                        </g:hasErrors>
+
+                        <div class="span-3">
+                            <label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
+                        </div>
+                        <div class="span-5">
+                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
+                        </div>
+
+                        <g:hasErrors bean="${cmd}" field="anioLectivo">
+                            <g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
+                            </div>
+                        </g:hasErrors>
+                        <div class="clear"></div>
+
 
 				</div>                        
                 <div class="buttons">

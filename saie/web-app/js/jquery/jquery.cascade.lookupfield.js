@@ -12,7 +12,8 @@ $(document).ready(function(){
             cascade: {
                 elementCascadeId:'',
                 paramName:''
-            }
+            },
+            inputNameDesc:''
         },
         _create: function() {
             var input,
@@ -23,12 +24,12 @@ $(document).ready(function(){
                 idpager=idobjlookup+'_pager';
                 idwrapper=idobjlookup+'_wrapper';
                 self = this,
-                //select = this.element.hide(),
-                select = this.element,
+                select = this.element.hide(),
+                //select = this.element,
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
-            input = $( '<input class="ui-widget ui-corner-all ui-widget-content" id="'+idobjlookup+'"/>' )
+            input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
                 .appendTo( wrapper );
             input.val($('#'+idobj).attr('descValue'));
             $('#'+idobjlookup).keyup(function(e){

@@ -2,6 +2,7 @@ package com.educacion.enums.inscripcion
 
 
 public enum EstadoInscripcionMatriculaEnum {
+    ESTADOINSMAT_INICIADA("Iniciada"),
 	ESTADOINSMAT_GENERADA("Generada"),
     ESTADOINSMAT_CONFIRMADA("Matriculado"),
 	ESTADOINSMAT_PAGADA("Pagada"),
@@ -13,6 +14,6 @@ public enum EstadoInscripcionMatriculaEnum {
 	}
 	
 	static list(){
-		[ESTADOINSMAT_GENERADA,ESTADOINSMAT_CONFIRMADA,ESTADOINSMAT_PAGADA,ESTADOINSMAT_ANULADA]
+		[ESTADOINSMAT_INICIADA,ESTADOINSMAT_GENERADA,ESTADOINSMAT_CONFIRMADA,ESTADOINSMAT_PAGADA,ESTADOINSMAT_ANULADA]
 	}
 }

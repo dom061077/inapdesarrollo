@@ -247,7 +247,7 @@
 				
 				
 											<div class="span-3 spanlabel">
-												<label for="situacionAcademicas"><g:message code="alumno.situacionAcademicas.label" default="Estado Académico" /></label>
+												<label><g:message code="alumno.situacionAcademicas.label" default="Estado Académico" /></label>
 											</div>
 											<div class="span-5 spanlabel">
 												${alumnoInstance?.estadoAcademico?.name}

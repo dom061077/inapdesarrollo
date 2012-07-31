@@ -26,8 +26,24 @@
                                 ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
                                 ],
                         url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
-                     }
+                     },
+                     inputNameDesc:'carreraDesc'
                  });
+
+                $('#anioLectivoId').cascadelookupfield({
+                    grid:{
+                        colNames:['Id','AnioLectivo']
+                        ,colModel:[{name:'id',index:'id',hidden:true}
+                                ,{name:'anioLectivo',index:'anioLectivo',width:60,search:false,sortable:true}
+                        ],
+                        url:'<%out << createLink(controller:"carrera",action:"listsearchjsonanioslectivos")%>'
+                    },
+                    inputNameDesc:'anioLectivo',
+                    cascade:{
+                        elementCascadeId:'carreraId',
+                        paramName:'carrera_id'
+                    }
+                });
 
                 jQuery("#materiasId").jqGrid({
                     url:'listjson',
@@ -80,67 +96,65 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <g:hasErrors bean="${asignaturaDocenteInstance}">
+            <g:hasErrors bean="${cmd}">
             <div class="ui-state-error ui-corner-all append-bottom">
-                <g:renderErrors bean="${asignaturaDocenteInstance}" as="list" />
+                <g:renderErrors bean="${cmd}" as="list" />
             </div>
             </g:hasErrors>
             <g:form action="save" >
             		<div class="append-bottom">	
                         
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">
+							<g:hasErrors bean="${cmd}" field="carreraId">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
 							<div class="span-3">
-								<label for="carrera.id"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
+								<label for="carreraId"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carrera.id" descValue="${carreraInstance?.denominacion}" value="${carreraInstance?.id}" />
+								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
 							</div>
 										
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">
-								<g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="carrera"/>
+							<g:hasErrors bean="${cmd}" field="carreraId">
+								<g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
 																	
                         
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="anioLectivo">
+							<g:hasErrors bean="${cmd}" field="anioLectivo">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
-							<div class="span-3 spanlabel">
-								<label for="anioLectivoDesc"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
+							<div class="span-3">
+								<label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoDesc"  value="colocar el valor del field descripcion" />
-                                <g:hiddenField id="anioLectivoIdId" name="anioLectivo.id" value="${anioLectivo?.id}" />
+								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
 							</div>
 										
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="anioLectivo">
-								<g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="anioLectivo"/>
+							<g:hasErrors bean="${cmd}" field="anioLectivo">
+								<g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>
 
 																	
                         
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="docente">
+							<g:hasErrors bean="${cmd}" field="docente">
 								<div class="ui-state-error ui-corner-all append-bottom">
 							</g:hasErrors>
 							
 							<div class="span-3 spanlabel">
-								<label for="docenteDesc"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
+								<label for="docenteId"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteDesc"  value="colocar el valor del field descripcion" /> 
-                                <g:hiddenField id="docenteIdId" name="docente.id" value="${docente?.id}" />
+								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId"  value="${cmd?.docenteId}" />
 							</div>
 										
-							<g:hasErrors bean="${asignaturaDocenteInstance}" field="docente">
-								<g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="docente"/>
+							<g:hasErrors bean="${cmd}" field="docente">
+								<g:renderErrors bean="${cmd}" as="list" field="docente"/>
 								</div>
 						   </g:hasErrors>
 						   <div class="clear"></div>

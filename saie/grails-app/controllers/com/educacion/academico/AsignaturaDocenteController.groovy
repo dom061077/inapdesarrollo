@@ -4,6 +4,7 @@ package com.educacion.academico
 import com.educacion.util.GUtilDomainClass
 import com.educacion.academico.util.AcademicoUtil
 import grails.converters.JSON
+import org.springframework.transaction.TransactionStatus
 
 
 
@@ -26,7 +27,7 @@ class AsignaturaDocenteController {
         log.info "PARAMETROS: $params"
     }
 
-    def save = {
+    def save = {AsignaturaDocenteCommand cmd->
         log.info "INGRESANDO AL CLOSURE save"
         log.info "PARAMETROS: $params"
         def materiasSerializedJson
@@ -34,17 +35,20 @@ class AsignaturaDocenteController {
             materiasSerializedJson = JSON.parse(params.materiasSerialized)
         
         
-
-        def asignaturaDocenteInstance = new AsignaturaDocente(params)
-        AsignaturaDocente.withTransaction {Tra
-
-        }
-        if (asignaturaDocenteInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
-            redirect(action: "show", id: asignaturaDocenteInstance.id)
-        }
-        else {
-            render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance])
+        if (cmd.validate()){
+            def asignaturaDocenteInstance = new AsignaturaDocente(params)
+            AsignaturaDocente.withTransaction {TransactionStatus status->
+    
+            }
+            if (asignaturaDocenteInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
+                redirect(action: "show", id: asignaturaDocenteInstance.id)
+            }
+            else {
+                render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance])
+            }
+        }else{
+            render(view: "create", model: [cmd:cmd])
         }
     }
 

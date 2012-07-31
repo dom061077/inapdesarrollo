@@ -121,7 +121,7 @@ class InscripcionMatriculaController {
 					,anioLectivo:inscripcionMatriculaInstance.anioLectivo,alumno:inscripcionMatriculaInstance.alumno)
 			materiasSerializedJson?.each {
 				if(it.seleccion.toUpperCase().equals("YES")){
-					if(TipoInscripcionMateriaEnum."${it.tipoValue}"==TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+					if(TipoInscripcionMateriaEnum."${it.tipovalue}"==TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
                             flagInsMatRegular = true
 					if(AcademicoUtil.validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id)){
 						 materiaInstance = Materia.load(it.idid.toLong())
@@ -131,7 +131,7 @@ class InscripcionMatriculaController {
 						 }else{
 							 inscripcionMateriaDetalleInstance = new InscripcionMateriaDetalle(materia:materiaInstance
 								 ,estado:EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO
-								 ,tipo:TipoInscripcionMateriaEnum."${it.tipoValue}"
+								 ,tipo:TipoInscripcionMateriaEnum."${it.tipovalue}"
 								 )
 							 inscripcionMateriaInstance.addToDetalleMateria(inscripcionMateriaDetalleInstance)
 						 }

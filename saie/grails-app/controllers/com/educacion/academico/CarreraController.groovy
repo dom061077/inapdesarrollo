@@ -802,9 +802,9 @@ class CarreraController {
     def listsearchjsonanioslectivos = {
         log.info "INGRESANDO AL METODO listsearchjsonanioslectivos"
         log.info "PARAMETROS: ${params}"
-        if(params.carrera_id){
-            params._search="true"
-            params.altfilters='{"groupOp":"AND","rules":[{"field":"carrera_id","op":"eq","data":"'+params.carrera_id+'"}]}'
+        if(params.paramName){
+            //params._search="true"
+            params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
         }
 
 

@@ -19,13 +19,16 @@
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
-                 $('#carreraId').cascadelookupfield({grid:{
-                     colNames:['Id','Denominación']
-                     ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                 $('#carreraId').cascadelookupfield({
+                     grid:{
+                        colNames:['Id','Denominación']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
                                 ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
                                 ],
-                     url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'}
+                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
+                     }
                  });
+
                 jQuery("#materiasId").jqGrid({
                     url:'listjson',
                     datatype: "json",
@@ -90,10 +93,10 @@
 							</g:hasErrors>
 							
 							<div class="span-3">
-								<label for="carreraDesc"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
+								<label for="carrera.id"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
 							</div>
 							<div class="span-5">
-								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carrera.id"  value="${carrera?.id}" />
+								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carrera.id" descValue="${carreraInstance?.denominacion}" value="${carreraInstance?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">

@@ -21,12 +21,9 @@ class AsignaturaDocenteController {
         log.info "PARAMETROS: $params"
     }
 
-    def create = {
+    def create = {AsignaturaDocenteCommand cmd ->
         log.info "INGRESANDO AL CLOSURE create"
         log.info "PARAMETROS: $params"
-        def asignaturaDocenteInstance = new AsignaturaDocente()
-        asignaturaDocenteInstance.properties = params
-        return [asignaturaDocenteInstance: asignaturaDocenteInstance]
     }
 
     def save = {
@@ -216,5 +213,27 @@ class AsignaturaDocenteController {
     }
 
 
+    def createasignatura = {AsignaturaDocenteCommand cmd ->
+        log.debug "INGRESANDO AL CLOSURE createasignatura"
+        log.debug "PARAMETROS: $params"
 
+    }
+
+}
+
+class AsignaturaDocenteCommand{
+    String carreraId
+    String carreraDesc
+    String anioLectivoId
+    String anioLectivo
+    String docenteId
+    String docenteDesc
+    
+    static constraints = {
+        carreraId(nullable: false,blank: false)
+        anioLectivoId(nullable: false,blank: false)
+        anioLectivo(nullable: false,blank: false)
+        docenteId(nullable: false,blank: false)
+        docenteDesc(nullable: false,blank: false)
+    }
 }

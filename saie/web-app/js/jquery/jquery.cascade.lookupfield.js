@@ -9,58 +9,81 @@ $(document).ready(function(){
                 colNames:[],
                 colModel:[]
             },
-            reload: {
-                url:null,
-                params:{}
-            },
-            emptyMsg:'',
-            onSelect:function(event,ui){
+            cascade: {
+                elementCascadeId:'',
+                paramName:''
             }
         },
         _create: function() {
             var input,
                 o = this.options,
-                idobj = $(this).attr('id');
-                idobjlookup='#'+$(this).attr('id')+'_lookupgrid',
+                idobj = this.element[0].id;
+                idobjlookup=this.element[0].id+'_lookupgrid',
                 idgrid=idobjlookup+'_grid';
-                iddialog=idobjlookup+'_dialog';
                 idpager=idobjlookup+'_pager';
+                idwrapper=idobjlookup+'_wrapper';
                 self = this,
-                select = this.element.hide(),
+                //select = this.element.hide(),
+                select = this.element,
                 wrapper = this.wrapper = $( "<span>" )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
             input = $( '<input class="ui-widget ui-corner-all ui-widget-content" id="'+idobjlookup+'"/>' )
                 .appendTo( wrapper );
-            $(idobjlookup).keyup(function(e){
-                var grid = $(idgrid);
+            input.val($('#'+idobj).attr('descValue'));
+            $('#'+idobjlookup).keyup(function(e){
+                var grid = $('#'+idgrid);
                 if(e.keyCode==27){
-                    $(idobjlookup+'_wrapper').hide();
+                    $('#'+idobjlookup+'_wrapper').hide();
                     flagcascadelookupfield = false;
                 }else{
-                    if($(idobjlookup).val()!=''){
+                    if(e.keyCode==40){
+                        if(!flagcascadelookupfield)
+                            $('#'+idobjlookup+'_wrapper').show();
+                        $('#'+idgrid).focus();
+                    }
+                    if(e.keyCode==8){
+                        if($('#'+idobjlookup).val()==''){
+                            $('#'+idobj).val('');
+                            flagcascadelookupfield = false;
+                            $('#'+idwrapper).hide();
+                            return
+                        }
+                    }
+                    if(e.keyCode==46){
+                        if($('#'+idobjlookup).val()==''){
+                            $('#'+idobj).val('');
+                            flagcascadelookupfield = false;
+                            $('#'+idwrapper).hide();
+                            return
+                        }
+                    }
+                    if($('#'+idobjlookup).val()!=''){
                         if(!flagcascadelookupfield){
-                            $(idobjlookup+'_wrapper').show();
+                            $('#'+idobjlookup+'_wrapper').show();
                             flagcascadelookupfield=true;
                         }
-                        var colNames = $(idgrid).jqGrid('getGridParam','colNames');
-                        var colModel = $(idgrid).jqGrid('getGridParam','colModel');
+                        var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
+                        var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
                         var filter = { groupOp: "AND", rules: []};
                         var filterop = 'bw';
                         if(colModel[2].searchoptions )
                             filterop = colModel[2].searchoptions.sopt[0];
 
-                        filter.rules.push({field:colModel[2].name,op:filterop,data:$(idobjlookup).val()});
+                        filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
                         grid[0].p.search = true;
-                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        if(o.paramName!='')
+                            $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                        else
+                            $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                     }else
                         grid[0].p.search = false;
                     grid.trigger("reloadGrid",[{page:1}]);
                 }
             });
-            $('<div id="'+idobjlookup+'_wrapper" style="display:none;position:fixed;z-index:4001"><table id="'+idobjlookup+'_grid"></table> <div id="'+idobjlookup+'_pager"></div></div>').insertAfter(wrapper);
+            $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
 
-           $(idgrid).jqGrid({
+           $('#'+idgrid).jqGrid({
                 //caption:'colocar caption',
                 width:300,
                 url:o.grid.url,
@@ -73,12 +96,12 @@ $(document).ready(function(){
                 colNames:o.grid.colNames,
                 colModel:o.grid.colModel,
                 ondblClickRow: function(id){
-                    var colModel = $(idgrid).jqGrid('getGridParam','colModel');
-                    var obj=$(idgrid).getRowData(id);
-                    $(idobj).val(obj.id);
-                    // TODO continuar con las modificaciones de busqueda
-                    $(idobjlookupj).val(obj.);
-
+                    var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                    var obj=$('#'+idgrid).getRowData(id);
+                    $('#'+idobj).val(obj.id);
+                    $('#'+idobjlookup).val(obj[colModel[2].name]);
+                    $('#'+idobjlookup+'_wrapper').hide();
+                    flagcascadelookupfield = false;
                 }
             });
 
@@ -98,13 +121,18 @@ $(document).ready(function(){
                 .removeClass( "ui-corner-all" )
                 .addClass( "ui-corner-right ui-combobox-toggle" )
                 .click(function() {
+                    var grid = $('#'+idgrid);
                     input.focus();
-                    $(idgrid).trigger("reloadGrid",[{page:1}]);
+                    if(o.paramName!='')
+                        $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val()});
+
+                    grid.trigger("reloadGrid",[{page:1}]);
                     if(!flagcascadelookupfield){
-                        $(idobjlookup+'_wrapper').show();
+                        $('#'+idwrapper).show();
+                        //carreraId_lookupgrid_wrapper
                         flagcascadelookupfield=true;
                     }else{
-                        $(idobjlookup+'_wrapper').hide();
+                        $('#'+idwrapper).hide();
                         flagcascadelookupfield=false;
                     }
                 });

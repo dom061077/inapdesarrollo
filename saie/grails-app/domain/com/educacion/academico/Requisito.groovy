@@ -20,5 +20,6 @@ class Requisito {
 	static mapping= {
 		claseRequisito(lazy:false)
 	}
-	
+
+
 }

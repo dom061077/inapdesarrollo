@@ -352,5 +352,24 @@ class RequisitoController {
 		 }
 
 	}
-	
+
+
+    def reporterequisitos = {
+        log.info "INGRESANDO AL CLOSURE reporterequisitos"
+        log.info "PARAMETROS: $params"
+
+        params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
+        params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
+        params.put("telefonoinstitucion", g.message(code:"caratula.institucion.telefono"))
+
+        params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/requisitos/"))
+        params.put("_format","PDF")
+        params.put("_name","reporterequisitos")
+        params.put("_file","requisitos/reporterequisitos")
+        def listRequisito = Requisito.list()
+
+        chain(controller:'jasper', action:'index', model:[data:listRequisito], params:params)
+    }
+
+
 }

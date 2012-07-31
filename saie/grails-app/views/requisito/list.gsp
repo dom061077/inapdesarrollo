@@ -77,8 +77,9 @@
 
 				jQuery("#list").jqGrid('navButtonAdd','#pager',{
 				       caption:"Informe", 
-				       onClickButton : function () { 
-				       } 
+				       onClickButton : function () {
+                           window.location = '<%out << createLink(controller:"requisito",action:"reporterequisitos") %>';
+                       }
 				});
 
 				jQuery("#list").jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});						

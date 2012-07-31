@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.771561000000001"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="115"/>
 	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
@@ -15,6 +15,7 @@
 	<field name="descripcionTurno" class="java.lang.String"/>
 	<field name="cupoComision" class="java.lang.String"/>
 	<field name="nivel.carrera.denominacion" class="java.lang.String"/>
+	<field name="aula.nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -46,15 +47,8 @@
 	<pageHeader>
 		<band height="17">
 			<rectangle>
-				<reportElement x="2" y="2" width="555" height="14" backcolor="#CCCCCC"/>
+				<reportElement x="0" y="2" width="555" height="14" backcolor="#CCCCCC"/>
 			</rectangle>
-			<staticText>
-				<reportElement x="328" y="2" width="100" height="15"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Turno]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="161" y="2" width="75" height="15"/>
 				<textElement textAlignment="Center">
@@ -90,12 +84,26 @@
 				</textElement>
 				<text><![CDATA[Carrera]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="248" y="2" width="80" height="13"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Aula]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="328" y="2" width="100" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Turno]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
 		<band height="13" splitType="Prevent">
 			<textField>
-				<reportElement x="161" y="0" width="143" height="12"/>
+				<reportElement x="161" y="0" width="87" height="12"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
@@ -135,6 +143,13 @@
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{nivel.carrera.denominacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="236" y="0" width="100" height="13"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{aula.nombre}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

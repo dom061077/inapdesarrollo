@@ -320,6 +320,7 @@ class DivisionController {
 
         listDivisiones.each {
             it.nivel.carrera.denominacion
+            it.aula.nombre
         }
 
         chain(controller:'jasper', action:'index', model:[data:listDivisiones], params:params)

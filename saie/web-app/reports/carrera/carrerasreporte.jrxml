@@ -28,56 +28,53 @@
 		</band>
 	</title>
 	<detail>
-		<band height="72" splitType="Prevent">
-			<rectangle>
-				<reportElement x="1" y="1" width="554" height="12" backcolor="#FCFAFA"/>
-			</rectangle>
+		<band height="100" splitType="Prevent">
 			<textField pattern="">
-				<reportElement mode="Opaque" x="0" y="23" width="194" height="13"/>
+				<reportElement mode="Opaque" x="72" y="2" width="194" height="13"/>
 				<textElement>
-					<font fontName="Arial" size="8"/>
+					<font fontName="Arial" size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{denominacion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="214" y="23" width="72" height="13"/>
+				<reportElement x="348" y="2" width="72" height="13"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.Integer"><![CDATA[$F{duracion}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="341" y="23" width="198" height="13"/>
-				<textElement textAlignment="Center">
+				<reportElement x="1" y="42" width="555" height="26"/>
+				<textElement textAlignment="Justified">
 					<font fontName="Arial" size="8"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{campoOcupacional}]]></textFieldExpression>
 			</textField>
 			<subreport>
-				<reportElement stretchType="RelativeToBandHeight" x="14" y="43" width="353" height="28"/>
+				<reportElement stretchType="RelativeToBandHeight" x="14" y="68" width="353" height="28"/>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{requisitos})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR} , "carrerasreporterequisitos.jasper")]]></subreportExpression>
 			</subreport>
 			<staticText>
-				<reportElement x="0" y="2" width="194" height="15"/>
-				<textElement textAlignment="Center">
-					<font fontName="Arial" size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[DenominaciÃ³n]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="216" y="2" width="125" height="15"/>
+				<reportElement x="242" y="2" width="125" height="15"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[DuraciÃ³n (AÃ±os)]]></text>
+				<text><![CDATA[Duración (Años)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="341" y="2" width="198" height="15"/>
+				<reportElement x="1" y="2" width="71" height="15"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Campo Ocupacional]]></text>
+				<text><![CDATA[Denominación]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="27" width="97" height="15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Campo Ocupacional:]]></text>
 			</staticText>
 		</band>
 		<band height="35">

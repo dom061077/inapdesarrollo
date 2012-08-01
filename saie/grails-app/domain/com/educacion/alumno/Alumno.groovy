@@ -35,7 +35,7 @@ class Alumno {
 	String email
 	String telefonoAlternativo
 	
-	//Datos Académicos
+	//Datos Acadï¿½micos
 	String establecimientoProcedencia
 	String titulo
 	Integer anioEgreso
@@ -101,7 +101,7 @@ class Alumno {
 		email(nullable:true,blank:true)
 		telefonoAlternativo(nullable:true,blank:true)
 		
-		//Datos Académicos
+		//Datos Acadï¿½micos
 		establecimientoProcedencia(nullable:true,blank:true)
 		titulo(nullable:true,blank:true)
 		anioEgreso(nullable:true,blank:true)

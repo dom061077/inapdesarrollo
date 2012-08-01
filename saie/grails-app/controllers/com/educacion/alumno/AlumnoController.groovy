@@ -426,5 +426,24 @@ class AlumnoController {
 
     }
 
-	
+
+    def reportealumnos = {
+        log.info "INGRESANDO AL CLOSURE reportealumnos"
+        log.info "PARAMETROS: $params"
+
+        params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
+        params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
+        params.put("telefonoinstitucion", g.message(code:"caratula.institucion.telefono"))
+
+        params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/alumno/"))
+        params.put("_format","PDF")
+        params.put("_name","reporteralumnos")
+        params.put("_file","alumno/reporteralumnos")
+        def listAlumnos = Alumno.list()
+
+        chain(controller:'jasper', action:'index', model:[data:listAlumnos], params:params)
+
+    }
+
+
 }

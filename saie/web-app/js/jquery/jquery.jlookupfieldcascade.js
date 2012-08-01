@@ -1,7 +1,7 @@
 $(document).ready(function(){
     $.fn.extend({
 
-        cascadelookupfield: function(settings) {
+        combolookupfield: function(settings) {
 
             var defaults = {
                 grid:{
@@ -9,6 +9,7 @@ $(document).ready(function(){
                     colNames:[],
                     colModel:[]
                 },
+                inputDesc:'',
                 cascade: {
                     elementCascadeId:'',
                     paramName:''
@@ -20,86 +21,150 @@ $(document).ready(function(){
                 $('#'+dialog).dialog('open');
                 settings.onShowgrid();
             }
-            var settings = $.extend(defaults, settings);
+            var o = $.extend(defaults, settings),
+            flagcascadelookupfield=false;
+            var input,
+                idobj ,
+                idobjlookup,
+                idgrid,
+                idpager,
+                idwrapper,
+                select ;
+             var wrapper;
+
 
             return this.each(function() {
 
-                var s = settings;
-                var b = $(this);
-                var tableSearchId = $(this).attr("id")+"tablesearchId";
-                var searchDialogId = $(this).attr("id")+"searchDialogId";
-                var pagerSearchId = $(this).attr("id")+"pagersearchId";
-                var searchLinkId = $(this).attr("id")+"searchlinkId";
-                $('body').append('<div style="display:none" id="'+searchDialogId+'"></div>');
-                $('#'+searchDialogId).append('<table id="'+tableSearchId+'"></table><div id="'+pagerSearchId+'"></div>');
-                var grid = $('#'+tableSearchId);
-                $('#'+searchDialogId).append(grid);
-                $('#'+tableSearchId).jqGrid({
-                    caption:settings.title,
-                    width:380,
-                    url:settings.source,
+                idobj =$(this).attr('id');
+                idobjlookup=$(this).attr('id')+'_lookupgrid',
+                    idgrid=idobjlookup+'_grid';
+                idpager=idobjlookup+'_pager';
+                idwrapper=idobjlookup+'_wrapper';
+                select = $(this).hide();
+
+                /*var input,
+                    o = this.options,
+                    idobj = this.element[0].id;
+                idobjlookup=this.element[0].id+'_lookupgrid',
+                    idgrid=idobjlookup+'_grid';
+                idpager=idobjlookup+'_pager';
+                idwrapper=idobjlookup+'_wrapper';
+                self = this,
+                select = this.element.hide();*/
+
+
+                wrapper = $( '<span id="'+idobj+'_wrapper">' )
+                    .addClass( "ui-combobox" )
+                    .insertAfter( select );
+                input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
+                    .appendTo( wrapper );
+                input.val($('#'+idobj).attr('descValue'));
+                $('#'+idobjlookup).keyup(function(e){
+                    var grid = $('#'+idgrid);
+                    if(e.keyCode==27){
+                        $('#'+idobjlookup+'_wrapper').hide();
+                        flagcascadelookupfield = false;
+                    }else{
+                        if(e.keyCode==40){
+                            if(!flagcascadelookupfield)
+                                $('#'+idobjlookup+'_wrapper').show();
+                            grid[0].p.search = false;
+                            grid.trigger("reloadGrid",[{page:1}]);
+                        }
+                        if(e.keyCode==8){
+                            if($('#'+idobjlookup).val()==''){
+                                $('#'+idobj).val('');
+                                flagcascadelookupfield = false;
+                                $('#'+idwrapper).hide();
+                                grid[0].p.search = false;
+                                grid.trigger("reloadGrid",[{page:1}]);
+                                return
+                            }
+                        }
+                        if(e.keyCode==46){
+                            if($('#'+idobjlookup).val()==''){
+                                $('#'+idobj).val('');
+                                flagcascadelookupfield = false;
+                                $('#'+idwrapper).hide();
+                                grid[0].p.search = false;
+                                grid.trigger("reloadGrid",[{page:1}]);
+                                return
+                            }
+                        }
+                        if($('#'+idobjlookup).val()!=''){
+                            if(!flagcascadelookupfield){
+                                $('#'+idobjlookup+'_wrapper').show();
+                                flagcascadelookupfield=true;
+                            }
+                            var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
+                            var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                            var filter = { groupOp: "AND", rules: []},filterop='bw';
+                            if(colModel[2].searchoptions )
+                                filterop = colModel[2].searchoptions.sopt[0];
+
+                            filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
+                            grid[0].p.search = true;
+                            if(o.paramName!='')
+                                $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                            else
+                                $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                        }else
+                            grid[0].p.search = false;
+                        grid.trigger("reloadGrid",[{page:1}]);
+                    }
+                });
+                $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
+
+                $('#'+idgrid).jqGrid({
+                    //caption:'colocar caption',
+                    width:300,
+                    url:o.grid.url,
                     //postData:{profesionalId:$("#profesionalId").val()},
                     mtype:"POST",
-                    rownumbers:false,
-                    pager:'#'+pagerSearchId,
+                    rownumbers:true,
+                    rowList:[10,20,30],
+                    pager:idpager,
                     datatype:"json",
-                    /*colnames:['Id','D.N.I','Apellido','Nombre'],
-                     colModel:[
-                     {name:'id',index:'id', width:10, sorttype:"int", sortable:false,hidden:true,search:false},
-                     {name:'dni',index:'dni', width:100, sorttype:"int", sortable:false,search:true, searchoptions: {sopt:['eq']} },
-                     {name:'apellido',index:'apellido', width:100,sortable:false,search:true},
-                     {name:'nombre',index:'nombre', width:100, sortable:false,search:true}
-                     ],*/
-                    //colnames:settings.colnames,
-                    //colModel:settings.colModel,
-                    //hiddengrid:true,
-                    colNames:settings.colNames,
-                    colModel:settings.colModel,
-                    postData: settings.postData,
-                    ajaxGridOptions: {cache: false},
+                    colNames:o.grid.colNames,
+                    colModel:o.grid.colModel,
                     ondblClickRow: function(id){
-                        var obj=$('#'+tableSearchId).getRowData(id);
-                        var descriptions = "";
-                        $.each(settings.descfield,function(index,value){
-                            descriptions=descriptions+"-"+obj[value];
-                        });
-                        descriptions = descriptions.substring(1,descriptions.length);
-                        $('#'+settings.hiddenid).val(obj[settings.hiddenfield]);
-                        $('#'+settings.descid).val(descriptions);
-                        $('#'+searchDialogId).dialog("close");
-                        settings.onSelected();
 
                     }
                 });
-                jQuery('#'+tableSearchId).jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
 
-                $('#'+searchDialogId).dialog({
-                    title:'Buscar',
-                    modal:true,
-                    resizable:false,
-                    autoOpen:false,
-                    width : 400,
-                    height: 'auto',
-                    minHeight:350,
-                    position:'center',
-                    open: function(event,ui){
 
-                    }
-                });
-                //$('#searchDialogId').height('auto');
-                //$('#searchiDialogId').add(grid);
-                $(this).after('<div style="float:left;padding:5px 0px 0px 0px"><a href="" onclick="return false" style="width:50px" id="'+searchLinkId+'" href="#"><span  class="ui-icon ui-icon-search">...</span></a></div>');
-                $(this).css('float','left');
-                $(this).keyup(function(){
-                    if($.trim($(this).val())==""){
-                        $('#'+settings.hiddenid).val("");
-                    }
-                    settings.onKeyup();
-                });
-                $('#'+searchLinkId).click(function(){
-                    showgriddialog(searchDialogId);
-                });
-            });
+
+                $( '<a id="'+idobj+'_triangle">' )
+                    .attr( "tabIndex", -1 )
+                    .attr( "title", "Mostrar todas las opciones" )
+                    .appendTo( wrapper )
+                    .button({
+                        icons: {
+                            primary: "ui-icon-triangle-1-s"
+                        },
+                        text: false
+                    })
+                    .removeClass( "ui-corner-all" )
+                    .addClass( "ui-corner-right ui-combobox-toggle" )
+                    .click(function() {
+                        var grid = $('#'+idgrid);
+                         input.focus();
+                         if(o.paramName!='')
+                         $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val()});
+
+                         grid.trigger("reloadGrid",[{page:1}]);
+                         if(!flagcascadelookupfield){
+                         $('#'+idwrapper).show();
+                         //carreraId_lookupgrid_wrapper
+                         flagcascadelookupfield=true;
+                         }else{
+                         $('#'+idwrapper).hide();
+                         flagcascadelookupfield=false;
+                         }
+                    });
+
+
+            });  //----------cierre de function each--------
         }
     });
 });

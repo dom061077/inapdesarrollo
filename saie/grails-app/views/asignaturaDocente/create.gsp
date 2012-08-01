@@ -14,17 +14,17 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.extend.ui.js')}"></script>
-        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.cascade.lookupfield.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.jlookupfieldcascade.js')}"></script>
 
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
 
-                $('#anioLectivoId').cascadelookupfield({
+                $('#anioLectivoId').combolookupfield({
                     grid:{
                         colNames:['Id','AnioLectivo']
                         ,colModel:[{name:'id',index:'id',hidden:true}
-                                ,{name:'anioLectivo',index:'anioLectivo',width:60,search:false,sortable:true}
+                                ,{name:'anioLectivo',index:'anioLectivo',width:60,search:false,sortable:true,searchoptions:{sopt:['eq']}}
                         ],
                         url:'<%out << createLink(controller:"carrera",action:"listsearchjsonanioslectivos")%>'
                     },
@@ -35,7 +35,7 @@
                     }
                 });
 
-                $('#carreraId').cascadelookupfield({
+                $('#carreraId').combolookupfield({
                     grid:{
                         colNames:['Id','Denominación']
                         ,colModel:[{name:'id',index:'id', width:40,hidden:true}

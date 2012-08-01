@@ -13,16 +13,13 @@ $(document).ready(function(){
             cascade: {
                 elementCascadeId:'',
                 paramName:''
-            },
-            inputNameDesc:''
-        },
-        show:function(){
-            var o = this.option;
-            var grid = $('#'+this.idgrid);
-            if(o.paramName!='') {
-                //input.focus();
-                $.extend(grid[0].p.postData, {paramName:o.paramName, paramData:$('#' + o.elementCascadeId).val()});
             }
+        },
+        mostrar: function(){
+            var grid = $('#'+this.idgrid);
+            //input.focus();
+            if(this.o.paramName!='')
+                $.extend(grid[0].p.postData,{paramName : this.o.paramName,paramData:$('#'+this.o.elementCascadeId).val()});
 
             grid.trigger("reloadGrid",[{page:1}]);
             if(!this.flagcascadelookupfield){
@@ -33,72 +30,71 @@ $(document).ready(function(){
                 $('#'+this.idwrapper).hide();
                 this.flagcascadelookupfield=false;
             }
-
         },
-        _create: function() {
+        _create: function(value) {
             this.flagcascadelookupfield=false
             this.idwrapper=this.element[0].id+'_lookupgrid'+'_wrapper';
             this.idgrid = this.element[0].id+'_lookupgrid'+'_grid';
             this.option = this.options;
-            var input,
-                o = this.options,
-                idobj = this.element[0].id;
-                idobjlookup=this.element[0].id+'_lookupgrid',
-                idgrid=idobjlookup+'_grid';
-                idpager=idobjlookup+'_pager';
-                idwrapper=idobjlookup+'_wrapper';
+            var input;
+                this.o = this.options,
+                this.idobj = this.element[0].id;
+                this.idobjlookup=this.element[0].id+'_lookupgrid',
+                this.idgrid=this.idobjlookup+'_grid';
+                this.idpager=this.idobjlookup+'_pager';
+                this.idwrapper=this.idobjlookup+'_wrapper';
                 self = this,
                 select = this.element.hide();
                 //select = this.element,
-                this.wrapper = $( '<span id="'+idobj+'_wrapper">' )
+            var wrapper = this.wrapper = $( '<span id="'+this.idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
-            input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
-                .appendTo( this.wrapper );
-            input.val($('#'+idobj).attr('descValue'));
-            $('#'+idobjlookup).keyup(function(e){
-                var grid = $('#'+idgrid);
+            this.input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+this.o.inputNameDesc+'" id="'+this.idobjlookup+'"/>' )
+                .appendTo( wrapper );
+            this.input.val($('#'+this.idobj).attr('descValue'));
+            this.input.keyup(function(e){
+                var grid = $('#'+self.idgrid);
                 if(e.keyCode==27){
-                    $('#'+idobjlookup+'_wrapper').hide();
+                    $('#'+self.idobjlookup+'_wrapper').hide();
                     this.flagcascadelookupfield = false;
                 }else{
                     if(e.keyCode==40){
-                        if(!this.flagcascadelookupfield)
-                            $('#'+idobjlookup+'_wrapper').show();
+                        if(!self.flagcascadelookupfield)
+                            $('#'+self.idobjlookup+'_wrapper').show();
                         $('#'+idgrid).focus();
                     }
                     if(e.keyCode==8){
-                        if($('#'+idobjlookup).val()==''){
-                            $('#'+idobj).val('');
-                            this.flagcascadelookupfield = false;
-                            $('#'+idwrapper).hide();
+                        if($('#'+self.idobjlookup).val()==''){
+                            $('#'+self.idobj).val('');
+                            self.flagcascadelookupfield = false;
+                            $('#'+self.idwrapper).hide();
                             return
                         }
                     }
                     if(e.keyCode==46){
-                        if($('#'+idobjlookup).val()==''){
-                            $('#'+idobj).val('');
-                            this.flagcascadelookupfield = false;
-                            $('#'+idwrapper).hide();
+                        if($('#'+self.idobjlookup).val()==''){
+                            $('#'+self.idobj).val('');
+                            self.flagcascadelookupfield = false;
+                            $('#'+self.idwrapper).hide();
                             return
                         }
                     }
-                    if($('#'+idobjlookup).val()!=''){
-                        if(!this.flagcascadelookupfield){
-                            $('#'+idobjlookup+'_wrapper').show();
+                    if($('#'+self.idobjlookup).val()!=''){
+                        if(!self.flagcascadelookupfield){
+                            $('#'+self.idobjlookup+'_wrapper').show();
                             this.flagcascadelookupfield=true;
                         }
-                        var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
-                        var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                        var colNames = $('#'+self.idgrid).jqGrid('getGridParam','colNames');
+                        var colModel = $('#'+self.idgrid).jqGrid('getGridParam','colModel');
                         var filter = { groupOp: "AND", rules: []};
                         var filterop = 'bw';
                         if(colModel[2].searchoptions )
                             filterop = colModel[2].searchoptions.sopt[0];
 
-                        filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
+                        filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+self.idobjlookup).val()});
                         grid[0].p.search = true;
-                        if(o.paramName!='')
-                            $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                        if(self.o.paramName!='')
+                            $.extend(grid[0].p.postData,{paramName : self.o.paramName,paramData:$('#'+self.o.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
                         else
                             $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                     }else
@@ -106,58 +102,62 @@ $(document).ready(function(){
                     grid.trigger("reloadGrid",[{page:1}]);
                 }
             });
-            $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(this.wrapper);
+            $('<div style="float:left;position:absolute;z-index:4001" id="'+this.idwrapper+'" ><table id="'+this.idgrid+'"></table> <div id="'+this.idpager+'"></div></div>').insertAfter(this.wrapper);
 
-           $('#'+idgrid).jqGrid({
+           $('#'+this.idgrid).jqGrid({
                 //caption:'colocar caption',
                 width:300,
-                url:o.grid.url,
+                url:self.o.grid.url,
                 //postData:{profesionalId:$("#profesionalId").val()},
                 mtype:"POST",
                 rownumbers:true,
                 rowList:[10,20,30],
-                pager:idpager,
+                pager:self.idpager,
                 datatype:"json",
-                colNames:o.grid.colNames,
-                colModel:o.grid.colModel,
+                colNames:self.o.grid.colNames,
+                colModel:self.o.grid.colModel,
                 ondblClickRow: function(id){
 
                 }
             });
 
-            var mostrar = this.show;
+            /*
+            this.show =  function hola() {
+                var grid = $('#'+self.idgrid);
+                input.focus();
+                if(self.o.paramName!='')
+                    $.extend(grid[0].p.postData,{paramName : self.o.paramName,paramData:$('#'+self.o.elementCascadeId).val()});
+
+                grid.trigger("reloadGrid",[{page:1}]);
+                if(!self.flagcascadelookupfield){
+                    $('#'+self.idwrapper).show();
+                    //carreraId_lookupgrid_wrapper
+                    self.flagcascadelookupfield=true;
+                }else{
+                    $('#'+self.idwrapper).hide();
+                    self.flagcascadelookupfield=false;
+                } ;*/
 
 
-            $( '<a id="'+idobj+'_triangle">' )
+            $( '<a href="#" id="'+this.idobj+'_triangle">'+this.idobj+'_triangle</a>' )
                 .attr( "tabIndex", -1 )
                 .attr( "title", "Mostrar todas las opciones" )
-                .appendTo( this.wrapper )
-                .button({
+                .appendTo( wrapper )
+                /*.button({
                     icons: {
                         primary: "ui-icon-triangle-1-s"
                     },
                     text: true
-                    ,label:idobj
-                })
-                .removeClass( "ui-corner-all" )
-                .addClass( "ui-corner-right ui-combobox-toggle" )
-                .click(function() {
-                    mostrar();
-                    /*var grid = $('#'+idgrid);
-                    input.focus();
-                    if(o.paramName!='')
-                        $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val()});
-
-                    grid.trigger("reloadGrid",[{page:1}]);
-                    if(!this.flagcascadelookupfield){
-                        $('#'+idwrapper).show();
-                        //carreraId_lookupgrid_wrapper
-                        this.flagcascadelookupfield=true;
-                    }else{
-                        $('#'+idwrapper).hide();
-                        this.flagcascadelookupfield=false;
-                    }*/
+                    ,label:self.idobj
                 });
+                .removeClass( "ui-corner-all" )
+                .addClass( "ui-corner-right ui-combobox-toggle" );
+               .click(function(){
+                    alert(self.idobj);
+                });*/
+           $('#'+this.idobj+'_triangle').bind('click',function(){
+               alert(self.idobj);
+           });
         },
 
         destroy: function() {

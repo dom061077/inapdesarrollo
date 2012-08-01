@@ -1,4 +1,5 @@
 <%@ page import="com.educacion.academico.InscripcionMateria" %>
+<%@ page import="com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum"%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -14,7 +15,7 @@
         <script type="text/javascript">
 		        //var arrayDeletedMaterias = [];
                 var lastSel;
-		
+                var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
 		        function initsubmit(){
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
@@ -51,14 +52,15 @@
 		        	
 		        	$('#materiasId').jqGrid({
 		               	datatype:'local'
+                        ,editurl:'<%out << createLink(controller:"inscripcionMateria",action:"editmaterias")%>'
 		                ,width:500
 		                ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
 		            	,colModel:[
 		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
-                                ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-                                ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
-		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:true,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                                ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+                                ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
+		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                                 ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
                                     ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
                                 ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}

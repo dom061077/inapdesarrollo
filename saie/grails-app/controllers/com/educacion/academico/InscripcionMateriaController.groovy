@@ -190,7 +190,7 @@ class InscripcionMateriaController {
 			materiasCursar.each{
 				if(flagcomilla)
 					materiasSerialized = materiasSerialized + ","
-				materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","denominacion":"'+it.denominacion+'","seleccion":"Yes"}'
+				materiasSerialized = materiasSerialized + '{"id":'+it.id+',"idid":'+it.id+',"nivel":"'+it.nivel.descripcion+'","codigomateria":"'+it.codigo+'","denominacion":"'+it.denominacion+'","tipo":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name+'","tipovalue":"'+TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR+'","seleccion":"Yes"}'
 				flagcomilla = true
 			}
 			materiasSerialized += "]"
@@ -330,6 +330,8 @@ class InscripcionMateriaController {
 					materiasSerialized = materiasSerialized + ","
 				flagseleccionado="No"
 				idinscmatdetalle = 0
+                tipo = TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR.name
+                tipovalue = TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR
 				inscripcionMateriaInstance.detalleMateria.each{detinsc->
 					if(detinsc.materia.id==matcursar.id){
 						flagseleccionado="Yes"

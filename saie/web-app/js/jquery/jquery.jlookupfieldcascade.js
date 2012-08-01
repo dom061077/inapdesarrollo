@@ -13,14 +13,11 @@ $(document).ready(function(){
                 cascade: {
                     elementCascadeId:'',
                     paramName:''
+                },
+                onSelected:function(){
+
                 }
             };
-            function showgriddialog(dialog){
-                //$('#searchDialogId').add(grid);
-
-                $('#'+dialog).dialog('open');
-                settings.onShowgrid();
-            }
             var o = $.extend(defaults, settings),
             flagcascadelookupfield=false;
             var input,
@@ -51,7 +48,10 @@ $(document).ready(function(){
                 idwrapper=idobjlookup+'_wrapper';
                 self = this,
                 select = this.element.hide();*/
-
+                function clear(){
+                    $('#'+idobj).val('');
+                    $('#'+idobjlookup).val('');
+                }
 
                 wrapper = $( '<span id="'+idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )
@@ -60,6 +60,7 @@ $(document).ready(function(){
                     .appendTo( wrapper );
                 input.val($('#'+idobj).attr('descValue'));
                 $('#'+idobjlookup).keyup(function(e){
+                    o.onSelected();
                     var grid = $('#'+idgrid);
                     if(e.keyCode==27){
                         $('#'+idobjlookup+'_wrapper').hide();
@@ -105,7 +106,7 @@ $(document).ready(function(){
                             filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
                             grid[0].p.search = true;
                             if(o.paramName!='')
-                                $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                                $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
                             else
                                 $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                         }else
@@ -128,7 +129,13 @@ $(document).ready(function(){
                     colNames:o.grid.colNames,
                     colModel:o.grid.colModel,
                     ondblClickRow: function(id){
-
+                        var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                        var obj=$('#'+idgrid).getRowData(id);
+                        $('#'+idobj).val(obj.id);
+                        $('#'+idobjlookup).val(obj[colModel[2].name]);
+                        $('#'+idobjlookup+'_wrapper').hide();
+                        flagcascadelookupfield = false;
+                        o.onSelected();
                     }
                 });
 
@@ -149,8 +156,10 @@ $(document).ready(function(){
                     .click(function() {
                         var grid = $('#'+idgrid);
                          input.focus();
-                         if(o.paramName!='')
-                         $.extend(grid[0].p.postData,{paramName : o.paramName,paramData:$('#'+o.elementCascadeId).val()});
+                         if(o.cascade.paramName!=''){
+                             grid[0].p.search = true;
+                            $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
+                         }
 
                          grid.trigger("reloadGrid",[{page:1}]);
                          if(!flagcascadelookupfield){

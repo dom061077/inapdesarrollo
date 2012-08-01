@@ -44,6 +44,9 @@
                         url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
                     },
                     inputNameDesc:'carreraDesc'
+                    ,onSelected:function(){
+                        $('#anioLectivoId').clear();
+                    }
                 });
 
 

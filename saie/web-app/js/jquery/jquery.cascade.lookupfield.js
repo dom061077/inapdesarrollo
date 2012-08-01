@@ -117,7 +117,11 @@ $(document).ready(function(){
                 colNames:self.o.grid.colNames,
                 colModel:self.o.grid.colModel,
                 ondblClickRow: function(id){
-
+                    var colModel = $(idgrid).jqGrid('getGridParam','colModel');
+                    var obj=$(idgrid).getRowData(id);
+                    $(idobj).val(obj.id);
+                    // TODO continuar con las modificaciones de busqueda
+                   // $(idobjlookupj).val(obj.);
                 }
             });
 

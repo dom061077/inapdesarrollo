@@ -17,6 +17,7 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 import com.educacion.enums.SituacionAcademicaEnum
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
 
 
 
@@ -158,7 +159,7 @@ class InscripcionMatriculaController {
     def show = {
 		log.info "INGRESANDO AL CLOSURE show"
 		log.info "PARAMETROS: $params"
-		def idinscmateria 
+		def idinscmateria
 		
 
 		
@@ -169,15 +170,15 @@ class InscripcionMatriculaController {
             redirect(action: "list")
         }
         else {
-			/*if(params.idinscmateria){
-				idinscmateria = params.idinscmateria
-			}else{
+			//if(params.idinscmateria){
+			//	idinscmateria = params.idinscmateria
+			//}else{
 				def inscripcionMateriaInstance
 				inscripcionMatriculaInstance.inscripcionesmaterias.each{
 					if(it.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
 						idinscmateria = it.id
 				}
-			} */
+			//}
 			//if(idinscmateria)
             	[inscripcionMatriculaInstance: inscripcionMatriculaInstance,idinscmateria:idinscmateria]
 			//else{
@@ -331,14 +332,22 @@ class InscripcionMatriculaController {
 		
         def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
         if (inscripcionMatriculaInstance) {
-            try {
-                inscripcionMatriculaInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                redirect(action: "list")
-            }
-            catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                redirect(action: "show", id: params.id)
+            InscripcionMatricula.withTransaction {TransactionStatus status ->
+                /*try {
+                    inscripcionMatriculaInstance.delete(flush: true)
+                    flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
+                    redirect(action: "list")
+                }
+                catch (org.springframework.dao.DataIntegrityViolationException e) {
+                    status.setRollbackOnly()
+                    flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
+                    redirect(action: "show", id: params.id)
+                }*/
+                inscripcionMatriculaInstance.inscripcionesmaterias.each{
+                    it.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA
+                }
+                //inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.
+                //if (inscripcionMatriculaInstance.)
             }
         }
         else {

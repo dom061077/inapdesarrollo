@@ -275,7 +275,8 @@ class PreinscripcionController {
             inscripcionMatriculaInstance = new InscripcionMatricula(alumno:preinscripcionInstance.alumno
                     ,anioLectivo:preinscripcionInstance.anioLectivo
                     ,carrera:preinscripcionInstance.carrera
-                    ,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA)
+                    ,estado:EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA
+                    ,primeraMatricula: true)
 
 
             //preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance

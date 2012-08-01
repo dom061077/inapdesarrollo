@@ -5,6 +5,8 @@ import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 class InscripcionMatricula extends Inscripcion {
 	
 	EstadoInscripcionMatriculaEnum estado
+    
+    boolean primeraMatricula = false
 	
 	static hasMany = [inscripcionesmaterias:InscripcionMateria]
 	

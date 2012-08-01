@@ -20,7 +20,7 @@
         <script type="text/javascript">
         	$(document).ready(function(){
 
-                $('#anioLectivoId').combolookupfield({
+                var anios = $('#anioLectivoId').combolookupfield({
                     grid:{
                         colNames:['Id','AnioLectivo']
                         ,colModel:[{name:'id',index:'id',hidden:true}
@@ -45,7 +45,7 @@
                     },
                     inputNameDesc:'carreraDesc'
                     ,onSelected:function(){
-                        $('#anioLectivoId').clear();
+                        anios.clear();
                     }
                 });
 

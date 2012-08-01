@@ -29,6 +29,12 @@ $(document).ready(function(){
                 select ;
              var wrapper;
 
+            this.clear = function (){
+                $('#'+idobj).val('');
+                $('#'+idobjlookup).val('');
+                $('#'+idobjlookup+'_wrapper').hide();
+                flagcascadelookupfield =false;
+            }
 
             return this.each(function() {
 
@@ -48,10 +54,6 @@ $(document).ready(function(){
                 idwrapper=idobjlookup+'_wrapper';
                 self = this,
                 select = this.element.hide();*/
-                function clear(){
-                    $('#'+idobj).val('');
-                    $('#'+idobjlookup).val('');
-                }
 
                 wrapper = $( '<span id="'+idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )

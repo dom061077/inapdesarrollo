@@ -14,14 +14,15 @@
         <script type="text/javascript">
         	function clickreporte(id){
             	
-            	obj = jQuery("#list").getRowData(id);
+            	    obj = jQuery("#list").getRowData(id);
             	
-				var anio = $('#'+obj.id+'_anio').val();
-				if(anio==undefined)
-					anio=obj.anio;
-            	window.location='reporteasistencia?id='+obj.id+'&aniolectivo='+anio+'&_target=blank'
-            	            }
-        	jQuery(document).ready(function(){
+				    var anio = $('#'+obj.id+'_anio').val();
+				    if(anio==undefined)
+					    anio=obj.anio;
+            	    window.location='reporteasistencia?id='+obj.id+'&aniolectivo='+anio+'&_target=blank'
+            }
+
+            jQuery(document).ready(function(){
             	
 				var lastsel3;
         		jQuery("#list").jqGrid({

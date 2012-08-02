@@ -12,6 +12,11 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
 
         <script type="text/javascript">
+            function clickreporte(id){
+                var obj = jQuery("#list").getRowData(id);
+                window.location='reportealumno?id='+obj.id+'&_target=blank'
+            }
+
         	jQuery(document).ready(function(){
 				jQuery("#list").jqGrid({
 				   	url:'listjson',
@@ -43,9 +48,9 @@
 							var cl = ids[i];
 							obj = $("#list").getRowData(ids[i]); 
 							be = "<a href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-							var se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";	
-							
-							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
+							var se = "<a href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+                            var re = "<a title='Mostrar' href='#' onClick='clickreporte("+ids[i]+")'><span class='ui-icon ui-icon-contact' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se+re});
 							}
 						 
 					}, 	

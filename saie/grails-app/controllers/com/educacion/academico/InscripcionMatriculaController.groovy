@@ -1,11 +1,9 @@
 package com.educacion.academico
 
 
-import com.educacion.util.GUtilDomainClass 
+import com.educacion.util.GUtilDomainClass
+import com.educacion.enums.inscripcion.EstadoPreinscripcion
 
-import java.text.SimpleDateFormat 
-
-import java.text.DateFormat 
 
 import java.text.ParseException 
 import com.educacion.academico.util.AcademicoUtil
@@ -346,8 +344,27 @@ class InscripcionMatriculaController {
                 inscripcionMatriculaInstance.inscripcionesmaterias.each{
                     it.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA
                 }
+                if(inscripcionMatriculaInstance.primeraMatricula)
+                    inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
+                else
+                    inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA
                 //inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.
                 //if (inscripcionMatriculaInstance.)
+                def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTO)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOSUPLENTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTE
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTESUPLENTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE
+                
+                
+                inscripcionMatriculaInstance.save()  
+                preinscripcionInstance.save()
+                flash.message
+
             }
         }
         else {

@@ -20,6 +20,20 @@
         <script type="text/javascript">
         	$(document).ready(function(){
 
+                $('#carreraId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Denominación']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
+                        ],
+                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
+                    },
+                    inputNameDesc:'carreraDesc'
+                    ,onSelected:function(){
+                        anios.clear();
+                    }
+                });
+
                 var anios = $('#anioLectivoId').combolookupfield({
                     grid:{
                         colNames:['Id','AnioLectivo']
@@ -33,20 +47,28 @@
                         elementCascadeId:'carreraId',
                         paramName:'carrera_id'
                     }
+                    ,onSelected:function(){
+
+                    }
                 });
 
-                $('#carreraId').combolookupfield({
-                    grid:{
-                        colNames:['Id','Denominación']
-                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
-                            ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
-                        ],
-                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
-                    },
-                    inputNameDesc:'carreraDesc'
-                    ,onSelected:function(){
-                        anios.clear();
+
+                var docentes=$('#docenteId').combolookupfield({
+                   grid:{
+                      colNames:['Id','Apellido','Nombre']
+                      ,colModel:[
+                        {name:'id',index:'id',hidden:true}
+                        ,{name:'apellido',index:'apellido',width:100,search:false,sortable:true}
+                        ,{name:'nombre',index:'nombre',width:100,search:false,sortable:true}
+                      ]
+                      ,url:'<%out << createLink(controller:"asignaturaDocente",action:"listsearchjsondocentes")%>'
+                   },
+                   inputNameDesc:'docenteDesc'
+                   ,cascade:{
+                        elementCascadeId:'doncenteId',
+                        paramName:''
                     }
+
                 });
 
 
@@ -108,45 +130,61 @@
             </g:hasErrors>
             <g:form action="save" >
             		<div class="append-bottom">	
-                        
-							<g:hasErrors bean="${cmd}" field="carreraId">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3">
-								<label for="carreraId"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
-							</div>
-							<div class="span-5">
-								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
-							</div>
-										
-							<g:hasErrors bean="${cmd}" field="carreraId">
-								<g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
 
-																	
-                        
+                            <div class="append-bottom">
+                                <g:hasErrors bean="${cmd}" field="carreraId">
+                                    <div class="ui-state-error ui-corner-all append-bottom">
+                                </g:hasErrors>
 
-																	
-                        
-							<g:hasErrors bean="${cmd}" field="docente">
-								<div class="ui-state-error ui-corner-all append-bottom">
-							</g:hasErrors>
-							
-							<div class="span-3 spanlabel">
-								<label for="docenteId"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
-							</div>
-							<div class="span-5">
-								<input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId"  value="${cmd?.docenteId}" />
-							</div>
-										
-							<g:hasErrors bean="${cmd}" field="docente">
-								<g:renderErrors bean="${cmd}" as="list" field="docente"/>
-								</div>
-						   </g:hasErrors>
-						   <div class="clear"></div>
+                                <div class="span-3">
+                                    <label for="carreraId"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
+                                </div>
+                                <div class="span-5">
+                                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
+                                </div>
+                                <g:hasErrors bean="${cmd}" field="carreraId">
+                                    <g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
+                                    </div>
+                               </g:hasErrors>
+                               <div class="clear"></div>
+                            </div>
+
+                            <div class="append-bottom">
+                                <div class="span-3">
+                                    <label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
+                                </div>
+                                <div class="span-5">
+                                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
+                                </div>
+
+                                <g:hasErrors bean="${cmd}" field="anioLectivo">
+                                    <g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
+                                    </div>
+                                </g:hasErrors>
+                                <div class="clear"></div>
+                            </div>
+                
+                
+                            <div class="append-bottom">
+                                <g:hasErrors bean="${cmd}" field="docente">
+                                    <div class="ui-state-error ui-corner-all append-bottom">
+                                </g:hasErrors>
+                                
+                                <div class="span-3 spanlabel">
+                                    <label for="docenteId"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
+                                </div>
+                                <div class="span-5">
+                                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId"  value="${cmd?.docenteId}" />
+                                </div>
+                                            
+                                <g:hasErrors bean="${cmd}" field="docente">
+                                    <g:renderErrors bean="${cmd}" as="list" field="docente"/>
+                                    </div>
+                               </g:hasErrors>
+                               <div class="clear"></div>
+                            </div>
+                
+                
                            <fieldset>
                                <legend>Materias a Dictar</legend>
                                <table id="materiasId"></table>
@@ -156,18 +194,6 @@
                             <div class="ui-state-error ui-corner-all append-bottom">
                         </g:hasErrors>
 
-                        <div class="span-3">
-                            <label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
-                        </div>
-                        <div class="span-5">
-                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
-                        </div>
-
-                        <g:hasErrors bean="${cmd}" field="anioLectivo">
-                            <g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
-                            </div>
-                        </g:hasErrors>
-                        <div class="clear"></div>
 
 
 				</div>                        

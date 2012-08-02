@@ -808,11 +808,21 @@ class CarreraController {
     def listsearchjsonanioslectivos = {
         log.info "INGRESANDO AL METODO listsearchjsonanioslectivos"
         log.info "PARAMETROS: ${params}"
+        def filtersjson
         if(params.paramName){
             //params._search="true"
-            params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            //params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            if (params.altfilters){
+                filtersjson = grails.converters.JSON.parse(params.altfilters)
+                filtersjson.rules.put("field",params.paramName)
+                filtersjson.rules.put("op","eq")
+                filtersjson.rules.put("data",params.paramData)
+                params.altfilters = filtersjson.toString()
+            }else{
+                params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            }
         }
-
+        log.debug "ALTFILTERS: "
 
         def gud=new GUtilDomainClass(AnioLectivo,params,grailsApplication)
         list=gud.listrefactor(false)

@@ -559,10 +559,16 @@ class PreinscripcionController {
     def delete = {
 		log.info "INGRESANDO AL CLOSURE delete"
 		log.info "PARAMETROS: $params"
-
+        //TODO CONSULTAR A CRISTIAN SI SACAMOS LA OPCION DE ELIMINAR PARA LO QUE ESTE CONFIRMADO
 		
         def preinscripcionInstance = Preinscripcion.get(params.id)
         if (preinscripcionInstance) {
+            if(preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTO || preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOSUPLENTE
+             ||preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTE || preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTESUPLENTE){
+                flash.message="${g.message(code:"com.educacion.Preinscripcion.delete.restriction",args:[preinscripcionInstance.estado.name])}"
+                redirect(action: "show",id: preinscripcionInstance.id)
+                return
+            }
             Preinscripcion.withTransaction {TransactionStatus status ->
                 try {
                     preinscripcionInstance.inscripcionMatricula.delete()
@@ -814,7 +820,19 @@ class PreinscripcionController {
 			Preinscripcion.withTransaction{TransactionStatus status->
                 inscripcionMatriculaInstance = preinscripcionInstance.inscripcionMatricula
                 inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
-				preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
+                
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_PREINSCRIPTO)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_PREINSCRIPTOSUPLENTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTOSUPLENTE
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_ASPIRANTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTE
+                if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE)
+                    preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTESUPLENTE
+
+
+
+
 
                 def inscripcionMateriaDetalleInstance
                 def inscripcionMateriaInstance

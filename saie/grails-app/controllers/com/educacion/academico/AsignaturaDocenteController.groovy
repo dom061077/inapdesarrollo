@@ -223,6 +223,16 @@ class AsignaturaDocenteController {
 
     }
 
+    def listsearchjsondocentes = {
+        render ""
+        if(params.paramName){
+            //params._search="true"
+            params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+        }
+
+    }
+
+
 }
 
 class AsignaturaDocenteCommand{

@@ -74,7 +74,7 @@ $(document).ready(function(){
                             grid[0].p.search = false;
                             grid.trigger("reloadGrid",[{page:1}]);
                         }
-                        if(e.keyCode==8){
+                        /*if(e.keyCode==8){
                             if($('#'+idobjlookup).val()==''){
                                 $('#'+idobj).val('');
                                 flagcascadelookupfield = false;
@@ -93,7 +93,7 @@ $(document).ready(function(){
                                 grid.trigger("reloadGrid",[{page:1}]);
                                 return
                             }
-                        }
+                        }*/
                         if($('#'+idobjlookup).val()!=''){
                             if(!flagcascadelookupfield){
                                 $('#'+idobjlookup+'_wrapper').show();
@@ -111,12 +111,18 @@ $(document).ready(function(){
                                 $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
                             else
                                 $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
-                        }else
+                        }else{
+                            $('#'+idobj).val('');
+                            if(o.paramName!='')
+                                $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
+                            else
+                                $.extend(grid[0].p.postData,{altfilters:JSON.stringify("[]")});
                             grid[0].p.search = false;
+                        }
                         grid.trigger("reloadGrid",[{page:1}]);
                     }
                 });
-                $('<div style="display:none;float:left;position:absolute;z-index:4001" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
+                $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
 
                 $('#'+idgrid).jqGrid({
                     //caption:'colocar caption',
@@ -156,6 +162,7 @@ $(document).ready(function(){
                     .removeClass( "ui-corner-all" )
                     .addClass( "ui-corner-right ui-combobox-toggle" )
                     .click(function() {
+                        $('.jlookupfieldcascade').hide();
                         var grid = $('#'+idgrid);
                          input.focus();
                          if(o.cascade.paramName!=''){

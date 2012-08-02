@@ -199,7 +199,7 @@ class DocenteController {
             if (flagaddcomilla)
                 result = result + ','
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + it.numeroDocumento +'","'+it.apellido+'","'+it.nombre+ '"]}'
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id +'","'+it.apellido+'","'+it.nombre+ '"]}'
 
             flagaddcomilla = true
         }

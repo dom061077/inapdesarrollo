@@ -14,6 +14,8 @@ import java.text.SimpleDateFormat;
 import com.educacion.academico.Carrera;
 import grails.converters.JSON
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
+import org.codehaus.groovy.grails.web.json.JSONObject
+import grails.converters.JSON
 
 class CarreraController {
 
@@ -809,20 +811,24 @@ class CarreraController {
         log.info "INGRESANDO AL METODO listsearchjsonanioslectivos"
         log.info "PARAMETROS: ${params}"
         def filtersjson
+        def jsonObj
         if(params.paramName){
             //params._search="true"
             //params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
             if (params.altfilters){
+                jsonObj = new JSONObject()
                 filtersjson = grails.converters.JSON.parse(params.altfilters)
-                filtersjson.rules.put("field",params.paramName)
-                filtersjson.rules.put("op","eq")
-                filtersjson.rules.put("data",params.paramData)
+                jsonObj.put("field",params.paramName)
+                jsonObj.put("op","eq")
+                jsonObj.put("data",params.paramData)
+                filtersjson.rules.put(jsonObj)
                 params.altfilters = filtersjson.toString()
+                log.debug("ALTFILTERS ARMADO CON JSONObject"+params.altfilters)
             }else{
                 params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
             }
         }
-        log.debug "ALTFILTERS: "
+        log.debug "ALTFILTERS: " +params.altfilters
 
         def gud=new GUtilDomainClass(AnioLectivo,params,grailsApplication)
         list=gud.listrefactor(false)

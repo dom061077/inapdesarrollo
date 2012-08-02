@@ -18,6 +18,33 @@
 
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
+            function initsubmit(){
+                var gridData = jQuery("#materiasId").getRowData();
+                var postData = JSON.stringify(gridData);
+                $("#materiasSerializedId").val(postData);
+
+            }
+
+            function bindmaterias(){
+                var griddata = [];
+
+                var data = jQuery.parseJSON($("#materiasId").val());
+                if(data==null)
+                    data=[];
+                for (var i = 0; i < data.length; i++) {
+                    griddata[i] = {};
+                    griddata[i]["id"] = data[i].id;
+                    griddata[i]["codigo"] = data[i].codigo;
+                    griddata[i]["denominacion"] = data[i].denominacion;
+                    griddata[i]["descripcion"] = data[i].descripcion;
+                }
+
+                for (var i = 0; i <= griddata.length; i++) {
+                    jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
+                }
+
+            }
+
         	$(document).ready(function(){
 
                 $('#carreraId').combolookupfield({
@@ -48,7 +75,7 @@
                         paramName:'carrera_id'
                     }
                     ,onSelected:function(){
-
+                         docentes.clear();
                     }
                 });
 
@@ -61,13 +88,13 @@
                         ,{name:'apellido',index:'apellido',width:100,search:false,sortable:true}
                         ,{name:'nombre',index:'nombre',width:100,search:false,sortable:true}
                       ]
-                      ,url:'<%out << createLink(controller:"asignaturaDocente",action:"listsearchjsondocentes")%>'
+                      ,url:'<%out << createLink(controller:"docente",action:"listsearchjson")%>'
                    },
                    inputNameDesc:'docenteDesc'
-                   ,cascade:{
+                   /*,cascade:{
                         elementCascadeId:'doncenteId',
-                        paramName:''
-                    }
+                        paramName:'anioLectivo_id'
+                    }*/
 
                 });
 
@@ -76,14 +103,12 @@
                     url:'listjson',
                     datatype: "json",
                     width:680,
-                    colNames:['Id','Nº Documento','Apellido','Nombre','Opciones'],
+                    colNames:['Id','Código','Denominación','Descripción'],
                     colModel:[
-
                         {name:'id',index:'id', width:40,hidden:true},
-                        {name:'numeroDocumento',index:'numeroDocumento', width:92,sortable:false,search:true,searchoptions:{sopt:['eq']}},
-                        {name:'apellido',index:'apellido', width:92,sortable:true},
-                        {name:'nombre',index:'nombre', width:100,search:true},
-                        {name:'operaciones',index:'operaciones', width:55,search:false,sortable:false}
+                        {name:'codigo',index:'codigo', width:92,sortable:false,search:true,searchoptions:{sopt:['eq']}},
+                        {name:'denominacion',index:'denominacion', width:92,sortable:true},
+                        {name:'descripcion',index:'descripcion', width:100,search:true}
                     ],
 
                     rowNum:10,
@@ -92,21 +117,10 @@
                     pager: '#pagermateriasId',
                     sortname: 'id',
                     viewrecords: true,
-                    sortorder: "desc",
-                    gridComplete: function(){
-                        var ids = jQuery("#list").jqGrid('getDataIDs');
-                        var obj;
-                        for(var i=0;i < ids.length;i++){
-                            var cl = ids[i];
-                            obj = jQuery("#list").getRowData(ids[i]);
-                            be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-                            var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
-                            jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se});
-                        }
-                    },
+                    sortorder: "desc"
                    // caption:"Listado de ${message(code: 'docente.label', default: 'Docente')}"
                 });
-                //jQuery("#list").jqGrid('navGrid','#pagermateriasId',{search:false,edit:false,add:false,del:false,pdf:true});
+                jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId',{refresh:false,search:false,edit:false,add:true,del:true,pdf:true});
 
             });
 		</script>
@@ -150,6 +164,10 @@
                             </div>
 
                             <div class="append-bottom">
+                                <g:hasErrors bean="${cmd}" field="anioLectivoId">
+                                    <div class="ui-state-error ui-corner-all append-bottom">
+                                </g:hasErrors>
+
                                 <div class="span-3">
                                     <label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
                                 </div>
@@ -157,8 +175,8 @@
                                     <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
                                 </div>
 
-                                <g:hasErrors bean="${cmd}" field="anioLectivo">
-                                    <g:renderErrors bean="${cmd}" as="list" field="anioLectivo"/>
+                                <g:hasErrors bean="${cmd}" field="anioLectivoId">
+                                    <g:renderErrors bean="${cmd}" as="list" field="anioLectivoId"/>
                                     </div>
                                 </g:hasErrors>
                                 <div class="clear"></div>
@@ -166,19 +184,19 @@
                 
                 
                             <div class="append-bottom">
-                                <g:hasErrors bean="${cmd}" field="docente">
+                                <g:hasErrors bean="${cmd}" field="docenteId">
                                     <div class="ui-state-error ui-corner-all append-bottom">
                                 </g:hasErrors>
                                 
-                                <div class="span-3 spanlabel">
+                                <div class="span-3">
                                     <label for="docenteId"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
                                 </div>
                                 <div class="span-5">
-                                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId"  value="${cmd?.docenteId}" />
+                                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId" descValue="${cmd?.docenteDesc}"  value="${cmd?.docenteId}" />
                                 </div>
                                             
-                                <g:hasErrors bean="${cmd}" field="docente">
-                                    <g:renderErrors bean="${cmd}" as="list" field="docente"/>
+                                <g:hasErrors bean="${cmd}" field="docenteId">
+                                    <g:renderErrors bean="${cmd}" as="list" field="docenteId"/>
                                     </div>
                                </g:hasErrors>
                                <div class="clear"></div>
@@ -190,9 +208,6 @@
                                <table id="materiasId"></table>
                                <div id="pagermateriasId"></div>
                            </fieldset>
-                        <g:hasErrors bean="${cmd}" field="anioLectivo">
-                            <div class="ui-state-error ui-corner-all append-bottom">
-                        </g:hasErrors>
 
 
 

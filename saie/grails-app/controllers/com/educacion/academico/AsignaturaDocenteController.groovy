@@ -223,14 +223,34 @@ class AsignaturaDocenteController {
 
     }
 
-    def listsearchjsondocentes = {
-        render ""
-        if(params.paramName){
-            //params._search="true"
-            params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
-        }
+    /*def listsearchjsondocentes = {
 
-    }
+        def gud = new GUtilDomainClass(AsignaturaDocente, params, grailsApplication)
+        list = gud.listrefactor(false)
+        def totalregistros = gud.listrefactor(true)
+
+        def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
+        if (totalpaginas > 0 && totalpaginas < 1)
+            totalpaginas = 1;
+        totalpaginas = totalpaginas.intValue()
+
+
+
+        def result = '{"page":' + params.page + ',"total":"' + totalpaginas + '","records":"' + totalregistros + '","rows":['
+        def flagaddcomilla = false
+        list.each {
+
+            if (flagaddcomilla)
+                result = result + ','
+
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + it.docente.apellido +'","'+it.docente.nombre+'"]}'
+
+            flagaddcomilla = true
+        }
+        result = result + ']}'
+        render result
+
+    } */
 
 
 }
@@ -246,8 +266,8 @@ class AsignaturaDocenteCommand{
     static constraints = {
         carreraId(nullable: false,blank: false)
         anioLectivoId(nullable: false,blank: false)
-        anioLectivo(nullable: false,blank: false)
+        //anioLectivo(nullable: false,blank: false)
         docenteId(nullable: false,blank: false)
-        docenteDesc(nullable: false,blank: false)
+        //docenteDesc(nullable: false,blank: false)
     }
 }

@@ -28,15 +28,16 @@
             function bindmaterias(){
                 var griddata = [];
 
-                var data = jQuery.parseJSON($("#materiasId").val());
+                var data = jQuery.parseJSON($("#materiasSerializedId").val());
                 if(data==null)
                     data=[];
                 for (var i = 0; i < data.length; i++) {
                     griddata[i] = {};
                     griddata[i]["id"] = data[i].id;
-                    griddata[i]["codigo"] = data[i].codigo;
+                    griddata[i]["idid"] = data[i].idid;
                     griddata[i]["denominacion"] = data[i].denominacion;
-                    griddata[i]["descripcion"] = data[i].descripcion;
+                    griddata[i]["nivel"] = data[i].nivel;
+                    griddata[i]["carrera"] = data[i].carrera;
                 }
 
                 for (var i = 0; i <= griddata.length; i++) {
@@ -84,6 +85,7 @@
                     inputNameDesc:'carreraDesc'
                     ,onSelected:function(){
                         anios.clear();
+                        $('#materiasId').clearGridData();
 
                     }
                 });
@@ -154,6 +156,7 @@
                 jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:true,edit:false,del:true,search:false,refresh:false}, //options
                         {}, // edit options
                             {height:350,width:430,reloadAfterSubmit:false
+                            ,left:200,top:200
                             ,recreateForm:true
                             ,modal:false
                             ,addCaption:'Agregar Materia'
@@ -199,6 +202,7 @@
                         {reloadAfterSubmit:false}, // del options
                         {} // search options
                 );
+                bindmaterias();
 
             });
 		</script>
@@ -220,7 +224,7 @@
                 <g:renderErrors bean="${cmd}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="save" onclick="initsubmit()">
             		<div class="append-bottom">	
 
                             <div class="append-bottom">
@@ -283,6 +287,7 @@
                 
                            <fieldset>
                                <legend>Materias a Dictar</legend>
+                               <g:textField name="materiasSerialized" id="materiasSerializedId" value="${materiasSerialized}"/>
                                <table id="materiasId"></table>
                                <div id="pagermateriasId"></div>
                            </fieldset>

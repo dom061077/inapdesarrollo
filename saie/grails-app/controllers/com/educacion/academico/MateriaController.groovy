@@ -286,7 +286,7 @@ class MateriaController {
 			params._search="true"
 			params.altfilters='{"groupOp":"AND","rules":[{"field":"nivel_id","op":"eq","data":"'+params.nivel_id+'"}]}'
 		}
-        
+
         if (params.nivel_carrera_id){
             params._search="true"
             params.altfilters='{"groupOp":"AND","rules":[{"field":"nivel_carrera_id","op":"eq","data":"'+params.nivel_carrera_id+'"}]}'

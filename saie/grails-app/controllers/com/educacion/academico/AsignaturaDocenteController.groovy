@@ -45,10 +45,10 @@ class AsignaturaDocenteController {
                 redirect(action: "show", id: asignaturaDocenteInstance.id)
             }
             else {
-                render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance])
+                render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized:params.materiasSerialized])
             }
         }else{
-            render(view: "create", model: [cmd:cmd])
+            render(view: "create", model: [cmd:cmd,materiasSerialized:params.materiasSerialized])
         }
     }
 

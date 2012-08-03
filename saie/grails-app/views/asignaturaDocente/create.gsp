@@ -45,7 +45,33 @@
 
             }
 
+            function initGridBusquedaMaterias(){
+                $('#tablaBusquedaMateriaId').jqGrid({
+                    caption:'Búsqueda de Materia',
+                    url:'<%out << createLink(controller:"materia",action:"listjson")%>',
+                    mtype:'POST',
+                    width:400,
+                    rownumbers:true,
+                    postData:{nivel_carrera_id:$('#carreraId').val()},
+                    pager:'pagerBusquedaMateriaId',
+                    datatype:'json',
+                    colNames:['Id','Denominación','Nivel','Carrera'],
+                    colModel:[
+                        {name:'id',index:'id',width:10,hidden:true},
+                        {name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true},
+                        {name:'nivel_descripcion',index:'nivel_descripcion',width:100,sorttype:'text',sortable:true},
+                        {name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion',width:100,sorttype:'text',sortable:true}
+                    ]
+                });
+                jQuery("#tablaBusquedaMateriaId").jqGrid('navGrid','#pagerBusquedaMateriaId',{search:false,edit:false,add:false,del:false,pdf:true});
+                jQuery('#tablaBusquedaMateriaId').jqGrid('filterToolbar',{stringResult: true,searchOnEnter : true});
+
+
+            }
+
         	$(document).ready(function(){
+
+
 
                 $('#carreraId').combolookupfield({
                     grid:{
@@ -58,6 +84,7 @@
                     inputNameDesc:'carreraDesc'
                     ,onSelected:function(){
                         anios.clear();
+
                     }
                 });
 
@@ -78,6 +105,8 @@
                          docentes.clear();
                     }
                 });
+
+                var materiaCmb;
 
 
                 var docentes=$('#docenteId').combolookupfield({
@@ -100,15 +129,16 @@
 
 
                 jQuery("#materiasId").jqGrid({
-                    url:'listjson',
-                    datatype: "json",
+                    editurl:'editurl',
+                    datatype: "local",
                     width:680,
-                    colNames:['Id','Código','Denominación','Descripción'],
+                    colNames:['Id','IdId','Denominación','Nivel','Carrera'],
                     colModel:[
                         {name:'id',index:'id', width:40,hidden:true},
-                        {name:'codigo',index:'codigo', width:92,sortable:false,search:true,searchoptions:{sopt:['eq']}},
-                        {name:'denominacion',index:'denominacion', width:92,sortable:true},
-                        {name:'descripcion',index:'descripcion', width:100,search:true}
+                        {name:'idid',index:'idid',hidden:true},
+                        {name:'denominacion',index:'denominacion', width:92,sortable:true,editable:true},
+                        {name:'nivel',index:'nivel', width:100,search:true,editable:false},
+                        {name:'carrera',index:'carrera', width:100,search:true,editable:false}
                     ],
 
                     rowNum:10,
@@ -120,7 +150,55 @@
                     sortorder: "desc"
                    // caption:"Listado de ${message(code: 'docente.label', default: 'Docente')}"
                 });
-                jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId',{refresh:false,search:false,edit:false,add:true,del:true,pdf:true});
+
+                jQuery("#materiasId").jqGrid('navGrid','#pagermateriasId', {add:true,edit:false,del:true,search:false,refresh:false}, //options
+                        {}, // edit options
+                            {height:350,width:430,reloadAfterSubmit:false
+                            ,recreateForm:true
+                            ,modal:false
+                            ,addCaption:'Agregar Materia'
+                            ,beforeSubmit: function(postData,formId){
+                                        var id = $('#tablaBusquedaMateriaId').jqGrid('getGridParam','selrow');
+                                        var retornar = false;
+                                        var obj;
+                                        if(!id){
+                                            alert('Seleccione una materia de la Grilla');
+                                            return [false,''];
+                                        }else{
+                                            obj = $('#tablaBusquedaMateriaId').getRowData(id);
+                                            var gridDataMaterias = $('#materiasId').getRowData();
+                                            $.each( gridDataMaterias, function(i, row){
+                                                if(obj.id==row.idid){
+                                                    retornar=true;
+                                                    return;
+                                                }
+                                            });
+                                            if(retornar){
+                                                alert('Ya agregó esta Materia');
+                                                return [false,'YA EXISTE LA MATERIA AGREGADA'];
+                                            }
+
+
+                                            postData.idid = obj.id;
+                                            postData.denominacion = obj.denominacion;
+                                            postData.nivel = obj.nivel_descripcion;
+                                            postData.carrera = obj.nivel_carrera_denominacion;
+                                            return [true,''];
+                                        }
+                                        return[true,''];
+                            }
+                            ,beforeShowForm:function(form){
+                                $('#TblGrid_materiasId').hide();
+                                $('#FrmGrid_materiasId').append('<table id="tablaBusquedaMateriaId"></table><div id="pagerBusquedaMateriaId"></div>');
+
+                                initGridBusquedaMaterias();
+                            }
+                            ,bSubmit:'Agregar'
+
+                        }, // add options
+                        {reloadAfterSubmit:false}, // del options
+                        {} // search options
+                );
 
             });
 		</script>
@@ -210,11 +288,11 @@
                            </fieldset>
 
 
-
 				</div>                        
                 <div class="buttons">
                     <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
                 </div>
+
             </g:form>
         </div>
     </body>

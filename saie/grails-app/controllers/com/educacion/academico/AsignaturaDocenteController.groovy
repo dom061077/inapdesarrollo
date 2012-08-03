@@ -252,6 +252,10 @@ class AsignaturaDocenteController {
 
     } */
 
+    def editurl = {
+        render ""
+    }
+
 
 }
 

@@ -3,7 +3,7 @@ package com.educacion.academico
 import java.sql.Date
 
 class AsignaturaDocente {
-    Date fechaAlta
+    Date fechaAlta = new Date(new java.util.Date().getTime())
     Carrera carrera
     AnioLectivo anioLectivo
     Docente docente

@@ -6,6 +6,40 @@
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
+        <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#materiasId').jqGrid({
+                    url:'<%out << createLink(controller:"asignaturaDocente",action:"materiasjson",params:[id:asignaturaDocenteInstance.id]) %>',
+                    datatype: "json",
+                    width:680,
+                    colNames:['Id','Código','Nombre','Nivel','Carrera'],
+                    colModel:[
+
+                        {name:'id',index:'id', width:40,hidden:true},
+                        {name:'codigo',index:'codigo',width:40},
+                        {name:'denominacion',index:'denominacion', width:92,sortable:false},
+                        {name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
+                        {name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion', width:100,search:true}
+                    ],
+
+                    rowNum:10,
+                    //rownumbers:true,
+                    rowList:[10,20,30],
+                    pager: '#pagerMateriasId',
+                    sortname: 'id',
+                    viewrecords: true,
+                    sortorder: "desc",
+                    caption:"Listado de ${message(code: 'materia.label', default: 'Materia')}"
+                });
+                jQuery("#materiasId").jqGrid('navGrid','#pagerMateriasId',{search:false,edit:false,add:false,del:false,pdf:true});
+
+            });
+        </script>
     </head>
     <body>
         <div class="nav">
@@ -19,53 +53,42 @@
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
-                    
-                            <div class="span-4 spanlabel"><g:message code="asignaturaDocente.id.label" default="Id" /></div>
-                            
-                            <div class="span-4 spanlabel">${fieldValue(bean: asignaturaDocenteInstance, field: "id")}</div>
-                            
-							<div class="clear"></div>
-                    
+
+
                             <div class="span-4 spanlabel"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${asignaturaDocenteInstance?.carrera?.id}">${asignaturaDocenteInstance?.carrera?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel"><g:link controller="carrera" action="show" id="${asignaturaDocenteInstance?.carrera?.id}">${asignaturaDocenteInstance?.carrera?.denominacion?.encodeAsHTML()}</g:link></div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="anioLectivo" action="show" id="${asignaturaDocenteInstance?.anioLectivo?.id}">${asignaturaDocenteInstance?.anioLectivo?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel">${asignaturaDocenteInstance?.anioLectivo?.anioLectivo?.encodeAsHTML()}</div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="asignaturaDocente.docente.label" default="Docente" /></div>
                             
-                            <div class="span-4 spanlabel"><g:link controller="docente" action="show" id="${asignaturaDocenteInstance?.docente?.id}">${asignaturaDocenteInstance?.docente?.encodeAsHTML()}</g:link></div>
+                            <div class="span-4 spanlabel">
+                                <g:link controller="docente" action="show" id="${asignaturaDocenteInstance?.id}">
+                                    ${(asignaturaDocenteInstance?.docente?.apellido+"-"+asignaturaDocenteInstance?.docente?.nombre).encodeAsHTML()}
+                                </g:link>
+                            </div>
                             
 							<div class="clear"></div>
                     
                             <div class="span-4 spanlabel"><g:message code="asignaturaDocente.fechaAlta.label" default="Fecha Alta" /></div>
                             
-                            <div class="span-4 spanlabel"><g:formatDate date="${asignaturaDocenteInstance?.fechaAlta}" /></div>
+                            <div class="span-4 spanlabel"><g:formatDate date="${asignaturaDocenteInstance?.fechaAlta}" format="dd/MM/yyyy" /></div>
                             
 							<div class="clear"></div>
+                
+                            <fieldset>
+                                <legend>Materias</legend>
+                                <table id="materiasId"></table>
+                                <div id="pagerMateriasId"></div>
+                            </fieldset>
                     
-                            <div class="span-4 spanlabel"><g:message code="asignaturaDocente.materias.label" default="Materias" /></div>
-                            
-                            <div class="span-4 spanlabel">
-                                <ul>
-                                <g:each in="${asignaturaDocenteInstance.materias}" var="m">
-                                    <li><g:link controller="materia" action="show" id="${m.id}">${m?.encodeAsHTML()}</g:link></li>
-                                </g:each>
-                                </ul>
-                            </td>
-                            
-							<div class="clear"></div>
-                    
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>

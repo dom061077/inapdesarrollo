@@ -31,21 +31,32 @@ class AsignaturaDocenteController {
         log.info "INGRESANDO AL CLOSURE save"
         log.info "PARAMETROS: $params"
         def materiasSerializedJson
+        def materiaInstance
+        
         if (params.materiasSerialized)
             materiasSerializedJson = JSON.parse(params.materiasSerialized)
         
         
         if (cmd.validate()){
-            def asignaturaDocenteInstance = new AsignaturaDocente(params)
+            def asignaturaDocenteInstance = new AsignaturaDocente()
+            materiasSerializedJson.each{
+                materiaInstance = Materia.get(it.idid)
+                if (materiaInstance)
+                    asignaturaDocenteInstance.addToMaterias(materiaInstance)
+                
+            }
             AsignaturaDocente.withTransaction {TransactionStatus status->
-    
-            }
-            if (asignaturaDocenteInstance.save(flush: true)) {
-                flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
-                redirect(action: "show", id: asignaturaDocenteInstance.id)
-            }
-            else {
-                render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized:params.materiasSerialized])
+                asignaturaDocenteInstance.carrera = Carrera.get(cmd.carreraId)
+                asignaturaDocenteInstance.anioLectivo = AnioLectivo.get(cmd.anioLectivoId)
+                asignaturaDocenteInstance.docente = Docente.get(cmd.docenteId)
+                if (asignaturaDocenteInstance.save(flush: true)) {
+                    flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
+                    redirect(action: "show", id: asignaturaDocenteInstance.id)
+                }
+                else {
+                    log.debug "ERRORES DE VALIDACION DE asignaturaDocenteInstance: "+asignaturaDocenteInstance.errors.allErrors
+                    render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized:params.materiasSerialized])
+                }
             }
         }else{
             render(view: "create", model: [cmd:cmd,materiasSerialized:params.materiasSerialized])
@@ -67,7 +78,7 @@ class AsignaturaDocenteController {
         }
     }
 
-    def edit = {
+    def edit = {AsignaturaDocenteCommand cmd ->
         log.info "INGRESANDO AL CLOSURE edit"
         log.info "PARAMETROS: $params"
 
@@ -157,7 +168,7 @@ class AsignaturaDocenteController {
                 result = result + ','
 
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + (it.nombre == null ? "" : it.nombre) + '"]}'
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' +it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.docente.apellido+'-'+it.docente.nombre+'","'+ '"]}'
 
             flagaddcomilla = true
         }
@@ -254,6 +265,34 @@ class AsignaturaDocenteController {
 
     def editurl = {
         render ""
+    }
+    
+    def materiasjson = {
+        def asignaturaDocenteInstance = AsignaturaDocente.get(params.id)
+        def totalregistros = asignaturaDocenteInstance.materias.size()
+
+        def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
+        if (totalpaginas > 0 && totalpaginas < 1)
+            totalpaginas = 1;
+        totalpaginas = totalpaginas.intValue()
+
+
+
+        def result = '{"page":' + params.page + ',"total":"' + totalpaginas + '","records":"' + totalregistros + '","rows":['
+        def flagaddcomilla=false
+        asignaturaDocenteInstance.materias.each{
+
+            if (flagaddcomilla)
+                result=result+','
+
+
+            result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.codigo+'","'+(it.denominacion==null?"":it.denominacion)+'","'+(it.nivel?.descripcion==null?"":it.nivel?.descripcion)+'","'+(it.nivel?.carrera?.denominacion==null?"":it.nivel?.carrera?.denominacion)+'"]}'
+
+            flagaddcomilla=true
+        }
+        result=result+']}'
+        render result
+        
     }
 
 

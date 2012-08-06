@@ -287,7 +287,7 @@
                 
                            <fieldset>
                                <legend>Materias a Dictar</legend>
-                               <g:textField name="materiasSerialized" id="materiasSerializedId" value="${materiasSerialized}"/>
+                               <g:hiddenField name="materiasSerialized" id="materiasSerializedId" value="${materiasSerialized}"/>
                                <table id="materiasId"></table>
                                <div id="pagermateriasId"></div>
                            </fieldset>

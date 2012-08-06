@@ -126,9 +126,10 @@ $(document).ready(function(){
 		rownumbers:true,
 		pager:pagerId,
 		datatype:'json',
-		colNames:['Id','Denominación','Nivel','Carrera'],
+		colNames:['Id','Codigo','Denominación','Nivel','Carrera'],
 		colModel:[
 				{name:'id',index:'id',width:10,hidden:true},
+                {name:'codigo',index:'codigo',width:40},
 				{name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true},
 				{name:'nivel_descripcion',index:'nivel_descripcion',width:100,sorttype:'text',sortable:true},
 				{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion',width:100,sorttype:'text',sortable:true}				

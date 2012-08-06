@@ -19,8 +19,6 @@
             <div class="ui-state-highlight ui-corner-all"><H2>\${flash.message}</H2></div>
             </g:if>
             <div class="dialog">
-                <table>
-                    <tbody>
                     <%  excludedProps = Event.allEvents.toList() << 'version'
                         allowedNames = domainClass.persistentProperties*.name << 'id' << 'dateCreated' << 'lastUpdated'
                         props = domainClass.properties.findAll { allowedNames.contains(it.name) && !excludedProps.contains(it.name) }
@@ -48,8 +46,6 @@
                             <%  } %>
 							<div class="clear"></div>
                     <%  } %>
-                    </tbody>
-                </table>
             </div>
             <div class="buttons">
                 <g:form>

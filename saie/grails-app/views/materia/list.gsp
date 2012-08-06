@@ -17,10 +17,11 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Código','Nombre','Nivel','Carrera','Operaciones'],
+					colNames:['Id','Código','Nombre','Nivel','Carrera','Operaciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:40},
+				   		{name:'id',index:'id', width:40,hidden:true},
+                        {name:'codigo',index:'codigo',width:40},
 				   		{name:'denominacion',index:'denominacion', width:92,sortable:false},
 				   		{name:'nivel_descripcion',index:'nivel_descripcion', width:100,search:true},
 				   		{name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion', width:100,search:true},

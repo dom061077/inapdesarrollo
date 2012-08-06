@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
-	<property name="ireport.x" value="29"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="23"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
@@ -49,10 +49,10 @@
 				<reportElement x="3" y="9" width="550" height="165"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="8" y="23" width="540" height="50" backcolor="#FFFFFF"/>
+				<reportElement x="8" y="23" width="540" height="46" backcolor="#FFFFFF"/>
 			</rectangle>
 			<textField>
-				<reportElement x="101" y="42" width="100" height="12"/>
+				<reportElement x="101" y="41" width="100" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -66,7 +66,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{apellido}.concat(', ').concat($F{nombre})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="107" y="58" width="100" height="12"/>
+				<reportElement x="107" y="56" width="100" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -80,35 +80,35 @@
 				<text><![CDATA[  Datos Personales  ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="29" width="39" height="15"/>
+				<reportElement x="25" y="29" width="39" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Nombre:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="25" y="43" width="80" height="15"/>
+				<reportElement x="25" y="42" width="80" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Tipo Documento:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="26" y="58" width="89" height="15"/>
+				<reportElement x="26" y="56" width="89" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Fecha Nacimiento:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="26" width="39" height="15"/>
+				<reportElement x="305" y="26" width="39" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Sexo:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="42" width="114" height="15"/>
+				<reportElement x="305" y="41" width="114" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
@@ -122,45 +122,45 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{sexo.name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="410" y="41" width="106" height="12"/>
+				<reportElement x="410" y="40" width="106" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{numeroDocumento}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement mode="Opaque" x="24" y="1" width="91" height="17"/>
+				<reportElement mode="Opaque" x="24" y="1" width="91" height="12"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[  Datos del Alumno]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="8" y="83" width="540" height="36" backcolor="#FFFFFF"/>
+				<reportElement x="8" y="77" width="540" height="32" backcolor="#FFFFFF"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="22" y="78" width="98" height="12"/>
+				<reportElement mode="Opaque" x="22" y="72" width="98" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Datos de Nacimiento ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="27" y="90" width="89" height="12"/>
+				<reportElement x="27" y="84" width="89" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Pais de Nacimiento:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="27" y="104" width="111" height="12"/>
+				<reportElement x="27" y="96" width="111" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Provincia de Nacimiento:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="90" width="105" height="12"/>
+				<reportElement x="305" y="84" width="105" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>

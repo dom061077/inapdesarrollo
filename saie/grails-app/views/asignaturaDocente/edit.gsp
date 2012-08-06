@@ -10,7 +10,9 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.jlookupfieldcascade.js')}"></script>
+
         
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
     <script type="text/javascript">
@@ -31,6 +33,7 @@
                 griddata[i] = {};
                 griddata[i]["id"] = data[i].id;
                 griddata[i]["idid"] = data[i].idid;
+                griddata[i]["codigo"] = data[i].codigo;
                 griddata[i]["denominacion"] = data[i].denominacion;
                 griddata[i]["nivel"] = data[i].nivel;
                 griddata[i]["carrera"] = data[i].carrera;
@@ -52,9 +55,10 @@
                 postData:{nivel_carrera_id:$('#carreraId').val()},
                 pager:'pagerBusquedaMateriaId',
                 datatype:'json',
-                colNames:['Id','Denominación','Nivel','Carrera'],
+                colNames:['Id','Código','Denominación','Nivel','Carrera'],
                 colModel:[
                     {name:'id',index:'id',width:10,hidden:true},
+                    {name:'codigo',index:'codigo',width:100,sorttype:'text',sortable:true},
                     {name:'denominacion',index:'denominacion',width:100,sorttype:'text',sortable:true},
                     {name:'nivel_descripcion',index:'nivel_descripcion',width:100,sorttype:'text',sortable:true},
                     {name:'nivel_carrera_denominacion',index:'nivel_carrera_denominacion',width:100,sorttype:'text',sortable:true}
@@ -77,8 +81,7 @@
                         ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
                     ],
                     url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
-                },
-                inputNameDesc:'carreraDesc'
+                }
                 ,onSelected:function(){
                     anios.clear();
                     $('#materiasId').clearGridData();
@@ -94,7 +97,6 @@
                     ],
                     url:'<%out << createLink(controller:"carrera",action:"listsearchjsonanioslectivos")%>'
                 },
-                inputNameDesc:'anioLectivo',
                 cascade:{
                     elementCascadeId:'carreraId',
                     paramName:'carrera_id'
@@ -116,8 +118,7 @@
                         ,{name:'nombre',index:'nombre',width:100,search:false,sortable:true}
                     ]
                     ,url:'<%out << createLink(controller:"docente",action:"listsearchjson")%>'
-                },
-                inputNameDesc:'docenteDesc'
+                }
                 /*,cascade:{
                  elementCascadeId:'doncenteId',
                  paramName:'anioLectivo_id'
@@ -127,13 +128,14 @@
 
 
             jQuery("#materiasId").jqGrid({
-                editurl:'editurl',
+                editurl:'<%out << createLink(controller:"asignaturaDocente",action:"editurl")%>',
                 datatype: "local",
                 width:680,
-                colNames:['Id','IdId','Denominación','Nivel','Carrera'],
+                colNames:['Id','IdId','Código','Denominación','Nivel','Carrera'],
                 colModel:[
                     {name:'id',index:'id', width:40,hidden:true},
                     {name:'idid',index:'idid',hidden:true},
+                    {name:'codigo',index:'codigo', width:92,sortable:true,editable:true},
                     {name:'denominacion',index:'denominacion', width:92,sortable:true,editable:true},
                     {name:'nivel',index:'nivel', width:100,search:true,editable:false},
                     {name:'carrera',index:'carrera', width:100,search:true,editable:false}
@@ -179,6 +181,7 @@
 
 
                             postData.idid = obj.id;
+                            postData.codigo = obj.codigo;
                             postData.denominacion = obj.denominacion;
                             postData.nivel = obj.nivel_descripcion;
                             postData.carrera = obj.nivel_carrera_denominacion;
@@ -220,12 +223,13 @@
                 <g:renderErrors bean="${asignaturaDocenteInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form method="post" >
+            <g:form method="post" onsubmit="initsubmit()">
             	<div class="append-bottom">
-                <g:hiddenField name="id" value="${asignaturaDocenteInstance?.id}" />
+                <g:hiddenField name="asigid" value="${asignaturaDocenteInstance?.id}" />
                 <g:hiddenField name="version" value="${asignaturaDocenteInstance?.version}" />
+
                     <div class="append-bottom">
-                        <g:hasErrors bean="${cmd}" field="carreraId">
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="carreraId">
                             <div class="ui-state-error ui-corner-all append-bottom">
                         </g:hasErrors>
 
@@ -233,17 +237,17 @@
                             <label for="carreraId"><g:message code="asignaturaDocente.carrera.label" default="Carrera" /></label>
                         </div>
                         <div class="span-5">
-                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
+                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carrera.id" descValue="${asignaturaDocenteInstance?.carrera?.denominacion}" value="${asignaturaDocenteInstance?.carrera?.id}" />
                         </div>
-                        <g:hasErrors bean="${cmd}" field="carreraId">
-                            <g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">
+                            <g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="carrera"/>
                             </div>
                         </g:hasErrors>
                         <div class="clear"></div>
                     </div>
 
                     <div class="append-bottom">
-                        <g:hasErrors bean="${cmd}" field="anioLectivoId">
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="anioLectivo">
                             <div class="ui-state-error ui-corner-all append-bottom">
                         </g:hasErrors>
 
@@ -251,11 +255,11 @@
                             <label for="anioLectivoId"><g:message code="asignaturaDocente.anioLectivo.label" default="Anio Lectivo" /></label>
                         </div>
                         <div class="span-5">
-                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivoId" descValue="${cmd?.anioLectivo}"  value="${cmd?.anioLectivoId}" />
+                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="anioLectivoId" name="anioLectivo.id" descValue="${asignaturaDocenteInstance?.anioLectivo?.anioLectivo}"  value="${asignaturaDocenteInstance?.anioLectivo?.id}" />
                         </div>
 
-                        <g:hasErrors bean="${cmd}" field="anioLectivoId">
-                            <g:renderErrors bean="${cmd}" as="list" field="anioLectivoId"/>
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="anioLectivo">
+                            <g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="anioLectivo"/>
                             </div>
                         </g:hasErrors>
                         <div class="clear"></div>
@@ -263,7 +267,7 @@
 
 
                     <div class="append-bottom">
-                        <g:hasErrors bean="${cmd}" field="docenteId">
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="docente">
                             <div class="ui-state-error ui-corner-all append-bottom">
                         </g:hasErrors>
 
@@ -271,11 +275,14 @@
                             <label for="docenteId"><g:message code="asignaturaDocente.docente.label" default="Docente" /></label>
                         </div>
                         <div class="span-5">
-                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docenteId" descValue="${cmd?.docenteDesc}"  value="${cmd?.docenteId}" />
+                            <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" name="docente.id"
+                                   descValue="${(asignaturaDocenteInstance?.docente==null?"":asignaturaDocenteInstance?.docente?.apellido+"-"+asignaturaDocenteInstance?.docente?.nombre)}"
+                                   value="${asignaturaDocenteInstance?.docente?.id}" />
+
                         </div>
 
-                        <g:hasErrors bean="${cmd}" field="docenteId">
-                            <g:renderErrors bean="${cmd}" as="list" field="docenteId"/>
+                        <g:hasErrors bean="${asignaturaDocenteInstance}" field="docente">
+                            <g:renderErrors bean="${asignaturaDocenteInstance}" as="list" field="docente"/>
                             </div>
                         </g:hasErrors>
                         <div class="clear"></div>

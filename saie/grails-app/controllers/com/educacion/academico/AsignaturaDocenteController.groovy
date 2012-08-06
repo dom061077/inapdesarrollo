@@ -22,44 +22,40 @@ class AsignaturaDocenteController {
         log.info "PARAMETROS: $params"
     }
 
-    def create = {AsignaturaDocenteCommand cmd ->
+    def create = {
         log.info "INGRESANDO AL CLOSURE create"
         log.info "PARAMETROS: $params"
+        def asignaturaDocenteInstance = new AsignaturaDocente()
+        return[asignaturaDocenteInstance:asignaturaDocenteInstance]
     }
 
-    def save = {AsignaturaDocenteCommand cmd->
+    def save = {
         log.info "INGRESANDO AL CLOSURE save"
         log.info "PARAMETROS: $params"
         def materiasSerializedJson
         def materiaInstance
+
+
         
+        def asignaturaDocenteInstance = new AsignaturaDocente(params)
+
         if (params.materiasSerialized)
             materiasSerializedJson = JSON.parse(params.materiasSerialized)
-        
-        
-        if (cmd.validate()){
-            def asignaturaDocenteInstance = new AsignaturaDocente()
-            materiasSerializedJson.each{
-                materiaInstance = Materia.get(it.idid)
-                if (materiaInstance)
-                    asignaturaDocenteInstance.addToMaterias(materiaInstance)
-                
+
+        materiasSerializedJson.each{
+            materiaInstance = Materia.get(it.idid)
+            if (materiaInstance)
+                asignaturaDocenteInstance.addToMaterias(materiaInstance)
+
+        }
+        AsignaturaDocente.withTransaction {TransactionStatus status->
+            if (asignaturaDocenteInstance.save(flush: true)) {
+                flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
+                redirect(action: "show", id: asignaturaDocenteInstance.id)
             }
-            AsignaturaDocente.withTransaction {TransactionStatus status->
-                asignaturaDocenteInstance.carrera = Carrera.get(cmd.carreraId)
-                asignaturaDocenteInstance.anioLectivo = AnioLectivo.get(cmd.anioLectivoId)
-                asignaturaDocenteInstance.docente = Docente.get(cmd.docenteId)
-                if (asignaturaDocenteInstance.save(flush: true)) {
-                    flash.message = "${message(code: 'default.created.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
-                    redirect(action: "show", id: asignaturaDocenteInstance.id)
-                }
-                else {
-                    log.debug "ERRORES DE VALIDACION DE asignaturaDocenteInstance: "+asignaturaDocenteInstance.errors.allErrors
-                    render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized:params.materiasSerialized])
-                }
+            else {
+                render(view: "create", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized:params.materiasSerialized])
             }
-        }else{
-            render(view: "create", model: [cmd:cmd,materiasSerialized:params.materiasSerialized])
         }
     }
 
@@ -78,7 +74,7 @@ class AsignaturaDocenteController {
         }
     }
 
-    def edit = {AsignaturaDocenteCommand cmd ->
+    def edit = {
         log.info "INGRESANDO AL CLOSURE edit"
         log.info "PARAMETROS: $params"
 
@@ -89,7 +85,18 @@ class AsignaturaDocenteController {
             redirect(action: "list")
         }
         else {
-            return [asignaturaDocenteInstance: asignaturaDocenteInstance]
+            def materiasSerialized = "["
+            def flagcomilla = false
+            asignaturaDocenteInstance.materias.each {
+                if(flagcomilla)
+                    materiasSerialized+=","
+                materiasSerialized += '{"id":'+it.id+',"idid":'+it.id+',"codigo":"'+it.codigo+'","denominacion":"'+it.denominacion+'","nivel":"'+it.nivel.descripcion+'","carrera":"'+it.nivel.carrera.denominacion+'"}'
+                flagcomilla=true
+            }
+            materiasSerialized += "]"
+
+
+            return [asignaturaDocenteInstance:asignaturaDocenteInstance,materiasSerialized: materiasSerialized]
         }
     }
 
@@ -97,10 +104,13 @@ class AsignaturaDocenteController {
         log.info "INGRESANDO AL CLOSURE update"
         log.info "PARAMETROS: $params"
 
-        def asignaturaDocenteInstance = AsignaturaDocente.get(params.id)
+        def asignaturaDocenteInstance = AsignaturaDocente.get(params.asigid)
+        def materiasSerializedJson
+
         if (asignaturaDocenteInstance) {
-            if (params.version) {
-                def version = params.version.toLong()
+
+            if (asignaturaDocenteInstance.version) {
+                def version = asignaturaDocenteInstance.version.toLong()
                 if (asignaturaDocenteInstance.version > version) {
 
                     asignaturaDocenteInstance.errors.rejectValue("version", "default.optimistic.locking.failure", [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente')] as Object[], "Another user has updated this AsignaturaDocente while you were editing")
@@ -109,12 +119,27 @@ class AsignaturaDocenteController {
                 }
             }
             asignaturaDocenteInstance.properties = params
+            if (params.materiasSerialized)
+                materiasSerializedJson = JSON.parse(params.materiasSerialized)
+            def materiaInstance
+
+            asignaturaDocenteInstance.materias.removeAll()
+
+            materiasSerializedJson.each{
+                materiaInstance = Materia.get(it.idid)
+                if (materiaInstance){
+                    asignaturaDocenteInstance.addToMaterias(materiaInstance)
+                    log.debug "SE AGREGO MATERIA "
+                }
+
+            }
+
             if (!asignaturaDocenteInstance.hasErrors() && asignaturaDocenteInstance.save(flush: true)) {
                 flash.message = "${message(code: 'default.updated.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), asignaturaDocenteInstance.id])}"
                 redirect(action: "show", id: asignaturaDocenteInstance.id)
             }
             else {
-                render(view: "edit", model: [asignaturaDocenteInstance: asignaturaDocenteInstance])
+                render(view: "edit", model: [asignaturaDocenteInstance: asignaturaDocenteInstance,materiasSerialized: params.materiasSerialized])
             }
         }
         else {
@@ -168,7 +193,7 @@ class AsignaturaDocenteController {
                 result = result + ','
 
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' +it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.docente.apellido+'-'+it.docente.nombre+'","'+ '"]}'
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id +'","'+g.formatDate(date: it.fechaAlta,format: "dd/MM/yyyy")+ '","' +it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.docente.apellido+'","'+it.docente.nombre+'","'+ '"]}'
 
             flagaddcomilla = true
         }
@@ -305,6 +330,9 @@ class AsignaturaDocenteCommand{
     String anioLectivo
     String docenteId
     String docenteDesc
+    String materiasSerialized
+    Long id
+    Long version
     
     static constraints = {
         carreraId(nullable: false,blank: false)

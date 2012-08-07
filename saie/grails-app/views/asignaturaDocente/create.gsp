@@ -16,7 +16,7 @@
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.extend.ui.js')}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.jlookupfieldcascade.js')}"></script>
 
-        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
+
         <script type="text/javascript">
             function initsubmit(){
                 var gridData = jQuery("#materiasId").getRowData();

@@ -10,12 +10,26 @@
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
-         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>        
-        
-        <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
+        <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.jlookupfieldcascade.js')}"></script>
+
         <script type="text/javascript">
         	$(document).ready(function(){
-        
+                $('#carreraId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Denominación']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
+                        ],
+                        url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
+                    }
+                    //inputNameDesc:'carreraDesc'
+                    ,onSelected:function(){
+                        anios.clear();
+                        $('#materiasId').clearGridData();
+
+                    }
+                });
         	});
 		</script>
 		
@@ -41,8 +55,7 @@
                         <label for="carreraDesc"><g:message code="examen.carrera.label"/></label>
                     </div>
                     <div class="span-4">
-                        <g:textField name="carreraDesc" id="carreraId" value="${carreraDesc}" />
-                        <g:hiddenField name="carreraId" id="carreraIdId"  value="${carreId}"/>
+                        <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd.carreraDesc}" value="${cmd.carrerId}" />
                     </div>
                     <div class="clear"></div>
 

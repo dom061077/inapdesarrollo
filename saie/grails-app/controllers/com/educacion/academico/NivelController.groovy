@@ -9,6 +9,7 @@ import java.text.DateFormat
 
 import java.text.ParseException 
 import grails.converters.JSON
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
 class NivelController {
@@ -191,6 +192,24 @@ class NivelController {
 				render '{"page":1,"total":0,"records":0,"rows":[]}'
 				return
 		}
+
+        def filtersjson
+        def jsonObj
+        if(params.paramName){
+            if (params.altfilters){
+                jsonObj = new JSONObject()
+                filtersjson = grails.converters.JSON.parse(params.altfilters)
+                jsonObj.put("field",params.paramName)
+                jsonObj.put("op","eq")
+                jsonObj.put("data",params.paramData)
+                filtersjson.rules.put(jsonObj)
+                params.altfilters = filtersjson.toString()
+                log.debug("ALTFILTERS ARMADO CON JSONObject"+params.altfilters)
+            }else{
+                params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            }
+        }
+
 		
 		def gud=new GUtilDomainClass(Nivel,params,grailsApplication)
 		list=gud.listrefactor(false)

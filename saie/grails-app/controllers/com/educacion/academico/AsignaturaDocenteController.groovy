@@ -153,22 +153,29 @@ class AsignaturaDocenteController {
     def delete = {
         log.info "INGRESANDO AL CLOSURE delete"
         log.info "PARAMETROS: $params"
+        def deletedId
 
-
-        def asignaturaDocenteInstance = AsignaturaDocente.get(params.id)
+        deletedId = params.asigid
+        def asignaturaDocenteInstance = AsignaturaDocente.get(params.asigid)
+        
+        if(!asignaturaDocenteInstance){
+            asignaturaDocenteInstance = AsignaturaDocente.get(params.id)
+            deletedId = params.id
+        }
+        
         if (asignaturaDocenteInstance) {
             try {
                 asignaturaDocenteInstance.delete(flush: true)
-                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), params.id])}"
+                flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), deletedId])}"
                 redirect(action: "list")
             }
             catch (org.springframework.dao.DataIntegrityViolationException e) {
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), params.id])}"
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), deletedId])}"
                 redirect(action: "show", id: params.id)
             }
         }
         else {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), params.id])}"
+            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'asignaturaDocente.label', default: 'AsignaturaDocente'), deletedId])}"
             redirect(action: "list")
         }
     }

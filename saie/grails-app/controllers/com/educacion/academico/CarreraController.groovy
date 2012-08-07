@@ -828,7 +828,6 @@ class CarreraController {
                 params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
             }
         }
-        log.debug "ALTFILTERS: " +params.altfilters
 
         def gud=new GUtilDomainClass(AnioLectivo,params,grailsApplication)
         list=gud.listrefactor(false)

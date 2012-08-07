@@ -10,6 +10,7 @@ import java.text.DateFormat
 import java.text.ParseException 
 
 import org.springframework.transaction.TransactionStatus
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
 
@@ -347,6 +348,26 @@ class MateriaController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
+
+        def filtersjson
+        def jsonObj
+        if(params.paramName){
+            if (params.altfilters){
+                jsonObj = new JSONObject()
+                filtersjson = grails.converters.JSON.parse(params.altfilters)
+                jsonObj.put("field",params.paramName)
+                jsonObj.put("op","eq")
+                jsonObj.put("data",params.paramData)
+                filtersjson.rules.put(jsonObj)
+                params.altfilters = filtersjson.toString()
+                log.debug("ALTFILTERS ARMADO CON JSONObject"+params.altfilters)
+            }else{
+                params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            }
+        }
+
+
+
 		def gud=new GUtilDomainClass(Materia,params,grailsApplication)
 		list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)

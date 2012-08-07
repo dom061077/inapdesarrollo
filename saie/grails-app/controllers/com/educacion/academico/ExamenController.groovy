@@ -4,6 +4,7 @@ package com.educacion.academico
 import com.educacion.util.GUtilDomainClass
 import com.educacion.enums.examen.TipoExamenEnum
 import com.educacion.enums.examen.ModalidadExamenEnum
+import com.educacion.academico.util.AcademicoUtil
 
 
 
@@ -204,10 +205,9 @@ class ExamenController {
 
     }
 
-    def createexamen = { ExamenCommand cmd ->
+    def createexamen = {
         log.debug "INGRESANDO AL CLOSURE createexamen"
         log.debug "PARAMETROS: $params"
-
     }
     
     def saveexamen = { ExamenCommand cmd ->
@@ -218,6 +218,30 @@ class ExamenController {
         }else{
             render (view: "createexamen",model: [cmd:cmd])
         }
+    }
+    
+    def listdocentesearchjson = {
+        /*
+        * Person.createCriteria().list {
+          projections {
+            groupProperty('id')
+          }
+          clothes {
+            color {
+              ilike('name', "%${color}%")
+            }
+          }
+          maxResults(params.max as Integer)
+          firstResult(params.offset as Integer)
+          cache true
+        }.collect {Person.get(it[0])}
+        * */
+        log.info "listdocentesearchjson"
+        log.info "params: $params"
+        //TODO con la carrera usar el ultimo año lectivo vigente
+        ///def anioLectivoInstance =  AcademicoUtil.getAnioLectivoCarrera()
+
+
     }
 
 }

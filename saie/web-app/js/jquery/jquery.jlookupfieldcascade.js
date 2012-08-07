@@ -11,8 +11,8 @@ $(document).ready(function(){
                 },
                 inputDesc:'',
                 cascade: {
-                    elementCascadeId:'',
-                    paramName:''
+                    elementCascadeId:[],
+                    paramName:[]
                 },
                 onSelected:function(){
 
@@ -107,14 +107,22 @@ $(document).ready(function(){
 
                             filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
                             grid[0].p.search = true;
-                            if(o.paramName!='')
-                                $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                            if(o.cascade.paramName.length>0)
+                                //$.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
+                                $.each(o.cascade.paramName,function(i,l){
+                                    var elementId = '#'+o.cascade.elementCascadeId[i];
+                                    $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val(),altfilters:JSON.stringify(filter)});
+                                });
+
                             else
                                 $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                         }else{
                             $('#'+idobj).val('');
-                            if(o.paramName!='')
-                                $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
+                            if(o.cascade.paramName.length>0)
+                                $.each(o.cascade.paramName,function(i,l){
+                                    var elementId = '#'+o.cascade.elementCascadeId[i];
+                                    $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
+                                });
                             else
                                 $.extend(grid[0].p.postData,{altfilters:JSON.stringify("[]")});
                             grid[0].p.search = false;
@@ -168,9 +176,13 @@ $(document).ready(function(){
                         $('.jlookupfieldcascade').hide();
                         var grid = $('#'+idgrid);
                          input.focus();
-                         if(o.cascade.paramName!=''){
+                         if(o.cascade.paramName.length>0){
                              grid[0].p.search = true;
-                            $.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
+                            //$.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
+                             $.each(o.cascade.paramName,function(i,l){
+                                 var elementId = '#'+o.cascade.elementCascadeId[i];
+                                 $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
+                             });
                          }
 
                          grid.trigger("reloadGrid",[{page:1}]);

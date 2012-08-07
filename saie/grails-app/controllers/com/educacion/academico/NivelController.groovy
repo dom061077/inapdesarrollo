@@ -188,7 +188,7 @@ class NivelController {
 	def listsearchjson = {
 		log.info "INGRESANDO AL METODO listsearchjson"
 		log.info "PARAMETROS: ${params}"
-		if(!params.altfilters){
+		if(!params.altfilters && !params.paramName){
 				render '{"page":1,"total":0,"records":0,"rows":[]}'
 				return
 		}

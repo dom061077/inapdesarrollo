@@ -18,6 +18,8 @@
 
     <script type="text/javascript">
         var nivel;
+        var materia;
+        var docente;
 
         $(document).ready(function(){
            $('#tipoId').combobox();
@@ -33,9 +35,11 @@
                 //inputNameDesc:'carreraDesc'
                 ,onSelected:function(){
                     nivel.clear();
+                    materia.clear();
+                    docente.clear();
                 }
             });
-            $('#nivelId').combolookupfield({
+            nivel=$('#nivelId').combolookupfield({
                 grid:{
                     colNames:['Id','Descripción']
                     ,colModel:[{name:'id',index:'id', width:40,hidden:true}
@@ -45,8 +49,29 @@
                 }
                 //inputNameDesc:'carreraDesc'
                 ,cascade:{
-                    elementCascadeId:'carreraId',
-                    paramName:'carrera_id'
+                    elementCascadeId:['carreraId'],
+                    paramName:['carrera_id']
+                }
+
+                ,onSelected:function(){
+                    materia.clear();
+                }
+            });
+
+            materia=$('#materiaId').combolookupfield({
+                grid:{
+                    colNames:['Id','Denominación','Nivel','Carrera']
+                    ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                        ,{name:'denominacion',index:'denominacion', width:92,search:true,sortable:true}
+                        ,{name:'nivel_deescripcion',index:'nivel_descripcion', width:92,search:true,sortable:true}
+                        ,{name:'carrera_denominacion',index:'carrera_denominacion', width:92,search:true,sortable:true}
+                    ],
+                    url:'<% out << createLink(controller:"materia",action:"listsearchjson")%>'
+                }
+                //inputNameDesc:'carreraDesc'
+                ,cascade:{
+                    elementCascadeId:['nivelId'],
+                    paramName:['nivel_id']
                 }
 
                 ,onSelected:function(){
@@ -56,6 +81,26 @@
                 }
             });
 
+            docente=$('#docenteId').combolookupfield({
+                grid:{
+                    colNames:['Id','Apellido','Nombre']
+                    ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                        ,{name:'apellido',index:'apellido', width:92,search:true,sortable:true}
+                        ,{name:'nombre',index:'nombre', width:92,search:true,sortable:true}
+                    ],
+                    url:'<% out << createLink(controller:"materia",action:"listsearchjson")%>'
+                }
+                //inputNameDesc:'carreraDesc'
+                ,cascade:{
+                    elementCascadeId:['carreraId','materiaId'],
+                    paramName:['carrera_id','materia_id']
+                }
+                ,onSelected:function(){
+                    //anios.clear();
+                    //$('#materiasId').clearGridData();
+
+                }
+            });
 
 
 
@@ -90,46 +135,65 @@
     </g:hasErrors>
     <g:form action="saveexamen" >
         <div class="append-bottom">
-            <div class="span-3">
-                <label for="carreraId"><g:message code="examen.carrera.label"/></label>
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label ><g:message code="anioLectivo.label"/></label>
+                </div>
+                <div class="span-4">
+                    ${cmd.anioLectivo}
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
-
-            </div>
-            <div class="clear"></div>
-
-            <div class="span-3">
-                <label for="nivelId"><g:message code="examen.nivel.label"/></label>
-            </div>
-            <div class="span-4">
-                <%-- g:textField name="nivelId" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${cmd?.nivelDesc}" value="${cmd?.nivelId}" / --%>
-            </div>
-            <div class="clear"></div>
 
 
-            <div class="span-3 spanlabel">
-                <label for="materiaDesc"><g:message code="examen.materia.label"/></label>
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label for="carreraId"><g:message code="examen.carrera.label"/></label>
+                </div>
+                <div class="span-4">
+                    <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <%-- g:textField name="materiaDesc" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${cmd?.materiaDesc}" value="${cmd?.materiaId}" / --%>
-            </div>
-            <div class="clear"></div>
 
-            <div class="span-3 spanlabel">
-                <label for="materiaDesc"><g:message code="examen.docente.label"/></label>
+
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label for="nivelId"><g:message code="examen.nivel.label"/></label>
+                </div>
+                <div class="span-4">
+                    <input name="nivelId" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${cmd?.nivelDesc}" value="${cmd?.nivelId}" />
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <%-- g:textField name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" / --%>
+
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label for="materiaId"><g:message code="examen.materia.label"/></label>
+                </div>
+                <div class="span-4">
+                    <input name="materiaId" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${cmd?.materiaDesc}" value="${cmd?.materiaId}" />
+                </div>
+                <div class="clear"></div>
             </div>
-            <div class="clear"></div>
+
+
+            <div class="append-bottom">
+                <div class="span-3">
+                    <label for="docenteId"><g:message code="examen.docente.label"/></label>
+                </div>
+                <div class="span-4">
+                    <input name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" / --%>
+                </div>
+                <div class="clear"></div>
+            </div>
 
 
             <div class="span-3 spanlabel">
                 <label for="titulo"><g:message code="examen.titulo.label"/></label>
             </div>
             <div class="span-4">
-                <%-- g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${cmd?.titulo}" / --%>
+                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${cmd?.titulo}" />
             </div>
             <div class="clear"></div>
 

@@ -102,8 +102,8 @@
                     },
                     //inputNameDesc:'anioLectivo',
                     cascade:{
-                        elementCascadeId:'carreraId',
-                        paramName:'carrera_id'
+                        elementCascadeId:['carreraId'],
+                        paramName:['carrera_id']
                     }
                     ,onSelected:function(){
                          docentes.clear();

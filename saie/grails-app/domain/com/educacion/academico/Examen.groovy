@@ -9,8 +9,11 @@ class Examen {
     Date fecha
     String titulo
     TipoExamenEnum tipo
-    ModalidadExamenEnum moddalidad
+    ModalidadExamenEnum modalidad
     Docente docente
+    InscripcionMateriaDetalle inscripcionMateriaDetalle
+
+    static belongsTo = [inscripcionMateriaDetalle:InscripcionMateriaDetalle]
 
     static constraints = {
         titulo nullable: false,blank: false

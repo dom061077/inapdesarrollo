@@ -122,8 +122,11 @@ $(document).ready(function(){
                         grid.trigger("reloadGrid",[{page:1}]);
                     }
                 });
-                $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" ><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
-
+                $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" ><a id="'+idobj+'_cerrar"  href="#">cerrar</a><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
+                $('#'+idobj+'_cerrar').click(function(){
+                    $('#'+idobjlookup+'_wrapper').hide();
+                    flagcascadelookupfield = false;
+                });
                 $('#'+idgrid).jqGrid({
                     //caption:'colocar caption',
                     width:300,

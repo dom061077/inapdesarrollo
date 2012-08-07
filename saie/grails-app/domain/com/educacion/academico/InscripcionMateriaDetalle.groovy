@@ -14,6 +14,8 @@ class InscripcionMateriaDetalle {
 	InscripcionMateria inscripcionMateria
 	
 	static belongsTo = [inscripcionMateria:InscripcionMateria]
+
+    static hasMany = [examenes:Examen]
 	
     static constraints = {
         division(nullable: true,blank:true)

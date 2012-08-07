@@ -232,7 +232,7 @@
             		<div class="append-bottom">	
 
                             <div class="append-bottom">
-                                <g:hasErrors bean="${asignaturaDocenteInstance}" field="carreraId">
+                                <g:hasErrors bean="${asignaturaDocenteInstance}" field="carrera">
                                     <div class="ui-state-error ui-corner-all append-bottom">
                                 </g:hasErrors>
 

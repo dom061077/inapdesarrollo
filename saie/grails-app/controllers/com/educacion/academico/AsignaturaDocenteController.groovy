@@ -118,12 +118,15 @@ class AsignaturaDocenteController {
                     return
                 }
             }
-            asignaturaDocenteInstance.properties = params
+            //asignaturaDocenteInstance.properties = params
+            asignaturaDocenteInstance.carrera = Carrera.get(params.carrera.id)
+            asignaturaDocenteInstance.anioLectivo = AnioLectivo.get(params.anioLectivo.id)
+            asignaturaDocenteInstance.docente = Docente.get(params.docente.id)
             if (params.materiasSerialized)
                 materiasSerializedJson = JSON.parse(params.materiasSerialized)
             def materiaInstance
 
-            asignaturaDocenteInstance.materias.removeAll()
+            asignaturaDocenteInstance.materias.clear()
 
             materiasSerializedJson.each{
                 materiaInstance = Materia.get(it.idid)
@@ -131,7 +134,6 @@ class AsignaturaDocenteController {
                     asignaturaDocenteInstance.addToMaterias(materiaInstance)
                     log.debug "SE AGREGO MATERIA "
                 }
-
             }
 
             if (!asignaturaDocenteInstance.hasErrors() && asignaturaDocenteInstance.save(flush: true)) {

@@ -71,9 +71,9 @@ class InscripcionMatriculaController {
 		log.info "INGRESANDO AL CLOSURE listmateriasjson"
 		log.info "PARAMETROS: $params"
 		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
-		def result='{"page":1,"total":"1","records":"'+inscripcionMateriaInstance.detalleMateria.size()+'","rows":['
+		def result='{"page":1,"total":"1","records":"'+inscripcionMateriaInstance?.detalleMateria?.size()+'","rows":['
 		def flagaddcomilla=false
-		inscripcionMateriaInstance.detalleMateria.each{
+		inscripcionMateriaInstance?.detalleMateria?.each{
 			
 			if (flagaddcomilla)
 				result=result+','
@@ -363,7 +363,9 @@ class InscripcionMatriculaController {
                 
                 inscripcionMatriculaInstance.save()  
                 preinscripcionInstance.save()
-                flash.message
+                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
+                redirect(action: "show", id: params.id)
+
 
             }
         }
@@ -376,6 +378,11 @@ class InscripcionMatriculaController {
 	def listjson = {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
+
+        params._search="true"
+        params.altfilters='{"groupOp":"AND","rules":[{"field":"estado","op":"ne","data":"ESTADOINSMAT_INICIADA"}]}'
+        //params.altfilters='{"groupOp":"AND","rules":[{"field":"estado","op":"eq","data":"ESTADOINSMAT_CONFIRMADA"}]}'
+
 		def gud=new GUtilDomainClass(InscripcionMatricula,params,grailsApplication)
 		def list=gud.listrefactor(false)
 		def totalregistros=gud.listrefactor(true)

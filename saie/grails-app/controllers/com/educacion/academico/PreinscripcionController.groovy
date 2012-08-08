@@ -819,7 +819,7 @@ class PreinscripcionController {
 
 			Preinscripcion.withTransaction{TransactionStatus status->
                 inscripcionMatriculaInstance = preinscripcionInstance.inscripcionMatricula
-                inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
+                inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
                 
                 if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_PREINSCRIPTO)
                     preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_INSCRIPTO

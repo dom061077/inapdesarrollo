@@ -16,7 +16,7 @@
 	        	$('#materiasId').jqGrid({
 		        	url:'<%out << createLink(controller:"inscripcionMatricula",action:"listmateriasjson")%>'
 	               	,datatype:'json'
-		            ,postData:{id:<%out << idinscmateria%>}
+		            ,postData:{id:'<%out << idinscmateria%>'}
 	                ,width:500
 	                ,colNames:['Id','Denominación']
 	            	,colModel:[

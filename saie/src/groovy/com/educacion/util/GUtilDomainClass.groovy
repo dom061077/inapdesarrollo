@@ -60,6 +60,7 @@ class GUtilDomainClass{
 			Class cls = mp.type //mc.theClass.getDeclaredField(prop).type
 			if (cls.isEnum()) {
 				val = Enum.valueOf(cls, val.toString())
+                log.info "VALOR DEL ENUM DEVUELTO: "+val
 				//println "val is ${val} and raw val is ${rawValue}"
 			} else if (mp.type.getSimpleName().equalsIgnoreCase("boolean")) {
 				try{

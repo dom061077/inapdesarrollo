@@ -69,9 +69,11 @@ $(document).ready(function(){
                         flagcascadelookupfield = false;
                     }else{
                         if(e.keyCode==40){
-                            if(!flagcascadelookupfield)
+                            if(!flagcascadelookupfield){
                                 $('#'+idobjlookup+'_wrapper').show();
-                            grid[0].p.search = false;
+                                flagcascadelookupfield = true;
+                            }
+                            //grid[0].p.search = false;
                             grid.trigger("reloadGrid",[{page:1}]);
                         }
                         /*if(e.keyCode==8){
@@ -83,7 +85,7 @@ $(document).ready(function(){
                                 grid.trigger("reloadGrid",[{page:1}]);
                                 return
                             }
-                        }
+                        } */
                         if(e.keyCode==46){
                             if($('#'+idobjlookup).val()==''){
                                 $('#'+idobj).val('');
@@ -93,7 +95,7 @@ $(document).ready(function(){
                                 grid.trigger("reloadGrid",[{page:1}]);
                                 return
                             }
-                        }*/
+                        }
                         if($('#'+idobjlookup).val()!=''){
                             if(!flagcascadelookupfield){
                                 $('#'+idobjlookup+'_wrapper').show();
@@ -108,24 +110,24 @@ $(document).ready(function(){
                             filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
                             grid[0].p.search = true;
                             if(o.cascade.paramName.length>0)
-                                //$.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val(),altfilters:JSON.stringify(filter)});
                                 $.each(o.cascade.paramName,function(i,l){
                                     var elementId = '#'+o.cascade.elementCascadeId[i];
-                                    $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val(),altfilters:JSON.stringify(filter)});
+                                    //$.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val(),altfilters:JSON.stringify(filter)});
+                                    filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
                                 });
 
-                            else
-                                $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                            //else
+                            $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                         }else{
                             $('#'+idobj).val('');
                             if(o.cascade.paramName.length>0)
                                 $.each(o.cascade.paramName,function(i,l){
                                     var elementId = '#'+o.cascade.elementCascadeId[i];
-                                    $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
+                                    //$.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
+                                    filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
                                 });
-                            else
-                                $.extend(grid[0].p.postData,{altfilters:JSON.stringify("[]")});
-                            grid[0].p.search = false;
+                            $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                            //grid[0].p.search = false;
                         }
                         grid.trigger("reloadGrid",[{page:1}]);
                     }
@@ -175,24 +177,30 @@ $(document).ready(function(){
                     .click(function() {
                         $('.jlookupfieldcascade').hide();
                         var grid = $('#'+idgrid);
-                         input.focus();
-                         if(o.cascade.paramName.length>0){
-                             grid[0].p.search = true;
-                            //$.extend(grid[0].p.postData,{paramName : o.cascade.paramName,paramData:$('#'+o.cascade.elementCascadeId).val()});
-                             $.each(o.cascade.paramName,function(i,l){
-                                 var elementId = '#'+o.cascade.elementCascadeId[i];
-                                 $.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
-                             });
-                         }
-
+                        var filter = { groupOp: "AND", rules: []},filterop='bw';
+                        input.focus();
+                        if($('#'+idobjlookup).val()!=''){
+                            var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
+                            var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                            var filter = { groupOp: "AND", rules: []},filterop='bw';
+                            if(colModel[2].searchoptions )
+                                filterop = colModel[2].searchoptions.sopt[0];
+                            filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
+                        }
+                        grid[0].p.search = true;
+                        if(o.cascade.paramName.length>0)
+                            $.each(o.cascade.paramName,function(i,l){
+                                var elementId = '#'+o.cascade.elementCascadeId[i];
+                                filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
+                            });
+                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                          grid.trigger("reloadGrid",[{page:1}]);
                          if(!flagcascadelookupfield){
                          $('#'+idwrapper).show();
-                         //carreraId_lookupgrid_wrapper
-                         flagcascadelookupfield=true;
+                             flagcascadelookupfield=true;
                          }else{
-                         $('#'+idwrapper).hide();
-                         flagcascadelookupfield=false;
+                             $('#'+idwrapper).hide();
+                             flagcascadelookupfield=false;
                          }
                     });
 

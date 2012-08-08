@@ -5,6 +5,7 @@ import com.educacion.util.GUtilDomainClass
 import com.educacion.enums.examen.TipoExamenEnum
 import com.educacion.enums.examen.ModalidadExamenEnum
 import com.educacion.academico.util.AcademicoUtil
+import org.codehaus.groovy.grails.web.json.JSONObject
 
 
 
@@ -208,6 +209,8 @@ class ExamenController {
     def createexamen = {
         log.debug "INGRESANDO AL CLOSURE createexamen"
         log.debug "PARAMETROS: $params"
+
+
     }
     
     def saveexamen = { ExamenCommand cmd ->
@@ -238,9 +241,60 @@ class ExamenController {
         * */
         log.info "listdocentesearchjson"
         log.info "params: $params"
-        //TODO con la carrera usar el ultimo año lectivo vigente
-        ///def anioLectivoInstance =  AcademicoUtil.getAnioLectivoCarrera()
+        def filtersjson
+        def anioLectivoInstance
 
+        /*if(params.paramName){
+            if (params.altfilters){
+                jsonObj = new JSONObject()
+                filtersjson = grails.converters.JSON.parse(params.altfilters)
+                jsonObj.put("field",params.paramName)
+                jsonObj.put("op","eq")
+                jsonObj.put("data",params.paramData)
+                filtersjson.rules.put(jsonObj)
+                params.altfilters = filtersjson.toString()
+            }else{
+                params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
+            }
+        }*/
+        if (params.altfilters){
+            filtersjson = grails.converters.JSON.parse(params.altfilters)
+            filtersjson.rules.each{
+                if(it.field.equals("carrera_id"))
+                    anioLectivoInstance =  AcademicoUtil.getAnioLectivoCarrera(it.data.toLong())
+            }
+            def jsonObj = new JSONObject()
+            jsonObj.put("field","anioLectivo_id")
+            jsonObj.put("op","eq")
+            jsonObj.put("data",anioLectivoInstance.id)
+            filtersjson.rules.put(jsonObj)
+            params.altfilers = filtersjson.toString()
+        }
+
+        def gud = new GUtilDomainClass(AsignaturaDocente, params, grailsApplication)
+        list = gud.listrefactor(false)
+        def totalregistros = gud.listrefactor(true)
+
+        def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
+        if (totalpaginas > 0 && totalpaginas < 1)
+            totalpaginas = 1;
+        totalpaginas = totalpaginas.intValue()
+
+
+
+        def result = '{"page":' + params.page + ',"total":"' + totalpaginas + '","records":"' + totalregistros + '","rows":['
+        def flagaddcomilla = false
+        list.each {
+
+            if (flagaddcomilla)
+                result = result + ','
+
+            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + it.docente.apellido+ '","' + it.docente.nombre + '"]}'
+
+            flagaddcomilla = true
+        }
+        result = result + ']}'
+        render result
 
     }
 

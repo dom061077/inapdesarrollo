@@ -360,7 +360,6 @@ class MateriaController {
                 jsonObj.put("data",params.paramData)
                 filtersjson.rules.put(jsonObj)
                 params.altfilters = filtersjson.toString()
-                log.debug("ALTFILTERS ARMADO CON JSONObject"+params.altfilters)
             }else{
                 params.altfilters='{"groupOp":"AND","rules":[{"field":"'+params.paramName+'","op":"eq","data":"'+params.paramData+'"}]}'
             }

@@ -88,12 +88,12 @@
                         ,{name:'apellido',index:'apellido', width:92,search:true,sortable:true}
                         ,{name:'nombre',index:'nombre', width:92,search:true,sortable:true}
                     ],
-                    url:'<% out << createLink(controller:"materia",action:"listsearchjson")%>'
+                    url:'<% out << createLink(controller:"examen",action:"listdocentesearchjson")%>'
                 }
                 //inputNameDesc:'carreraDesc'
                 ,cascade:{
                     elementCascadeId:['carreraId','materiaId'],
-                    paramName:['carrera_id','materia_id']
+                    paramName:['carrera_id','materias_id']
                 }
                 ,onSelected:function(){
                     //anios.clear();
@@ -140,7 +140,7 @@
                     <label ><g:message code="anioLectivo.label"/></label>
                 </div>
                 <div class="span-4">
-                    ${cmd.anioLectivo}
+                    ${cmd?.anioLectivo}
                 </div>
                 <div class="clear"></div>
             </div>

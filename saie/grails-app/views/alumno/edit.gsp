@@ -763,7 +763,7 @@
 												<label for="telefonoParticular"><g:message code="alumno.telefonoParticular.label" default="Telefono Particular" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="telefonoParticularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoParticular}" />
+												<g:textField name="telefonoParticular" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoParticular}" />
 											</div>
 											<g:hasErrors bean="${alumnoInstance}" field="telefonoParticular">
 												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoParticular"/>
@@ -779,7 +779,7 @@
 												<label for="telefonoCelular"><g:message code="alumno.telefonoCelular.label" default="Telefono Celular" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="telefonoCelularId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoCelular}" />
+												<g:textField name="telefonoCelular" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoCelular}" />
 											</div>
 											<g:hasErrors bean="${alumnoInstance}" field="telefonoCelular">
 												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoCelular"/>
@@ -795,7 +795,7 @@
 												<label for="email"><g:message code="alumno.email.label" default="Email" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="emailId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.email}" />
+												<g:textField name="email" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.email}" />
 											</div>
 											<g:hasErrors bean="${alumnoInstance}" field="email">
 												<g:renderErrors bean="${alumnoInstance}" as="list" field="email"/>
@@ -812,7 +812,7 @@
 												<label for="telefonoAlternativo"><g:message code="alumno.telefonoAlternativo.label" default="telefono Alternativo" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="telefonoAlternativoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoAlternativo}" />
+												<g:textField name="telefonoAlternativo" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoAlternativo}" />
 											</div>
 											<g:hasErrors bean="${alumnoInstance}" field="telefonoAlternativo">
 												<g:renderErrors bean="${alumnoInstance}" as="list" field="telefonoAlternativo"/>
@@ -833,7 +833,7 @@
 												<label for="establecimientoProcedencia"><g:message code="alumno.establecimientoProcedencia.label" default="Establecimiento Procedencia" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="establecimientoProcedenciaId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.establecimientoProcedencia}" />
+												<g:textField name="establecimientoProcedencia" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.establecimientoProcedencia}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="establecimientoProcedencia">
@@ -851,7 +851,7 @@
 												<label for="titulo"><g:message code="alumno.titulo.label" default="Titulo" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="tituloId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.titulo}" />
+												<g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.titulo}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="titulo">
@@ -869,7 +869,7 @@
 												<label for="anioEgreso"><g:message code="alumno.anioEgreso.label" default="Anio Egreso" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField id="anioEgresoId" class="ui-widget ui-corner-all ui-widget-content" name="anioEgreso" value="${fieldValue(bean: alumnoInstance, field: 'anioEgreso')}" />
+												<g:textField id="anioEgreso" class="ui-widget ui-corner-all ui-widget-content" name="anioEgreso" value="${fieldValue(bean: alumnoInstance, field: 'anioEgreso')}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="anioEgreso">
@@ -887,7 +887,7 @@
 												<label for="situacionAcademicas"><g:message code="alumno.situacionAcademicas.label" default="Situacion Academicas" /></label>
 											</div>
 											<div class="span-5">
-												<g:select id="situacionAcademicasId" class="ui-widget ui-corner-all ui-widget-content" name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
+												<g:select id="situacionAcademicas" class="ui-widget ui-corner-all ui-widget-content" name="situacionAcademicas" from="${com.educacion.enums.SituacionAcademicaEnum?.values()}" keys="${com.educacion.enums.SituacionAcademicaEnum?.values()*.name()}" value="${alumnoInstance?.situacionAcademicas?.name()}"  optionValue="name"/>
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="situacionAcademicas">
@@ -906,7 +906,7 @@
 												<label for="legajo"><g:message code="alumno.legajo.label" default="Legajo" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="legajoId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.legajo}" />
+												<g:textField name="legajo" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.legajo}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="legajo">
@@ -925,7 +925,7 @@
 										<label for="lugarLaboral"><g:message code="alumno.lugarLaboral.label" default="Lugar Laboral" /></label>
 									</div>
 									<div class="span-5">
-										<g:textField name="lugarLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.lugarLaboral}" />
+										<g:textField name="lugarLaboral" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.lugarLaboral}" />
 									</div>
 									<g:hasErrors bean="${alumnoInstance}" field="lugarLaboral">
 										<g:renderErrors bean="${alumnoInstance}" as="list" field="lugarLaboral"/>
@@ -943,7 +943,7 @@
 										<label for="telefonoLaboral"><g:message code="alumno.telefonoLaboral.label" default="Telefono Laboral" /></label>
 									</div>
 									<div class="span-5">
-										<g:textField name="telefonoLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoLaboral}" />
+										<g:textField name="telefonoLaboral" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoLaboral}" />
 									</div>
 												
 									<g:hasErrors bean="${alumnoInstance}" field="telefonoLaboral">
@@ -961,7 +961,7 @@
 										<label for="calleLaboral"><g:message code="alumno.calleLaboral.label" default="Calle Laboral" /></label>
 									</div>
 									<div class="span-5">
-										<g:textField name="calleLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleLaboral}" />
+										<g:textField name="calleLaboral" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleLaboral}" />
 									</div>
 												
 									<g:hasErrors bean="${alumnoInstance}" field="calleLaboral">
@@ -979,7 +979,7 @@
 										<label for="numeroLaboral"><g:message code="alumno.numeroLaboral.label" default="Numero Laboral" /></label>
 									</div>
 									<div class="span-5">
-										<g:textField name="numeroLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroLaboral}" />
+										<g:textField name="numeroLaboral" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroLaboral}" />
 									</div>
 												
 									<g:hasErrors bean="${alumnoInstance}" field="numeroLaboral">
@@ -998,7 +998,7 @@
 										<label for="barrioLaboral"><g:message code="alumno.barrioLaboral.label" default="Barrio Laboral" /></label>
 									</div>
 									<div class="span-5">
-										<g:textField name="barrioLaboralId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioLaboral}" />
+										<g:textField name="barrioLaboral" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioLaboral}" />
 									</div>
 												
 									<g:hasErrors bean="${alumnoInstance}" field="barrioLaboral">

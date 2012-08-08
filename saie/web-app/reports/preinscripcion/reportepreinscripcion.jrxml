@@ -2,15 +2,17 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="10" bottomMargin="10">
 	<property name="ireport.zoom" value="1.1"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="461"/>
+	<property name="ireport.y" value="296"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="provincianombre" class="java.lang.String"/>
 	<field name="[0].alumno.apellido" class="java.lang.String"/>
 	<field name="[0].alumno.nombre" class="java.lang.String"/>
 	<field name="[1]" class="java.util.Collection"/>
 	<field name="[0].carrera.denominacion" class="java.lang.String"/>
 	<field name="[2]" class="java.util.Collection"/>
+	<field name="[0].alumno.numeroDocumento" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -39,11 +41,11 @@
 				<reportElement x="0" y="46" width="555" height="1"/>
 			</line>
 			<textField>
-				<reportElement x="0" y="0" width="421" height="10"/>
+				<reportElement x="0" y="0" width="346" height="10"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre}).concat('    DI: ').concat($F{[0].alumno.numeroDocumento})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="3" y="157" width="539" height="28"/>
@@ -71,6 +73,13 @@ Firma del solicitante]]></text>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="344" y="0" width="209" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{provincianombre}.concat('  ').concat(new java.util.Date().toLocaleString().substring(0,10))]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="230">
 			<textField>
@@ -91,11 +100,11 @@ Firma del solicitante]]></text>
 				<text><![CDATA[SOLICITA LA MATRICULACION EN LAS SIGUIENTES MATERIAS DE LA CARRERA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="3" width="421" height="10"/>
+				<reportElement x="0" y="3" width="346" height="10"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre}).concat('    DI: ').concat($F{[0].alumno.numeroDocumento})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="136" width="539" height="28"/>
@@ -122,6 +131,13 @@ Firma del solicitante]]></text>
 				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{[1]})]]></dataSourceExpression>
 				<subreportExpression class="java.io.File"><![CDATA[new File($P{SUBREPORT_DIR},"reportepreinscripcion_detallematerias.jasper")]]></subreportExpression>
 			</subreport>
+			<textField>
+				<reportElement x="342" y="0" width="209" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{provincianombre}.concat('  ').concat(new java.util.Date().toLocaleString().substring(0,10))]]></textFieldExpression>
+			</textField>
 		</band>
 		<band height="256">
 			<textField>
@@ -142,11 +158,11 @@ Firma del solicitante]]></text>
 				<text><![CDATA[SOLICITA LA MATRICULACION EN LAS SIGUIENTES MATERIAS DE LA CARRERA]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="3" width="421" height="10"/>
+				<reportElement x="0" y="3" width="346" height="10"/>
 				<textElement>
 					<font fontName="Courier New" size="8"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre})]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[('Quien suscribe, ').concat($F{[0].alumno.apellido}).concat(' ').concat($F{[0].alumno.nombre}).concat('    DI: ').concat($F{[0].alumno.numeroDocumento})]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="3" y="179" width="539" height="28"/>
@@ -179,6 +195,13 @@ Firma del solicitante]]></text>
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</line>
+			<textField>
+				<reportElement x="343" y="1" width="209" height="12"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{provincianombre}.concat('  ').concat(new java.util.Date().toLocaleString().substring(0,10))]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 </jasperReport>

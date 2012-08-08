@@ -948,7 +948,9 @@ class PreinscripcionController {
 	def reportepreinscripcion = {
 		log.info "INGRESANDO AL CLOSURE reportepreinscripcion"
 		log.info "PARAMETROS $params"
-		
+
+        params.put("provincianombre", g.message(code:"caratula.institucion.provincia"))
+
 		def preinscripcionInstance = Preinscripcion.get(params.id)
 		def list = new ArrayList()
 		

@@ -447,6 +447,7 @@ class AlumnoController {
         listAlumno.each {
             it.localidadNac.nombre
             it.localidadDomicilio.nombre
+            it.localidadLaboral.nombre
             /*it.localidadGarante.nombre
             it.localidadLaboral.nombre
             it.localidadTutor.nombre*/

@@ -106,7 +106,7 @@
 							<div class="span-3 spanlabel">
 								<label for="provinciaNac"><g:message code="alumno.provinciaNac.label" default="Provincia de Nacimiento" /></label>
 							</div>
-							<div class="span-9">
+							<div class="span-9 spanlabel">
 								${alumnoInstance?.localidadNac?.provincia?.nombre} 
 							</div>
 							<div class="clear"></div>	

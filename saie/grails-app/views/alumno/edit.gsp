@@ -671,7 +671,7 @@
 												<label for="calleDomicilio"><g:message code="alumno.calleDomicilio.label" default="Calle Domicilio" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="calleDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleDomicilio}" />
+												<g:textField name="calleDomicilio" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleDomicilio}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="calleDomicilio">
@@ -689,7 +689,7 @@
 												<label for="numeroDomicilio"><g:message code="alumno.numeroDomicilio.label" default="Numero Domicilio" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="numeroDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroDomicilio}" />
+												<g:textField name="numeroDomicilio" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroDomicilio}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="numeroDomicilio">
@@ -706,7 +706,7 @@
 												<label for="barrioDomicilio"><g:message code="alumno.barrioDomicilio.label" default="Barrio Domicilio" /></label>
 											</div>
 											<div class="span-5">
-												<g:textField name="barrioDomicilioId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioDomicilio}" />
+												<g:textField name="barrioDomicilio" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioDomicilio}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="barrioDomicilio">

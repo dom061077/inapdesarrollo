@@ -444,6 +444,14 @@ class AlumnoController {
         def listAlumno = new ArrayList()
         listAlumno.add(alumnoInstance)
 
+        listAlumno.each {
+            it.localidadNac.nombre
+            it.localidadDomicilio.nombre
+            /*it.localidadGarante.nombre
+            it.localidadLaboral.nombre
+            it.localidadTutor.nombre*/
+        }
+
         chain(controller:'jasper', action:'index', model:[data:listAlumno], params:params)
 
     }

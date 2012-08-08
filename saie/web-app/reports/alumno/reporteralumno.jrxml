@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="23"/>
+	<property name="ireport.y" value="11"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
@@ -15,6 +15,15 @@
 	<field name="tipoDocumento.name" class="java.lang.String"/>
 	<field name="fechaNacimiento" class="java.util.Date"/>
 	<field name="sexo.name" class="java.lang.String"/>
+	<field name="localidadNac.nombre" class="java.lang.String"/>
+	<field name="localidadNac.provincia.nombre" class="java.lang.String"/>
+	<field name="localidadNac.provincia.pais.nombre" class="java.lang.String"/>
+	<field name="calleDomicilio" class="java.lang.String"/>
+	<field name="numeroDomicilio" class="java.lang.String"/>
+	<field name="barrioDomicilio" class="java.lang.String"/>
+	<field name="localidadDomicilio.nombre" class="java.lang.String"/>
+	<field name="localidadDomicilio.provincia.nombre" class="java.lang.String"/>
+	<field name="localidadDomicilio.provincia.pais.nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -44,9 +53,9 @@
 		</band>
 	</title>
 	<detail>
-		<band height="312" splitType="Prevent">
+		<band height="672" splitType="Prevent">
 			<rectangle radius="10">
-				<reportElement x="3" y="9" width="550" height="165"/>
+				<reportElement x="3" y="9" width="550" height="228"/>
 			</rectangle>
 			<rectangle>
 				<reportElement x="8" y="23" width="540" height="46" backcolor="#FFFFFF"/>
@@ -146,25 +155,152 @@
 				<text><![CDATA[ Datos de Nacimiento ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="27" y="84" width="89" height="12"/>
+				<reportElement x="27" y="84" width="26" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Pais de Nacimiento:]]></text>
+				<text><![CDATA[Pais:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="27" y="96" width="111" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Provincia de Nacimiento:]]></text>
+				<text><![CDATA[Provincia:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="305" y="84" width="105" height="12"/>
+				<reportElement x="305" y="84" width="51" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Localidad Nacimiento:]]></text>
+				<text><![CDATA[Localidad:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="357" y="84" width="149" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadNac.nombre}==null?"":$F{localidadNac.nombre})
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="54" y="83" width="171" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadNac.provincia.pais.nombre}==null?"":$F{localidadNac.provincia.pais.nombre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="95" width="211" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadNac.provincia.nombre}==null?"":$F{localidadNac.provincia.nombre})
+]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="8" y="117" width="540" height="44" backcolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="112" width="51" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[  Domicilio ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="124" width="26" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Calle:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="136" width="39" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Número:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="149" width="37" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Barrio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="121" width="26" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Pais:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="135" width="57" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="310" y="148" width="57" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Localidad:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="123" width="229" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{calleDomicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="136" width="219" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{numeroDomicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="148" width="228" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{barrioDomicilio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="357" y="147" width="181" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{localidadDomicilio.nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="134" width="182" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{localidadDomicilio.provincia.nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="333" y="121" width="205" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{localidadDomicilio.provincia.pais.nombre}]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="8" y="170" width="540" height="44" backcolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="25" y="165" width="90" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Datos de Contacto ]]></text>
 			</staticText>
 		</band>
 	</detail>

@@ -650,7 +650,7 @@
 							</div>
 							<div class="span-9">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadNacId" name="localidadNacDesc"  value="${alumnoInstance?.localidadNac?.nombre}" /> 
-								<g:hiddenField id="localidadNacIdId" name="localidadNac.id" value="${alumnoInstance?.localidadNac?.id}" />
+								<g:hiddenField id="localidadNacIdId" name="localidadNacId" value="${alumnoInstance?.localidadNac?.id}" />
 							</div>
 							
 							<g:hasErrors bean="${alumnoInstance}" field="localidadNac">
@@ -743,7 +743,7 @@
 											</div>
 											<div class="span-9">
 												<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadDomicilioId" name="localidadDomicilioDesc"  value="${alumnoInstance.localidadDomicilio?.nombre}" /> 
-				 								<g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilio.id" value="${alumnoInstance.localidadDomicilio?.id}" />
+				 								<g:hiddenField id="localidadDomicilioIdId" name="localidadDomicilioId" value="${alumnoInstance.localidadDomicilio?.id}" />
 											</div>
 														
 											<g:hasErrors bean="${alumnoInstance}" field="localidadDomicilio">
@@ -1038,7 +1038,7 @@
 									</div>
 									<div class="span-9">
 										<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadLaboralId" name="localidadLaboralDesc"  value="${alumnoInstance?.localidadLaboral?.nombre}" /> 
-		 										<g:hiddenField id="localidadLaboralIdId" name="localidadLaboral.id" value="${alumnoInstance?.localidadLaboral?.id}" />
+		 										<g:hiddenField id="localidadLaboralIdId" name="localidadLaboralId" value="${alumnoInstance?.localidadLaboral?.id}" />
 									</div>
 												
 									<g:hasErrors bean="${alumnoInstance}" field="localidadLaboral">
@@ -1217,7 +1217,7 @@
 								</div>
 								<div class="span-9">
 									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadTutorId" name="localidadTutorDesc"  value="${localidadTutor?.nombre}" /> 
-	 										<g:hiddenField id="localidadTutorId" name="localidadTutor.id" value="${localidadTutor?.id}" />
+	 										<g:hiddenField id="localidadTutorId" name="localidadTutorId" value="${localidadTutor?.id}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="localidadTutor">
@@ -1386,7 +1386,7 @@
 								</div>
 								<div class="span-9">
 									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadGaranteId" name="localidadGaranteDesc"  value="${alumnoInstance.localidadGarante?.nombre}" /> 
-	 										<g:hiddenField id="localidadGaranteIdId" name="localidadGarante.id" value="${localidadGarante?.id}" />
+	 										<g:hiddenField id="localidadGaranteIdId" name="localidadGaranteId" value="${alumnoInstance.localidadGarante?.id}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="localidadGarante">
@@ -1439,6 +1439,7 @@
 							</div>
 	            			<div id="image" class="span-4 colborder">
 	            					<a class="thickbox" href="${g.resourceimgext(size:'large', bean:alumnoInstance)}"><img src="${g.resourceimgext(size:'small', bean:alumnoInstance)}"  alt=""> </img></a>
+                                    PRUEBA DE REALPATH DE IMAGEN: ${g.realresourceimgext(size:'samll',bean:alumnoInstance)}
 	            			</div>
 							<div id="inputimage" class="span-4 colborder">                    
 	                                    <input class="ui-widget ui-corner-all ui-widget-content" type="file" name="photo" />

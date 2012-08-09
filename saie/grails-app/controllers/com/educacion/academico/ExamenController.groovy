@@ -216,8 +216,10 @@ class ExamenController {
     def saveexamen = { ExamenCommand cmd ->
         log.info "INGRESANDO AL CLOSURE saveexamen"
         log.info "PARAMETROS $params"
-        log.debug "CMD INSTANCE: "+cmd
         if (cmd.validate()){
+           def inscmaterias = InscripcionMateriaDetalle.createCriteria().list {
+
+           }
            Examen.withTransaction {TransactionStatus status ->
 
            }

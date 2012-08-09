@@ -1,6 +1,7 @@
 
 
 import pl.burningice.plugins.image.container.ContainerWorkerFactory
+import pl.burningice.plugins.image.container.ContainerUtils
 
 class BurningImageExtensionTagLib {
 	ContainerWorkerFactory containerWorkerFactory
@@ -15,6 +16,20 @@ class BurningImageExtensionTagLib {
 				out << g.resource(dir:'images',file:'noDisponibleLarge.jpg');
 		}
 	}
+
+    def realresourceimgext = { attrs ->
+        def tamanio = attrs.size
+        def config = ContainerUtils.getConfig(attrs.bean)
+
+        if (!config){
+            throw new IllegalArgumentException("There is no config for ${attrs.bean.class.name}")
+        }
+
+        //return servletContext.getRealPath()+dir:getOutputDir(config.outputDir), file:ContainerUtils.getFullName(tamanio, attrs.bean, config))
+        //out << "outputdir: "+config.outputDir+ " Fullname: "+ContainerUtils.getFullName(tamanio, attrs.bean, config)
+        out << config.outputDir+"/"+ContainerUtils.getFullName(tamanio, attrs.bean, config)
+
+    }
 	
 
 	

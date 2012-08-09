@@ -411,7 +411,7 @@ class InscripcionMateriaController {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
 
-        params.altfilters = """{'groupOp':'OR','rules':[{'field':'inscripcionMatricula_estado','op':'eq','data':'${EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA}'},{'field':'inscripcionMatricula_estado','op':'eq','data':'${EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA}'}]}"""
+        params.altfilters = '{"groupOp":"OR","rules":[{"field":"inscripcionMatricula_estado","op":"eq","data":"ESTADOINSMAT_CONFIRMADA"},{"field":"inscripcionMatricula_estado","op":"eq","data":"ESTADOINSMAT_PAGADA"}]}'
         params._search = "true"
 
 		def gud=new GUtilDomainClass(InscripcionMateria,params,grailsApplication)

@@ -687,6 +687,16 @@ class PreinscripcionController {
 
         //def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
 
+        if(preinscripcionInstance.estado == EstadoPreinscripcion.ESTADO_INSCRIPTO
+            || preinscripcionInstance.estado == EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTE
+              ||   preinscripcionInstance.estado == EstadoPreinscripcion.ESTADO_INSCRIPTOSUPLENTE
+              || preinscripcionInstance.estado == EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTESUPLENTE
+            ){
+            flash.message = "No se puede confirmar una preinscripción si tiene un estado confirmada"
+            redirect(action:'list')
+            return
+        }
+
         def flagcomilla = false
         def flagseleccionado
         def idinscmatdetalle

@@ -158,131 +158,142 @@ class GUtilDomainClass{
 		return "";
 		
 	}
+
+    private def internalList(boolean rowcount,boolean activateprojection){
+        log.info "INGRESANDO AL METODO activateprojection DE LA CLASE GUtilDomainClass"
+        log.info "Domain class: ${domainClass}"
+        def searchOper=""
+        def searchValue
+        def metaProperty
+        def fieldToken
+        def list = []
+        def filtersJson
+        def pagingConfing = [
+                max: Integer.parseInt(params.rows),
+                offset: Integer.parseInt(params.page)-1
+        ]
+        def criteria = domainClass.createCriteria()
+
+        def closure = {
+            log.debug "INGRESANDO AL CLOSURE INTERNO QUE AGREGA LAS CONDICIONES DE BUSQUEDA DEL CRITERIA"
+            if(Boolean.parseBoolean(params._search )|| (params.search && Boolean.parseBoolean(params.search))){
+                if(params.searchOper){
+                    log.debug "params.searchString ${params.searchString}, params.searchField: ${params.searchField}"
+                    metaProperty=FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,params.searchField)
+                    log.info "META PROPERTY DEVUELTA: ${metaProperty}"
+                    searchOper= operationSearch(params.searchOper)
+                    searchValue=parseValue(params.searchString, metaProperty, params)
+                    criteria."${searchOper}"(params.searchField,searchValue)
+                }
+                if(params.filters){
+                    filtersJson = JSON.parse(params.filters)
+                    criteria."${filtersJson.groupOp.toLowerCase()}"(){
+                        filtersJson?.rules?.each{
+                            log.info "REGLAS DE BUSQUEDA APLICADAS:"
+                            searchOper = operationSearch(it.op)
+                            metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
+
+
+                            searchValue=parseValue(it.data,metaProperty,params)
+                            if(it.field.contains("_")){
+                                fieldToken = it.field.tokenize("_")
+                                switch(fieldToken.size()){
+                                    case 2:
+                                        criteria."${fieldToken[0]}"{
+                                            criteria."${searchOper}"(fieldToken[1],searchValue)
+                                        }
+                                        break;
+                                    case 3:
+                                        criteria."${fieldToken[0]}"{
+                                            criteria."${fieldToken[1]}"{
+                                                criteria."${searchOper}"(fieldToken[2],searchValue)
+                                            }
+                                        }
+                                        break;
+                                }
+                            }else{
+                                criteria."${searchOper}"(it.field,searchValue)
+                            }
+                        }
+                    }
+                }
+                if(params.altfilters){
+                    filtersJson = JSON.parse(params.altfilters)
+                    criteria."${filtersJson.groupOp.toLowerCase()}"(){
+                        filtersJson?.rules?.each{
+                            log.info "REGLAS DE BUSQUEDA APLICADAS:"
+                            searchOper = operationSearch(it.op)
+                            metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
+
+
+                            searchValue=parseValue(it.data,metaProperty,params)
+                            if(it.field.contains("_")){
+                                fieldToken = it.field.tokenize("_")
+                                switch(fieldToken.size()){
+                                    case 2:
+                                        criteria."${fieldToken[0]}"{
+                                            criteria."${searchOper}"(fieldToken[1],searchValue)
+                                        }
+                                        break;
+                                    case 3:
+                                        criteria."${fieldToken[0]}"{
+                                            criteria."${fieldToken[1]}"{
+                                                criteria."${searchOper}"(fieldToken[2],searchValue)
+                                            }
+                                        }
+                                        break;
+                                }
+
+
+                            }else{
+                                criteria."${searchOper}"(it.field,searchValue)
+                            }
+                        }
+                    }
+                }
+
+            }
+            log.info "paginacion en list refactor rows: ${params.rows.toInteger()}, pag: ${params.page.toInteger()}"
+            if(rowcount){
+                criteria.projections{
+                    rowCount()
+                }
+            }else{
+                firstResult((params.page.toInteger()-1)*params.rows.toInteger())
+                maxResults(params.rows.toInteger())
+                if(params.sidx && params.sord){
+                    if(params.sidx.contains("_")){
+                        fieldToken = params.sidx.tokenize("_")
+                        log.info "ORDEN APLICADO SOBRE ${fieldToken[0]}, CAMBIO DE ORDENAMIENTO: ${fieldToken[1]} "
+                        "${fieldToken[0]}"{
+                            order(fieldToken[1],params.sord)
+                        }
+                    }else
+                        order(params.sidx,params.sord)
+                }
+
+            }
+            if(activateprojection){
+                criteria.projections{
+                    groupProperty('id')
+                }
+            }
+        }
+        if(rowcount){
+            return criteria.get(closure)
+        }else{
+            return criteria.list(closure)
+        }
+
+    }
 	
+    def listdistinct(boolean rowcount){
+        def list = internalList(rowcount,true).collect {domainClass.get(it[0])}
+    }
 
 	
 	def listrefactor(boolean rowcount){
-		log.info "INGRESANDO AL METODO listrefactor DE LA CLASE GUtilDomainClass"
-		log.info "Domain class: ${domainClass}"
-		def searchOper=""
-		def searchValue
-		def metaProperty
-		def fieldToken
-		def list = []
-		def filtersJson
-		def pagingConfing = [
-			max: Integer.parseInt(params.rows),
-			offset: Integer.parseInt(params.page)-1
-		]
-		def criteria = domainClass.createCriteria()
-		
-		def closure = {
-			log.debug "INGRESANDO AL CLOSURE INTERNO QUE AGREGA LAS CONDICIONES DE BUSQUEDA DEL CRITERIA"
-			if(Boolean.parseBoolean(params._search )|| (params.search && Boolean.parseBoolean(params.search))){
-				if(params.searchOper){
-					log.debug "params.searchString ${params.searchString}, params.searchField: ${params.searchField}"
-					metaProperty=FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,params.searchField)
-					log.info "META PROPERTY DEVUELTA: ${metaProperty}"
-					searchOper= operationSearch(params.searchOper)
-					searchValue=parseValue(params.searchString, metaProperty, params)
-					criteria."${searchOper}"(params.searchField,searchValue)
-				}	
-				if(params.filters){
-					filtersJson = JSON.parse(params.filters)
-					criteria."${filtersJson.groupOp.toLowerCase()}"(){
-							filtersJson?.rules?.each{
-								log.info "REGLAS DE BUSQUEDA APLICADAS:"
-								searchOper = operationSearch(it.op)
-								metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
-								
-
-								searchValue=parseValue(it.data,metaProperty,params)
-								if(it.field.contains("_")){
-									fieldToken = it.field.tokenize("_")
-									switch(fieldToken.size()){
-										case 2:
-											criteria."${fieldToken[0]}"{
-												criteria."${searchOper}"(fieldToken[1],searchValue)
-											}
-											break;
-										case 3:
-											criteria."${fieldToken[0]}"{
-												criteria."${fieldToken[1]}"{
-													criteria."${searchOper}"(fieldToken[2],searchValue)
-												}
-											}
-											break;
-									}
-								}else{
-									criteria."${searchOper}"(it.field,searchValue)
-								}
-							}
-						}	
-				}
-				if(params.altfilters){
-					filtersJson = JSON.parse(params.altfilters)
-					criteria."${filtersJson.groupOp.toLowerCase()}"(){
-							filtersJson?.rules?.each{
-								log.info "REGLAS DE BUSQUEDA APLICADAS:"
-								searchOper = operationSearch(it.op)
-								metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
-								
-
-								searchValue=parseValue(it.data,metaProperty,params)
-								if(it.field.contains("_")){
-									fieldToken = it.field.tokenize("_")
-									switch(fieldToken.size()){
-										case 2:
-											criteria."${fieldToken[0]}"{
-												criteria."${searchOper}"(fieldToken[1],searchValue)
-											}
-											break;
-										case 3:
-											criteria."${fieldToken[0]}"{
-												criteria."${fieldToken[1]}"{
-													criteria."${searchOper}"(fieldToken[2],searchValue)
-												}
-											}
-											break;
-									}
-									
-									
-								}else{
-									criteria."${searchOper}"(it.field,searchValue)
-								}
-							}
-						}
-				}
-				
-			}
-			log.info "paginacion en list refactor rows: ${params.rows.toInteger()}, pag: ${params.page.toInteger()}"
-			if(rowcount){
-				criteria.projections{
-					rowCount()
-				}
-			}else{
-				firstResult((params.page.toInteger()-1)*params.rows.toInteger())
-				maxResults(params.rows.toInteger())
-				if(params.sidx && params.sord){
-					if(params.sidx.contains("_")){
-						fieldToken = params.sidx.tokenize("_")
-						log.info "ORDEN APLICADO SOBRE ${fieldToken[0]}, CAMBIO DE ORDENAMIENTO: ${fieldToken[1]} "
-						"${fieldToken[0]}"{
-							order(fieldToken[1],params.sord)
-						}
-					}else
-						order(params.sidx,params.sord)
-				}	
-
-			}
-		} 
-		if(rowcount){
-			return criteria.get(closure)	
-		}else{
-			return criteria.list(closure)
-		}
-		
-		
+        return internalList(rowcount,false)
 	}
 	
 	def list(){

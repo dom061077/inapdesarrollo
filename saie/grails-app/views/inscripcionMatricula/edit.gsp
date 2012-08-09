@@ -75,7 +75,7 @@
 	            	,sortname:'denominacion'
 	                //,pager: '#pagermateriasId'
 	            	,sortorder:'asc'
-	                ,caption: 'Materias Inscriptas'
+	                //,caption: 'Materias Inscriptas'
 	                ,onSelectRow: function(id){ 
 		                if(id && id!==lastsel){ 
 			                jQuery('#materiasId').jqGrid('restoreRow',lastsel); 
@@ -150,7 +150,7 @@
 
 																	
 							<div class="span-3 spanlabel">
-								<label for="anioLectivo"><g:message code="inscripcionMatricula.anioLectivo.label" default="Anio Lectivo" /></label>
+								<label><g:message code="inscripcionMatricula.anioLectivo.label" default="Anio Lectivo" /></label>
 							</div>
 							<div class="span-5 spanlabel">
 								${inscripcionMatriculaInstance?.anioLectivo?.anioLectivo} 
@@ -161,24 +161,25 @@
 						   <div class="span-3 spanlabel">
 						   		<label for="estado"><g:message code="inscripcionMatricula.estado.label" default="Estado" /></label>
 						   </div>
-						   <div class="span-5">
-						   		<g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado" 
+						   <div class="span-5 spanlabel">
+						   		<%--g:select id="estadoId" class="ui-widget ui-corner-all ui-widget-content" name="estado"
 						   		from="${com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum?.values()}" 
 						   		keys="${com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum?.values()*.name()}" 
-						   		value="${inscripcionMatriculaInstance?.estado?.name()}"  optionValue="name"/>
+						   		value="${inscripcionMatriculaInstance?.estado?.name()}"  optionValue="name"/ --%>
+                                ${inscripcionMatriculaInstance?.estado?.name}
 						   </div>
 						   <div class="clear"></div>
 						   <fieldset>
 						   		<g:hiddenField id="materiasSerializedId" name="materiasSerialized" value="${materiasSerialized}"/>
-						   		<legend>Materias Disponibles para la Inscripción</legend>
+						   		<legend>Materias a Confirmar</legend>
 						   		<table id="materiasId"></table>
 						   		<div id="pagermateriasId"></div>
 						   </fieldset>	
 		            
                 </div>
                 <div class="buttons">
-                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" /></span>
-                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="update" value="${message(code: 'inscripcionMatricula.confirmar.button')}" /></span>
+                    <%-- span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span --%>
                 </div>
             </g:form>
         </div>

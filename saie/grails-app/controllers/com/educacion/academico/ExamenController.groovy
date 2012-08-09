@@ -210,15 +210,17 @@ class ExamenController {
         log.debug "INGRESANDO AL CLOSURE createexamen"
         log.debug "PARAMETROS: $params"
 
-
+        return [cmd: new ExamenCommand()]
     }
     
     def saveexamen = { ExamenCommand cmd ->
         log.info "INGRESANDO AL CLOSURE saveexamen"
         log.info "PARAMETROS $params"
+        log.debug "CMD INSTANCE: "+cmd
         if (cmd.validate()){
 
         }else{
+            log.debug "Errors: "+cmd.errors.allErrors
             render (view: "createexamen",model: [cmd:cmd])
         }
     }
@@ -260,13 +262,14 @@ class ExamenController {
         if (params.altfilters){
             filtersjson = grails.converters.JSON.parse(params.altfilters)
             filtersjson.rules.each{
-                if(it.field.equals("carrera_id"))
+                if(!it.data.equals("")){
                     anioLectivoInstance =  AcademicoUtil.getAnioLectivoCarrera(it.data.toLong())
+                }
             }
             def jsonObj = new JSONObject()
             jsonObj.put("field","anioLectivo_id")
             jsonObj.put("op","eq")
-            jsonObj.put("data",anioLectivoInstance.id)
+            jsonObj.put("data",(anioLectivoInstance?anioLectivoInstance.id:0))
             filtersjson.rules.put(jsonObj)
             params.altfilers = filtersjson.toString()
         }
@@ -309,10 +312,14 @@ class ExamenCommand{
     String materiaDesc
     String docenteId
     String docenteDesc
+    String anioLectivo
     String titulo
     TipoExamenEnum tipo
     ModalidadExamenEnum modalidad
     static constraints = {
+        
+         titulo(nullable: false,blank: false)
+        
          carreraId(nullable: false, blank: false,validator: {v,cmd ->
                 if(v){
                     def carreraInstance = Carrera.get(cmd.carreraId)

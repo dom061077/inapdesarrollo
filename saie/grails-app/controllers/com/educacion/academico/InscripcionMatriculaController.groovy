@@ -255,7 +255,8 @@ class InscripcionMatriculaController {
                 }
             }
 			InscripcionMatricula.withTransaction{TransactionStatus status ->
-	            inscripcionMatriculaInstance.properties = params
+	            //inscripcionMatriculaInstance.properties = params
+                inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
 				
 				//------modificacion del detalle de la inscripcion de materias dentro de la matricula--
 				

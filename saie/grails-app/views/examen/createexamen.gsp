@@ -32,7 +32,7 @@
                     ],
                     url:'<% out << createLink(controller:"carrera",action:"listsearchjson")%>'
                 }
-                //inputNameDesc:'carreraDesc'
+                ,inputNameDesc:'carreraDesc'
                 ,onSelected:function(){
                     nivel.clear();
                     materia.clear();
@@ -90,7 +90,7 @@
                     ],
                     url:'<% out << createLink(controller:"examen",action:"listdocentesearchjson")%>'
                 }
-                //inputNameDesc:'carreraDesc'
+                ,inputNameDesc:'carreraDesc'
                 ,cascade:{
                     elementCascadeId:['carreraId','materiaId'],
                     paramName:['carrera_id','materias_id']
@@ -183,7 +183,7 @@
                     <label for="docenteId"><g:message code="examen.docente.label"/></label>
                 </div>
                 <div class="span-4">
-                    <input name="docenteDesc" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" / --%>
+                    <input name="docenteId" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" />
                 </div>
                 <div class="clear"></div>
             </div>

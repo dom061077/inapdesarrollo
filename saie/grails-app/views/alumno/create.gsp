@@ -1086,7 +1086,7 @@
 								</g:hasErrors>
 								
 								<div class="span-3 spanlabel">
-									<label for="parentescoTutor"><g:message code="alumno.parentescoTutor.label" default="Teléfono Tutor" /></label>
+									<label for="parentescoTutor"><g:message code="alumno.parentescoTutor.label" default="Parentesco Tutor" /></label>
 								</div>
 								<div class="span-5">
 									<g:textField name="parentescoTutorId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.parentescoTutor}" />

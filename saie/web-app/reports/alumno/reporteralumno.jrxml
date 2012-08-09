@@ -41,6 +41,8 @@
 	<field name="localidadLaboral.nombre" class="java.lang.String"/>
 	<field name="localidadLaboral.provincia.pais.nombre" class="java.lang.String"/>
 	<field name="localidadLaboral.provincia.nombre" class="java.lang.String"/>
+	<field name="apellidoNombreTutor" class="java.lang.String"/>
+	<field name="profesionTutor" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -270,8 +272,7 @@
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA[($F{calleDomicilio}==null?"":$F{calleDomicilio})
-]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{calleDomicilio}==null?"":$F{calleDomicilio})]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="67" y="136" width="219" height="12"/>
@@ -611,11 +612,18 @@
 				<text><![CDATA[Profesión:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="380" width="76" height="12"/>
+				<reportElement x="310" y="392" width="47" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
-				<text><![CDATA[Lugar Laboral:]]></text>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="380" width="56" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Parentesco:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="24" y="392" width="48" height="12"/>
@@ -625,35 +633,28 @@
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="404" width="48" height="12"/>
-				<textElement>
-					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
-				</textElement>
-				<text><![CDATA[Teléfono:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="309" y="356" width="29" height="12"/>
+				<reportElement x="24" y="404" width="29" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Calle:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="368" width="47" height="12"/>
+				<reportElement x="309" y="356" width="47" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Número:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="380" width="35" height="12"/>
+				<reportElement x="310" y="368" width="35" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Barrio:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="392" width="27" height="12"/>
+				<reportElement x="309" y="380" width="27" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>

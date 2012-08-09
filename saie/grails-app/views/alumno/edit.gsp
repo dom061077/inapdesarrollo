@@ -1439,7 +1439,7 @@
 							</div>
 	            			<div id="image" class="span-4 colborder">
 	            					<a class="thickbox" href="${g.resourceimgext(size:'large', bean:alumnoInstance)}"><img src="${g.resourceimgext(size:'small', bean:alumnoInstance)}"  alt=""> </img></a>
-                                    PRUEBA DE REALPATH DE IMAGEN: ${g.realresourceimgext(size:'samll',bean:alumnoInstance)}
+
 	            			</div>
 							<div id="inputimage" class="span-4 colborder">                    
 	                                    <input class="ui-widget ui-corner-all ui-widget-content" type="file" name="photo" />

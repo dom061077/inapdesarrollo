@@ -62,6 +62,9 @@ $(document).ready(function(){
                     .appendTo( wrapper );
                 input.val($('#'+idobj).attr('descValue'));
                 $('#'+idobjlookup).keyup(function(e){
+                    var colNames;
+                    var colModel;
+                    var filter;
                     o.onSelected();
                     var grid = $('#'+idgrid);
                     if(e.keyCode==27){
@@ -101,9 +104,9 @@ $(document).ready(function(){
                                 $('#'+idobjlookup+'_wrapper').show();
                                 flagcascadelookupfield=true;
                             }
-                            var colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
-                            var colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
-                            var filter = { groupOp: "AND", rules: []},filterop='bw';
+                            colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
+                            colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                            filter = { groupOp: "AND", rules: []},filterop='bw';
                             if(colModel[2].searchoptions )
                                 filterop = colModel[2].searchoptions.sopt[0];
 
@@ -120,6 +123,7 @@ $(document).ready(function(){
                             $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                         }else{
                             $('#'+idobj).val('');
+                            filter = { groupOp: "AND", rules: []},filterop='bw';
                             if(o.cascade.paramName.length>0)
                                 $.each(o.cascade.paramName,function(i,l){
                                     var elementId = '#'+o.cascade.elementCascadeId[i];

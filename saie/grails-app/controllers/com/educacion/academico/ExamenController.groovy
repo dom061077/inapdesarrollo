@@ -6,6 +6,7 @@ import com.educacion.enums.examen.TipoExamenEnum
 import com.educacion.enums.examen.ModalidadExamenEnum
 import com.educacion.academico.util.AcademicoUtil
 import org.codehaus.groovy.grails.web.json.JSONObject
+import org.springframework.transaction.TransactionStatus
 
 
 
@@ -209,8 +210,7 @@ class ExamenController {
     def createexamen = {
         log.debug "INGRESANDO AL CLOSURE createexamen"
         log.debug "PARAMETROS: $params"
-
-        return [cmd: new ExamenCommand()]
+        //return [cmd: new ExamenCommand()]
     }
     
     def saveexamen = { ExamenCommand cmd ->
@@ -218,7 +218,9 @@ class ExamenController {
         log.info "PARAMETROS $params"
         log.debug "CMD INSTANCE: "+cmd
         if (cmd.validate()){
+           Examen.withTransaction {TransactionStatus status ->
 
+           }
         }else{
             log.debug "Errors: "+cmd.errors.allErrors
             render (view: "createexamen",model: [cmd:cmd])
@@ -305,14 +307,13 @@ class ExamenController {
 
 class ExamenCommand{
     String carreraId
-    String carreraDesc
+    String carreraDesc=""
     String nivelId
     String nivelDesc
     String materiaId
     String materiaDesc
     String docenteId
     String docenteDesc
-    String anioLectivo
     String titulo
     TipoExamenEnum tipo
     ModalidadExamenEnum modalidad

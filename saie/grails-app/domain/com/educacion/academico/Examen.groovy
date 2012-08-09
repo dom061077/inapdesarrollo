@@ -6,7 +6,7 @@ import com.educacion.enums.examen.ModalidadExamenEnum
 
 class Examen {
 
-    Date fecha
+    Date fecha = new Date(new java.util.Date().getTime())
     String titulo
     TipoExamenEnum tipo
     ModalidadExamenEnum modalidad

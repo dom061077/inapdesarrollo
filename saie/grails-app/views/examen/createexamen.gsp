@@ -47,7 +47,7 @@
                     ],
                     url:'<% out << createLink(controller:"nivel",action:"listsearchjson")%>'
                 }
-                //inputNameDesc:'carreraDesc'
+                ,inputNameDesc:'nivelDesc'
                 ,cascade:{
                     elementCascadeId:['carreraId'],
                     paramName:['carrera_id']
@@ -68,16 +68,14 @@
                     ],
                     url:'<% out << createLink(controller:"materia",action:"listsearchjson")%>'
                 }
-                //inputNameDesc:'carreraDesc'
+                ,inputNameDesc:'materiaDesc'
                 ,cascade:{
                     elementCascadeId:['nivelId'],
                     paramName:['nivel_id']
                 }
 
                 ,onSelected:function(){
-                    //anios.clear();
-                    //$('#materiasId').clearGridData();
-
+                    docente.clear();
                 }
             });
 
@@ -90,7 +88,7 @@
                     ],
                     url:'<% out << createLink(controller:"examen",action:"listdocentesearchjson")%>'
                 }
-                ,inputNameDesc:'carreraDesc'
+                ,inputNameDesc:'docenteDesc'
                 ,cascade:{
                     elementCascadeId:['carreraId','materiaId'],
                     paramName:['carrera_id','materias_id']
@@ -136,68 +134,97 @@
     <g:form action="saveexamen" >
         <div class="append-bottom">
             <div class="append-bottom">
-                <div class="span-3">
-                    <label ><g:message code="anioLectivo.label"/></label>
-                </div>
-                <div class="span-4">
-                    ${cmd?.anioLectivo}
-                </div>
-                <div class="clear"></div>
-            </div>
-
-
-            <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="carreraId">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
                 <div class="span-3">
                     <label for="carreraId"><g:message code="examen.carrera.label"/></label>
+                    ${cmd?.carreraDesc}
                 </div>
                 <div class="span-4">
                     <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
                 </div>
+                <g:hasErrors bean="${cmd}" field="carreraId">
+                    <g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
+                    </div>
+                </g:hasErrors>
                 <div class="clear"></div>
             </div>
 
 
             <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="nivelId">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
                 <div class="span-3">
                     <label for="nivelId"><g:message code="examen.nivel.label"/></label>
                 </div>
                 <div class="span-4">
                     <input name="nivelId" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${cmd?.nivelDesc}" value="${cmd?.nivelId}" />
                 </div>
+                <g:hasErrors bean="${cmd}" field="nivelId">
+                    <g:renderErrors bean="${cmd}" as="list" field="nivelId"/>
+                    </div>
+                </g:hasErrors>
                 <div class="clear"></div>
             </div>
 
             <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="materiaId">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
                 <div class="span-3">
                     <label for="materiaId"><g:message code="examen.materia.label"/></label>
                 </div>
                 <div class="span-4">
                     <input name="materiaId" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${cmd?.materiaDesc}" value="${cmd?.materiaId}" />
                 </div>
+                <g:hasErrors bean="${cmd}" field="materiaId">
+                    <g:renderErrors bean="${cmd}" as="list" field="materiaId"/>
+                    </div>
+                </g:hasErrors>
                 <div class="clear"></div>
             </div>
 
 
             <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="materiaId">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
                 <div class="span-3">
                     <label for="docenteId"><g:message code="examen.docente.label"/></label>
                 </div>
                 <div class="span-4">
                     <input name="docenteId" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" />
                 </div>
+                <g:hasErrors bean="${cmd}" field="materiaId">
+                    <g:renderErrors bean="${cmd}" as="list" field="materiaId"/>
+                    </div>
+                </g:hasErrors>
                 <div class="clear"></div>
             </div>
 
-
-            <div class="span-3 spanlabel">
-                <label for="titulo"><g:message code="examen.titulo.label"/></label>
+            <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="titulo">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
+                <div class="span-3 spanlabel">
+                    <label for="titulo"><g:message code="examen.titulo.label"/></label>
+                </div>
+                <div class="span-4">
+                    <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${cmd?.titulo}" />
+                </div>
+                <g:hasErrors bean="${cmd}" field="titulo">
+                    <g:renderErrors bean="${cmd}" as="list" field="titulo"/>
+                    </div>
+                </g:hasErrors>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <g:textField name="titulo" class="ui-widget ui-corner-all ui-widget-content" id="tituloId" value="${cmd?.titulo}" />
-            </div>
-            <div class="clear"></div>
 
             <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="tipo">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
                 <div class="span-3">
                     <label for="tipo"><g:message code="examen.tipo.label"/></label>
                 </div>
@@ -205,18 +232,29 @@
                     <g:select name="tipo" from="${TipoExamenEnum.list()}"  optionValue="name"
                               class="ui-widget ui-corner-all ui-widget-content" id="tipoId" value="${cmd?.tipo}" />
                 </div>
+                <g:hasErrors bean="${cmd}" field="tipo">
+                    <g:renderErrors bean="${cmd}" as="list" field="tipo"/>
+                    </div>
+                </g:hasErrors>
                 <div class="clear"></div>
             </div>
-
-            <div class="span-3">
-                <label for="modalidad"><g:message code="examen.modalidad.label"/></label>
+            <div class="append-bottom">
+                <g:hasErrors bean="${cmd}" field="modalidad">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
+                <div class="span-3">
+                    <label for="modalidad"><g:message code="examen.modalidad.label"/></label>
+                </div>
+                <div class="span-4">
+                    <g:select name="modalidad" from="${ModalidadExamenEnum.list()}"  optionValue="name"
+                              class="ui-widget ui-corner-all ui-widget-content" id="modalidadId" value="${cmd?.modalidad}" />
+                </div>
+                <g:hasErrors bean="${cmd}" field="modalidad">
+                    <g:renderErrors bean="${cmd}" as="list" field="modalidad"/>
+                    </div>
+                </g:hasErrors>
+                <div class="clear"></div>
             </div>
-            <div class="span-4">
-                <g:select name="modalidad" from="${ModalidadExamenEnum.list()}"  optionValue="name"
-                          class="ui-widget ui-corner-all ui-widget-content" id="modalidadId" value="${cmd?.modalidad}" />
-            </div>
-            <div class="clear"></div>
-
 
         </div>
         <div class="buttons">

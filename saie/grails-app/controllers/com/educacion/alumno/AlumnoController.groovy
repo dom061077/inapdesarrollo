@@ -3,13 +3,9 @@ package com.educacion.alumno
 
 import com.educacion.util.GUtilDomainClass 
 import com.megatome.grails.RecaptchaService
-
-import java.text.SimpleDateFormat 
-
-import java.text.DateFormat 
-
-import java.text.ParseException 
 import org.springframework.transaction.TransactionStatus
+import com.educacion.geografico.Localidad
+
 
 
 class AlumnoController {
@@ -231,7 +227,7 @@ class AlumnoController {
 					else
 						alumnoInstance.localidadDomicilio = null
 						
-					if(params.localidadgGaranteId)
+					if(params.localidadGaranteId)
 						alumnoInstance.localidadGarante = Localidad.load(params.localidadGaranteId.toLong())
 					else
 						alumnoInstance.localidadGarante = null
@@ -252,6 +248,10 @@ class AlumnoController {
 					else
 						alumnoInstance.localidadTutor = null
 		
+                    if(params.localidadGaranteId)
+                        alumnoInstance.localidadGarante = Localidad.load(params.localidadGaranteId.toLong())
+                    else
+                        alumnoInstance.localidadGarante = null
 					
 		
 					if(fechaNacimientoError){
@@ -445,9 +445,9 @@ class AlumnoController {
         listAlumno.add(alumnoInstance)
 
         listAlumno.each {
-            it.localidadNac.nombre
-            it.localidadDomicilio.nombre
-            it.localidadLaboral.nombre
+            it.localidadNac?.nombre
+            it.localidadDomicilio?.nombre
+            it.localidadLaboral?.nombre
             /*it.localidadGarante.nombre
             it.localidadLaboral.nombre
             it.localidadTutor.nombre*/

@@ -7,6 +7,7 @@ import com.educacion.enums.examen.ModalidadExamenEnum
 import com.educacion.academico.util.AcademicoUtil
 import org.codehaus.groovy.grails.web.json.JSONObject
 import org.springframework.transaction.TransactionStatus
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
 
 
 
@@ -217,14 +218,41 @@ class ExamenController {
         log.info "INGRESANDO AL CLOSURE saveexamen"
         log.info "PARAMETROS $params"
         if (cmd.validate()){
+           def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(cmd.carreraId.toLong())
+           if (!anioLectivoInstance){
+               flash.message=g.message(code:  "com.educacion.academico.Carrera.flash.message.aniolectivo")
+               render (view: "createexamen",model: [cmd:cmd])
+           }
+               
            def inscmaterias = InscripcionMateriaDetalle.createCriteria().list {
+                  inscripcionMateria{
+                      anioLectivo{
+                          eq("id",anioLectivoInstance.id)
+                      }
 
+                      carrera{
+                            eq("id",cmd.carreraId.toLong())
+                      }
+                      eq("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA)
+                  }
+                   materia{
+                       eq("id",cmd.materiaId.toLong())
+                   }
            }
+           if (!(inscmaterias?.size>0)){
+               flash.message = g.message(code:"com.educacion.adademico.ExamenCommand.inscripciones.empty",args: [cmd.materiaDesc])
+               render(view: "createexamen",model: [cmd:cmd])
+               return
+           }
+           def examenInstance = new Examen(ti)
            Examen.withTransaction {TransactionStatus status ->
+                inscmaterias.each {
 
+                }
            }
+
         }else{
-            log.debug "Errors: "+cmd.errors.allErrors
+            log.debug "Errores de validacion: "+cmd.errors.allErrors
             render (view: "createexamen",model: [cmd:cmd])
         }
     }
@@ -266,7 +294,7 @@ class ExamenController {
         if (params.altfilters){
             filtersjson = grails.converters.JSON.parse(params.altfilters)
             filtersjson.rules.each{
-                if(!it.data.equals("")){
+                if(it.field.equals("carrera_id")){
                     anioLectivoInstance =  AcademicoUtil.getAnioLectivoCarrera(it.data.toLong())
                 }
             }
@@ -279,8 +307,13 @@ class ExamenController {
         }
 
         def gud = new GUtilDomainClass(AsignaturaDocente, params, grailsApplication)
-        list = gud.listrefactor(false)
-        def totalregistros = gud.listrefactor(true)
+        list = gud.listdistinct(false,"docente.id")
+        def totalregistros = gud.listdistinct(true,"docente.id")
+        
+        log.debug "TOTAL REGISTROS: "+totalregistros
+
+        if (!totalregistros)
+            totalregistros = 0
 
         def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
         if (totalpaginas > 0 && totalpaginas < 1)
@@ -296,7 +329,7 @@ class ExamenController {
             if (flagaddcomilla)
                 result = result + ','
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.id + '","' + it.docente.apellido+ '","' + it.docente.nombre + '"]}'
+            result = result + '{"id":"' + it.id + '","cell":["' + it.docente.id + '","' + it.docente.apellido+ '","' + it.docente.nombre + '"]}'
 
             flagaddcomilla = true
         }
@@ -353,11 +386,12 @@ class ExamenCommand{
          })
          docenteId(nullable: false, blank: false,validator: {v,cmd ->
                 if(v){
-                    def docenteInstance = Docente.get(cmd.docenteId)
+                    def docenteInstance = Docente.get(v)
                     if(docenteInstance)
                         return true
                     else
-                        return false
+                        return ["com.eduacion.academico.Docente.id",[v]]
+
                 }
          })
     }

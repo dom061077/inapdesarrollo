@@ -159,7 +159,7 @@ class GUtilDomainClass{
 		
 	}
 
-    private def internalList(boolean rowcount,boolean activateprojection){
+    private def internalList(boolean rowcount,boolean activateprojection,def groupproperty){
         log.info "INGRESANDO AL METODO activateprojection DE LA CLASE GUtilDomainClass"
         log.info "Domain class: ${domainClass}"
         def searchOper=""
@@ -221,10 +221,8 @@ class GUtilDomainClass{
                     filtersJson = JSON.parse(params.altfilters)
                     criteria."${filtersJson.groupOp.toLowerCase()}"(){
                         filtersJson?.rules?.each{
-                            log.info "REGLAS DE BUSQUEDA APLICADAS:"
                             searchOper = operationSearch(it.op)
                             metaProperty = FilterUtils.getNestedMetaProperty(grailsApplication,domainClass,it.field)
-
 
                             searchValue=parseValue(it.data,metaProperty,params)
                             if(it.field.contains("_")){
@@ -275,7 +273,7 @@ class GUtilDomainClass{
             }
             if(activateprojection){
                 criteria.projections{
-                    groupProperty('id')
+                    groupProperty(groupproperty)
                 }
             }
         }
@@ -287,13 +285,18 @@ class GUtilDomainClass{
 
     }
 	
-    def listdistinct(boolean rowcount){
-        def list = internalList(rowcount,true).collect {domainClass.get(it[0])}
+    def listdistinct(boolean rowcount,def groupproperty){
+        def list
+        if(!rowcount){
+            list = internalList(rowcount,true,groupproperty).collect {domainClass.get(it)}
+            return list
+        }else
+            return internalList(rowcount,true,groupproperty)
     }
 
 	
 	def listrefactor(boolean rowcount){
-        return internalList(rowcount,false)
+        return internalList(rowcount,false,"")
 	}
 	
 	def list(){

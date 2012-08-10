@@ -83,8 +83,8 @@
                 grid:{
                     colNames:['Id','Apellido','Nombre']
                     ,colModel:[{name:'id',index:'id', width:40,hidden:true}
-                        ,{name:'apellido',index:'apellido', width:92,search:true,sortable:true}
-                        ,{name:'nombre',index:'nombre', width:92,search:true,sortable:true}
+                        ,{name:'docente_apellido',index:'docente_apellido', width:92,search:true,sortable:true}
+                        ,{name:'docente_nombre',index:'docente_nombre', width:92,search:true,sortable:true}
                     ],
                     url:'<% out << createLink(controller:"examen",action:"listdocentesearchjson")%>'
                 }
@@ -134,12 +134,14 @@
     <g:form action="saveexamen" >
         <div class="append-bottom">
             <div class="append-bottom">
+                <g:if test="${flash.message}">
+                    <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
+                </g:if>
                 <g:hasErrors bean="${cmd}" field="carreraId">
                     <div class="ui-state-error ui-corner-all append-bottom">
                 </g:hasErrors>
                 <div class="span-3">
                     <label for="carreraId"><g:message code="examen.carrera.label"/></label>
-                    ${cmd?.carreraDesc}
                 </div>
                 <div class="span-4">
                     <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
@@ -188,7 +190,7 @@
 
 
             <div class="append-bottom">
-                <g:hasErrors bean="${cmd}" field="materiaId">
+                <g:hasErrors bean="${cmd}" field="docenteId">
                     <div class="ui-state-error ui-corner-all append-bottom">
                 </g:hasErrors>
                 <div class="span-3">
@@ -197,8 +199,8 @@
                 <div class="span-4">
                     <input name="docenteId" class="ui-widget ui-corner-all ui-widget-content" id="docenteId" descValue="${cmd?.docenteDesc}" value="${cmd?.docenteId}" />
                 </div>
-                <g:hasErrors bean="${cmd}" field="materiaId">
-                    <g:renderErrors bean="${cmd}" as="list" field="materiaId"/>
+                <g:hasErrors bean="${cmd}" field="docenteId">
+                    <g:renderErrors bean="${cmd}" as="list" field="docenteId"/>
                     </div>
                 </g:hasErrors>
                 <div class="clear"></div>

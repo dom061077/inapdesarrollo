@@ -6,17 +6,13 @@ import com.educacion.enums.examen.ModalidadExamenEnum
 
 class Examen {
 
-    Date fecha = new Date(new java.util.Date().getTime())
-    String titulo
-    TipoExamenEnum tipo
-    ModalidadExamenEnum modalidad
-    Docente docente
     InscripcionMateriaDetalle inscripcionMateriaDetalle
+    CargaExamen cargaExamen
 
-    static belongsTo = [inscripcionMateriaDetalle:InscripcionMateriaDetalle]
+    static belongsTo = [inscripcionMateriaDetalle:InscripcionMateriaDetalle,cargaExamen: CargaExamen]
 
     static constraints = {
-        titulo nullable: false,blank: false
+
 
     }
 }

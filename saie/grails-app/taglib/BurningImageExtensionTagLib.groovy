@@ -20,15 +20,14 @@ class BurningImageExtensionTagLib {
     def realresourceimgext = { attrs ->
         def tamanio = attrs.size
         def config = ContainerUtils.getConfig(attrs.bean)
-
-        if (!config){
-            throw new IllegalArgumentException("There is no config for ${attrs.bean.class.name}")
+        if(containerWorkerFactory.produce(attrs.bean).hasImage()){
+            if (!config){
+                throw new IllegalArgumentException("There is no config for ${attrs.bean.class.name}")
+            }
+            out << config.outputDir+"/"+ContainerUtils.getFullName(tamanio, attrs.bean, config)
+        }else{
+            out <<""
         }
-
-        //return servletContext.getRealPath()+dir:getOutputDir(config.outputDir), file:ContainerUtils.getFullName(tamanio, attrs.bean, config))
-        //out << "outputdir: "+config.outputDir+ " Fullname: "+ContainerUtils.getFullName(tamanio, attrs.bean, config)
-        out << config.outputDir+"/"+ContainerUtils.getFullName(tamanio, attrs.bean, config)
-
     }
 	
 

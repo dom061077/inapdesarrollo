@@ -253,7 +253,11 @@ class AlumnoController {
                     else
                         alumnoInstance.localidadGarante = null
 					
-		
+		            if(params.situacionAdministrativaId)
+                        alumnoInstance.situacionAdministrativa = SituacionAdministrativa.load(params.situacionAdministrativaId)
+                    else
+                        alumnoInstance.situacionAdministrativa = null
+
 					if(fechaNacimientoError){
 						alumnoInstance.validate()
 						alumnoInstance.errors.rejectValue("fechaNacimiento","com.medfire.alumno.Alumno.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
@@ -441,7 +445,11 @@ class AlumnoController {
 
         def alumnoInstance = Alumno.get(params.id)
 
-        params.put("paramsFoto", servletContext.getRealPath(g.realresourceimgext(size:"large",bean:alumnoInstance).readAsString()))
+        //TODO: Colocar una parametrización para el nombre de imágen no disponible
+        if(realresourceimgext(size:"large",bean:alumnoInstance).equals(""))
+            params.put("paramsFoto", servletContext.getRealPath("images/noDisponibleLarge.jpg"))
+        else
+            params.put("paramsFoto", servletContext.getRealPath(realresourceimgext(size:"large",bean:alumnoInstance).readAsString()))
 
         def listAlumno = new ArrayList()
         listAlumno.add(alumnoInstance)
@@ -450,9 +458,10 @@ class AlumnoController {
             it.localidadNac?.nombre
             it.localidadDomicilio?.nombre
             it.localidadLaboral?.nombre
-            /*it.localidadGarante.nombre
-            it.localidadLaboral.nombre
-            it.localidadTutor.nombre*/
+            it.situacionAdministrativa?.descripcion
+            it.localidadGarante?.nombre
+            it.localidadLaboral?.nombre
+            it.localidadTutor?.nombre
         }
 
         chain(controller:'jasper', action:'index', model:[data:listAlumno], params:params)

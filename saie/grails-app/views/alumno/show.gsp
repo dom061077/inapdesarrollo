@@ -459,7 +459,7 @@
 	                    
 	                    
 								<div class="span-3 spanlabel">
-									<label for="parentescoGarante"><g:message code="alumno.parentescoGarante.label" default="Teléfono Garante" /></label>
+									<label for="parentescoGarante"><g:message code="alumno.parentescoGarante.label" default="Parentesco Garante" /></label>
 								</div>
 								<div class="span-5 spanlabel">
 									${alumnoInstance?.parentescoGarante}

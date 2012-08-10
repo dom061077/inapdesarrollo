@@ -443,16 +443,18 @@
 //---------------------------------- 
 
 
-
-		$('#situacionAdministrativaId').lookupfield({source:'<%createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>',
+		$('#situacionAdministrativaId').lookupfield({source:'<%out<<createLink(controller:"situacionAdministrativa",action:"listsearchjson")%>',
 				 title:'Situacion Admistrativa' 
 				,colNames:['Id','Nombre'] 
 				,colModel:[{name:'id',index:'id', width:10, sorttype:'int', sortable:true,hidden:false,search:false} 
 				,{name:'nombre',index:'nombre', width:100,  sortable:true,search:true}] 
-				,hiddenid:'situacionAdministrativaIdId' 
+				,hiddenid:'situacionAdministrativaIdId'
 				,descid:'situacionAdministrativaId' 
 				,hiddenfield:'id' 
-				,descfield:['descripcion']}); 
+				,descfield:['nombre']}
+
+        );
+
 
 //---------------------------------- 
 			    	$('.cambiarlink').live('click',function(){
@@ -1237,7 +1239,7 @@
 									<label for="apellidoNombreGarante"><g:message code="alumno.apellidoNombreGarante.label" default="Apellido y Nombre del Garante" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField name="apellidoNombreGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombreGarante}" />
+									<g:textField name="apellidoNombreGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.apellidoNombreGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="apellidoNombreGaranteGarante">
@@ -1256,7 +1258,7 @@
 									<label for="profesionGarante"><g:message code="alumno.profesionGarante.label" default="Profesión Garante" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField name="profesionGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.profesionGarante}" />
+									<g:textField name="profesionGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.profesionGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="profesionGarante">
@@ -1272,10 +1274,10 @@
 								</g:hasErrors>
 								
 								<div class="span-3 spanlabel">
-									<label for="parentescoGarante"><g:message code="alumno.parentescoGarante.label" default="Teléfono Garante" /></label>
+									<label for="parentescoGarante"><g:message code="alumno.parentescoGarante.label" default="Parentesco Garante" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField name="parentescoGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.parentescoGarante}" />
+									<g:textField name="parentescoGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.parentescoGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="parentescoGarante">
@@ -1293,7 +1295,7 @@
 									<label for="telefonoGarante"><g:message code="alumno.telefonoGarante.label" default="Teléfono Garante" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField name="telefonoGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoGarante}" />
+									<g:textField name="telefonoGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.telefonoGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="telefonoGarante">
@@ -1311,7 +1313,7 @@
 									<label for="calleTutor"><g:message code="alumno.calleTutor.label" default="Calle Garante" /></label>
 								</div>
 								<div class="span-5">
-									<g:textField name="calleGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleGarante}" />
+									<g:textField name="calleGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.calleGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="calleGarante">
@@ -1330,7 +1332,7 @@
 									<label for="numeroGarante"><g:message code="alumno.barrioGarante.label" default="Número Garante" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField name="numeroGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroGarante}" />
+									<g:textField name="numeroGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.numeroGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="numeroGarante">
@@ -1348,7 +1350,7 @@
 									<label for="barrioTutor"><g:message code="alumno.barrioGarante.label" default="Barrio Garante" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField name="barrioGaranteId" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioGarante}" />
+									<g:textField name="barrioGarante" class="ui-widget ui-corner-all ui-widget-content" value="${alumnoInstance?.barrioGarante}" />
 								</div>
 											
 								<g:hasErrors bean="${alumnoInstance}" field="barrioGarante">
@@ -1425,7 +1427,7 @@
 							</div>
 							<div class="span-5">
 								<g:textField class="ui-widget ui-corner-all ui-widget-content" id="situacionAdministrativaId" name="situacionAdministrativaDesc"  value="${alumnoInstance?.situacionAdministrativa?.descripcion}" /> 
- 										<g:hiddenField id="situacionAdministrativaIdId" name="situacionAdministrativa.id" value="${situacionAdministrativa?.id}" />
+ 										<g:hiddenField id="situacionAdministrativaIdId" name="situacionAdministrativaId" value="${situacionAdministrativa?.id}" />
 							</div>
 										
 							<g:hasErrors bean="${alumnoInstance}" field="situacionAdministrativa">

@@ -441,6 +441,8 @@ class AlumnoController {
 
         def alumnoInstance = Alumno.get(params.id)
 
+        params.put("paramsFoto", servletContext.getRealPath(g.realresourceimgext(size:"large",bean:alumnoInstance).readAsString()))
+
         def listAlumno = new ArrayList()
         listAlumno.add(alumnoInstance)
 

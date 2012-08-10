@@ -7,7 +7,7 @@ import com.educacion.enums.examen.ModalidadExamenEnum
 class Examen {
 
     InscripcionMateriaDetalle inscripcionMateriaDetalle
-    CargaExamen cargaExamen
+   // CargaExamen cargaExamen
 
     static belongsTo = [inscripcionMateriaDetalle:InscripcionMateriaDetalle,cargaExamen: CargaExamen]
 

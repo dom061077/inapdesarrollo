@@ -259,7 +259,7 @@ class InscripcionMatriculaController {
                 inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
 				
 				//------modificacion del detalle de la inscripcion de materias dentro de la matricula--
-				
+				/*
 				def materiaAntInstance
 				def materiaInstance
 				def inscripcionMateriaDetalleInstance
@@ -268,6 +268,8 @@ class InscripcionMatriculaController {
 					if(inscmat.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA)
 						inscripcionMateriaInstance = inscmat
 				}
+
+
 				materiasSerializedJson?.each {
 					if(it.seleccion.toUpperCase().equals("YES")){
 						materiaInstance = Materia.load(it.idmateria.toLong())
@@ -303,7 +305,7 @@ class InscripcionMatriculaController {
 					}
 					
 				}
-	
+	            */
 				
 	            if (!inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save() /*&& 
 					!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)*/) {

@@ -433,7 +433,7 @@ class InscripcionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.inscripcionMatricula.estado.name+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

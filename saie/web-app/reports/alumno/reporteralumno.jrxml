@@ -2,13 +2,14 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="carrerasreporte" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
 	<property name="ireport.zoom" value="1.2100000000000006"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="251"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
 		<defaultValueExpression><![CDATA["C:\\Users\\Andrea\\Documents\\workspace-sts-2.3.3.M2\\saie\\web-app\\reports\\carrera\\"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="nombreinstitucion" class="java.lang.String"/>
 	<parameter name="direccioninstitucion" class="java.lang.String"/>
 	<parameter name="telefonoinstitucion" class="java.lang.String"/>
+	<parameter name="paramsFoto" class="java.lang.String"/>
 	<field name="apellido" class="java.lang.String"/>
 	<field name="nombre" class="java.lang.String"/>
 	<field name="numeroDocumento" class="java.lang.String"/>
@@ -43,13 +44,31 @@
 	<field name="localidadLaboral.provincia.nombre" class="java.lang.String"/>
 	<field name="apellidoNombreTutor" class="java.lang.String"/>
 	<field name="profesionTutor" class="java.lang.String"/>
+	<field name="parentescoTutor" class="java.lang.String"/>
+	<field name="telefonoTutor" class="java.lang.String"/>
+	<field name="calleTutor" class="java.lang.String"/>
+	<field name="numeroTutor" class="java.lang.String"/>
+	<field name="barrioTutor" class="java.lang.String"/>
+	<field name="localidadTutor.nombre" class="java.lang.String"/>
+	<field name="localidadTutor.provincia.pais.nombre" class="java.lang.String"/>
+	<field name="localidadTutor.provincia.nombre" class="java.lang.String"/>
+	<field name="apellidoNombreGarante" class="java.lang.String"/>
+	<field name="profesionGarante" class="java.lang.String"/>
+	<field name="parentescoGarante" class="java.lang.String"/>
+	<field name="telefonoGarante" class="java.lang.String"/>
+	<field name="calleGarante" class="java.lang.String"/>
+	<field name="numeroGarante" class="java.lang.String"/>
+	<field name="barrioGarante" class="java.lang.String"/>
+	<field name="localidadGarante.nombre" class="java.lang.String"/>
+	<field name="localidadGarante.provincia.nombre" class="java.lang.String"/>
+	<field name="localidadGarante.provincia.pais.nombre" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="32" splitType="Stretch">
+		<band height="69" splitType="Stretch">
 			<staticText>
-				<reportElement x="139" y="0" width="190" height="20"/>
+				<reportElement x="185" y="31" width="190" height="20"/>
 				<textElement textAlignment="Center">
 					<font fontName="Arial" size="14" isBold="true"/>
 				</textElement>
@@ -69,6 +88,10 @@
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{direccioninstitucion}.concat(' - ').concat($P{telefonoinstitucion})]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement x="59" y="6" width="96" height="63"/>
+				<imageExpression class="java.io.File"><![CDATA[new File($P{paramsFoto})]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<detail>
@@ -362,14 +385,14 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{telefonoCelular}==null?"":$F{telefonoCelular})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="338" y="176" width="199" height="12"/>
+				<reportElement x="338" y="176" width="205" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{email}==null?"":$F{email})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="402" y="187" width="133" height="12"/>
+				<reportElement x="402" y="187" width="141" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -421,7 +444,7 @@
 				<text><![CDATA[Legajo:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="159" y="217" width="140" height="12"/>
+				<reportElement x="159" y="216" width="147" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -449,7 +472,7 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{situacionAcademicas.name}==null?"":$F{situacionAcademicas.name})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="345" y="230" width="186" height="12"/>
+				<reportElement x="345" y="230" width="198" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
@@ -557,116 +580,336 @@
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{barrioLaboral}==null?"":$F{barrioLaboral})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="369" y="282" width="169" height="12"/>
+				<reportElement x="369" y="282" width="174" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadLaboral.provincia.pais.nombre}==null?"":$F{localidadLaboral.provincia.pais.nombre})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="390" y="292" width="145" height="12"/>
+				<reportElement x="390" y="292" width="153" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadLaboral.provincia.nombre}==null?"":$F{localidadLaboral.provincia.nombre})]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="392" y="305" width="142" height="12"/>
+				<reportElement x="392" y="305" width="151" height="12"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadLaboral.nombre}==null?"":$F{localidadLaboral.nombre})]]></textFieldExpression>
 			</textField>
 			<rectangle radius="10">
-				<reportElement x="3" y="337" width="550" height="315"/>
+				<reportElement x="3" y="344" width="550" height="169"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="24" y="332" width="130" height="12"/>
+				<reportElement mode="Opaque" x="24" y="338" width="130" height="12"/>
 				<textElement>
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[  Datos del Tutor y Garante  ]]></text>
 			</staticText>
 			<rectangle>
-				<reportElement x="8" y="350" width="540" height="66" backcolor="#FFFFFF"/>
+				<reportElement x="8" y="356" width="540" height="66" backcolor="#FFFFFF"/>
 			</rectangle>
 			<staticText>
-				<reportElement mode="Opaque" x="31" y="344" width="77" height="12"/>
+				<reportElement mode="Opaque" x="31" y="350" width="77" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ Datos del Tutor ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="356" width="90" height="12"/>
+				<reportElement x="24" y="362" width="90" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Apellido y Nombre:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="368" width="56" height="12"/>
+				<reportElement x="24" y="374" width="56" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Profesión:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="310" y="392" width="47" height="12"/>
+				<reportElement x="309" y="398" width="47" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Provincia:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="380" width="56" height="12"/>
+				<reportElement x="24" y="386" width="56" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Parentesco:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="392" width="48" height="12"/>
+				<reportElement x="24" y="398" width="48" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Teléfono:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="24" y="404" width="29" height="12"/>
+				<reportElement x="24" y="410" width="29" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Calle:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="356" width="47" height="12"/>
+				<reportElement x="309" y="362" width="47" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Número:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="310" y="368" width="35" height="12"/>
+				<reportElement x="309" y="374" width="35" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Barrio:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="380" width="27" height="12"/>
+				<reportElement x="309" y="386" width="27" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[País:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="309" y="404" width="48" height="12"/>
+				<reportElement x="309" y="410" width="48" height="12"/>
 				<textElement>
 					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
 				</textElement>
 				<text><![CDATA[Localidad:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="112" y="362" width="187" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{apellidoNombreTutor}==null?"":$F{apellidoNombreTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="74" y="375" width="225" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{profesionTutor}==null?"":$F{profesionTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="78" y="386" width="221" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{parentescoTutor}==null?"":$F{parentescoTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="67" y="398" width="232" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{telefonoTutor}==null?"":$F{telefonoTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="53" y="408" width="246" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{calleTutor}==null?"":$F{calleTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="351" y="362" width="183" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{numeroTutor}==null?"":$F{numeroTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="373" width="193" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{barrioTutor}==null?"":$F{barrioTutor})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="409" width="178" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadTutor.nombre}==null?"":$F{localidadTutor.nombre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="332" y="386" width="203" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadTutor.provincia.pais.nombre}==null?"":$F{localidadTutor.provincia.pais.nombre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="357" y="396" width="177" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadTutor.provincia.nombre}==null?"":$F{localidadTutor.provincia.nombre})]]></textFieldExpression>
+			</textField>
+			<rectangle>
+				<reportElement x="8" y="436" width="540" height="66" backcolor="#FFFFFF"/>
+			</rectangle>
+			<staticText>
+				<reportElement mode="Opaque" x="31" y="430" width="90" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Datos del Garante ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="442" width="90" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Apellido y Nombre:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="454" width="56" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Profesión:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="466" width="56" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Parentesco:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="478" width="48" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Teléfono:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="24" y="490" width="29" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Calle:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="442" width="47" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Número:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="454" width="35" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Barrio:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="466" width="27" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[País:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="478" width="47" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Provincia:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="309" y="490" width="48" height="12"/>
+				<textElement>
+					<font fontName="Arial" size="9" isBold="true" isPdfEmbedded="false"/>
+				</textElement>
+				<text><![CDATA[Localidad:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="113" y="441" width="186" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{apellidoNombreGarante}==null?"":$F{apellidoNombreGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="72" y="453" width="227" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{profesionGarante}==null?"":$F{profesionGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="81" y="466" width="218" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{parentescoGarante}==null?"":$F{parentescoGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="477" width="230" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{telefonoGarante}==null?"":$F{telefonoGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="50" y="489" width="249" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{calleGarante}==null?"":$F{calleGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="350" y="442" width="185" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{numeroGarante}==null?"":$F{numeroGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="342" y="454" width="192" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{barrioGarante}==null?"":$F{barrioGarante})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="356" y="489" width="178" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadGarante.nombre}==null?"":$F{localidadGarante.nombre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="355" y="478" width="179" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadGarante.provincia.nombre}==null?"":$F{localidadGarante.provincia.nombre})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="331" y="466" width="203" height="12"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA[($F{localidadGarante.provincia.pais.nombre}==null?"":$F{localidadGarante.provincia.pais.nombre})]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

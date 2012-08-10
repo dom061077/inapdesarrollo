@@ -219,7 +219,7 @@ class InscripcionMateriaService {
 			}
 		}
 
-				
+		inscripcionMateriaInstance.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
 		if(!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save(flush:true)){
 			
 		}else{

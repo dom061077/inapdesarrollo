@@ -18,7 +18,7 @@
         <script type="text/javascript">
             var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
 
-	        function initsubmit(){
+	        /*function initsubmit(){
 	            var gridDataMaterias = $('#materiasId').getRowData();
 	            var postDataMaterias = JSON.stringify(gridDataMaterias);
 	            $('#materiasSerializedId').val(postDataMaterias);
@@ -32,9 +32,6 @@
 		        		data=[];
 	        	for (var i = 0; i < data.length; i++) {
 	        	    griddata[i] = {};
-	        	    /*for (var j = 0; j < data[i].length; j++) {
-	        	        griddata[i][names[j]] = data[i][j];
-	        	    }*/
 	        	    griddata[i]["id"] = data[i].id;
 	        	    griddata[i]["idid"] = data[i].idid;	        	    
 	        	    griddata[i]["idmateria"] = data[i].idmateria;
@@ -49,14 +46,15 @@
 	        	for (var i = 0; i <= griddata.length; i++) {
 	        	    jQuery("#materiasId").jqGrid('addRowData', i + 1, griddata[i]);
 	        	}
-	        }
+	        }*/
 
         	
         	$(document).ready(function(){
             	var lastsel;
 	        	$('#materiasId').jqGrid({
-	               	datatype:'local'
-                    ,editurl:'<%out << createLink(controller:"inscripcionMatricula",action:"editmaterias")%>'
+                    url:'<%out << createLink(controller:"inscripcionMatricula",action:"")%>'
+	               	,datatype:'json'
+                    //,editurl:'<%out << createLink(controller:"inscripcionMatricula",action:"editmaterias")%>'
 	                ,width:600
 	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
 	            	,colModel:[
@@ -73,10 +71,8 @@
                				
 	                ]
 	            	,sortname:'denominacion'
-	                //,pager: '#pagermateriasId'
 	            	,sortorder:'asc'
-	                //,caption: 'Materias Inscriptas'
-	                ,onSelectRow: function(id){ 
+	                /*,onSelectRow: function(id){
 		                if(id && id!==lastsel){ 
 			                jQuery('#materiasId').jqGrid('restoreRow',lastsel); 
 			                jQuery('#materiasId').jqGrid('editRow',id,true);
@@ -88,12 +84,12 @@
                         //postData.name = postData.name.toUpperCase();
                         postData.tipovalue = postData.tipo;
                         return postData;
-                    }
+                    } */
 
 	            });
 	
 
-	        	bindmaterias();
+	        	//bindmaterias();
             		
         	});
 		</script>

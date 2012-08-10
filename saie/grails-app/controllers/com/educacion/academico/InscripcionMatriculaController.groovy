@@ -70,23 +70,28 @@ class InscripcionMatriculaController {
 	def listmateriasjson = {
 		log.info "INGRESANDO AL CLOSURE listmateriasjson"
 		log.info "PARAMETROS: $params"
-		def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
-		def result='{"page":1,"total":"1","records":"'+inscripcionMateriaInstance?.detalleMateria?.size()+'","rows":['
+		def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
+        def totalregistros = 0
+        inscripcionMatriculaInstance.inscripcionesmaterias.each {inscmateria ->
+            if (inscmateria.estado!=EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA)
+                inscmateria.detalleMateria.each{detmat ->
+                    totalregistros += 1
+                }
+        }
+		def result='{"page":1,"total":"1","records":"'+totalregistros+'","rows":['
 		def flagaddcomilla=false
-		inscripcionMateriaInstance?.detalleMateria?.each{
-			
-			if (flagaddcomilla)
-				result=result+','
-				
-			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.materia.denominacion==null?"":it.materia.denominacion)+'"]}'
-			 
-			flagaddcomilla=true
-		}
+        inscripcionMatriculaInstance.inscripcionesmaterias.each {inscmateria ->
+            if (inscmateria.estado!=EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA)
+                inscmateria.detalleMateria.each{detmat ->
+                            if (flagaddcomilla)
+                                result=result+','
+                            result=result+'{"id":"'+detmat.id+'","cell":["'+detmat.id+'","'+(detmat.materia.denominacion==null?"":detmat.materia.denominacion)+'"]}'
+                            flagaddcomilla=true
+                }
+        }
+
 		result=result+']}'
 		render result
-
-		
 	}
 	
     def save = {
@@ -333,26 +338,37 @@ class InscripcionMatriculaController {
 		
         def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
         if (inscripcionMatriculaInstance) {
+            inscripcionMatriculaInstance.inscripcionesmaterias.each { insmat ->
+                if (insmat.estado!=EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA){
+                    flash.message = "${message(code: "default.not.anulado.message",args: ["Matrícula","Tiene inscripciones sin anular"])}"
+                    render(view: "show",model:[inscripcionMatriculaInstance])
+                    return
+                }
+            }
             InscripcionMatricula.withTransaction {TransactionStatus status ->
-                /*try {
-                    inscripcionMatriculaInstance.delete(flush: true)
-                    flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                    redirect(action: "list")
-                }
-                catch (org.springframework.dao.DataIntegrityViolationException e) {
-                    status.setRollbackOnly()
-                    flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                    redirect(action: "show", id: params.id)
-                }*/
-                inscripcionMatriculaInstance.inscripcionesmaterias.each{
+                //TODO agregar la validacion de integridad con los examenes asinados a los detalles de la inscripcion de materia
+                /*inscripcionMatriculaInstance.inscripcionesmaterias.each{
                     it.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA
-                }
-                if(inscripcionMatriculaInstance.primeraMatricula)
+                }*/
+                if(inscripcionMatriculaInstance.primeraMatricula){
+                    def listInscMatriculas = InscripcionMatricula.createCriteria().list{
+                        anioLectivo{
+                            eq("id",inscripcionMatriculaInstance.anioLectivo.id)
+                        }
+                        carrera{
+                            eq("id",inscripcionMatriculaInstance.carrera.id)
+                        }
+                        alumno{
+                            eq("id",inscripcionMatriculaInstance.alumno.id)
+                        }
+                        ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
+                    }
                     inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
-                else
+                }else{
                     inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA
-                //inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.
-                //if (inscripcionMatriculaInstance.)
+                }
+
+
                 def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
                 if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTO)
                     preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
@@ -366,8 +382,8 @@ class InscripcionMatriculaController {
                 
                 inscripcionMatriculaInstance.save()  
                 preinscripcionInstance.save()
-                flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                redirect(action: "show", id: params.id)
+                flash.message = "${message(code: 'default.anulado.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
+                redirect(action: "list")
 
 
             }

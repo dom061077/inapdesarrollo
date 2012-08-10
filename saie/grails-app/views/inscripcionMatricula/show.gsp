@@ -16,7 +16,7 @@
 	        	$('#materiasId').jqGrid({
 		        	url:'<%out << createLink(controller:"inscripcionMatricula",action:"listmateriasjson")%>'
 	               	,datatype:'json'
-		            ,postData:{id:'<%out << idinscmateria%>'}
+		            ,postData:{id:'<%out << inscripcionMatriculaInstance?.id %>'}
 	                ,width:500
 	                ,colNames:['Id','Denominación']
 	            	,colModel:[
@@ -81,8 +81,8 @@
             <div class="span-5">
                 <g:form>
                     <g:hiddenField name="id" value="${inscripcionMatriculaInstance?.id}" />
-                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <%-- span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span --%>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.anular.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.anular.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

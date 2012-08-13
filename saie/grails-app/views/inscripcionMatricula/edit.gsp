@@ -8,7 +8,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <meta name="layout" content="main" />
         <g:set var="entityName" value="${message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula')}" />
-        <title><g:message code="default.edit.label" args="[entityName]" /></title>
+        <title><g:message code="default.confirm.label" args="[entityName]" /></title>
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'ui.jqgrid.css')}" />
         <link rel="stylesheet" type="text/css" media="screen" href="${g.resource(dir:'js/jqgrid/src/css',file:'jquery.searchFilter.css')}" />
         <script type="text/javascript" src="${g.resource(dir:'js/jqgrid/src/i18n',file:'grid.locale-es.js')}"></script>
@@ -52,11 +52,12 @@
         	$(document).ready(function(){
             	var lastsel;
 	        	$('#materiasId').jqGrid({
-                    url:'<%out << createLink(controller:"inscripcionMatricula",action:"")%>'
+                    url:'<%out << createLink(controller:"inscripcionMatricula",action:"listmateriasjson")%>'
 	               	,datatype:'json'
+                    ,postData:{id:<%out << inscripcionMatriculaInstance.id%>}
                     //,editurl:'<%out << createLink(controller:"inscripcionMatricula",action:"editmaterias")%>'
 	                ,width:600
-	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
+	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Tipo Insc.','Tipo Value','Select']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
 	                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
@@ -67,7 +68,7 @@
                             ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
                                 ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
                             ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
-	                       	,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+	                       	,{ name: 'seleccion', index: 'seleccion',width:60,  formatter: "checkbox", formatoptions: { disabled: true }, editable: true, edittype: "checkbox" }
                				
 	                ]
 	            	,sortname:'denominacion'
@@ -102,7 +103,7 @@
             <span class="menuButton"><g:link class="create" action="seleccionalumno"><g:message code="default.new.label" args="[entityName]" /></g:link></span>
         </div>
         <div class="body">
-            <h1><g:message code="default.edit.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.confirm.label" args="[entityName]" /></h1>
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
             </g:if>

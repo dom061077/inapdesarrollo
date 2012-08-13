@@ -85,7 +85,7 @@ class InscripcionMatriculaController {
                 inscmateria.detalleMateria.each{detmat ->
                             if (flagaddcomilla)
                                 result=result+','
-                            result=result+'{"id":"'+detmat.id+'","cell":["'+detmat.id+'","'+(detmat.materia.denominacion==null?"":detmat.materia.denominacion)+'"]}'
+                            result=result+'{"id":"'+detmat.id+'","cell":['+detmat.id+','+detmat.id+','+detmat.materia.id+',"'+detmat.materia.nivel.descripcion+'","'+detmat.materia.codigo+'","'+(detmat.materia.denominacion==null?"":detmat.materia.denominacion)+'","'+detmat.tipo.name+'","'+detmat.tipo+'","Yes"]}'
                             flagaddcomilla=true
                 }
         }
@@ -203,6 +203,14 @@ class InscripcionMatriculaController {
             redirect(action: "list")
         }
         else {
+            
+            if (inscripcionMatriculaInstance.estado == EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
+                || inscripcionMatriculaInstance.estado == EstadoInscripcionMatriculaEnum.ESTADOINSMAT_PAGADA){
+                flash.message = "${message(code: 'com.educacion.academico.Matricula.confirmada')}"
+                redirect(action: "list")
+                return
+            }
+            
 			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance?.carrera?.id,inscripcionMatriculaInstance?.alumno?.id)
 			
 			def flagcomilla = false

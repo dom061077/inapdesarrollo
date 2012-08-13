@@ -481,10 +481,12 @@ class AlumnoController {
         params.put("_format","PDF")
         params.put("_name","reporteralumnos")
         params.put("_file","alumno/reporteralumnos")
-        def listAlumnos = Alumno.list()
+        def listAlumnos = Alumno.createCriteria().list {
+            order("apellido", "asc")
+            order("nombre", "asc")
+        }
 
         chain(controller:'jasper', action:'index', model:[data:listAlumnos], params:params)
-
     }
 
 

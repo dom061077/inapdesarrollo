@@ -21,6 +21,7 @@ class GUtilDomainClass{
 	GUtilDomainClass(def domainClass,def params,def grailsApplication){
 		this.domainClass=domainClass
 		this.params=params
+        log.info "PARAMS EN GUIDOMAINCLASS: "+this.params
 		this.grailsApplication=grailsApplication
 	}
 	
@@ -168,10 +169,10 @@ class GUtilDomainClass{
         def fieldToken
         def list = []
         def filtersJson
-        def pagingConfing = [
+        /*def pagingConfing = [
                 max: Integer.parseInt(params.rows),
                 offset: Integer.parseInt(params.page)-1
-        ]
+        ]*/
         def criteria = domainClass.createCriteria()
 
         def closure = {
@@ -187,6 +188,7 @@ class GUtilDomainClass{
                 }
                 if(params.filters){
                     filtersJson = JSON.parse(params.filters)
+                    log.info "FILTERJSON: "+filtersJson
                     criteria."${filtersJson.groupOp.toLowerCase()}"(){
                         filtersJson?.rules?.each{
                             log.info "REGLAS DE BUSQUEDA APLICADAS:"
@@ -257,8 +259,10 @@ class GUtilDomainClass{
                     rowCount()
                 }
             }else{
-                firstResult((params.page.toInteger()-1)*params.rows.toInteger())
-                maxResults(params.rows.toInteger())
+                if(params.rows){
+                    firstResult((params.page.toInteger()-1)*params.rows.toInteger())
+                    maxResults(params.rows.toInteger())
+                }
                 if(params.sidx && params.sord){
                     if(params.sidx.contains("_")){
                         fieldToken = params.sidx.tokenize("_")

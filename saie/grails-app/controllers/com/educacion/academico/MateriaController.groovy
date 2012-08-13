@@ -591,6 +591,11 @@ class MateriaController {
         log.info "PARAMETROS: $params"
 
         // TODO: Debo aplicar el filtro cuando entro al list
+        params.put("altfilters", params.filters.replaceAll("\\\\", ""))
+        params.remove("filters")
+        log.debug "PARAMS CON BLACKSLASH: "+params.altfilters
+        def gud=new GUtilDomainClass(Materia,params,grailsApplication)
+        def listMaterias=gud.listrefactor(false)
 
         params.put("nombreinstitucion", g.message(code:"caratula.institucion.nombre"))
         params.put("direccioninstitucion", g.message(code:"caratula.institucion.direccion"))
@@ -600,7 +605,8 @@ class MateriaController {
         params.put("_format","PDF")
         params.put("_name","materiasreporte")
         params.put("_file","materia/materiasreporte")
-        def listMaterias = Materia.list()
+        //def listMaterias = Materia.list()
+
 
         listMaterias.each {
             it.nivel.carrera.denominacion

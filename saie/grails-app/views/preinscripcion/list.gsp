@@ -17,10 +17,11 @@
 				   	url:'listjson',
 					datatype: "json",
 					width:680,
-					colNames:['Nro.Preinsc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
+					colNames:['Nº Preinsc.','Nº de Doc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
 				   		{name:'id',index:'id', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
+                        {name:'alumno_numeroDocumento',index:'alumno_numeroDocumento', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},
 				   		{name:'carrera_denominacion',index:'carrera_denominacion', width:100,search:false},

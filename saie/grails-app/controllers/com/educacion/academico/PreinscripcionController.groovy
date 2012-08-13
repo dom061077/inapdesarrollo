@@ -21,6 +21,7 @@ import com.mysql.jdbc.log.Log;
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 import com.educacion.academico.util.AcademicoUtil
 import com.educacion.enums.SituacionAcademicaEnum
+import com.educacion.geografico.Localidad
 
 
 
@@ -61,7 +62,7 @@ class PreinscripcionController {
 		}
         preinscripcionInstance.properties = params
 		preinscripcionInstance.carrera = carreraInstance
-
+        preinscripcionInstance.anioLectivo = anioLectivoInstance
 
 
         def hqlstr = "SELECT c.id,c.denominacion,c.duracion,c.titulo,c.validezTitulo,(SELECT max(a.anioLectivo) ";
@@ -161,8 +162,38 @@ class PreinscripcionController {
 
         def preinscripcionInstance = new Preinscripcion(params)
         def alumnoInstance = Alumno.get(params.alumnoId)
-        if (!alumnoInstance)
+        if (!alumnoInstance){
+                log.debug "NO ENCUENTRA"
                 alumnoInstance = new Alumno(params)
+        }else{
+            alumnoInstance.properties = params
+            if (params.localidadNac.id)
+                alumnoInstance.localidadNac = Localidad.get(params.localidadNac.id)
+            else
+                alumnoInstance.localidadNac = null
+
+            if (params.localidadDomicilio.id)
+                alumnoInstance.localidadDomicilio = Localidad.get(params.localidadDomicilio.id)
+            else
+                alumnoInstance.localidadDomicilio = null
+
+            if (params.localidadTutor.id)
+                alumnoInstance.localidadTutor = Localidad.get(params.localidadTutor.id)
+            else
+                alumnoInstance.localidadTutor = null
+
+            if (params.localidadGarante.id)
+                alumnoInstance.localidadGarante = Localidad.get(params.localidadGarante.id)
+            else
+                alumnoInstance.localidadGarante = null
+
+            if (params.localidadLaboral.id)
+                alumnoInstance.localidadLaboral = Localidad.get(params.localidadLaboral.id)
+            else
+                alumnoInstance.localidadLaboral = null
+
+            
+        }
         
 		
 		if(preinscripcionInstance.carrera){
@@ -218,6 +249,7 @@ class PreinscripcionController {
 			
 		if((cupo+cuposuplentes)<(inscriptos+1)){
 			flash.message="No hay un cupo para esta inscripción"
+
 			render(view:"create",model:[preinscripcionInstance:preinscripcionInstance])
 			return
 		}		
@@ -309,6 +341,10 @@ class PreinscripcionController {
                     if(cantselect==0){
                         status.setRollbackOnly()
                         preinscripcionInstance.errors.rejectValue("inscripcionMatricula","com.educacion.academico.InscripcionMateria.materias.blank.error")
+                        alumnoInstance.localidadNac?.provincia?.pais?.nombre
+                        alumnoInstance.localidadDomicilio?.provincia?.pais?.nombre
+                        alumnoInstance.localidadGarante?.provincia?.pais?.nombre
+                        alumnoInstance.localidadTutor?.provincia?.pais?.nombre
                         render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,materiasSerialized:params.materiasSerialized])
                         return
 
@@ -320,19 +356,39 @@ class PreinscripcionController {
                     preinscripcionInstance.inscripcionMatricula = inscripcionMatriculaInstance
                     preinscripcionInstance.inscripcionMatricula.alumno
                     if (!preinscripcionInstance.hasErrors() && preinscripcionInstance.save()) {
+                        alumnoInstance.localidadNac?.provincia?.pais?.nombre
+                        alumnoInstance.localidadDomicilio?.provincia?.pais?.nombre
+                        alumnoInstance.localidadGarante?.provincia?.pais?.nombre
+                        alumnoInstance.localidadTutor?.provincia?.pais?.nombre
+
                         flash.message = "${message(code: 'default.created.message', args: [message(code: 'preinscripcion.label', default: 'Preinscripcion'), preinscripcionInstance.id])}"
                         redirect(action: "show", id: preinscripcionInstance.id)
                     }else{
                         status.setRollbackOnly()
+                        alumnoInstance.localidadNac?.provincia?.pais?.nombre
+                        alumnoInstance.localidadDomicilio?.provincia?.pais?.nombre
+                        alumnoInstance.localidadGarante?.provincia?.pais?.nombre
+                        alumnoInstance.localidadTutor?.provincia?.pais?.nombre
+
                         render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
                     }
                 }else{
                     status.setRollbackOnly()
+                    alumnoInstance?.localidadNac?.provincia?.pais?.nombre
+                    alumnoInstance?.localidadDomicilio?.provincia?.pais?.nombre
+                    alumnoInstance?.localidadGarante?.provincia?.pais?.nombre
+                    alumnoInstance?.localidadTutor?.provincia?.pais?.nombre
+
                     render(view: "create", model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance,preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
 
                 }
             }else {
 				status.setRollbackOnly()
+                alumnoInstance?.localidadNac?.provincia?.pais?.nombre
+                alumnoInstance?.localidadDomicilio?.provincia?.pais?.nombre
+                alumnoInstance?.localidadGarante?.provincia?.pais?.nombre
+                alumnoInstance?.localidadTutor?.provincia?.pais?.nombre
+
 				render(view: "create", model: [preinscripcionInstance: preinscripcionInstance,alumnoInstance:alumnoInstance,materiasSerialized:params.materiasSerialized,requisitosSerialized:params.requisitosSerialized])
 			}
 		}
@@ -616,7 +672,7 @@ class PreinscripcionController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+(it.anioLectivo.anioLectivo==null?"":it.anioLectivo.anioLectivo)+'","'+it.estado?.name+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.numeroDocumento+'","'+(it.alumno.apellido==null?"":it.alumno.apellido)+'","'+(it.alumno.nombre==null?"":it.alumno.nombre)+'","'+(it.carrera.denominacion==null?"":it.carrera.denominacion)+'","'+g.formatDate(date:it.fechaAlta,format:"dd/MM/yyyy")+'","'+(it.anioLectivo.anioLectivo==null?"":it.anioLectivo.anioLectivo)+'","'+it.estado?.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

@@ -81,8 +81,8 @@
             <span class="menuButton"><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></span>
             <span class="menuButton"><g:link class="list" action="list"><g:message code="default.list.label" args="[entityName]" /></g:link></span>
         </div>
-            <div class="span-10">
-                <h1>Preinscripción en ${preinscripcionInstance.carrera.denominacion}</h1>
+            <div class="span-15">
+                <h1>Preinscripción en ${preinscripcionInstance.carrera.denominacion}, año lectivo ${preinscripcionInstance.anioLectivo.anioLectivo}</h1>
             </div>
             <div class="clear"></div>
             <g:hasErrors bean="${preinscripcionInstance}">
@@ -107,7 +107,7 @@
 			<form id="inscripcionFormId" name="forminscripcion" method="post" onsubmit="initsubmit();"  action="${createLink(controller:"preinscripcion",action:"save")}" enctype="multipart/form-data">
 							<fieldset class="step" id="datosAlumnosId">
 								<h1>Datos del Alumno </h1>
-                                <g:hiddenField name="alumnoId" id="alumnoId"/>
+                                <g:hiddenField name="alumnoId" id="alumnoId" value="${alumnoInstance?.id}"/>
                                 <g:hiddenField name="carrera.id" id="carreraId" value="${preinscripcionInstance.carrera.id}" />
 
 			                    <fieldset>

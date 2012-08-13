@@ -55,7 +55,29 @@
 				jQuery("#list").jqGrid('navButtonAdd','#pager',{
 				       caption:"Informe", 
 				       onClickButton : function () {
-                           window.location = '<%out << createLink(controller:"materia",action:"reportemateria") %>';
+                           //grid[0].p.search = filter.rules.length>0;
+                           //$.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                           var grid = $('#list');
+                           var params ;
+                           if(grid[0].p.search){
+                               params='?_search='+grid[0].p.search+'&filters='+JSON.stringify(grid[0].p.postData.filters);
+
+                               //params = params.replaceAll("\"", "\\\"");;
+                           }
+                           //params+='filters:{"groupOp":"AND","rules":[{"field":"codigo","op":"bw","data":"00"}]}"';
+                           //alert("ANTES DE LA ESCAPE");
+
+                           //alert("DESPUES DE LA ESCAPE "+params);
+                           /*params = params.replace(/[\"]/g, '\"')
+                                   .replace(/[\\]/g, '\\\\')
+                                   .replace(/[\/]/g, '\\/')
+                                   .replace(/[\b]/g, '\\b')
+                                   .replace(/[\f]/g, '\\f')
+                                   .replace(/[\n]/g, '\\n')
+                                   .replace(/[\r]/g, '\\r')
+                                   .replace(/[\t]/g, '\\t');*/
+
+                           window.location = '<%out << createLink(controller:"materia",action:"reportemateria") %>'+params;
 				       } 
 				});
 

@@ -187,6 +187,7 @@ class GUtilDomainClass{
                     criteria."${searchOper}"(params.searchField,searchValue)
                 }
                 if(params.filters){
+                    log.info "FILTERS ANTES DE CONVERTIR AL JSON: "+params.filters
                     filtersJson = JSON.parse(params.filters)
                     log.info "FILTERJSON: "+filtersJson
                     criteria."${filtersJson.groupOp.toLowerCase()}"(){
@@ -220,7 +221,9 @@ class GUtilDomainClass{
                     }
                 }
                 if(params.altfilters){
+                    log.info "ALFILTERS ANTES LA EXCEPCION: "+params.altfilters
                     filtersJson = JSON.parse(params.altfilters)
+                    log.info "FILTERSJSON: "+filtersJson
                     criteria."${filtersJson.groupOp.toLowerCase()}"(){
                         filtersJson?.rules?.each{
                             searchOper = operationSearch(it.op)
@@ -253,7 +256,7 @@ class GUtilDomainClass{
                 }
 
             }
-            log.info "paginacion en list refactor rows: ${params.rows.toInteger()}, pag: ${params.page.toInteger()}"
+            //log.info "paginacion en list refactor rows: ${params.rows.toInteger()}, pag: ${params.page.toInteger()}"
             if(rowcount){
                 criteria.projections{
                     rowCount()

@@ -591,9 +591,17 @@ class MateriaController {
         log.info "PARAMETROS: $params"
 
         // TODO: Debo aplicar el filtro cuando entro al list
-        params.put("altfilters", params.filters.replaceAll("\\\\", ""))
-        params.remove("filters")
-        log.debug "PARAMS CON BLACKSLASH: "+params.altfilters
+
+        //----permite tomar los filtros del jQgrid----
+        def filtro = params.filters?.replaceAll("\\\\", "")
+        filtro = filtro?.replaceFirst('"','')
+        if (filtro?.endsWith('"')){
+            filtro = filtro.substring(0,filtro.lastIndexOf('"'))
+        }
+        params.put("filters", filtro )
+        //params.remove("filters")
+        //----fin permite tomar los filtros del jQgrid----
+
         def gud=new GUtilDomainClass(Materia,params,grailsApplication)
         def listMaterias=gud.listrefactor(false)
 

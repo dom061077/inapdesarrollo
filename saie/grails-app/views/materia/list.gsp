@@ -76,7 +76,8 @@
                                    .replace(/[\n]/g, '\\n')
                                    .replace(/[\r]/g, '\\r')
                                    .replace(/[\t]/g, '\\t');*/
-
+                           if(!params)
+                                params='';
                            window.location = '<%out << createLink(controller:"materia",action:"reportemateria") %>'+params;
 				       } 
 				});

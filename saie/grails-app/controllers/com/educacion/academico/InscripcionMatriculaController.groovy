@@ -359,6 +359,7 @@ class InscripcionMatriculaController {
                 /*inscripcionMatriculaInstance.inscripcionesmaterias.each{
                     it.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA
                 }*/
+                def preinscripcionInstance
                 if(inscripcionMatriculaInstance.primeraMatricula){
                     def listInscMatriculas = InscripcionMatricula.createCriteria().list{
                         anioLectivo{
@@ -376,11 +377,12 @@ class InscripcionMatriculaController {
                         inscripcionMatriculaInstance.errors.rejectValue("primeraMatricula", "com.educacion.academico.InscripcionMatricula.primeraMatricula.anulacion.error")
                     }
                     
-                    def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
+                    preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
                     if (preinscripcionInstance){
                         preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO
                         preinscripcionInstance.save()
                     }else{
+                        log.debug "REJECTED VALUE EN PREINSCRIPCION"
                         inscripcionMatriculaInstance.errors.rejectValue("version", "com.educacion.academico.InscripcionMatricula.preinscripcion.error")
                     }
                 }//else{
@@ -403,11 +405,12 @@ class InscripcionMatriculaController {
                 preinscripcionInstance.save()*/
                 
                 
-                if ( !inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save()){
+                if ( !inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save() ){
                     flash.message = "${message(code: 'default.anulado.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
                     redirect(action: "list")
                 }else{
                     status.setRollbackOnly()
+                    inscripcionMatriculaInstance.alumno.id
                     render(view: "show",model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance])
                     return
 
@@ -427,7 +430,7 @@ class InscripcionMatriculaController {
 		log.info "PARAMETROS: ${params}"
 
         params._search="true"
-        params.altfilters='{"groupOp":"AND","rules":[{"field":"estado","op":"ne","data":"ESTADOINSMAT_INICIADA"}]}'
+        params.altfilters='{"groupOp":"AND","rules":[{"field":"estado","op":"ne","data":"ESTADOINSMAT_INICIADA"},{"field":"estado","op":"ne","data":"ESTADOINSMAT_ANULADA"}]}'
         //params.altfilters='{"groupOp":"AND","rules":[{"field":"estado","op":"eq","data":"ESTADOINSMAT_CONFIRMADA"}]}'
 
 		def gud=new GUtilDomainClass(InscripcionMatricula,params,grailsApplication)

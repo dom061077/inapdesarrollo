@@ -51,6 +51,13 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
+
+            <g:hasErrors bean="${inscripcionMateriaInstance}">
+                <div class="ui-state-error ui-corner-all append-bottom">
+                    <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
+                </div>
+            </g:hasErrors>
+
                     
                             <div class="span-4 spanlabel"><g:message code="inscripcionMateria.id.label" default="Id" /></div>
                             
@@ -96,7 +103,7 @@
                 <g:form id="${inscripcionMateriaInstance?.id}">
 <!--                    <g:hiddenField name="idIns" value="${inscripcionMateriaInstance?.id}" />-->
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
-                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.anular.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
                 </g:form>
             </div>
         </div>

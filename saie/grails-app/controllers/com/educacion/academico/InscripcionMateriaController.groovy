@@ -18,8 +18,10 @@ import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoPreinscripcion
 import com.educacion.enums.inscripcion.EstadoInscripcionMatriculaEnum
 import com.educacion.academico.util.AcademicoUtil
+import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
+import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
 
- 
+
 class InscripcionMateriaController {
 
 	def inscripcionMateriaService
@@ -391,7 +393,7 @@ class InscripcionMateriaController {
 		
         def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
         if (inscripcionMateriaInstance) {
-            try {
+            /*try {
                 inscripcionMateriaInstance.delete(flush: true)
                 flash.message = "${message(code: 'default.deleted.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
                 redirect(action: "list")
@@ -399,6 +401,25 @@ class InscripcionMateriaController {
             catch (org.springframework.dao.DataIntegrityViolationException e) {
                 flash.message = "${message(code: 'default.not.deleted.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
                 redirect(action: "show", id: params.id)
+            } */
+
+            //TODO agregar la validacion de integridad antes de anular
+            /*def cantInscMaterias = InscripcionMateria.createCriteria().get {
+                    inscripcionMatricula{
+                        eq("id",inscripcionMateriaInstance.inscripcionMatricula.id)
+                    }
+                    ne("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA)
+                    projection{
+                        rowCount()
+                    }
+                }
+                if (cantInscMaterias>1)
+                    inscripcionMateriaInstance.errors.rejectValue("origen", "com.educacion.academico.InscripcionMateriaInstance.origen.anular.error")
+            */
+            inscripcionMateriaInstance.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA
+            if (!inscripcionMateriaInstance.hasErrors() && inscripcionMateriaInstance.save()){
+                flash.message = "${message(code: 'default.anulado.message', args: [message(code: 'inscripcionMateria.label', default: 'InscripcionMateria'), params.id])}"
+                redirect(action: "list")
             }
         }
         else {
@@ -411,7 +432,7 @@ class InscripcionMateriaController {
 		log.info "INGRESANDO AL CLOSURE listjson"
 		log.info "PARAMETROS: ${params}"
 
-        params.altfilters = '{"groupOp":"OR","rules":[{"field":"inscripcionMatricula_estado","op":"eq","data":"ESTADOINSMAT_CONFIRMADA"},{"field":"inscripcionMatricula_estado","op":"eq","data":"ESTADOINSMAT_PAGADA"}]}'
+        params.altfilters = '{"groupOp":"AND","rules":[{"field":"inscripcionMatricula_estado","op":"ne","data":"ESTADOINSMAT_INICIADA"},{"field":"inscripcionMatricula_estado","op":"ne","data":"ESTADOINSMAT_GENERADA"},{"field":"estado","op":"ne","data":"ESTADOINSMAT_ANULADA"}]}'
         params._search = "true"
 
 		def gud=new GUtilDomainClass(InscripcionMateria,params,grailsApplication)

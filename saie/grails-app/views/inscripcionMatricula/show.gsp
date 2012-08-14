@@ -58,6 +58,15 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
+
+
+            <g:hasErrors bean="${inscripcionMatriculaInstance}">
+                <div class="ui-state-error ui-corner-all">
+                    <g:renderErrors bean="${inscripcionMatriculaInstance}" as="list" />
+                </div>
+            </g:hasErrors>
+
+
             <div class="append-bottom">
                     
                             <div class="span-3 spanlabel"><g:message code="inscripcionMatricula.alumno.label" default="Alumno" /></div>

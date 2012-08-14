@@ -346,10 +346,11 @@ class InscripcionMatriculaController {
 		
         def inscripcionMatriculaInstance = InscripcionMatricula.get(params.id)
         if (inscripcionMatriculaInstance) {
+
+            
             inscripcionMatriculaInstance.inscripcionesmaterias.each { insmat ->
                 if (insmat.estado!=EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA){
-                    flash.message = "${message(code: "default.not.anulado.message",args: ["Matrícula","Tiene inscripciones sin anular"])}"
-                    render(view: "show",model:[inscripcionMatriculaInstance])
+                    inscripcionMatriculaInstance.errors.rejectValue("inscripcionesmaterias", "com.educacion.academico.InscripcionMatricula.inscripcionesmaterias.anulacion.error")
                     return
                 }
             }
@@ -371,13 +372,26 @@ class InscripcionMatriculaController {
                         }
                         ne("estado",EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA)
                     }
-                    inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_GENERADA
-                }else{
-                    inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA
-                }
+                    if (listInscMatriculas.size()>1){
+                        inscripcionMatriculaInstance.errors.rejectValue("primeraMatricula", "com.educacion.academico.InscripcionMatricula.primeraMatricula.anulacion.error")
+                    }
+                    
+                    def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
+                    if (preinscripcionInstance){
+                        preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO
+                        preinscripcionInstance.save()
+                    }else{
+                        inscripcionMatriculaInstance.errors.rejectValue("version", "com.educacion.academico.InscripcionMatricula.preinscripcion.error")
+                    }
+                }//else{
+                //    inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_INICIADA
+                //}
+
+                inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_ANULADA
 
 
-                def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
+
+                /*def preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
                 if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTO)
                     preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTO
                 if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOSUPLENTE)
@@ -386,12 +400,18 @@ class InscripcionMatriculaController {
                     preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTE
                 if (preinscripcionInstance.estado==EstadoPreinscripcion.ESTADO_INSCRIPTOASPIRANTESUPLENTE)
                     preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_ASPIRANTESUPLENTE
+                preinscripcionInstance.save()*/
                 
                 
-                inscripcionMatriculaInstance.save()  
-                preinscripcionInstance.save()
-                flash.message = "${message(code: 'default.anulado.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
-                redirect(action: "list")
+                if ( !inscripcionMatriculaInstance.hasErrors() && inscripcionMatriculaInstance.save()){
+                    flash.message = "${message(code: 'default.anulado.message', args: [message(code: 'inscripcionMatricula.label', default: 'InscripcionMatricula'), params.id])}"
+                    redirect(action: "list")
+                }else{
+                    status.setRollbackOnly()
+                    render(view: "show",model: [inscripcionMatriculaInstance:inscripcionMatriculaInstance])
+                    return
+
+                }
 
 
             }

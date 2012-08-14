@@ -16,11 +16,11 @@
 				jQuery("#list").jqGrid({
 				   	url:'listjson',
 					datatype: "json",
-					width:680,
+					width:690,
 					colNames:['Nº Preinsc.','Nº de Doc.','Apellido','Nombre','Carrera','Fecha Alta','Año Lectivo','Estado','Opciones'],
 				   	colModel:[
 				   		
-				   		{name:'id',index:'id', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
+				   		{name:'id',index:'id', width:60, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
                         {name:'alumno_numeroDocumento',index:'alumno_numeroDocumento', width:70, hidden:false,sorttype:'int',searchoptions:{sopt:['eq']}},
 				   		{name:'alumno_apellido',index:'alumno_apellido', width:92,sortable:true},
 				   		{name:'alumno_nombre',index:'alumno_nombre', width:92,sortable:true},
@@ -28,7 +28,7 @@
 				   		{name:'fechaAlta',index:'fechaAlta',width:55,search:false},
 				   		{name:'anioLectivo_anioLectivo',index:'anioLectivo_anioLectivo', width:40,search:false},
 				   		{name:'estado',index:'estado', width:40,search:false,sortable:false},
-				   		{name:'operaciones',index:'operaciones', width:65,search:false,sortable:false}
+				   		{name:'operaciones',index:'operaciones', width:75,search:false,sortable:false}
 				   	],
 				   	
 				   	rowNum:10,

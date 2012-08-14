@@ -72,18 +72,44 @@ var lastSel;
             if(json.localidaDomicilio){
                 $('#localidadDomicilioId').val(json.localidadDomicilio.nombre);
                 $('#localidadDomicilioIdId').val(json.localidadDomicilio.id);
+
+                $('#provinciaDomicilioId').val(json.localidadDomicilio.provincia.nombre);
+                $('#provinciaDomicilioIdId').val(json.localidadDomicilio.provincia.id);
+
+                $('#paisDomicilioId').val(json.localidadDomicilio.provincia.pais.nombre);
+                $('#paisDomicilioIdId').val(json.localidadDomicilio.provincia.pais.id);
+
+
             }
             if(json.localidadGarante){
                 $('#localidadGaranteId').val(json.localidadGarante.nombre);
                 $('#localidadGaranteIdId').val(json.localidadGarante.id);
+
+                $('#provinciaGaranteId').val(json.localidadGarante.nombre);
+                $('#provinciaGaranteIdId').val(json.localidadGarante.id);
+
+                $('#paisGaranteId').val(json.localidadGarante.nombre);
+                $('#paisGaranteIdId').val(json.localidadGarante.id);
+
+
             }
             if(json.localidadLaboral){
                 $('#localidadLaboralId').val(json.localidadDomicilio.nombre);
                 $('#localidadLaboralIdId').val(json.localidadDomicilio.id);
+
+
             }
-            if(json.localidadLoc){
-                $('#localidadLocId').val(json.localidadLoc.nombre);
-                $('#localidadLocIdId').val(json.localidadLoc.id);
+            if(json.localidadNac){
+                $('#localidadNacId').val(json.localidadNac.nombre);
+                $('#localidadNacIdId').val(json.localidadNac.id);
+
+                $('#provinciaNacId').val(json.localidadNac.provincia.nombre);
+                $('#provinciaNacIdId').val(json.localidadNac.provincia.id);
+
+                $('#paisNacId').val(json.localidadNac.provincia.pais.nombre);
+                $('#paisNacIdId').val(json.localidadNac.provincia.pais.id);
+
+
             }
             $('#lugarLaboralId').val(json.lugarLaboral);
             $('#nombre').val(json.nombre);

@@ -421,9 +421,10 @@ class AlumnoController {
             return
         }
         def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
+
         if(alumnoInstance){
             log.debug "RETORNO DE ALUMNOINSTANCE"
-            render alumnoInstance as grails.converters.JSON
+            render alumnoInstance as grails.converters.deep.JSON
         }else{
             render "false"
         }

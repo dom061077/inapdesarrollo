@@ -17,6 +17,7 @@
                 var lastSel;
                 var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
 		        function initsubmit(){
+
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
 		            $('#materiasSerializedId').val(postDataMaterias);

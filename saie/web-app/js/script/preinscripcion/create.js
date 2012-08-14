@@ -182,7 +182,7 @@ var lastSel;
                                         $.ajax({
                                             url:locgetdataalumno
                                             ,dataType:'json'
-                                            ,data:{value:$('#numeroDocumentoId').val()}
+                                            ,data:{value:$('#numeroDocumentoId').val(),carreraId:$('#carreraId').val()}
                                             ,success: function(data){
                                                 if(data!='false')
                                                     bindalumnodata(data);

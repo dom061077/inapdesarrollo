@@ -270,6 +270,12 @@ class InscripcionMatriculaController {
 			InscripcionMatricula.withTransaction{TransactionStatus status ->
 	            //inscripcionMatriculaInstance.properties = params
                 inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
+                inscripcionMatriculaInstance.inscripcionesmaterias.each{inscmat->
+                    if(inscmat.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
+                        inscmat.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
+                        return
+                    }
+                }
 				
 				//------modificacion del detalle de la inscripcion de materias dentro de la matricula--
 				/*
@@ -379,6 +385,7 @@ class InscripcionMatriculaController {
                     
                     preinscripcionInstance = Preinscripcion.find("from Preinscripcion where inscripcionMatricula.id=:id",[id:inscripcionMatriculaInstance.id])
                     if (preinscripcionInstance){
+                        //TODO si se anula la preinscripcion, reordenar los estados de preinscripciones titulares y suplentes
                         preinscripcionInstance.estado = EstadoPreinscripcion.ESTADO_PREINSCRIPTOANULADO
                         preinscripcionInstance.save()
                     }else{

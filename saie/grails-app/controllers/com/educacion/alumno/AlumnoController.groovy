@@ -5,6 +5,7 @@ import com.educacion.util.GUtilDomainClass
 import com.megatome.grails.RecaptchaService
 import org.springframework.transaction.TransactionStatus
 import com.educacion.geografico.Localidad
+import com.educacion.academico.util.AcademicoUtil
 
 
 
@@ -414,17 +415,27 @@ class AlumnoController {
 
     def getalumnobydocumento = {
         def documento
+        def carreraId
         try{
-            documento = Long.parseLong (params.value)
+            documento = Long.parseLong(params.value)
         }catch(NumberFormatException e){
             render "false"
             return
         }
-        def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
+        try{
+            carreraId = Long.parseLong(params.carreraId)
+        }catch(NumberFormatException e){
+            carreraId= new Long(0)
+        }
 
+        def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
+        def arrayJson = new ArrayList()
+        arrayJson.add(alumnoInstance)
+        //TODO CONTINUAR AQUI
+        def materiasCursarDisponibles = AcademicoUtil.getMateriasCursarDisponibles(carreraId,alumnoInstance?.id)
+        arrayJson.add(materiasCursarDisponibles)
         if(alumnoInstance){
-            log.debug "RETORNO DE ALUMNOINSTANCE"
-            render alumnoInstance as grails.converters.deep.JSON
+            render arrayJson as grails.converters.deep.JSON
         }else{
             render "false"
         }

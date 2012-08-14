@@ -110,21 +110,24 @@ class PreinscripcionController {
 
 
         def materiasSerialized
-
-        def listmaterias = Materia.createCriteria().list(){
-            and{
-                nivel{
-                    carrera{
-                        eq("id",preinscripcionInstance.carrera.id)
+        def listmaterias
+        //if (preinscripcionInstance.alumno)
+        //    listmaterias = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
+        //else
+            listmaterias = Materia.createCriteria().list(){
+                and{
+                    nivel{
+                        carrera{
+                            eq("id",preinscripcionInstance.carrera.id)
+                        }
+                        //matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
                     }
-                    //matregcursar:Materia,mataprobcursar:Materia,matregrendir:Materia,mataprobrendir:Materia
+                    isEmpty("matregcursar")
+                    isEmpty("mataprobcursar")
+                    isEmpty("matregrendir")
+                    isEmpty("mataprobrendir")
                 }
-                isEmpty("matregcursar")
-                isEmpty("mataprobcursar")
-                isEmpty("matregrendir")
-                isEmpty("mataprobrendir")
             }
-        }
         def flagcomilla = false
         materiasSerialized = "["
         listmaterias.each{

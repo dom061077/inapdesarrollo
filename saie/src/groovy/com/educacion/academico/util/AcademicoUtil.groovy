@@ -30,12 +30,12 @@ class AcademicoUtil {
 						}
 					}
 				}
-				if(list.size()==0){
+				/*if(list.size()==0){
 					flagvalidacion = false
 				}
 				if(list.size()>1){
 					flagvalidacion = false
-				}
+				}*/
 			}
 			
 			materiaInstance.mataprobcursar.each{mataprob->
@@ -52,12 +52,12 @@ class AcademicoUtil {
 						}
 					}
 				}
-				if(list.size()==0){
+				/*if(list.size()==0){
 					flagvalidacion = false
 				}
 				if(list.size()>1){
 					flagvalidacion = false
-				}
+				}*/
 			}
 		}
 		
@@ -77,7 +77,7 @@ class AcademicoUtil {
 						}
 					}
 				}
-				if(list.size()==0){
+				/*if(list.size()==0){
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
 						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
@@ -86,7 +86,7 @@ class AcademicoUtil {
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
 						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
-				}
+				}*/
 			}
 			
 			
@@ -104,7 +104,7 @@ class AcademicoUtil {
 						}
 					}
 				}
-				if(list.size()==0){
+				/*if(list.size()==0){
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
 						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
@@ -113,7 +113,7 @@ class AcademicoUtil {
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.inscripcion.maxsize"
 						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
-				}
+				}*/
 			}
 		}
 		return flagvalidacion

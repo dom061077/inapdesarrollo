@@ -429,13 +429,23 @@ class AlumnoController {
         }
 
         def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
-        def arrayJson = new ArrayList()
-        arrayJson.add(alumnoInstance)
-        //TODO CONTINUAR AQUI
+
         def materiasCursarDisponibles = AcademicoUtil.getMateriasCursarDisponibles(carreraId,alumnoInstance?.id)
-        arrayJson.add(materiasCursarDisponibles)
         if(alumnoInstance){
-            render arrayJson as grails.converters.deep.JSON
+            def arrayJson =
+                [alumno:alumnoInstance,
+                        localidadNac:alumnoInstance.localidadNac,
+                        provinciaNac:alumnoInstance?.localidadNac?.provincia,
+                        //TODO continuar aqui
+                        localidadDomicilio:alumnoInstance.localidadDomicilio,
+
+                        localidadLaboral:alumnoInstance.localidadLaboral,
+                        localidadTutor:alumnoInstance.localidadTutor,
+                        localidadGarante:alumnoInstance.localidadGarante,
+                        materiasDisponibles:materiasCursarDisponibles
+                ]
+
+            render arrayJson as grails.converters.JSON
         }else{
             render "false"
         }

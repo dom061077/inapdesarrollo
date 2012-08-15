@@ -46,94 +46,94 @@ var lastSel;
 
     function bindalumnodata(json){
         if(json){
-            $('#alumnoId').val(json.id)
-            $('#anioEgresoId').val(json.anioEgreso);
-            $('#apellidoId').val(json.apellido);
-            $('#nombreId').val(json.nombre);
-            $('#apellidoNombreGaranteId').val(json.apellidoNombreGarante);
-            $('#apellidoNombreTutorId').val(json.apellidoNombreTutor);
-            $('#barrioDomicilioId').val(json.barrioDomicilio);
-            $('#barrioGaranteId').val(json.barrioGarante);
-            $('#barrioLaboralId').val(json.barrioLaboral);
-            $('#barrioTutorId').val(json.barrioTutor);
-            $('#calleDomicilioId').val(json.calleDomicilio);
-            $('#calleGaranteId').val(json.calleGarante);
-            $('#calleLaboralId').val(json.calleLaboral);
-            $('#calleTutorId').val(json.calleTutor);
-            $('#emailId').val(json.email);
-            $('#establecimientoProcedenciaId').val(json.establecimientoProcedencia);
-            if(json.estadoAcademico)
-                $('#estadoAcademicoId').val(json.estadoAcademico.name);
-            if(json.fechaNacimiento)
-                $('#fechaNacimientoId').val(json.fechaNacimiento.substring(8,10)+'/'+json.fechaNacimiento.substring(5,7)+'/'
-                    +json.fechaNacimiento.substring(0,4));
-            $('#legajoId').val(json.legajo);
+            $('#alumnoId').val(json[0].id)
+            $('#anioEgresoId').val(json[0].anioEgreso);
+            $('#apellidoId').val(json[0].apellido);
+            $('#nombreId').val(json[0].nombre);
+            $('#apellidoNombreGaranteId').val(json[0].apellidoNombreGarante);
+            $('#apellidoNombreTutorId').val(json[0].apellidoNombreTutor);
+            $('#barrioDomicilioId').val(json[0].barrioDomicilio);
+            $('#barrioGaranteId').val(json[0].barrioGarante);
+            $('#barrioLaboralId').val(json[0].barrioLaboral);
+            $('#barrioTutorId').val(json[0].barrioTutor);
+            $('#calleDomicilioId').val(json[0].calleDomicilio);
+            $('#calleGaranteId').val(json[0].calleGarante);
+            $('#calleLaboralId').val(json[0].calleLaboral);
+            $('#calleTutorId').val(json[0].calleTutor);
+            $('#emailId').val(json[0].email);
+            $('#establecimientoProcedenciaId').val(json[0].establecimientoProcedencia);
+            if(json[0].estadoAcademico)
+                $('#estadoAcademicoId').val(json[0].estadoAcademico.name);
+            if(json[0].fechaNacimiento)
+                $('#fechaNacimientoId').val(json[0].fechaNacimiento.substring(8,10)+'/'+json[0].fechaNacimiento.substring(5,7)+'/'
+                    +json[0].fechaNacimiento.substring(0,4));
+            $('#legajoId').val(json[0].legajo);
 
-            if(json.localidaDomicilio){
-                $('#localidadDomicilioId').val(json.localidadDomicilio.nombre);
-                $('#localidadDomicilioIdId').val(json.localidadDomicilio.id);
+            if(json[1].localidaDomicilio){
+                $('#localidadDomicilioId').val(json[1].localidadDomicilio.nombre);
+                $('#localidadDomicilioIdId').val(json[1].localidadDomicilio.id);
 
-                $('#provinciaDomicilioId').val(json.localidadDomicilio.provincia.nombre);
-                $('#provinciaDomicilioIdId').val(json.localidadDomicilio.provincia.id);
+                $('#provinciaDomicilioId').val(json[1].localidadDomicilio.provincia.nombre);
+                $('#provinciaDomicilioIdId').val(json[1].localidadDomicilio.provincia.id);
 
-                $('#paisDomicilioId').val(json.localidadDomicilio.provincia.pais.nombre);
-                $('#paisDomicilioIdId').val(json.localidadDomicilio.provincia.pais.id);
-
-
-            }
-            if(json.localidadGarante){
-                $('#localidadGaranteId').val(json.localidadGarante.nombre);
-                $('#localidadGaranteIdId').val(json.localidadGarante.id);
-
-                $('#provinciaGaranteId').val(json.localidadGarante.nombre);
-                $('#provinciaGaranteIdId').val(json.localidadGarante.id);
-
-                $('#paisGaranteId').val(json.localidadGarante.nombre);
-                $('#paisGaranteIdId').val(json.localidadGarante.id);
+                $('#paisDomicilioId').val(json[1].localidadDomicilio.provincia.pais.nombre);
+                $('#paisDomicilioIdId').val(json[1].localidadDomicilio.provincia.pais.id);
 
 
             }
-            if(json.localidadLaboral){
-                $('#localidadLaboralId').val(json.localidadDomicilio.nombre);
-                $('#localidadLaboralIdId').val(json.localidadDomicilio.id);
+            if(json[1].localidadGarante){
+                $('#localidadGaranteId').val(json[1].localidadGarante.nombre);
+                $('#localidadGaranteIdId').val(json[1].localidadGarante.id);
+
+                $('#provinciaGaranteId').val(json[1].localidadGarante.nombre);
+                $('#provinciaGaranteIdId').val(json[1].localidadGarante.id);
+
+                $('#paisGaranteId').val(json[1].localidadGarante.nombre);
+                $('#paisGaranteIdId').val(json[1].localidadGarante.id);
 
 
             }
-            if(json.localidadNac){
-                $('#localidadNacId').val(json.localidadNac.nombre);
-                $('#localidadNacIdId').val(json.localidadNac.id);
-
-                $('#provinciaNacId').val(json.localidadNac.provincia.nombre);
-                $('#provinciaNacIdId').val(json.localidadNac.provincia.id);
-
-                $('#paisNacId').val(json.localidadNac.provincia.pais.nombre);
-                $('#paisNacIdId').val(json.localidadNac.provincia.pais.id);
+            if(json[1].localidadLaboral){
+                $('#localidadLaboralId').val(json[1].localidadDomicilio.nombre);
+                $('#localidadLaboralIdId').val(json[1].localidadDomicilio.id);
 
 
             }
-            $('#lugarLaboralId').val(json.lugarLaboral);
-            $('#nombre').val(json.nombre);
-            $('#numeroDomicilioId').val(json.numeroDomicilio);
-            $('#numeroGaranteId').val(json.numeroGarante);
-            $('#numeroLaboralId').val(json.numeroLaboral);
-            $('#numeroTutorId').val(json.numeroTutor);
-            $('#parentezcoGaranteId').val(json.parentezcoGarante);
-            $('#parentezcoTutorId').val(json.parentezcoTutor);
-            $('#profesionGaranteId').val(json.profesionGarante);
-            $('#profesionTutorId').val(json.profesionTutor);
-            if(json.sexo)
-                $('#sexoId').val(json.sexo.name);
-            if(json.situacionAcademicas)
-                $('#situacionAcademicaId').val(json.situacionAcademicas.name);
-            if(json.situacionAdministrativa)
-                $('#situacionAdministrativaId').val(json.situacionAdministrativa.name);
-            $('#telefonoAlternativoId').val(json.telefonoAlternativo);
-            $('#telefonoCelularId').val(json.telefonoCelular);
-            $('#telefonoGaranteId').val(json.telefonoGarante);
-            $('#telefonoLaboralId').val(json.telefonoLaboral);
-            if(json.tipoDocumento)
-                $('#tipoDocumentoId').val(json.tipoDocumento.name);
-            $('#tituloId').val(json.titulo);
+            if(json[1].localidadNac){
+                $('#localidadNacId').val(json[1].localidadNac.nombre);
+                $('#localidadNacIdId').val(json[1].localidadNac.id);
+
+                $('#provinciaNacId').val(json[1].localidadNac.provincia.nombre);
+                $('#provinciaNacIdId').val(json[1].localidadNac.provincia.id);
+
+                $('#paisNacId').val(json[1].localidadNac.provincia.pais.nombre);
+                $('#paisNacIdId').val(json[1].localidadNac.provincia.pais.id);
+
+
+            }
+            $('#lugarLaboralId').val(json[0].lugarLaboral);
+            $('#nombre').val(json[0].nombre);
+            $('#numeroDomicilioId').val(json[0].numeroDomicilio);
+            $('#numeroGaranteId').val(json[0].numeroGarante);
+            $('#numeroLaboralId').val(json[0].numeroLaboral);
+            $('#numeroTutorId').val(json[0].numeroTutor);
+            $('#parentezcoGaranteId').val(json[0].parentezcoGarante);
+            $('#parentezcoTutorId').val(json[0].parentezcoTutor);
+            $('#profesionGaranteId').val(json[0].profesionGarante);
+            $('#profesionTutorId').val(json[0].profesionTutor);
+            if(json[0].sexo)
+                $('#sexoId').val(json[0].sexo.name);
+            if(json[0].situacionAcademicas)
+                $('#situacionAcademicaId').val(json[0].situacionAcademicas.name);
+            if(json[0].situacionAdministrativa)
+                $('#situacionAdministrativaId').val(json[0].situacionAdministrativa.name);
+            $('#telefonoAlternativoId').val(json[0].telefonoAlternativo);
+            $('#telefonoCelularId').val(json[0].telefonoCelular);
+            $('#telefonoGaranteId').val(json[0].telefonoGarante);
+            $('#telefonoLaboralId').val(json[0].telefonoLaboral);
+            if(json[0].tipoDocumento)
+                $('#tipoDocumentoId').val(json[0].tipoDocumento.name);
+            $('#tituloId').val(json[0].titulo);
         }
      }
 
@@ -181,7 +181,7 @@ var lastSel;
                                         });
                                         $.ajax({
                                             url:locgetdataalumno
-                                            ,dataType:'json'
+                                            //,dataType:'json'
                                             ,data:{value:$('#numeroDocumentoId').val(),carreraId:$('#carreraId').val()}
                                             ,success: function(data){
                                                 if(data!='false')

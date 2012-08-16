@@ -592,7 +592,7 @@ class MateriaController {
 
         // TODO: Debo aplicar el filtro cuando entro al list
 
-        //----permite tomar los filtros del jQgrid----
+        //----permite tomar los filtros del jQgrid---- Borro las comillas que están de mas
         def filtro = params.filters?.replaceAll("\\\\", "")
         filtro = filtro?.replaceFirst('"','')
         if (filtro?.endsWith('"')){

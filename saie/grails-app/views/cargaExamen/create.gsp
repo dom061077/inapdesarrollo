@@ -17,8 +17,6 @@
          <script type="text/javascript" src="${g.resource(dir:'js/jqgrid',file:'jquery.jqGrid.min.js')}"></script>
         <script type="text/javascript" src="${resource(dir: "js/jquery",file: "jquery.extend.ui.js")}"></script>
         <script type="text/javascript" src="${g.resource(dir:'js/jquery',file:'jquery.jlookupfieldcascade.js')}"></script>
-
-        
         <script type="text/javascript" src="${resource(dir:'js/jquery',file:'jquery.jlookupfield.js')}"></script>
         <script type="text/javascript">
         	$(document).ready(function(){
@@ -125,6 +123,7 @@
                     <g:if test="${flash.message}">
                         <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
                     </g:if>
+
                     <g:hasErrors bean="${cargaExamenInstance}" field="nivel">
                         <div class="ui-state-error ui-corner-all append-bottom">
                     </g:hasErrors>

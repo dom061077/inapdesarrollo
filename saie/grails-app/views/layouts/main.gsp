@@ -100,6 +100,13 @@
                                                 <li><a href="${createLink(controller:'division',action:'asignaula')}">Asignar Divisiones</a></li>
 											</ul>
 										</li>
+
+                                        <li><span class="dir">Asistencia</span>
+                                            <ul>
+                                                <li><a href="${createLink(controller:'asistencia',action:'create')}">Actualizar</a></li>
+                                            </ul>
+                                        </li>
+
 										<li><span class="dir">Materias</span>
 											<ul>
 												<li><a href="${createLink(controller:'materia',action:'create')}">Actualización</a></li>

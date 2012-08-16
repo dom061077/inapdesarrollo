@@ -3,6 +3,7 @@ package com.educacion.academico
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaDetalleEnum;
 import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.EstadoInscripcionMateriaEnum
+import com.educacion.alumno.Asistencia
 
 class InscripcionMateriaDetalle {
 	Materia materia
@@ -15,7 +16,7 @@ class InscripcionMateriaDetalle {
 	
 	static belongsTo = [inscripcionMateria:InscripcionMateria]
 
-    static hasMany = [examenes:Examen]
+    static hasMany = [examenes:Examen,asistencias:Asistencia]
 	
     static constraints = {
         division(nullable: true,blank:true)

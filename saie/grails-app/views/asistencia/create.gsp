@@ -78,8 +78,9 @@
 
                 // Grilla de Alumnos
                 jQuery("#list").jqGrid({
-                    url:'listjsonalumnos',
-                    datatype: "json",
+                    //url:'listjsonalumnos',
+                    url:'<%out << createLink(controller:"asistencia",action:"listjsonalumnos")%>',
+                    datatype: 'json',
                     width:680,
                     colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','P/A'],
                     colModel:[
@@ -129,78 +130,79 @@
             </g:hasErrors>
             <g:form action="save" >
 
-                    <div class="append-bottom">
 
-                            <g:if test="${flash.message}">
-                                <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
-                            </g:if>
+                    <g:if test="${flash.message}">
+                        <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
+                    </g:if>
 
-                            <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                                <div class="ui-state-error ui-corner-all append-bottom">
-                            </g:hasErrors>
-                            <div class="span-2">
-                                <label for="carreraId"><g:message code="asistencia.carrera.label" default="Carrera"/></label>
-                            </div>
-                            <div class="span-4">
-                                <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraid" descValue="${asitenciaInstance?.nivel?.carrera?.denominacion}" value="${asitenciaInstance?.nivel?.carrera?.id}" />
-                            </div>
-                            <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                                <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
-                                </div>
-                            </g:hasErrors>
-
-
-                            <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                                <div class="ui-state-error ui-corner-all append-bottom">
-                            </g:hasErrors>
-                            <div class="span-2">
-                                <label for="nivelId"><g:message code="asistencia.nivel.label" default="Nivel"/></label>
-                            </div>
-                            <div class="span-4">
-                                <input name="nivel.id" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${asitenciaInstance?.nivel?.descripcion}" value="${asitenciaInstance?.nivel?.id}" />
-                            </div>
-                            <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                                <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
-                                </div>
-                            </g:hasErrors>
-
-
-
-                     </div>
-
-
-                    <div class="append-bottom">
-
-                            <g:hasErrors bean="${asitenciaInstance}" field="materia">
-                                <div class="ui-state-error ui-corner-all append-bottom">
-                            </g:hasErrors>
-                            <div class="span-2">
-                                <label for="materiaId"><g:message code="asistencia.materia.label" default="Materia"/></label>
-                            </div>
-                            <div class="span-4">
-                                <input name="materia.id" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${asitenciaInstance?.materia?.denominacion}" value="${asitenciaInstance?.materia?.id}" />
-                            </div>
-                            <g:hasErrors bean="${asitenciaInstance}" field="materia">
-                                <g:renderErrors bean="${asitenciaInstance}" as="list" field="materia"/>
-                                </div>
-                            </g:hasErrors>
-
-
-
-                            <div class="span-2 spanlabel">
-                                <label for="fecha"><g:message code="asistencia.fecha.label" default="Fecha" /></label>
-                            </div>
-                            <div class="span-4">
-                                <g:textField id="fechaId" class="ui-widget ui-corner-all ui-widget-content" name="fecha" value="${g.formatDate(format:'dd/MM/yyyy',date:asistenciaInstance?.fechaAsistencia)}" />
-                            </div>
-
-                            <g:hasErrors bean="${asistenciaInstance}" field="fechaAsistencia">
-                                <g:renderErrors bean="${asistenciaInstance}" as="list" field="fechaAsistencia"/>
-                                </div>
-                            </g:hasErrors>
-
+                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                        <div class="ui-state-error ui-corner-all append-bottom">
+                    </g:hasErrors>
+                    <div class="span-2">
+                        <label for="carreraId"><g:message code="asistencia.carrera.label" default="Carrera"/></label>
                     </div>
+                    <div class="span-4">
+                        <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraid" descValue="${asitenciaInstance?.nivel?.carrera?.denominacion}" value="${asitenciaInstance?.nivel?.carrera?.id}" />
+                    </div>
+                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
+                        </div>
+                    </g:hasErrors>
+
+
+                <div class="clear"></div>
+
+
+                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                        <div class="ui-state-error ui-corner-all append-bottom">
+                    </g:hasErrors>
+                    <div class="span-2">
+                        <label for="nivelId"><g:message code="asistencia.nivel.label" default="Nivel"/></label>
+                    </div>
+                    <div class="span-4">
+                        <input name="nivel.id" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${asitenciaInstance?.nivel?.descripcion}" value="${asitenciaInstance?.nivel?.id}" />
+                    </div>
+                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
+                        </div>
+                    </g:hasErrors>
+
+
+                <div class="clear"></div>
+
+
+                    <g:hasErrors bean="${asitenciaInstance}" field="materia">
+                        <div class="ui-state-error ui-corner-all append-bottom">
+                    </g:hasErrors>
+                    <div class="span-2">
+                        <label for="materiaId"><g:message code="asistencia.materia.label" default="Materia"/></label>
+                    </div>
+                    <div class="span-4">
+                        <input name="materia.id" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${asitenciaInstance?.materia?.denominacion}" value="${asitenciaInstance?.materia?.id}" />
+                    </div>
+                    <g:hasErrors bean="${asitenciaInstance}" field="materia">
+                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="materia"/>
+                        </div>
+                    </g:hasErrors>
+
+
+                <div class="clear"></div>
+
+
+                    <div class="span-2 spanlabel">
+                        <label for="fecha"><g:message code="asistencia.fecha.label" default="Fecha" /></label>
+                    </div>
+                    <div class="span-4">
+                        <g:textField id="fechaId" class="ui-widget ui-corner-all ui-widget-content" name="fecha" value="${g.formatDate(format:'dd/MM/yyyy',date:asistenciaInstance?.fechaAsistencia)}" />
+                    </div>
+                    <g:hasErrors bean="${asistenciaInstance}" field="fechaAsistencia">
+                        <g:renderErrors bean="${asistenciaInstance}" as="list" field="fechaAsistencia"/>
+                        </div>
+                    </g:hasErrors>
+
+
                     <div class="clear"></div>
+
 
                     <table style="z-index:1"  id="list"></table>
                     <div id="pager" ></div>

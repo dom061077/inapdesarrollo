@@ -812,7 +812,7 @@
 									<label for="localidadTutorDesc"><g:message code="alumno.localidadTutor.label" default="Localidad Tutor" /></label>
 								</div>
 								<div class="span-9">
-									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadTutorId" name="localidadTutorDesc"  value="${localidadTutor?.nombre}" /> 
+									<g:textField class="ui-widget ui-corner-all ui-widget-content geoinput" id="localidadTutorId" name="localidadTutorDesc"  value="${alumnoInstance?.localidadTutor?.nombre}" />
 	 										<g:hiddenField id="localidadTutorIdId" name="localidadTutor.id" value="${localidadTutor?.id}" />
 								</div>
 											

@@ -104,6 +104,7 @@
 <!--                    <g:hiddenField name="idIns" value="${inscripcionMateriaInstance?.id}" />-->
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="edit" value="${message(code: 'default.button.edit.label', default: 'Edit')}" /></span>
                     <span class="button"><g:actionSubmit class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" action="delete" value="${message(code: 'default.button.anular.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" /></span>
+                    <a href="${createLink(controller:"inscripcionMateria", action:"reportepreinscripcion",params:[id:inscripcionMateriaInstance?.id])}">Comprobante</a>
                 </g:form>
             </div>
         </div>

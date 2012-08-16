@@ -6,6 +6,7 @@ import com.megatome.grails.RecaptchaService
 import org.springframework.transaction.TransactionStatus
 import com.educacion.geografico.Localidad
 import com.educacion.academico.util.AcademicoUtil
+import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 
 
 
@@ -433,15 +434,27 @@ class AlumnoController {
         def materiasCursarDisponibles = AcademicoUtil.getMateriasCursarDisponibles(carreraId,alumnoInstance?.id)
         if(alumnoInstance){
             def arrayJson =
-                [alumno:alumnoInstance,
+                [       alumno:alumnoInstance,
                         localidadNac:alumnoInstance.localidadNac,
                         provinciaNac:alumnoInstance?.localidadNac?.provincia,
-                        //TODO continuar aqui
+                        paisNac:alumnoInstance?.localidadNac?.provincia?.pais,
+                        
                         localidadDomicilio:alumnoInstance.localidadDomicilio,
-
+                        provinciaDomicilio:alumnoInstance?.localidadDomicilio?.provincia,
+                        paisDomicilio:alumnoInstance?.localidadDomicilio?.provincia?.pais,
+                        
                         localidadLaboral:alumnoInstance.localidadLaboral,
+                        provinciaLaboral:alumnoInstance?.localidadLaboral?.provincia,
+                        paisLaboral:alumnoInstance?.localidadLaboral?.provincia?.pais,
+                        
                         localidadTutor:alumnoInstance.localidadTutor,
+                        provinciaTutor:alumnoInstance?.localidadTutor?.provincia,
+                        paisTutor:alumnoInstance?.localidadTutor?.provincia?.pais,
+                        
                         localidadGarante:alumnoInstance.localidadGarante,
+                        provinciaGarante:alumnoInstance?.localidadGarante?.provincia,
+                        paisGarante:alumnoInstance?.localidadGarante?.provincia?.pais,
+
                         materiasDisponibles:materiasCursarDisponibles
                 ]
 

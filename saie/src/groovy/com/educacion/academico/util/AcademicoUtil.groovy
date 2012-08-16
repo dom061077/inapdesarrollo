@@ -30,12 +30,12 @@ class AcademicoUtil {
 						}
 					}
 				}
-				/*if(list.size()==0){
-					flagvalidacion = false
-				}
-				if(list.size()>1){
-					flagvalidacion = false
-				}*/
+                if(list.size()==0){
+                    flagvalidacion = false
+                }
+                if(list.size()>1){
+                    flagvalidacion = false
+                }
 			}
 			
 			materiaInstance.mataprobcursar.each{mataprob->
@@ -52,12 +52,12 @@ class AcademicoUtil {
 						}
 					}
 				}
-				/*if(list.size()==0){
+				if(list.size()==0){
 					flagvalidacion = false
 				}
 				if(list.size()>1){
 					flagvalidacion = false
-				}*/
+				}
 			}
 		}
 		
@@ -116,7 +116,9 @@ class AcademicoUtil {
 				}*/
 			}
 		}
-		return flagvalidacion
+
+
+        return flagvalidacion
 	}
 
 
@@ -209,8 +211,31 @@ class AcademicoUtil {
 		}
 		materias.each{mat ->
 			log.debug "Materias: "+mat.denominacion
-			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR))
-				materiasDisponibles.add(mat)
+			if(validarCorrelatividades(mat.id,idAlumno,TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)){
+                //----si la validacion de correlatividades pasa, el siguiente paso es determinar ya existe una inscripcion-----------
+                def list = InscripcionMateriaDetalle.createCriteria().list{
+                    and{
+                        inscripcionMateria{
+                            alumno{
+                                eq("id",idAlumno)
+                            }
+                        }
+                        eq("tipo",TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
+                        ne("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_DESAPROBADA)
+                        ne("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_AUSENTE)
+                        materia{
+                            eq("id",mat.id)
+                        }
+                    }
+                }
+                if(list?.size()>0){
+                    if(mat.id==10){
+                        log.debug "la materia 10 tiene inscripciones para cursar"
+                    }
+                }
+                else
+    				materiasDisponibles.add(mat)
+            }
 		}
 		return materiasDisponibles
 	}

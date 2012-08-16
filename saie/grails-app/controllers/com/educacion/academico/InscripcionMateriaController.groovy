@@ -600,5 +600,42 @@ class InscripcionMateriaController {
         render ""
     }
 
+
+    def reportepreinscripcion = {
+        log.info "INGRESANDO AL CLOSURE reportepreinscripcion"
+        log.info "PARAMETROS $params"
+
+        params.put("provincianombre", g.message(code:"caratula.institucion.provincia"))
+
+        def inscripcionMateriaInstance = InscripcionMateria.get(params.id)
+        def list = new ArrayList()
+
+        if (inscripcionMateriaInstance) {
+            def materias = new ArrayList()
+            materias.addAll(inscripcionMateriaInstance.detalleMateria)
+            def materiasIz
+            def materiasDer
+            if (materias?.size()>7){
+                materiasIz = materias.subList(0,7)
+                materiasDer = materias.subList(8,materias.size()-1)
+            }else
+                materiasIz = materias
+            inscripcionMateriaInstance.alumno.apellido
+            list.add([inscripcionMateriaInstance,materiasIz,materiasDer])
+
+            params.put("SUBREPORT_DIR",servletContext.getRealPath("/reports/preinscripcion/"))
+            params.put("_format","PDF")
+
+            params.put("_name","reportepreinscripcion")
+            params.put("_file","preinscripcion/reportepreinscripcion")
+            chain(controller:'jasper', action:'index', model:[data:list], params:params)
+
+
+        } else {
+            redirect(action: "list")
+        }
+
+    }
+
 	
 }

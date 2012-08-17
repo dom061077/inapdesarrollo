@@ -161,7 +161,7 @@ class InscripcionMateriaController {
 					
 					"""
 					,[aniolectivo:params.anioLectivoId.toLong(),carrera:params.carreraId,alumno:params.alumnoId.toLong()]) 
-		def materias = getMateriasCursarDisponibles(params.carreraId.toLong(),params.alumnoId.toLong())
+		def materias = getMateriasCursarDisponibles(params.carreraId.toLong(),params.alumnoId.toLong(),0)
 		render(contentType:"text/json"){
 			matricula matriculaInstance.id
 			array{
@@ -185,7 +185,7 @@ class InscripcionMateriaController {
 
 			
 			def materiasSerialized
-			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance.carrera.id,inscripcionMatriculaInstance.alumno.id)
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance.carrera.id,inscripcionMatriculaInstance.alumno.id,0)
 			
 			def flagcomilla = false
 			materiasSerialized = "["
@@ -317,8 +317,14 @@ class InscripcionMateriaController {
         }
         else {
 			
+            if (inscripcionMateriaInstance.estado!=EstadoInscripcionMateriaEnum.ESTADOINSMAT_CREADA){
+                flash.message = "${message(code: 'com.educacion.academico.inscripcionMateria.estado.confirmada.error')}"
+                redirect(action: list)
+                return 
+            }
+
 			def materiasSerialized
-			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMateriaInstance.carrera.id,inscripcionMateriaInstance.alumno.id)
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMateriaInstance.carrera.id,inscripcionMateriaInstance.alumno.id,1)
 			
 			def flagcomilla = false
 			def flagseleccionado
@@ -454,7 +460,7 @@ class InscripcionMateriaController {
 				result=result+','
 				
 			
-			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.estado.name+'"]}'
+			result=result+'{"id":"'+it.id+'","cell":["'+it.id+'","'+it.alumno.apellido+'","'+it.alumno.nombre+'","'+it.carrera.denominacion+'","'+it.anioLectivo.anioLectivo+'","'+it.inscripcionMatricula.estado.name+'","'+it.estado.name+'"]}'
 			 
 			flagaddcomilla=true
 		}

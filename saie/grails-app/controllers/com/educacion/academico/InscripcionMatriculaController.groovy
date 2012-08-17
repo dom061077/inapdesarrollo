@@ -42,7 +42,7 @@ class InscripcionMatriculaController {
 		
 		def anioLectivoInstance = AcademicoUtil.getAnioLectivoCarrera(preinscripcionInstance.carrera.id)
 		
-		def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id)
+		def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(preinscripcionInstance?.carrera?.id,preinscripcionInstance?.alumno?.id,0)
 		
 		log.debug "MATERIAS CURSAR: "+materiasCursar
 		
@@ -85,7 +85,7 @@ class InscripcionMatriculaController {
                 inscmateria.detalleMateria.each{detmat ->
                             if (flagaddcomilla)
                                 result=result+','
-                            result=result+'{"id":"'+detmat.id+'","cell":['+detmat.id+','+detmat.id+','+detmat.materia.id+',"'+detmat.materia.nivel.descripcion+'","'+detmat.materia.codigo+'","'+(detmat.materia.denominacion==null?"":detmat.materia.denominacion)+'","'+detmat.tipo.name+'","'+detmat.tipo+'","Yes"]}'
+                            result=result+'{"id":"'+detmat.id+'","cell":['+detmat.id+','+detmat.id+','+detmat.materia.id+','+detmat.inscripcionMateria.id+',"'+detmat.materia.nivel.descripcion+'","'+detmat.materia.codigo+'","'+(detmat.materia.denominacion==null?"":detmat.materia.denominacion)+'","'+detmat.tipo.name+'","'+detmat.tipo+'","Yes"]}'
                             flagaddcomilla=true
                 }
         }
@@ -211,7 +211,7 @@ class InscripcionMatriculaController {
                 return
             }
             
-			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance?.carrera?.id,inscripcionMatriculaInstance?.alumno?.id)
+			def materiasCursar = AcademicoUtil.getMateriasCursarDisponibles(inscripcionMatriculaInstance?.carrera?.id,inscripcionMatriculaInstance?.alumno?.id,1)
 			
 			def flagcomilla = false
 			def flagseleccionado
@@ -272,7 +272,7 @@ class InscripcionMatriculaController {
                 inscripcionMatriculaInstance.estado = EstadoInscripcionMatriculaEnum.ESTADOINSMAT_CONFIRMADA
                 inscripcionMatriculaInstance.inscripcionesmaterias.each{inscmat->
                     if(inscmat.origen == OrigenInscripcionMateriaEnum.ORIGENINSCMATERIA_ENMATRICULA){
-                        inscmat.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
+                        //inscmat.estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA
                         return
                     }
                 }

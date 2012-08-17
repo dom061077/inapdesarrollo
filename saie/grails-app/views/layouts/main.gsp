@@ -174,9 +174,9 @@
 												</ul>
 											</li>
 											
-											<li><span class="dir">Matriculación Alumnos Existente</span>
+											<li><span class="dir">Matrículas</span>
 												<ul>
-													<li><a href="${createLink(controller:'inscripcionMatricula',action:'seleccionalumno')}">Matriculación de alumnos existentes</a></li>
+													<!--li><a href="${createLink(controller:'inscripcionMatricula',action:'seleccionalumno')}">Matriculación de alumnos existentes</a></li -->
 													<li><a href="${createLink(controller:'inscripcionMatricula',action:'list')}">Listado de Matriculaciones</a></li>								
 												</ul>
 											</li>

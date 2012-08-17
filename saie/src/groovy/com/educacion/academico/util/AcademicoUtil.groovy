@@ -195,9 +195,16 @@ class AcademicoUtil {
 	}
 
 	
-	private static def  getMateriasCursarDisponibles(def idCarrera,def idAlumno){
+	private static def  getMateriasCursarDisponibles(def idCarrera,def idAlumno,def mostrarinscriptas){
 		log.info("INGRESANDO AL METODO PRIVADO getMateriasCursarDisponibles")
 		log.info("INGRESANDO CARRERA: "+idCarrera+" alumno: "+idAlumno)
+        def cantMaxInsc
+
+        if(mostrarinscriptas)
+            cantMaxInsc=1
+        else
+            cantMaxInsc=0
+
 		def materiasDisponibles = new ArrayList();
 		def materias = Materia.createCriteria().list{
 			and{
@@ -216,8 +223,11 @@ class AcademicoUtil {
                 def list = InscripcionMateriaDetalle.createCriteria().list{
                     and{
                         inscripcionMateria{
-                            alumno{
-                                eq("id",idAlumno)
+                            and{
+                                alumno{
+                                    eq("id",idAlumno)
+                                }
+                                ne("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ANULADA)
                             }
                         }
                         eq("tipo",TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR)
@@ -228,10 +238,7 @@ class AcademicoUtil {
                         }
                     }
                 }
-                if(list?.size()>0){
-                    if(mat.id==10){
-                        log.debug "la materia 10 tiene inscripciones para cursar"
-                    }
+                if(list?.size()>cantMaxInsc){
                 }
                 else
     				materiasDisponibles.add(mat)

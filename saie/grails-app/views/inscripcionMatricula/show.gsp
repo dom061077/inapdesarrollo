@@ -21,11 +21,12 @@
 	               	,datatype:'json'
 		            ,postData:{id:'<%out << inscripcionMatriculaInstance?.id %>'}
 	                ,width:600
-	                ,colNames:['Id','IdId','IdMateria','Nivel','Código Materia','Denominación','Tipo','TipoValue','Selec']
+	                ,colNames:['Id','IdId','IdMateria','Nº Inscripción','Nivel','Código Materia','Denominación','Tipo','TipoValue','Selec']
 	            	,colModel:[
 	                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
                             ,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
                             ,{name:'idmateria',index:'idmateria',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+                            ,{name:'numeroInscripcion',index:'numeroInscripcion',width:50,hidden:false,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
                             ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                             ,{name:'codigomateria',index:'codigomateria',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                             ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}

@@ -431,7 +431,7 @@ class AlumnoController {
 
         def alumnoInstance = Alumno.find("from Alumno where numeroDocumento = :numeroDocumento",["numeroDocumento":documento])
 
-        def materiasCursarDisponibles = AcademicoUtil.getMateriasCursarDisponibles(carreraId,alumnoInstance?.id)
+        def materiasCursarDisponibles = AcademicoUtil.getMateriasCursarDisponibles(carreraId,alumnoInstance?.id,0)
         if(alumnoInstance){
             def arrayJson =
                 [       alumno:alumnoInstance,

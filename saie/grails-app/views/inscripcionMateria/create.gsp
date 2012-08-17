@@ -17,10 +17,17 @@
                 var lastSel;
                 var tiposinscripcion = '<%out << TipoInscripcionMateriaEnum.listforselectview()%>';
 		        function initsubmit(){
-
 		            var gridDataMaterias = $('#materiasId').getRowData();
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
 		            $('#materiasSerializedId').val(postDataMaterias);
+
+                    var ids = jQuery("#list").jqGrid('getDataIDs');
+                    var obj;
+                    for(var i=0;i < ids.length;i++){
+                        var id = ids[i];
+                        $("#materiasId").jqGrid('saveRow', id);
+                    }
+
 		        }
 		        
 		        function bindmaterias(){

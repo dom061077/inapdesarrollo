@@ -16,6 +16,14 @@ var lastSel;
             $('#fechaNacimientoId_monthId').val('0'+$('#fechaNacimientoId_monthId').val());
         if($('#fechaNacimientoId_dayId').val().length==1)
             $('#fechaNacimientoId_dayId').val('0'+$('#fechaNacimientoId_dayId').val());
+        var ids = jQuery("#materiasId").jqGrid('getDataIDs');
+        var obj;
+        //TODO probar el estado editado del tipo de inscripcion antes de guardar la preinscrpcion
+        for(var i=0;i < ids.length;i++){
+            var id = ids[i];
+            $('#materiasId').jqGrid('restoreRow',id);
+        }
+
 
     }
 
@@ -83,10 +91,10 @@ var lastSel;
                 $('#localidadDomicilioId').val(json.localidadDomicilio.nombre);
                 $('#localidadDomicilioIdId').val(json.localidadDomicilio.id);
 
-                $('#provinciaDomiciliolId').val(json.provinciaDomicilio.nombre);
-                $('#provinciaDomicilioIdId').val(json.prvinciaDomicilio.id);
+                $('#provinciaDomicilioId').val(json.provinciaDomicilio.nombre);
+                $('#provinciaDomicilioIdId').val(json.provinciaDomicilio.id);
 
-                $('#paisDomiciliolId').val(json.paisDomicilio.nombre);
+                $('#paisDomicilioId').val(json.paisDomicilio.nombre);
                 $('#paisDomicilioIdId').val(json.paisDomicilio.id);
             }
             if(json.localidadLaboral){
@@ -94,7 +102,7 @@ var lastSel;
                 $('#localidadLaboralIdId').val(json.localidadLaboral.id);
 
                 $('#provinciaLaboralId').val(json.provinciaLaboral.nombre);
-                $('#provinciaLaboralIdId').val(json.prvinciaLaboral.id);
+                $('#provinciaLaboralIdId').val(json.provinciaLaboral.id);
 
                 $('#paisLaboralId').val(json.paisLaboral.nombre);
                 $('#paisLaboralIdId').val(json.paisLaboral.id);
@@ -152,7 +160,7 @@ var lastSel;
             for(var i=0;i<json.materiasDisponibles.length;i++){
                 griddata[i] = {};
                 griddata[i]['id'] = json.materiasDisponibles[i].id;
-                griddata[i]['idid'] = json.materiasDisponibles[i].idid;
+                griddata[i]['idid'] = json.materiasDisponibles[i].id;
                 griddata[i]['nivel'] = json.materiasDisponibles[i].nivel.descripcion;
                 griddata[i]['codigomateria'] = json.materiasDisponibles[i].codigo;
                 griddata[i]['denominacion'] = json.materiasDisponibles[i].denominacion;

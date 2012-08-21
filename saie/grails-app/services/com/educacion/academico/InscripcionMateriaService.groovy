@@ -25,6 +25,7 @@ class InscripcionMateriaService {
 							alumno{
 								eq("id",idAlu)
 							}
+                            eq("estado",EstadoInscripcionMateriaEnum.ESTADOINSMAT_ACTIVA)
 						}
 						eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
 						materia{
@@ -36,7 +37,7 @@ class InscripcionMateriaService {
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria"
 						, "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion,tipoInscripcion.name,materiaInstance.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
@@ -62,7 +63,7 @@ class InscripcionMateriaService {
 				if(list.size()==0){
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion,tipoInscripcion.name,materiaInstance.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
@@ -91,7 +92,7 @@ class InscripcionMateriaService {
 				if(list.size()==0){
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion] as Object[],"Error de validacion de correlatividad")
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR.name,matreg.denominacion,tipoInscripcion.name,materiaInstance.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
@@ -118,7 +119,7 @@ class InscripcionMateriaService {
 				if(list.size()==0){
 					flagvalidacion = true
 					inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.blank.error"
-						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion] as Object[],"Error de validacion de correlatividad")
+						,[EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA.name,mataprob.denominacion,tipoInscripcion.name,materiaInstance.denominacion] as Object[],"Error de validacion de correlatividad")
 				}
 				if(list.size()>1){
 					flagvalidacion = true
@@ -145,7 +146,7 @@ class InscripcionMateriaService {
 		materiasSerializedJson.each {
 			if(it.seleccion.toUpperCase().equals("YES")){
 				
-				if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum.TIPOINSMATERIA_CURSAR,inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
+				if(!validarCorrelatividades(it.idid.toLong(),TipoInscripcionMateriaEnum."${it.tipovalue}",inscripcionMateriaInstance.alumno.id,inscripcionMateriaInstance)){
 					 materiaInstance = Materia.load(it.idid.toLong())
 					 if(materiaInstance.equals(materiaAntInstance)){
 						 inscripcionMateriaInstance.errors.rejectValue("detalleMateria", "com.educacion.academico.InscripcionMateriaDetalle.materia.unique.error"

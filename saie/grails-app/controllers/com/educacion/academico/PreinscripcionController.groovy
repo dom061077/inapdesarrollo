@@ -28,7 +28,7 @@ import com.educacion.geografico.Localidad
 class PreinscripcionController {
 
     def imageUploadService
-    //TODO impementar en anulacion o eliminacion de preinscripcion la anulacion de inscripcionmatricula e inscripcionmateria
+    //TODO implementar en anulacion o eliminacion de preinscripcion la anulacion de inscripcionmatricula e inscripcionmateria
     //TODO reordenar y modificar el estado de todas las preinscripcions teniendo en cuenta los cupos
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 

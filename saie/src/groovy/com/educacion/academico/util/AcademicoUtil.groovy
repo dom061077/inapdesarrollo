@@ -21,9 +21,9 @@ class AcademicoUtil {
 							}
 						}
                         or{
-                            eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO)
+                            //eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_INSCRIPTO)
                             eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_REGULAR)
-                            eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
+                            //eq("estado",EstadoInscripcionMateriaDetalleEnum.ESTADOINSMAT_APROBADA)
                         }
 						materia{
 							eq("id",matreg.id)

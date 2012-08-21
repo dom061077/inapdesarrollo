@@ -137,7 +137,7 @@
 											<label for="alumno.numeroDocumento"><g:message code="alumno.numeroDocumento.label" default="Numero Documento" /></label>
 										</div>
 										<div class="span-5">
-											<g:textField id="numeroDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="numeroDocumento" value="${fieldValue(bean: alumnoInstance, field: 'numeroDocumento')}" />
+											<g:textField id="numeroDocumentoId" class="ui-widget ui-corner-all ui-widget-content" name="numeroDocumento" value="${alumnoInstance?.numeroDocumento}" />
 										</div>
 													
 										<g:hasErrors bean="${alumnoInstance}" field="numeroDocumento">

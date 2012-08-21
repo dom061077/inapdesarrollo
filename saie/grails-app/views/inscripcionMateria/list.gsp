@@ -30,7 +30,7 @@
 				   	],
 				   	
 				   	rowNum:10,
-				   	rownumbers:true,
+				   	//rownumbers:true,
 				   	rowList:[10,20,30],
 				   	pager: '#pager',
 				   	sortname: 'id',
@@ -42,7 +42,7 @@
 						for(var i=0;i < ids.length;i++){ 
 							var cl = ids[i];
 							obj = jQuery("#list").getRowData(ids[i]); 
-							be = "<a title='Editar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
+							be = "<a title='Confirmar' href='edit/"+ids[i]+"'><span class='ui-icon ui-icon-pencil' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							var se = "<a title='Ver' href='show/"+ids[i]+"'><span class='ui-icon ui-icon-search' style='float:left;margin: 3px 3px 3px 5px'  ></span></a>";
 							jQuery("#list").jqGrid('setRowData',ids[i],{operaciones:be+se}); 
 							}

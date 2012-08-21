@@ -21,13 +21,12 @@
 		            var postDataMaterias = JSON.stringify(gridDataMaterias);
 		            $('#materiasSerializedId').val(postDataMaterias);
 
-                    var ids = jQuery("#list").jqGrid('getDataIDs');
+                    var ids = jQuery("#materiasId").jqGrid('getDataIDs');
                     var obj;
                     for(var i=0;i < ids.length;i++){
                         var id = ids[i];
-                        $("#materiasId").jqGrid('saveRow', id);
+                        $('#materiasId').jqGrid('restoreRow',id);
                     }
-
 		        }
 		        
 		        function bindmaterias(){
@@ -65,14 +64,14 @@
 		                ,colNames:['Id','IdId','Nivel','Código Materia','Denominación','Tipo','Tipo Value','Select']
 		            	,colModel:[
 		                       	{name:'id',index:'id',width:50,editable:false,hidden:true}
-		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:true,editoptions:{readOnly:true,size:10},editrules:{required:false}}
+		                       	,{name:'idid',index:'idid',width:50,hidden:true,sortable:false,editable:false,editoptions:{readOnly:true,size:10},editrules:{required:false}}
                                 ,{name:'nivel',index:'nivel',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                                 ,{name:'codigomateria',index:'codigomateria',sortable:false,width:70,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
 		                       	,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:true,size:40},editrules:{required:true}}
                                 ,{name:'tipo',index:'tipo',sortable:false,width:60,editable:true,edittype:"select"
                                     ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
-                                ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
-		                       	,{ name: 'seleccion', index: 'seleccion',width:40,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
+                                ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:false}
+		                       	,{ name: 'seleccion', index: 'seleccion',width:40, formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                    				
 		                ]
 		            	,sortname:'denominacion'
@@ -120,7 +119,7 @@
                 <g:renderErrors bean="${inscripcionMateriaInstance}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form id="formInscripcionMateriaId" onsubmit="initsubmit();return true;" action="save" >
+            <g:form id="formInscripcionMateriaId" onsubmit="initsubmit();" action="save" >
             
                  
                          <g:hiddenField id="alumnoIdId" name="alumno.id" value="${inscripcionMateriaInstance?.alumno?.id}"/>

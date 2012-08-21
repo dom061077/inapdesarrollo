@@ -5,7 +5,6 @@ import com.educacion.enums.inscripcion.TipoInscripcionMateriaEnum
 import com.educacion.enums.inscripcion.OrigenInscripcionMateriaEnum
 
 class InscripcionMateria extends Inscripcion{
-	//TODO quede aqui agregar el estado INICIADA
 	EstadoInscripcionMateriaEnum estado = EstadoInscripcionMateriaEnum.ESTADOINSMAT_CREADA
 	InscripcionMatricula inscripcionMatricula
 	OrigenInscripcionMateriaEnum origen 

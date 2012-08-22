@@ -286,6 +286,7 @@ class GUtilDomainClass{
         }
         if(rowcount){
             return criteria.get(closure)
+
         }else{
             return criteria.list(closure)
         }

@@ -18,7 +18,6 @@ var lastSel;
             $('#fechaNacimientoId_dayId').val('0'+$('#fechaNacimientoId_dayId').val());
         var ids = jQuery("#materiasId").jqGrid('getDataIDs');
         var obj;
-        //TODO probar el estado editado del tipo de inscripcion antes de guardar la preinscrpcion
         for(var i=0;i < ids.length;i++){
             var id = ids[i];
             $('#materiasId').jqGrid('restoreRow',id);
@@ -727,7 +726,7 @@ var lastSel;
                         ,{name:'denominacion',index:'denominacion',sortable:false,width:120,editable:false,editoptions:{readOnly:false,size:40},editrules:{required:true}}
                         ,{name:'tipo',index:'tipo',sortable:false,width:120,editable:true,edittype:"select"
                                 ,editoptions:{value:tiposinscripcion,readOnly:false,size:40},editrules:{required:true}}
-                        ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:true}
+                        ,{name:'tipovalue',index:'tipovalue',hidden:true,editable:false}
                         ,{ name: 'seleccion', index: 'seleccion',width:30,  formatter: "checkbox", formatoptions: { disabled: false }, editable: true, edittype: "checkbox" }
                     ]
                     ,onSelectRow: function(id){

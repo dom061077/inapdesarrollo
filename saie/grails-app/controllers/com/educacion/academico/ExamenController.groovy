@@ -304,37 +304,40 @@ class ExamenController {
             jsonObj.put("data",(anioLectivoInstance?anioLectivoInstance.id:0))
             filtersjson.rules.put(jsonObj)
             params.altfilers = filtersjson.toString()
-        }
+            def gud = new GUtilDomainClass(AsignaturaDocente, params, grailsApplication)
+            list = gud.listdistinct(false,"docente.id")
+            def totalregistros = gud.listdistinct(true,"docente.id")
 
-        def gud = new GUtilDomainClass(AsignaturaDocente, params, grailsApplication)
-        list = gud.listdistinct(false,"docente.id")
-        def totalregistros = gud.listdistinct(true,"docente.id")
-        
-        log.debug "TOTAL REGISTROS: "+totalregistros
+            log.debug "TOTAL REGISTROS: "+totalregistros
 
-        if (!totalregistros)
-            totalregistros = 0
+            if (!totalregistros)
+                totalregistros = 0
 
-        def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
-        if (totalpaginas > 0 && totalpaginas < 1)
-            totalpaginas = 1;
-        totalpaginas = totalpaginas.intValue()
+            def totalpaginas = new Float(totalregistros / Integer.parseInt(params.rows))
+            if (totalpaginas > 0 && totalpaginas < 1)
+                totalpaginas = 1;
+            totalpaginas = totalpaginas.intValue()
 
 
 
-        def result = '{"page":' + params.page + ',"total":"' + totalpaginas + '","records":"' + totalregistros + '","rows":['
-        def flagaddcomilla = false
-        list.each {
+            def result = '{"page":' + params.page + ',"total":"' + totalpaginas + '","records":"' + totalregistros + '","rows":['
+            def flagaddcomilla = false
+            list.each {
+                log.debug "OBJETO ITERADO: "+it
 
-            if (flagaddcomilla)
-                result = result + ','
+                if (flagaddcomilla)
+                    result = result + ','
 
-            result = result + '{"id":"' + it.id + '","cell":["' + it.docente.id + '","' + it.docente.apellido+ '","' + it.docente.nombre + '"]}'
+                result = result + '{"id":"' + it.id + '","cell":["' + it.docente?.id + '","' + it.docente.apellido+ '","' + it.docente.nombre + '"]}'
 
-            flagaddcomilla = true
-        }
-        result = result + ']}'
-        render result
+                flagaddcomilla = true
+            }
+            result = result + ']}'
+            render result
+
+        }else
+            render "[]"
+
 
     }
 

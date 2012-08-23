@@ -17,7 +17,17 @@
         <script type="text/javascript">
         	$(document).ready(function(){
                     $.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
-                    $('#fechaId' ).datepicker({changeYear:true});
+                    $('#fechaId' ).datepicker({
+                        changeYear:true,
+                        onSelect: function(dateText,inst){
+                            var grid = $('#list');
+                            $.extend(grid[0].p.postData,{carreraId:$('#carreraId').val(),nivelId:$('#nivelId').val()
+                                    ,materiaId:$('#materiaId').val(),fecha:$('#fechaId').val()
+                                    ,divisionId:$('#divisionId').val()});
+                            grid.trigger("reloadGrid",[{page:1}]);
+
+                        }
+                    });
 
                     $('#carreraId').combolookupfield({
                         grid:{
@@ -31,7 +41,6 @@
                         ,onSelected:function(){
                             nivel.clear();
                             materia.clear();
-                            docente.clear();
                         }
                     });
 
@@ -71,15 +80,33 @@
                     }
 
                     ,onSelected:function(){
-                        docente.clear();
                     }
                 });
 
+                division=$('#divisionId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Letra','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'letra',index:'letra', width:92,search:true,sortable:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:'<% out << createLink(controller:"division",action:"listcombosearchjson")%>'
+                    }
+                    ,inputNameDesc:'divisionDesc'
+                    ,cascade:{
+                        elementCascadeId:['nivelId'],
+                        paramName:['nivel_id']
+                    }
+
+                    ,onSelected:function(){
+                        $('#fechaId').val('');
+                    }
+                });
 
                 // Grilla de Alumnos
                 jQuery("#list").jqGrid({
                     //url:'listjsonalumnos',
-                    url:'<%out << createLink(controller:"asistencia",action:"listjsonalumnos")%>',
+                    url:'<%out << createLink(controller:"inscripcionMateria",action:"listinscparaasistencia")%>',
                     datatype: 'json',
                     width:680,
                     colNames:['Id','Apellido','Nombre','Tipo Documento','Nro. de Doc.','P/A'],
@@ -123,29 +150,29 @@
             <g:if test="${flash.message}">
             <div class="ui-state-highlight ui-corner-all"><H2>${flash.message}</H2></div>
             </g:if>
-            <g:hasErrors bean="${asistenciaInstance}">
+            <g:hasErrors bean="${cmd}">
             <div class="ui-state-error ui-corner-all append-bottom">
-                <g:renderErrors bean="${asistenciaInstance}" as="list" />
+                <g:renderErrors bean="${cmd}" as="list" />
             </div>
             </g:hasErrors>
-            <g:form action="save" >
+            <g:form action="savecommand" >
 
 
                     <g:if test="${flash.message}">
                         <div class="ui-state-highlight ui-corner-all append-bottom"><H2>${flash.message}</H2></div>
                     </g:if>
 
-                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                    <g:hasErrors bean="${cmd}" field="carreraId">
                         <div class="ui-state-error ui-corner-all append-bottom">
                     </g:hasErrors>
                     <div class="span-2">
                         <label for="carreraId"><g:message code="asistencia.carrera.label" default="Carrera"/></label>
                     </div>
                     <div class="span-4">
-                        <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraid" descValue="${asitenciaInstance?.nivel?.carrera?.denominacion}" value="${asitenciaInstance?.nivel?.carrera?.id}" />
+                        <input type="text" class="ui-widget ui-corner-all ui-widget-content" id="carreraId" name="carreraId" descValue="${cmd?.carreraDesc}" value="${cmd?.carreraId}" />
                     </div>
-                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
+                    <g:hasErrors bean="${cmd}" field="carreraId">
+                        <g:renderErrors bean="${cmd}" as="list" field="carreraId"/>
                         </div>
                     </g:hasErrors>
 
@@ -153,17 +180,17 @@
                 <div class="clear"></div>
 
 
-                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
+                    <g:hasErrors bean="${cmd}" field="nivelId">
                         <div class="ui-state-error ui-corner-all append-bottom">
                     </g:hasErrors>
                     <div class="span-2">
                         <label for="nivelId"><g:message code="asistencia.nivel.label" default="Nivel"/></label>
                     </div>
                     <div class="span-4">
-                        <input name="nivel.id" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${asitenciaInstance?.nivel?.descripcion}" value="${asitenciaInstance?.nivel?.id}" />
+                        <input name="nivelId" class="ui-widget ui-corner-all ui-widget-content" id="nivelId" descValue="${cmd?.nivelDesc}" value="${cmd?.nivelId}" />
                     </div>
-                    <g:hasErrors bean="${asitenciaInstance}" field="nivel">
-                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="nivel"/>
+                    <g:hasErrors bean="${cmd}" field="nivelId">
+                        <g:renderErrors bean="${cmd}" as="list" field="nivelId"/>
                         </div>
                     </g:hasErrors>
 
@@ -171,32 +198,51 @@
                 <div class="clear"></div>
 
 
-                    <g:hasErrors bean="${asitenciaInstance}" field="materia">
+                    <g:hasErrors bean="${cmd}" field="materiaId">
                         <div class="ui-state-error ui-corner-all append-bottom">
                     </g:hasErrors>
                     <div class="span-2">
                         <label for="materiaId"><g:message code="asistencia.materia.label" default="Materia"/></label>
                     </div>
                     <div class="span-4">
-                        <input name="materia.id" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${asitenciaInstance?.materia?.denominacion}" value="${asitenciaInstance?.materia?.id}" />
+                        <input name="materiaId" class="ui-widget ui-corner-all ui-widget-content" id="materiaId" descValue="${cmd?.materiaDesc}" value="${cmd?.materiaId}" />
                     </div>
-                    <g:hasErrors bean="${asitenciaInstance}" field="materia">
-                        <g:renderErrors bean="${asitenciaInstance}" as="list" field="materia"/>
+                    <g:hasErrors bean="${cmd}" field="materiaId">
+                        <g:renderErrors bean="${cmd}" as="list" field="materiaId"/>
                         </div>
                     </g:hasErrors>
 
 
                 <div class="clear"></div>
 
+                <g:hasErrors bean="${cmd}" field="divisionId">
+                    <div class="ui-state-error ui-corner-all append-bottom">
+                </g:hasErrors>
+                <div class="span-2">
+                    <label for="divisionId"><g:message code="asistencia.division.label" default="División"/></label>
+                </div>
+                <div class="span-4">
+                    <input name="divisionId" class="ui-widget ui-corner-all ui-widget-content" id="divisionId" descValue="${cmd?.divisionDesc}" value="${cmd?.divisionId}" />
+                </div>
+                <g:hasErrors bean="${cmd}" field="divisionId">
+                    <g:renderErrors bean="${cmd}" as="list" field="divisionId"/>
+                    </div>
+                </g:hasErrors>
 
+
+                <div class="clear"></div>
+
+                    <g:hasErrors bean="${cmd}" field="fecha">
+                        <div class="ui-state-error ui-corner-all append-bottom">
+                    </g:hasErrors>
                     <div class="span-2 spanlabel">
                         <label for="fecha"><g:message code="asistencia.fecha.label" default="Fecha" /></label>
                     </div>
                     <div class="span-4">
-                        <g:textField id="fechaId" class="ui-widget ui-corner-all ui-widget-content" name="fecha" value="${g.formatDate(format:'dd/MM/yyyy',date:asistenciaInstance?.fechaAsistencia)}" />
+                        <g:textField id="fechaId" class="ui-widget ui-corner-all ui-widget-content" name="fecha" value="${g.formatDate(format:'dd/MM/yyyy',date:cmd?.fecha)}" />
                     </div>
-                    <g:hasErrors bean="${asistenciaInstance}" field="fechaAsistencia">
-                        <g:renderErrors bean="${asistenciaInstance}" as="list" field="fechaAsistencia"/>
+                    <g:hasErrors bean="${cmd}" field="fecha">
+                        <g:renderErrors bean="${cmd}" as="list" field="fecha"/>
                         </div>
                     </g:hasErrors>
 
@@ -210,7 +256,7 @@
             		<div class="append-bottom">
 				</div>
                 <div class="buttons">
-                    <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+                    <span class="button"><g:submitButton name="create" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" value="${message(code: 'default.button.save.label', default: 'Create')}" /></span>
                 </div>
             </g:form>
         </div>

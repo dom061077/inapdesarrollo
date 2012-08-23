@@ -3,11 +3,9 @@ package com.educacion.alumno
 
 import com.educacion.util.GUtilDomainClass 
 
-import java.text.SimpleDateFormat 
-
-import java.text.DateFormat 
-
-import java.text.ParseException 
+import com.educacion.academico.Carrera
+import com.educacion.academico.Nivel
+import com.educacion.academico.Materia
 
 
 
@@ -240,5 +238,66 @@ class AsistenciaController {
 
     }
 
-	
+    def savecommand = {AsistenciaCommand cmd ->
+        log.info "INGRESANDO AL CLOSURE savecommand"
+        log.info "PARAMETROS: $cmd"
+        if (cmd.validate()){
+            flash.message = "PASO VALIDACION FALTA GUARDAR"
+
+        }else{
+            log.debug "Errores de validacion: "+cmd.errors.allErrors
+            render (view: "create",model: [cmd:cmd])
+
+        }
+    }
+
+
+}
+
+class AsistenciaCommand  {
+    String carreraId
+    String carreraDesc=""
+    String nivelId
+    String nivelDesc
+    String materiaId
+    String materiaDesc
+    String divisionId
+    String divisionDesc
+    java.sql.Date fecha
+
+
+    static constraints = {
+
+        fecha(nullable:false,blank: false)
+        divisionId(nullable: false,blank: false)
+        carreraId(nullable: false, blank: false,validator: {v,cmd ->
+            if(v){
+                def carreraInstance = Carrera.get(cmd.carreraId)
+                if(carreraInstance){
+                    return true
+                }else
+                    return false
+            }
+        })
+        nivelId(nullable: false, blank: false,validator: {v,cmd ->
+            if(v){
+                def nivelInstance = Nivel.get(cmd.nivelId)
+                if(nivelInstance)
+                    return true
+                else
+                    return false
+            }
+        })
+        materiaId(nullable: false, blank: false,validator: {v,cmd ->
+            if(v){
+                def materiaInstance = Materia.get(cmd.materiaId)
+                if(materiaInstance)
+                    return true
+                else
+                    return false
+            }
+
+        })
+    }
+
 }

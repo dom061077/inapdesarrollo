@@ -15,7 +15,7 @@ if (isset($_POST['username'])) {
   
   mysql_select_db($database_dbo, $dbo);
   	
-  $LoginRS__query=sprintf("SELECT Usuario, PassWord, codigogrupo FROM usuarios WHERE Usuario='".$loginUsername."'AND PassWord='".md5($password)."'");
+  $LoginRS__query=sprintf("SELECT usuario, password, codigogrupo FROM usuariosweb WHERE usuario='".$loginUsername."'AND password='".md5($password)."'");
   
   $LoginRS = mysql_query($LoginRS__query, $dbo) or die(mysql_error());
   $loginFoundUser = mysql_num_rows($LoginRS);
@@ -65,7 +65,7 @@ body {
 <body body onload="document.getElementById('nameid').focus()">
 	<center>
 	   <div id="login-box">
-       <H2>AVBC.NET</H2>
+       <H2>SAIE.NET</H2>
 		
 		<?php 
 			if(isset($hasError)){

@@ -9,7 +9,7 @@
  */
 
 
-define('BASE_URL', 'http://localhost/mvc/');
+define('BASE_URL', 'http://localhost/saiephp/');
 define('DEFAULT_CONTROLLER', 'index');
 define('DEFAULT_LAYOUT', 'default');
 

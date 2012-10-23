@@ -5,9 +5,13 @@
     <head>
         <title><?php if(isset($this->titulo)) echo $this->titulo; ?></title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
-        <link href="<?php echo $_layoutParams['ruta_css']; ?>estilos.css" rel="stylesheet" type="text/css" />
-        <script src="<?php echo BASE_URL; ?>public/js/jquery.js" type="text/javascript"></script>
-        <script src="<?php echo BASE_URL; ?>public/js/jquery.validate.js" type="text/javascript"></script>
+
+        <link href="<?php echo $_layoutParams['ruta_css']; ?>blitzer/screen.css" rel="stylesheet" type="text/css" />
+        <link href="<?php echo $_layoutParams['ruta_css']; ?>blueprint/print.css" rel="stylesheet" type="text/css" />        
+<!--[if lt IE 10]><link rel="<?php echo $_layoutParams['ruta_css']; ?>blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->        
+        
+        
+        <script src="<?php echo $_layoutParams['js']; ?>jquery/jquery-1.6.2.min.js" type="text/javascript"></script>
     
         <?php if(isset($_layoutParams['js']) && count($_layoutParams['js'])): ?>
         <?php for($i=0; $i < count($_layoutParams['js']); $i++): ?>
@@ -20,8 +24,8 @@
     </head>
 
     <body>
-        <body>
-            <div id="main">
+            <div class="container showgrid">
+                <div class="span-24">
                 <div id="header">
                     <div id="logo">
                         <h1><?php echo APP_NAME; ?></h1>

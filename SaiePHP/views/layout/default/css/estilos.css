@@ -1,0 +1,16 @@
+.spanlabel{
+		padding: 7px 0px 0px 0px;
+	
+}
+
+.wizardspan h2 {
+    font-size: 130%;
+    float: right;
+    color: #205791;
+
+    
+}
+
+.disabledtext{
+    background-color: #D9D9D9;
+}

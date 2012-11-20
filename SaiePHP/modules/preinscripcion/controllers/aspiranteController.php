@@ -22,6 +22,13 @@
             $this->_view->assign('datos',$_POST);
             $this->_view->renderizar('registrar');
         }
+        
+        public function saveregistrar(){
+           if ($this->getTexto('apellido'))
+               echo 
+           else
+               $this->_view->rendedirzar('registrar');
+        }
     }
 
 ?>

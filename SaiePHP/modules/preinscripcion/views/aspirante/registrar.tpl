@@ -2,7 +2,7 @@
 
 
 
-<form id="formAspiranteId" method="post" enctype="multipart/form-data" >
+<form id="formAspiranteId" method="post" enctype="multipart/form-data" action="" >
     <span id="alumnoId" class="step">
         <span class="wizardspan"><h2>Primer Paso -Datos del Alumno</h2></span>
         <div class="clear"> </div>
@@ -228,14 +228,41 @@
         </fieldset>
         
         <fieldset>
-            <legend>Datos Labores</legend>
+            <legend>Datos Laborales</legend>
         </fieldset>
 
         <fieldset>
             <legend>Otros Datos</legend>
+            <div class="span-4 spanlabel">
+                <label for="situacionacademica">Situaci&oacute;n Acad&eacute;mica: </label>
+            </div>
+            <div class="span-3">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionacademicaId" name="situacionacademica" />
+            </div>
+            <div class="clear"></div>
+
+            <div class="span-4 spanlabel">
+                <label for="situacionadministrativa">Situaci&oacute;n Administrativa: </label>
+            </div>
+            <div class="span-3">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionadministrativaId" name="situacionadministrativa" />
+            </div>
+            <div class="clear"></div>
+            
+            <div class="span-4 spanlabel">
+                <label for="foto">Foto: </label>
+            </div>
+            <div class="span-3">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="file" id="fotoId" name="foto" />
+            </div>
+            <div class="clear"></div>
+
+            
         </fieldset>
         
     </span> <!-- span fin datos del tutorgarante -->
+    <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anteriorId" value="Anterior" type="reset" />
+    <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="siguienteId" value="Siguiente" type="submit" />
 
 </form>
 
@@ -247,6 +274,11 @@
                     disableUIStyles : true,
                     validationEnabled: true,
                     focusFirstInput : true,
+                    historyEnabled: true,
+                    textSubmit: 'Enviar',
+                    textNext: 'Siguiente',
+                    textBack: 'Anterior',
+                        
                     formOptions :{
                             success: function(data){$("#status").fadeTo(500,1,function(){ $(this).html("You are now registered!").fadeTo(5000, 0); })},
                             beforeSubmit: function(data){$("#data").html("data sent to the server: " + $.param(data));},

@@ -15,14 +15,18 @@
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}menu/dropdown.css" />    
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}menu/flickr/default.ultimate.css" />         
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}style.css" />
-         <link rel="stylesheet" href="{$_layoutParams.ruta_css}style.css" />         
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}estilos.css"/>
-
+         <link rel="stylesheet" href="{$_layoutParams.root}public/js/jqgrid/src/css/ui.jqgrid.css"/>         
+         <link rel="stylesheet" href="{$_layoutParams.root}public/js/jqgrid/src/css/jquery.searchFilter.css"/>         
         
         
         <script src="{$_layoutParams.root}public/js/jquery/jquery-1.6.2.min.js" type="text/javascript"></script>
         <script src="{$_layoutParams.root}public/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
         <script src="{$_layoutParams.root}public/js/jquery-ui/jquery-ui-i18n.js" type="text/javascript"></script>        
+        
+        <script src="{$_layoutParams.root}public/js/jqgrid/src/i18n/grid.locale-es.js" type="text/javascript"> </script>                
+        <script src="{$_layoutParams.root}public/js/jqgrid/jquery.jqGrid.min.js" type="text/javascript"> </script>        
+        <script src="{$_layoutParams.root}public/js/jquery/jquery.jlookupfieldcascade.js" type="text/javascript"> </script>
 
     
         {if isset($_layoutParams.js) && count($_layoutParams.js)}
@@ -73,15 +77,20 @@
                 
                 <div class="span-20 prepend-2">
                     <noscript><p>Para el correcto funcionamiento debe tener el soporte de javascript habilitado</p></noscript>
-                    
-                    {if isset($_error)}
-                    <div id="error">{$_error}</div>
+                    <h1> {$titulo|default:"Sin titulo"} </h1>                       
+                    {if count($_error)>0}
+                    <div id="errormsg" class="errormsg">
+                        <ol>
+                        {foreach item=it from=$_error}
+                            <p>{$it}</label></p>
+                        {/foreach}    
+                        </ol>
+                    </div>
                     {/if}
 
                     {if isset($_mensaje)}
                     <div id="mensaje">{$_mensaje}</div>
                     {/if}
-
                     {include file=$_contenido}
                     
                 </div>

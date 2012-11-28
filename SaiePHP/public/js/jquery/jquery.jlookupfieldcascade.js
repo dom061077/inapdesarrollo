@@ -58,7 +58,7 @@ $(document).ready(function(){
                 wrapper = $( '<span id="'+idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )
                     .insertAfter( select );
-                input = $( '<input type="text" style="margin: 0 0" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
+                input = $( '<input type="text"  style="margin: 0 0;" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
                     .appendTo( wrapper );
                 input.val($('#'+idobj).attr('descValue'));
                 $('#'+idobjlookup).keyup(function(e){
@@ -136,7 +136,8 @@ $(document).ready(function(){
                         grid.trigger("reloadGrid",[{page:1}]);
                     }
                 });
-                $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" ><a id="'+idobj+'_cerrar"  href="#">cerrar</a><table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
+                $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" >'
+                    +'<table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
                 $('#'+idobj+'_cerrar').click(function(){
                     $('#'+idobjlookup+'_wrapper').hide();
                     flagcascadelookupfield = false;

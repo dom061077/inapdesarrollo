@@ -14,3 +14,14 @@
 .disabledtext{
     background-color: #D9D9D9;
 }
+
+
+.error label{
+    background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;    
+}
+
+.invalid {border:2px solid #ddd;}
+.invalid {background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
+.invalid {color:#8a1f11;}
+.invalid label{font-size: larger}
+

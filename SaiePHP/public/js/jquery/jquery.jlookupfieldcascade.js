@@ -1,4 +1,9 @@
 $(document).ready(function(){
+    $(document).click(function(e){
+        var $clicked = $(e.target);
+        if(!($clicked.parents().is('.jlookupfieldcascade')))
+            $('.jlookupfieldcascade').hide();
+    });
     $.fn.extend({
 
         combolookupfield: function(settings) {
@@ -15,7 +20,7 @@ $(document).ready(function(){
                     paramName:[]
                 },
                 onSelected:function(){
-
+                    e.stopPropagation();
                 }
             };
             var o = $.extend(defaults, settings),
@@ -138,10 +143,10 @@ $(document).ready(function(){
                 });
                 $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" >'
                     +'<table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
-                $('#'+idobj+'_cerrar').click(function(){
+                /*$('#'+idobj+'_cerrar').click(function(){
                     $('#'+idobjlookup+'_wrapper').hide();
                     flagcascadelookupfield = false;
-                });
+                });*/
                 $('#'+idgrid).jqGrid({
                     //caption:'colocar caption',
                     width:300,
@@ -166,7 +171,6 @@ $(document).ready(function(){
                 });
 
 
-
                 $( '<a id="'+idobj+'_triangle">' )
                     .attr( "tabIndex", -1 )
                     .attr( "title", "Mostrar todas las opciones" )
@@ -179,7 +183,7 @@ $(document).ready(function(){
                     })
                     .removeClass( "ui-corner-all" )
                     .addClass( "ui-corner-right ui-combobox-toggle" )
-                    .click(function() {
+                    .click(function(e) {
                         $('.jlookupfieldcascade').hide();
                         var grid = $('#'+idgrid);
                         var filter = { groupOp: "AND", rules: []},filterop='bw';
@@ -200,17 +204,23 @@ $(document).ready(function(){
                             });
                         $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
                          grid.trigger("reloadGrid",[{page:1}]);
-                         if(!flagcascadelookupfield){
+                         /*if(!flagcascadelookupfield){
                          $('#'+idwrapper).show();
                              flagcascadelookupfield=true;
                          }else{
                              $('#'+idwrapper).hide();
                              flagcascadelookupfield=false;
-                         }
+                         }*/
+                         $('#'+idwrapper).show();                            
+                         e.stopPropagation();
+
                     });
 
 
             });  //----------cierre de function each--------
         }
+    });
+    $('.jlookupfieldcascade').click(function(e){
+        e.stopPropagation();
     });
 });

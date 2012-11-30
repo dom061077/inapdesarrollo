@@ -80,6 +80,17 @@ abstract class Controller
         return 0;
     }
     
+    /*modificaciones DOM*/
+    protected function getBoolean($clave){
+        if(isset($_POST[$clave]) && !empty($_POST[$clave])){
+            $_POST[$clave] = filter_input(INPUT_POST, $clave, FILTER_VALIDATE_BOOLEAN);
+            return $_POST[$clave];
+        }
+        
+        return 0;
+
+    }
+    
     protected function redireccionar($ruta = false)
     {
         if($ruta){

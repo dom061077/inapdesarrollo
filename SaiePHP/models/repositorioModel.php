@@ -51,7 +51,7 @@ class repositorioModel extends Model{
         }else {
             $sql = $this->_db->query($query);
         }
-        
+        return $sql->fetchColumn();
     }
 }
 

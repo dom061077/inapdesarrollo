@@ -80,7 +80,7 @@
         <fieldset>
             <legend>Datos de Nacimiento</legend>
                 <div class="span-3">
-                    <label for="paisnacimientodesc">Pa&iacute;s: </label>
+                    <label for="paisnacimiento">Pa&iacute;s: </label>
                 </div>
                 <div class="span-7">
                     <input class="ui-widget ui-corner-all ui-widget-content" readonly
@@ -90,20 +90,20 @@
             
                 
                 <div class="span-3 spanlabel">
-                    <label for="provincianacimientodesc">Provincia: </label>
+                    <label for="provincianacimiento">Provincia: </label>
                 </div>
-                <div class="span-7">
+                <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" readonly
                            style="background-color: #ddd" type="text" id="provincianacimientoId" name="provincianacimiento" />
                 </div>
                 <div class="clear"></div>
                 
                 <div class="span-3 spanlabel">
-                    <label for="localidadnacimientodesc">Localidad: </label>
+                    <label for="localidadnacimiento">Localidad: </label>
                 </div>
-                <div class="span-7">
+                <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" readonly
-                           style="background-color: #ddd" type="text" id="localidadnacimientodescId" name="localidadnacimiento" />
+                           style="background-color: #ddd" type="text" id="localidadnacimientoId" name="localidadnacimiento" />
                 </div>
                 <div class="clear"></div>
                 
@@ -164,7 +164,7 @@
                 <div class="span-3 spanlabel">
                     <label for="localidaddesc">Localidad: </label>
                 </div>
-                <div class="span-7">
+                <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" readonly
                            style="background-color: #ddd" type="text" id="localidaddescId" name="localidaddesc" />
                     <input type="hidden" id="localidadId" name="localidad" />
@@ -344,7 +344,7 @@
                     }
                     ,inputNameDesc:'paisnacimientoDesc'
                     ,onSelected:function(){
-                       provinciaNacimineto.clear();                          
+                       provinciaNacimiento.clear();                          
                      }
                 });
                     
@@ -379,7 +379,8 @@
                         elementCascadeId:['localidadnacimientoId'],
                         paramName:['provincia_id']
                     }
-                });   
+                }); 
+                    
 
                         
        });                 

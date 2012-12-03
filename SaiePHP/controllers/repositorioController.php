@@ -9,20 +9,60 @@ class repositorioController extends Controller{
         $this->_repo = $this->loadModel('repositorio');
     }
     
+    
+    //getGridJson($db,$tabla,$campos,$gridfilters=null,$idx=null,$sord=null){
     public function paises(){
-      $campos = array("id","descripcion");  
+        $campos = array("id","descripcion");
+        $tabla = "paises";
+        $gridfilters = null;
+        if($this->getTexto("_search")=="true")
+            $gridfilters = $this->getTexto("altfilters");
+        //getGridJson($db,$tabla,$campos,$rows=null,$page=null,$gridfilters=null,$idx=null,$sord=null)
+        $json = $this->getGridJson($this->_repo, $tabla, $campos
+                ,$this->getInt("rows"),$this->getInt("page")
+                ,$gridfilters,$this->getTexto("sidx")
+                ,$this->getTexto("sord"));
+        echo $json;
+    }
+    
+    public function paisesxx(){
       if($this->getTexto("_search")=="true"){
           
           $altfilters = $this->getTexto("altfilters");
-          //echo $altfilters;
-          $altfilters = json_encode($altfilters);
-          //$altfilters = json_decode($altfilters);
-          print_r ($altfilters->groupOp);
-          
+          $altfilters =  html_entity_decode($altfilters);
+          $altfilters = json_decode($altfilters);
+          switch (json_last_error()) {
+                case JSON_ERROR_NONE:
+                    echo ' - No errors';
+                break;
+                case JSON_ERROR_DEPTH:
+                    echo ' - Maximum stack depth exceeded';
+                break;
+                case JSON_ERROR_STATE_MISMATCH:
+                    echo ' - Underflow or the modes mismatch';
+                break;
+                case JSON_ERROR_CTRL_CHAR:
+                    echo ' - Unexpected control character found';
+                break;
+                case JSON_ERROR_SYNTAX:
+                    echo ' - Syntax error, malformed JSON';
+                break;
+                case JSON_ERROR_UTF8:
+                    echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+                break;
+                default:
+                    echo ' - Unknown error';
+                break;
+          }  
       }
           
+      $filtros = array();
+      foreach ($altfilters->{"rules"} as $r){
+          array_push($filtros, $r->{"field"})  ;
+      }
+      print_r($filtros);
       exit;
-      //$filtro = array(array("campo"=>"descripcion","filtro"=>"like","valor"=>));
+      $campos = array("id","descripcion");  
       $busquedas = $this->_repo->getBusquedas("paises",$campos,null); 
       
       /*

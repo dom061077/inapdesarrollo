@@ -161,6 +161,39 @@ abstract class Controller
         }
         
     }
+    
+    protected function getGridJson($db,$tabla,$campos,$rows=null,$page=null,$gridfilters=null,$idx=null,$sord=null){
+//($tabla,$campos,$page=null,$rows=null,$gridfilters=null,$idx=null,$sord=null, $rows, $page){        
+        $registros = $db->getBusquedasGrid($tabla,$campos,$page,$rows,$gridfilters,$idx,$sord,$rows,$page);
+        $json="";
+        $totalregistros = $db->getTotalBusquedaGrid('paises',$gridfilters);
+        $totalpaginas = $totalregistros / $this->getInt('rows');
+        if($totalpaginas<1 && $totalpaginas>0)
+            $totalpaginas = 1;
+        if($totalregistros<1 && $totalpaginas>0)
+            $totalregistros = 1;
+        $json = '{"page":'.$this->getInt("page").',"total":"'.$totalpaginas.'","records":"'.$totalregistros.'","rows":[';
+        $flagcoma = false;
+        foreach($registros as $r){
+            if($flagcoma)
+                $json = $json.",";
+            $json = $json.'{"id":"'.$r[$campos[0]].'","cell":[';
+            $flagcomacampos=false;
+            foreach($campos as $c){
+                $keycampo = $c;
+                if($flagcomacampos)
+                    $json=$json.',"';
+                else                     
+                    $json=$json.'"';
+                $json=$json.$r[$c].'"'; 
+                $flagcomacampos=true;
+            }
+            $json=$json.']}'; 
+            $flagcoma=true;   
+        }
+        $json = $json . ']}';
+        return $json;
+    }
 }
 
 ?>

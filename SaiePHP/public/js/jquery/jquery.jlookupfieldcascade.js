@@ -40,9 +40,7 @@ $(document).ready(function(){
                 $('#'+idobjlookup+'_wrapper').hide();
                 flagcascadelookupfield =false;
             }
-
             return this.each(function() {
-
                 idobj =$(this).attr('id');
                 idobjlookup=$(this).attr('id')+'_lookupgrid',
                     idgrid=idobjlookup+'_grid';
@@ -66,81 +64,78 @@ $(document).ready(function(){
                 input = $( '<input type="text"  style="margin: 0 0;" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
                     .appendTo( wrapper );
                 input.val($('#'+idobj).attr('descValue'));
+                var timer;
                 $('#'+idobjlookup).keyup(function(e){
+                    if(timer)
+                       clearTimeout(timer);     
+                    
                     var colNames;
                     var colModel;
                     var filter;
                     o.onSelected();
                     var grid = $('#'+idgrid);
-                    if(e.keyCode==27){
-                        $('#'+idobjlookup+'_wrapper').hide();
-                        flagcascadelookupfield = false;
-                    }else{
-                        if(e.keyCode==40){
-                            if(!flagcascadelookupfield){
-                                $('#'+idobjlookup+'_wrapper').show();
-                                flagcascadelookupfield = true;
-                            }
-                            //grid[0].p.search = false;
-                            grid.trigger("reloadGrid",[{page:1}]);
-                        }
-                        /*if(e.keyCode==8){
-                            if($('#'+idobjlookup).val()==''){
-                                $('#'+idobj).val('');
-                                flagcascadelookupfield = false;
-                                $('#'+idwrapper).hide();
-                                grid[0].p.search = false;
-                                grid.trigger("reloadGrid",[{page:1}]);
-                                return
-                            }
-                        } */
-                        if(e.keyCode==46){
-                            if($('#'+idobjlookup).val()==''){
-                                $('#'+idobj).val('');
-                                flagcascadelookupfield = false;
-                                $('#'+idwrapper).hide();
-                                grid[0].p.search = false;
-                                grid.trigger("reloadGrid",[{page:1}]);
-                                return
-                            }
-                        }
-                        if($('#'+idobjlookup).val()!=''){
-                            if(!flagcascadelookupfield){
-                                $('#'+idobjlookup+'_wrapper').show();
-                                flagcascadelookupfield=true;
-                            }
-                            colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
-                            colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
-                            filter = { groupOp: "AND", rules: []},filterop='bw';
-                            if(colModel[2].searchoptions )
-                                filterop = colModel[2].searchoptions.sopt[0];
+                    grid.jqGrid("clearGridData", true);
+                    timer = setTimeout(function(){
+                                if(e.keyCode==27){
+                                    $('#'+idobjlookup+'_wrapper').hide();
+                                    flagcascadelookupfield = false;
+                                }else{
+                                    if(e.keyCode==40){
+                                        if(!flagcascadelookupfield){
+                                            $('#'+idobjlookup+'_wrapper').show();
+                                            flagcascadelookupfield = true;
+                                        }
+                                        grid.trigger("reloadGrid",[{page:1}]);
+                                    }
+                                    if(e.keyCode==46){
+                                        if($('#'+idobjlookup).val()==''){
+                                            $('#'+idobj).val('');
+                                            flagcascadelookupfield = false;
+                                            $('#'+idwrapper).hide();
+                                            grid[0].p.search = false;
+                                            grid.trigger("reloadGrid",[{page:1}]);
+                                            return
+                                        }
+                                    }
+                                    if($('#'+idobjlookup).val()!=''){
+                                        if(!flagcascadelookupfield){
+                                            $('#'+idobjlookup+'_wrapper').show();
+                                            flagcascadelookupfield=true;
+                                        }
+                                        colNames = $('#'+idgrid).jqGrid('getGridParam','colNames');
+                                        colModel = $('#'+idgrid).jqGrid('getGridParam','colModel');
+                                        filter = { groupOp: "AND", rules: []},filterop='bw';
+                                        if(colModel[2].searchoptions )
+                                            filterop = colModel[2].searchoptions.sopt[0];
 
-                            filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
-                            grid[0].p.search = true;
-                            if(o.cascade.paramName.length>0)
-                                $.each(o.cascade.paramName,function(i,l){
-                                    var elementId = '#'+o.cascade.elementCascadeId[i];
-                                    //$.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val(),altfilters:JSON.stringify(filter)});
-                                    filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
-                                });
+                                        filter.rules.push({field:colModel[2].name,op:filterop,data:$('#'+idobjlookup).val()});
+                                        grid[0].p.search = true;
+                                        if(o.cascade.paramName.length>0)
+                                            $.each(o.cascade.paramName,function(i,l){
+                                                var elementId = '#'+o.cascade.elementCascadeId[i];
+                                                //$.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val(),altfilters:JSON.stringify(filter)});
+                                                filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
+                                            });
 
-                            //else
-                            $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
-                        }else{
-                            $('#'+idobj).val('');
-                            filter = { groupOp: "AND", rules: []},filterop='bw';
-                            if(o.cascade.paramName.length>0)
-                                $.each(o.cascade.paramName,function(i,l){
-                                    var elementId = '#'+o.cascade.elementCascadeId[i];
-                                    //$.extend(grid[0].p.postData,{paramName : l,paramData:$(elementId).val()});
-                                    filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
-                                });
-                            $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
-                            //grid[0].p.search = false;
-                        }
-                        grid.trigger("reloadGrid",[{page:1}]);
-                    }
-                });
+                                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                                    }else{
+                                        $('#'+idobj).val('');
+                                        filter = { groupOp: "AND", rules: []},filterop='bw';
+                                        if(o.cascade.paramName.length>0)
+                                            $.each(o.cascade.paramName,function(i,l){
+                                                var elementId = '#'+o.cascade.elementCascadeId[i];
+                                                filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
+                                            });
+                                        $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                                    }
+                                    grid.trigger("reloadGrid",[{page:1}]);
+                                }
+                        
+                    }, 1500);   
+                    
+                });//fin de la funcion keyup
+            
+            
                 $('<div style="display:none;float:left;position:absolute;z-index:4001" class="jlookupfieldcascade" id="'+idwrapper+'" >'
                     +'<table id="'+idgrid+'"></table> <div id="'+idpager+'"></div></div>').insertAfter(wrapper);
                 /*$('#'+idobj+'_cerrar').click(function(){
@@ -203,6 +198,7 @@ $(document).ready(function(){
                                 filter.rules.push({field:l,op:'eq',data:$(elementId).val()});
                             });
                         $.extend(grid[0].p.postData,{altfilters:JSON.stringify(filter)});
+                         grid.jqGrid("clearGridData", true);
                          grid.trigger("reloadGrid",[{page:1}]);
                          /*if(!flagcascadelookupfield){
                          $('#'+idwrapper).show();

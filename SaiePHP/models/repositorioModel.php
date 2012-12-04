@@ -123,10 +123,10 @@ class repositorioModel extends Model{
             $query = $query." ".$sord;   
         }
         if($page && $rows){
-            if($page=1)
+            if($page==1)
                 $iniciopag=0;
             else
-                $iniciopag=$rows+$page-1;
+                $iniciopag=$rows*$page;
             $query = $query." LIMIT ".$iniciopag.", ".$rows ;
         }
         //echo "query: ".$query." page: ".$page." rows: ".$rows;

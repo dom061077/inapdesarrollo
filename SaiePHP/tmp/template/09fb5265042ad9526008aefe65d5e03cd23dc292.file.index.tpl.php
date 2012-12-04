@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.8, created on 2012-11-07 19:36:47
+<?php /* Smarty version Smarty-3.1.8, created on 2012-12-04 20:28:57
          compiled from "C:\xampp\htdocs\poomvc19\modules\preinscripcion\views\aspirante\index.tpl" */ ?>
-<?php /*%%SmartyHeaderCode:25102509aaa3f0957d5-96526208%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:1420050be4ef97366b2-23236893%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,12 +11,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '25102509aaa3f0957d5-96526208',
+  'nocache_hash' => '1420050be4ef97366b2-23236893',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.8',
-  'unifunc' => 'content_509aaa3f2711c0_14211030',
+  'unifunc' => 'content_50be4ef97a0451_14001573',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_509aaa3f2711c0_14211030')) {function content_509aaa3f2711c0_14211030($_smarty_tpl) {?><h2>Index de Aspirante</h2><?php }} ?>
+<?php if ($_valid && !is_callable('content_50be4ef97a0451_14001573')) {function content_50be4ef97a0451_14001573($_smarty_tpl) {?><h2>Index de Aspirante</h2><?php }} ?>

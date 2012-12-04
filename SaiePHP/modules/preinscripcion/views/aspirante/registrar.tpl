@@ -359,11 +359,12 @@
                     ,inputNameDesc:'provincianacimientoDesc'
                     ,cascade:{
                         elementCascadeId:['paisnacimientoId'],
-                        paramName:['pais_id']
+                        paramName:['id_pais']
                     }
 
                     ,onSelected:function(){
                         localidadNacimiento.clear();
+                        
                     }
                 });
                 var localidadNacimiento =  $('#localidadnacimientoId').combolookupfield({
@@ -372,12 +373,12 @@
                         ,colModel:[{name:'id',index:'id', width:40,hidden:true}
                             ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
                         ],
-                        url:locprovincias
+                        url:loclocalidades
                     }
                     ,inputNameDesc:'localidadnacimientoDesc'
                     ,cascade:{
-                        elementCascadeId:['localidadnacimientoId'],
-                        paramName:['provincia_id']
+                        elementCascadeId:['provincianacimientoId'],
+                        paramName:['id_provincia']
                     }
                 }); 
                     

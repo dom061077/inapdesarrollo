@@ -107,11 +107,14 @@ class repositorioModel extends Model{
             //array_push($filtros, $r->{"field"})  ;
             $valor=$r->{"data"};
             if($flagand)  
-                $query = $query." and ".$valor;
-            Utilidad::getOperator($r->{"op"},$operador);
-            if($operador==BEGINWITH)
+                $query = $query." and ";
+            $operador = Utilidad::getOperator($r->{"op"});
+            if($r->{"op"}==EQ && !$valor)
+                $valor = 0;
+            if($r->{"op"}==BEGINWITH)
                 $valor="'%".$valor."%'";
             $query = $query.$r->{"field"}.$operador.$valor;  
+            $flagand=true;
           }
           
         }
@@ -169,14 +172,19 @@ class repositorioModel extends Model{
             //array_push($filtros, $r->{"field"})  ;
             $valor=$r->{"data"};
             if($flagand)  
-                $query = $query." and ".$valor;
-            Utilidad::getOperator($r->{"op"},$operador);
-            if($operador==BEGINWITH)
+                $query = $query." and ";
+            $operador=Utilidad::getOperator($r->{"op"});
+            if($r->{"op"}==EQ && !$valor)
+                $valor = 0;
+            if($r->{"op"}==BEGINWITH)
                 $valor="'%".$valor."%'";
             $query = $query.$r->{"field"}.$operador.$valor;  
+            $flagand=true;
           }
           
         }
+        //echo $query;
+        //exit;
         $sql = $this->_db->query($query);
         return $sql->fetchColumn();
         

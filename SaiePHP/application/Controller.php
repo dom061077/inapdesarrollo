@@ -166,7 +166,7 @@ abstract class Controller
 //($tabla,$campos,$page=null,$rows=null,$gridfilters=null,$idx=null,$sord=null, $rows, $page){        
         $registros = $db->getBusquedasGrid($tabla,$campos,$page,$rows,$gridfilters,$idx,$sord,$rows,$page);
         $json="";
-        $totalregistros = $db->getTotalBusquedaGrid('paises',$gridfilters);
+        $totalregistros = $db->getTotalBusquedaGrid($tabla,$gridfilters);
         $totalpaginas = $totalregistros / $this->getInt('rows');
         if($totalpaginas<1 && $totalpaginas>0)
             $totalpaginas = 1;

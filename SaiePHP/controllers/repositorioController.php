@@ -25,6 +25,34 @@ class repositorioController extends Controller{
         echo $json;
     }
     
+    public function provincias(){
+        $campos = array("id","descripcion");
+        $tabla = "provincias";
+        $gridfilters = null;
+        if($this->getTexto("_search")=="true")
+            $gridfilters = $this->getTexto("altfilters");
+        //getGridJson($db,$tabla,$campos,$rows=null,$page=null,$gridfilters=null,$idx=null,$sord=null)
+        $json = $this->getGridJson($this->_repo, $tabla, $campos
+                ,$this->getInt("rows"),$this->getInt("page")
+                ,$gridfilters,$this->getTexto("sidx")
+                ,$this->getTexto("sord"));
+        echo $json;
+    }
+    
+    public function localidades(){
+        $campos = array("id","descripcion");
+        $tabla = "localidades";
+        $gridfilters = null;
+        if($this->getTexto("_search")=="true")
+            $gridfilters = $this->getTexto("altfilters");
+        //getGridJson($db,$tabla,$campos,$rows=null,$page=null,$gridfilters=null,$idx=null,$sord=null)
+        $json = $this->getGridJson($this->_repo, $tabla, $campos
+                ,$this->getInt("rows"),$this->getInt("page")
+                ,$gridfilters,$this->getTexto("sidx")
+                ,$this->getTexto("sord"));
+        echo $json;
+    }
+    
     public function paisesxx(){
       if($this->getTexto("_search")=="true"){
           

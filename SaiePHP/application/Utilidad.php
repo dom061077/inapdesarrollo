@@ -59,8 +59,8 @@
                case BEGINWITH:
                    $retorno = " like ";
                    break;
-               
             }
+            return $retorno;
         }
     }
 

@@ -20,7 +20,7 @@ $(document).ready(function(){
                     paramName:[]
                 },
                 onSelected:function(){
-                    e.stopPropagation();
+                    //e.stopPropagation();
                 }
             };
             var o = $.extend(defaults, settings),

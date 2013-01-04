@@ -20,8 +20,19 @@
     background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;    
 }
 
-.invalid {border:2px solid #ddd;}
-.invalid {background:#fbe3e4;color:#8a1f11;border-color:#fbc2c4;}
-.invalid {color:#8a1f11;}
-.invalid label{font-size: larger}
+div.invalid {border:2px solid #ddd;  padding-top: 5px; padding-left: 5px;padding-bottom: 5px;padding-right: 5px}
+select.invalid, input.invalid, div.invalid { background-color: #FFFFD5;color:#8a1f11;border: 2px solid red;}
+div.invalid {color:#8a1f11;}
+div.invalid label{font-size: larger}
+div.invalid {clear:both}
 
+.spinnerwait {
+    background-image: url("../img/spinner.gif");
+    background-repeat: no-repeat ;
+    margin-top: 6px;
+    margin-left: 5px;
+    padding-left: 25px;
+    width: 15px;
+    height: 15px;
+    float: left;
+}

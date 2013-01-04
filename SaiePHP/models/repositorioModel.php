@@ -122,11 +122,15 @@ class repositorioModel extends Model{
             $query = $query." order by ".$idx;
             $query = $query." ".$sord;   
         }
+        
         if($page && $rows){
+            $page=$page;
             if($page==1)
                 $iniciopag=0;
-            else
+            else{
+                $page = $page - 1;
                 $iniciopag=$rows*$page;
+            }
             $query = $query." LIMIT ".$iniciopag.", ".$rows ;
         }
         //echo "query: ".$query." page: ".$page." rows: ".$rows;

@@ -8,28 +8,6 @@
         <div class="clear"> </div>
         <fieldset>
             <legend>Datos Personales</legend>
-                <!--div class="span-10">
-                        <div class="span-3 spanlabel">
-                            <label for="carreraDesc">Carrera:</label>
-                        </div>
-                        <div class="span-3">
-                            <input class="ui-widget ui-corner-all ui-widget-content" style="background-color:#D9D9D9;"
-                                   readonly type="text" id="carreraDescId" name="carreraDesc" value="{$datos.carreradesc|default:""}" />
-                            <input type="hidden" id="carreraId" name="carrera" value="{$datos.carrera|default:""}"/>
-                        </div>
-                        <div class="clear"></div>
-
-                        <div class="span-3 spanlabel">
-                            <label for="aniolectivo">A&ntildeo:</label>
-                        </div>
-                        <div class="span-3">
-                            <input type="text"class="ui-widget ui-corner-all ui-widget-content" style="background-color:#D9D9D9;"
-                                   name="aniolectivo" />
-                        </div>    
-                </div>                        
-                <div class="clear"></div -->
-                
-            
                 <div class="span-3 spanlabel" >
                     <label for="tipodocumento"> Tipo Documento:</label>
                 </div>
@@ -55,7 +33,7 @@
                     <label for="apellido">Apellido: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="apellidoId" name="apellido" value="{$datos["apellido"]}" />
+                    <input class="ui-widget ui-corner-all ui-widget-content"  type="text" id="apellidoId" name="apellido" value="{$datos["apellido"]}" />
                 </div>
                 <div class="clear"></div>
 
@@ -83,8 +61,7 @@
                     <label for="paisnacimiento">Pa&iacute;s: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
-                           style="background-color: #ddd" type="text" id="paisnacimientoId" name="paisnacimiento" />
+                    <input style="background-color: #ddd" type="text" id="paisnacimientoId" name="paisnacimiento"  />
                 </div>
                 <div class="clear"></div>
             
@@ -93,7 +70,7 @@
                     <label for="provincianacimiento">Provincia: </label>
                 </div>
                 <div class="span-7 spanlabel">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
+                    <input class="ui-widget ui-corner-all ui-widget-content" 
                            style="background-color: #ddd" type="text" id="provincianacimientoId" name="provincianacimiento" />
                 </div>
                 <div class="clear"></div>
@@ -102,7 +79,7 @@
                     <label for="localidadnacimiento">Localidad: </label>
                 </div>
                 <div class="span-7 spanlabel">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
+                    <input class="ui-widget ui-corner-all ui-widget-content" 
                            style="background-color: #ddd" type="text" id="localidadnacimientoId" name="localidadnacimiento" />
                 </div>
                 <div class="clear"></div>
@@ -140,13 +117,11 @@
                 <div class="clear"></div>
 
                 
-                <div class="span-3">
+                <div class="span-3 spanlabel">
                     <label for="paisdesc">Pa&iacute;s: </label>
                 </div>
-                <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
-                           style="background-color: #666" type="text" id="paisdescId" name="paisdesc" />
-                    <input type="hidden" id="paisId" name="pais" />                    
+                <div class="span-7 spanlabel">
+                    <input  style="background-color: #666" type="text" id="paisdomicilioId" name="paisdomicilio" />
                 </div>
                 <div class="clear"></div>
                 
@@ -154,10 +129,9 @@
                 <div class="span-3 spanlabel">
                     <label for="provinciadesc">Provincia: </label>
                 </div>
-                <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
-                           style="background-color: #ddd" type="text" id="provinciadescId" name="provinciadesc" />
-                    <input type="hidden" id="localidadId" name="localidad" />                    
+                <div class="span-7 spanlabel">
+                    <input class="ui-widget ui-corner-all ui-widget-content" 
+                           style="background-color: #ddd" type="text" id="provinciadomicilioId" name="provinciadomicilio" />
                 </div>
                 <div class="clear"></div>
                 
@@ -165,9 +139,8 @@
                     <label for="localidaddesc">Localidad: </label>
                 </div>
                 <div class="span-7 spanlabel">
-                    <input class="ui-widget ui-corner-all ui-widget-content" readonly
-                           style="background-color: #ddd" type="text" id="localidaddescId" name="localidaddesc" />
-                    <input type="hidden" id="localidadId" name="localidad" />
+                    <input class="ui-widget ui-corner-all ui-widget-content" 
+                           style="background-color: #ddd" type="text" id="localidaddomicilioId" name="localidaddomicilio" />
                 </div>
                 <div class="clear"></div>
                 
@@ -207,65 +180,12 @@
         </fieldset>            
     </span> <!-- span fin datos del Alumno  -->
 
-    <span id="tutorgaranteId" class="step">
-        <span class="wizardspan"><h2>Segundo Paso - Tutor y Garante</h2></span>
-        <div class="clear"></div>
-        <fieldset>
-            <legend>Datos Acad&eacute;micos</legend>
-        </fieldset>
-        
-        <fieldset>
-            <legend>Datos Labores</legend>
-        </fieldset>
-
-        <fieldset>
-            <legend>Otros Datos</legend>
-        </fieldset>
-        
-    </span> <!-- span fin datos del tutorgarante -->
     
-    
-    <span id="otrosdatosId" class="step">
-        <span class="wizardspan"><h2>Tercer Paso - Otros Datos</h2></span>
+    <span id="datostutorgarenteId" class="step">
+        <span class="wizardspan"><h2>Segundo Paso - Datos del Tutor y el Garante</h2></span>
         <div class="clear"></div>
-        <fieldset>
-            <legend>Datos Acad&eacute;micos</legend>
-        </fieldset>
         
-        <fieldset>
-            <legend>Datos Laborales</legend>
-        </fieldset>
-
-        <fieldset>
-            <legend>Otros Datos</legend>
-            <div class="span-4 spanlabel">
-                <label for="situacionacademica">Situaci&oacute;n Acad&eacute;mica: </label>
-            </div>
-            <div class="span-3">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionacademicaId" name="situacionacademica" />
-            </div>
-            <div class="clear"></div>
-
-            <div class="span-4 spanlabel">
-                <label for="situacionadministrativa">Situaci&oacute;n Administrativa: </label>
-            </div>
-            <div class="span-3">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionadministrativaId" name="situacionadministrativa" />
-            </div>
-            <div class="clear"></div>
-            
-            <div class="span-4 spanlabel">
-                <label for="foto">Foto: </label>
-            </div>
-            <div class="span-3">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="file" id="fotoId" name="foto" />
-            </div>
-            <div class="clear"></div>
-
-            
-        </fieldset>
-        
-    </span> <!-- span fin datos del tutorgarante -->
+    </span> <!-- span fin datos del otrosdatos -->
     <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anteriorId" value="Anterior" type="reset" />
     <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="siguienteId" value="Siguiente" type="submit" />
 
@@ -279,10 +199,18 @@
 {literal}                        
       $(function(){
                     var flagerror=false;
+                    $('#fechanacimientoId').datepicker({
+                        onSelect: function(date){
+                           var e = jQuery.Event("keyup");
+                            e.which = 17;//tecla ctrl
+                            $("#fechanacimientoId").trigger(e);
+
+                        }
+                    });    
                     $("#formAspiranteId").formwizard({ 
         	    formPluginEnabled: false,
                     disableUIStyles : true,
-                    validationEnabled: true,
+                    //validationEnabled: true,
                     focusFirstInput : true,
                     historyEnabled: true,
                     textSubmit: 'Enviar',
@@ -290,11 +218,13 @@
                     textBack: 'Anterior',
 		    validationOptions : {
                         errorClass:'invalid',
+                        errorElement:'div',
+                        ignore:'',
                         messages:{
                             'numerodocumento':{
                                 remote:'Ya exite el numero de documento',
                                 digits:'Ingrese solo valores numéricos',
-                                required: 'Dato boligatorio'
+                                required: 'Dato obligatorio'
                             },
                             'apellido':{
                                 required: 'Dato obligatorio'
@@ -307,22 +237,114 @@
                             },
                             'tipodocumento':{
                                 required: 'Dato obligatorio'
+                            },
+                            'paisnacimiento':{
+                                required: 'Dato obligatorio'
+                            },
+                            'provincianacimiento':{
+                                required: 'Dato obligatorio'
+                            },
+                            'localidadnacimiento':{
+                                required: 'Dato obligatorio'
+                            },
+                            'calle':{
+                                required: 'Dato obligatorio'
+                            },
+                            'callenumero':{
+                                required: 'Dato obligatorio'
+                            },
+                            'barrio':{
+                                required:'Dato obligatorio'
+                              },    
+                            'paisdomicilio':{
+                                required: 'Dato obligatorio'
+                            },
+                            'provinciadomicilio':{
+                                required: 'Dato obligatorio'
+                            },
+                            'localidaddomicilio':{
+                                required: 'Dato obligatorio'
+                            },
+                            'telefonoparticular':{
+                                required: 'Dato obligatorio'
+                            },
+                            'email':{
+                                required: 'Dato obligatorio',
+                                email: 'Ingrese un e-mail correcto'    
                             }
+                              
+                              
+                                
+                                
                         },
 			rules: {
+                            
                             'fechanacimiento':{
                                 required: true
+                                ,dateITA: true
                             },
                             'apellido':{
                                 required: true
                             },
                             'nombre':{
                                 required: true
+    
                             },
-                            "numerodocumento":{
+                            'numerodocumento':{
                                 required:true,
                                 digits:true,    
-                                remote : locnrodocvalidation
+                                remote : //
+                                    {
+                                        url: locnrodocvalidation,
+                                        type:'post',
+                                        dataType: 'json',
+                                        beforeSend: function(xhr){
+                                            if(!flagerror){
+                                                $('#numerodocumentoId').css('float','left');
+                                                $('<div class=\"spinnerwait\" id=\"numeroDocumentoWaitId\">Verificando Numero...</div>').insertAfter('#numerodocumentoId');
+                                                flagerror = true;
+                                            }
+                                        },
+                                        complete: function(){
+                                            $('#numeroDocumentoWaitId').fadeOut(function(){
+                                                flagerror = false;
+                                            });
+                                         }       
+                                    }        
+                            },
+                            'paisnacimiento':{
+                                required:true
+                             },
+                            'provincianacimiento':{
+                                required:true
+                            },
+                            'localidadnacimiento':{
+                                required:true
+                            },
+                            'calle':{
+                                required:true
+                            },
+                            'callenumero':{
+                                required:true
+                            },
+                            'barrio':{
+                                required:true
+                            },
+                            'paisdomicilio':{
+                                required:true
+                            },
+                            'provinciadomicilio':{
+                                required:true
+                            },
+                            'localidaddomicilio':{
+                                required:true
+                            },
+                            'email':{
+                                required:true,
+                                email:true
+                            },
+                            'telefonoparticular':{
+                                required:true
                             }
 		      }
 		    }                        
@@ -344,9 +366,32 @@
                     }
                     ,inputNameDesc:'paisnacimientoDesc'
                     ,onSelected:function(){
-                       provinciaNacimiento.clear();                          
+                       provinciaNacimiento.clear();   
+                       localidadNacimiento.clear();
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#paisnacimientoId").trigger(e);
                      }
                 });
+                    
+                var paisDomicilio = $('#paisdomicilioId').combolookupfield({
+                    grid: {
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locpaises
+                    }
+                    ,inputNameDesc: 'paisdomicilioDesc'
+                    ,onSelected: function(){
+                        provinciaDomicilio.clear();
+                        localidadDomicilio.clear();
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#paisdomicilioId").trigger(e);
+                            
+                     }
+                });    
                     
                 var provinciaNacimiento=$('#provincianacimientoId').combolookupfield({
                     grid:{
@@ -364,9 +409,35 @@
 
                     ,onSelected:function(){
                         localidadNacimiento.clear();
+                        var e = jQuery.Event("keyup");
+                        e.which = 17;//tecla ctrl
+                        $("#provincianacimientoId").trigger(e);
                         
                     }
                 });
+                var provinciaDomicilio = $('#provinciadomicilioId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locprovincias
+                    }
+                    ,inputNameDesc:'provinciadomicilioDesc'
+                    ,cascade:{
+                        elementCascadeId:['paisnacimientoId'],
+                        paramName:['id_pais']
+                    }
+                    ,onSelected:function(){
+                        localidadDomicilio.clear();
+                        var e = jQuery.Event("keyup");
+                        e.which = 17;//tecla ctrl
+                        $("#provinciadomicilioId").trigger(e);
+                            
+                    }
+                });
+                    
+                    
                 var localidadNacimiento =  $('#localidadnacimientoId').combolookupfield({
                     grid:{
                         colNames:['Id','Descripción']
@@ -378,9 +449,33 @@
                     ,inputNameDesc:'localidadnacimientoDesc'
                     ,cascade:{
                         elementCascadeId:['provincianacimientoId'],
-                        paramName:['id_provincia']
+                        paramName:['id_provincia']}
+                    ,onSelected: function(){
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#localidadnacimientoId").trigger(e);
+                        
                     }
-                }); 
+                });
+                var localidadDomicilio = $('#localidaddomicilioId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:loclocalidades
+                    }
+                    ,inputNameDesc:'localidaddomicilioDesc'
+                    ,cascade:{
+                        elementCascadeId:['provinciadomicilioId'],
+                        paramName:['id_provincia']
+                    },
+                    onSelected: function(){
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#localidaddomicilioId").trigger(e);
+                    }
+                });
                     
 
                         

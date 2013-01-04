@@ -85,6 +85,19 @@
                        ':sitadministrativa' => $params['sitacademica']
                     ));
         }
+        
+        public function verificarNumeroDocumento($numerodocumento){
+/*
+$sth = $dbh->prepare('SELECT your_column FROM your_table WHERE column < :parameter');
+$sth->bindParam(':parameter', $your_variable, PDO::PARAM_STR);
+$sth->execute();
+  
+ */           
+            $sql=$this->_db->prepare("SELECT COUNT(*) as cantidad FROM alumnos WHERE numerodocumento = :numero");
+            $sql->bindParam(":numero",$numerodocumento,PDO::PARAM_STR);
+            $sql->execute();
+            return $sql->fetchColumn();
+        }
     }
 
 ?>

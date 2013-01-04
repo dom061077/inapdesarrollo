@@ -60,8 +60,8 @@ $(document).ready(function(){
 
                 wrapper = $( '<span id="'+idobj+'_wrapper">' )
                     .addClass( "ui-combobox" )
-                    .insertAfter( select );
-                input = $( '<input type="text"  style="margin: 0 0;" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
+                    .insertBefore( select );
+                input = $( '<input type="text" autocomplete="off"  style="margin: 0 0;" class="ui-widget ui-corner-all ui-widget-content" name="'+o.inputNameDesc+'" id="'+idobjlookup+'"/>' )
                     .appendTo( wrapper );
                 input.val($('#'+idobj).attr('descValue'));
                 var timer;
@@ -131,7 +131,7 @@ $(document).ready(function(){
                                     grid.trigger("reloadGrid",[{page:1}]);
                                 }
                         
-                    }, 1500);   
+                    }, 500);   
                     
                 });//fin de la funcion keyup
             

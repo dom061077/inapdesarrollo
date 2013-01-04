@@ -16,7 +16,7 @@
         public function registrar(){
             $this->_view->assign('titulo','Registro de aspirantes');
             $this->_view->assign('titulocontenido','Registro de Aspirantes');
-            $this->_view->setJs(array('wizard/bbq','wizard/jquery.form','wizard/jquery.form.wizard-min','wizard/jquery.validate'));
+            $this->_view->setJs(array('wizard/bbq','wizard/jquery.form','wizard/jquery.form.wizard-min','wizard/jquery.validate','wizard/additional-methods'));
             
             
             $this->_view->assign('tipoDocList',$this->_aspirante->getTiposDocumentos());
@@ -59,6 +59,16 @@
         }
         
         public function exitsnumerodocumento(){
+            $cantiadreg=0;
+            if($this->getInt('numerodocumento')){
+                $cantidadreg=$this->_aspirante->verificarNumeroDocumento($this->getInt('numerodocumento'));
+                if($cantidadreg>0){
+                    echo "false";
+                    return;
+                }
+                    
+                
+            }
             echo "true";
         }
     }

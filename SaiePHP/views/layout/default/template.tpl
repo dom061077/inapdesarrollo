@@ -8,17 +8,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf8" />
         
         <link href="{$_layoutParams.ruta_css}blitzer/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css" />
+
         <link href="{$_layoutParams.ruta_css}blueprint/screen.css" rel="stylesheet" type="text/css" />
         <link href="{$_layoutParams.ruta_css}blueprint/print.css" rel="stylesheet" type="text/css" media="print"/>        
 <!--[if lt IE 10]><link rel="{$_layoutParams.ruta_css}blueprint/ie.css" type="text/css" media="screen, projection"><![endif]-->                
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}menu/flickr/helper.css" />
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}menu/dropdown.css" />    
          <link rel="stylesheet" href="{$_layoutParams.ruta_css}menu/flickr/default.ultimate.css" />         
-         <link rel="stylesheet" href="{$_layoutParams.ruta_css}style.css" />
-         <link rel="stylesheet" href="{$_layoutParams.ruta_css}estilos.css"/>
          <link rel="stylesheet" href="{$_layoutParams.root}public/js/jqgrid/src/css/ui.jqgrid.css"/>         
          <link rel="stylesheet" href="{$_layoutParams.root}public/js/jqgrid/src/css/jquery.searchFilter.css"/>         
-        
+
+        <link rel="stylesheet" href="{$_layoutParams.ruta_css}estilos.css"/>
+         
         
         <script src="{$_layoutParams.root}public/js/jquery/jquery-1.6.2.min.js" type="text/javascript"></script>
         <script src="{$_layoutParams.root}public/js/jquery-ui/jquery-ui-1.8.16.custom.min.js" type="text/javascript"></script>
@@ -36,6 +37,11 @@
         
         {/foreach}
         {/if}
+        <script type="text/javascript">
+                $(function(){
+                    $.datepicker.setDefaults($.datepicker.regional[ 'es' ]);
+                });
+        </script>        
         <style type="text/css">
             body{
                 font-size: 65%;

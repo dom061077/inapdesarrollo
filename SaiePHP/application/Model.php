@@ -17,9 +17,6 @@ class Model
         $this->_db = new Database();
     }
     
-    public function insertPreinscripcion($datos){
-        
-    }
 }
 
 ?>

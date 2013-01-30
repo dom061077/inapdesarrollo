@@ -1,7 +1,7 @@
 
 
 
-
+ 
 <form id="formAspiranteId" method="post" enctype="multipart/form-data" action="{$_layoutParams.root}preinscripcion/aspirante/saveregistrar" >
     <span id="alumnoId" class="step">
         <span class="wizardspan"><h2>Primer Paso -Datos del Alumno</h2></span>
@@ -25,7 +25,13 @@
                     <label for="numerodocumento">N&uacute;mero de Documento: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="numerodocumentoId" value="{$datos["numerodocumento"]}" name="numerodocumento" />
+                    {if (array_key_exists('numerodocumento',$_error))}
+                        {assign var="numerodocumentoinvalid" value='invalid'}
+                    {/if}
+                    <input class="ui-widget ui-corner-all ui-widget-content {$numerodocumentoinvalid}" type="text" id="numerodocumentoId" value="{$datos["numerodocumento"]}" name="numerodocumento" />
+                    {if (array_key_exists('numerodocumento',$_error))}
+                        <div class="{$numerodocumentoinvalid}" for="apellidoId" generated="true">{$_error['numerodocumento']}</div>
+                    {/if}    
                 </div>
                 <div class="clear"></div>
 
@@ -41,7 +47,7 @@
                     <label for="nombre">Nombre: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="nombreId" name="nombre" />
+                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="nombreId" name="nombre" value="{$datos["nombre"]}"/>
                 </div>
                 <div class="clear"></div>
 
@@ -49,9 +55,7 @@
                     <label for="fechanacimiento">Fecha Nacimiento: </label>
                 </div>
                 <div class="span-7">
-                    {literal}
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="fechanacimientoId" name="fechanacimiento" />
-                    {/literal}
+                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="fechanacimientoId" name="fechanacimiento" value="{$datos["fechanacimiento"]}" />
                 </div>
         </fieldset> 
 
@@ -61,7 +65,8 @@
                     <label for="paisnacimiento">Pa&iacute;s: </label>
                 </div>
                 <div class="span-7">
-                    <input style="background-color: #ddd" type="text" id="paisnacimientoId" name="paisnacimiento"  />
+                    <input style="background-color: #ddd" type="text" id="paisnacimientoId" name="paisnacimientonacimiento" descValue="{$datos["paisnacimientoDesc"]}"
+                           value="{$datos["paisnacimiento"]}" />
                 </div>
                 <div class="clear"></div>
             
@@ -71,7 +76,8 @@
                 </div>
                 <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" 
-                           style="background-color: #ddd" type="text" id="provincianacimientoId" name="provincianacimiento" />
+                           style="background-color: #ddd" type="text" id="provincianacimientoId" name="provincianacimiento" 
+                           descValue="{$datos["provincianacimientoDesc"]}" value="{$datos["provincianacimiento"]}"/>
                 </div>
                 <div class="clear"></div>
                 
@@ -80,7 +86,8 @@
                 </div>
                 <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" 
-                           style="background-color: #ddd" type="text" id="localidadnacimientoId" name="localidadnacimiento" />
+                           style="background-color: #ddd" type="text" id="localidadnacimientoId" name="localidadnacimiento" 
+                           descValue="{$datos["localidadnacimientoDesc"]}" value="{$datos["localidadnacimiento"]}"/>
                 </div>
                 <div class="clear"></div>
                 
@@ -95,7 +102,8 @@
                     <label for="calle">Calle: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="calleId" name="calle" />
+                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="calleId" name="calle" 
+                           value="{$datos["calle"]}"/>
                 </div>
                 <div class="clear"></div>
             
@@ -104,7 +112,8 @@
                     <label for="callenumero">N&uacute;mero: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="callenumeroId" name="callenumero" />
+                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="callenumeroId" name="callenumero" 
+                           value="{$datos["callenumero"]}"/>
                 </div>
                 <div class="clear"></div>
 
@@ -112,7 +121,8 @@
                     <label for="barrio">Barrio: </label>
                 </div>
                 <div class="span-7">
-                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="barrioId" name="barrio" />
+                    <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="barrioId" name="barrio" 
+                           value="{$datos["barrio"]}"/>
                 </div>
                 <div class="clear"></div>
 
@@ -121,7 +131,8 @@
                     <label for="paisdesc">Pa&iacute;s: </label>
                 </div>
                 <div class="span-7 spanlabel">
-                    <input  style="background-color: #666" type="text" id="paisdomicilioId" name="paisdomicilio" />
+                    <input  style="background-color: #666" type="text" id="paisdomicilioId" name="paisdomicilio" 
+                            descValue="{$datos["paisdomicilioDesc"]}" value="{$datos["paisdomicilio"]}"/>
                 </div>
                 <div class="clear"></div>
                 
@@ -131,7 +142,8 @@
                 </div>
                 <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" 
-                           style="background-color: #ddd" type="text" id="provinciadomicilioId" name="provinciadomicilio" />
+                           style="background-color: #ddd" type="text" id="provinciadomicilioId" name="provinciadomicilio" 
+                           descValue="{$datos["provinciadomicilioDesc"]}" value="{$datos["provinciadomicilio"]}"/>
                 </div>
                 <div class="clear"></div>
                 
@@ -140,7 +152,8 @@
                 </div>
                 <div class="span-7 spanlabel">
                     <input class="ui-widget ui-corner-all ui-widget-content" 
-                           style="background-color: #ddd" type="text" id="localidaddomicilioId" name="localidaddomicilio" />
+                           style="background-color: #ddd" type="text" id="localidaddomicilioId" name="localidaddomicilio" 
+                           descValue="{$datos["localidaddomicilioDesc"]}" value="{$datos["localidaddomicilio"]}"/>
                 </div>
                 <div class="clear"></div>
                 
@@ -153,28 +166,32 @@
                 <label for="telefonoparticular">Tel&eacute;fono Particular: </label>
             </div>
             <div class="span-7">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonoparticularId" name="telefonoparticular" />
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonoparticularId" name="telefonoparticular" 
+                       value="{$datos["telefonoparticular"]}"/>
             </div>
             <div class="clear"></div>
             <div class="span-3 spanlabel">
-                <label for="telefonocelular">Tel&eacute;fono Particular: </label>
+                <label for="telefonocelular">Tel&eacute;fono Celular: </label>
             </div>
             <div class="span-7">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonocelularId" name="telefonocelular" />
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonocelularId" name="telefonocelular" 
+                       value="{$datos["telefonocelular"]}"/>
             </div>
             <div class="clear"></div>
             <div class="span-3 spanlabel">
                 <label for="email">E-mail: </label>
             </div>
             <div class="span-7">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="emailId" name="email" />
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="emailId" name="email" 
+                       value="{$datos["email"]}"/>
             </div>
             <div class="clear"></div>
             <div class="span-3 spanlabel">
                 <label for="email">Tel&eacute;fono Alternativo: </label>
             </div>
             <div class="span-7">
-                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonoalternativoId" name="telefonoalternativo" />
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonoalternativoId" name="telefonoalternativo" 
+                       value="{$datos["telefonoalternativo"]}"/>
             </div>
             <div class="clear"></div>
         </fieldset>            
@@ -184,8 +201,274 @@
     <span id="datostutorgarenteId" class="step">
         <span class="wizardspan"><h2>Segundo Paso - Datos del Tutor y el Garante</h2></span>
         <div class="clear"></div>
+        <fieldset>
+            <legend>Datos del Tutor</legend>
+            <div class="span-4  spanlabel">Apellido y Nombre:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="apellidoynombretutorId" name="apellidoynombretutor" 
+                       value="{$datos["apellidoynombretutor"]}"/>
+            </div>
+            <div class="clear"></div>
+            
+            <div class="span-4  spanlabel">Profesión:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="profesiontutorId" name="profesiontutor" 
+                       value="{$datos["profesiontutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Parentesco:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="parentescotutorId" name="parentescotutor" 
+                       value="{$datos["parentescotutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Teléfono:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonotutorId" name="telefono" 
+                       value="{$datos["telefono"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Calle:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="calletutorId" name="calletutor" 
+                       value="{$datos["calletutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Barrio:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="barrio" name="numerocalletutor" 
+                       value="{$datos["numerocalletutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            
+            <div class="span-4  spanlabel">Pa&iacute;s:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="paistutorId" name="paistutor" 
+                       descValue="{$datos["paistutorDesc"]}" value="{$datos["paistutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Provincia:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="provinciatutorId" name="provinciatutor" 
+                       descValue="{$datos["provinciatutorDesc"]}" value="{$datos["provinciatutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Localidad:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="localidadtutorId" name="localidadtutor" 
+                       descValue="{$datos["localidadtutorDesc"]}" value="{$datos["localidadtutor"]}"/>
+            </div>
+            <div class="clear"></div>            
+        </fieldset>    
         
+        <fieldset>
+            <legend>Datos del Garante</legend>
+            <div class="span-4  spanlabel">Apellido y Nombre:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="apellidoynombregaranteId" name="apellidoynombregarante"
+                       value="{$datos["apellidoynombregarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Profesi&oacute;n:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="profesiongaranteId" name="profesiongarante" 
+                       value="{$datos["profesiongarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Parentesco:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="parentescogarenteId" name="parentescogarante" 
+                       value="{$datos["parentescogarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Tel&eacute;fono:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonogaranteId" name="telefonogarante" 
+                       value="{$datos["telefonogarante"]}"/>
+            </div>
+            <div class="clear"></div> 
+            
+            <div class="span-4  spanlabel">Calle:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="callegaranteId" name="callegarante" 
+                       value="{$datos["callegarante"]}"/>
+            </div>
+            <div class="clear"></div>  
+            
+            <div class="span-4  spanlabel">N&uacute;mero:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="numerocallegaranteId" name="numerocallegarante" 
+                       value="{$datos["numerocallegarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Barrio:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="barriogaranteId" name="barriogarante" 
+                       value="{$datos["barriogarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Pa&iacute;s:</div>
+            <div class="span-7 spanlabel">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="paisgaranteId" name="paisgarante" 
+                       descValue="{$datos["paisgaranteDesc"]}" value="{$datos["paisgarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Provincia:</div>
+            <div class="span-7 spanlabel">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="provinciagaranteId" name="provinciagarante" 
+                       descValue="{$datos["provinciagaranteDesc"]}" value="{$datos["provinciagarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Localidad:</div>
+            <div class="span-7 spanlabel">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="localidadgaranteId" name="localidadgarante" 
+                       descValue="{$datos["localidadgaranteDesc"]}" value="{$datos["localidadgarante"]}"/>
+            </div>
+            <div class="clear"></div>            
+        </fieldset>    
+        <div class="clear"></div>
     </span> <!-- span fin datos del otrosdatos -->
+    
+    <span id="otrosdatosId" class="step">
+        <span class="wizardspan"><h2>Segundo Paso - Datos del Tutor y el Garante</h2></span>
+        <div class="clear"></div>
+        <fieldset>
+            <legend>Datos Acad&eacute;micos</legend>
+            <div class="span-4  spanlabel">Establecimiento de Procedencia:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="establecimientoprocedeId" name="establecimientoprocede" 
+                       value="{$datos["establecimientoprocede"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">T&iacute;tulo:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="tituloobtenidoId" name="tituloobtenido" 
+                       value="{$datos["tituloobtenido"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">A&nacute;o de Egreso:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="anioegresoId" name="anioegreso" 
+                       value="{$datos["anioegreso"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Secundario Completo:</div>
+            <div class="span-7 spanlabel">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="checkbox" id="secundariocompletoId" name="secundariocompleto" 
+                       value="{$datos["secundariocompleto"]}"/>
+            </div>
+            <div class="clear"></div>            
+        </fieldset>
+        
+        <fieldset>
+            <legend>Datos Laborales:</legend>
+            <div class="span-4  spanlabel">Lugar:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="lugarlaboralId" name="lugarlaboral" 
+                       value="{$datos["lugarlaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Tel&eacute;fono:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="telefonolaboralId" name="telefonolaboral" 
+                       value="{$datos["telefonolaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            
+            <div class="span-4  spanlabel">Pa&iacute;s:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="paislaboralId" name="paislaboral" 
+                       descValue="{$datos["paislaboralDesc"]}" value="{$datos["paislaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Provincia:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="provincialaboralId" name="provincialaboral" 
+                       descValue="{$datos["provincialaboralDesc"]}" value="{$datos["provincialaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Localidad:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="localidadlaboralId" name="localidadlaboral" 
+                       descValue="{$datos["localidadlaboralDesc"]}" value="{$datos["localidadlaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">Barrio:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="barriolaboralId" name="barriolaboral" 
+                       value="{$datos["barriolaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Calle:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="callelaboralId" name="callelaboral" 
+                       value="{$datos["callelaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+            
+            <div class="span-4  spanlabel">N&uacute;mero:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="numerocallelaboralId" name="numerocallelaboral" 
+                       value="{$datos["numerocallelaboral"]}"/>
+            </div>
+            <div class="clear"></div>            
+        </fieldset>
+        
+        <fieldset>
+            <legend>Otros Datos</legend>
+            <div class="span-4  spanlabel">Situaci&oacute;n Acad&eacute;mica:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionacademicaId" name="situacionacademica" 
+                       value="{$datos["situacionacademica"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Situaci&oacute;n Administrativa:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="situacionadministrativaId" name="situacionadministrativa" 
+                       value="{$datos["situacionadministrativa"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Legajo:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="text" id="legajoId" name="legajo" 
+                       value="{$datos["legajo"]}"/>
+            </div>
+            <div class="clear"></div>            
+
+            <div class="span-4  spanlabel">Foto:</div>
+            <div class="span-7">
+                <input class="ui-widget ui-corner-all ui-widget-content" type="file" id="fotoId" name="foto" />
+            </div>
+            <div class="clear"></div>            
+            
+        </fieldset>
+        
+    </span>
     <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="anteriorId" value="Anterior" type="reset" />
     <input class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only" id="siguienteId" value="Siguiente" type="submit" />
 
@@ -210,7 +493,7 @@
                     $("#formAspiranteId").formwizard({ 
         	    formPluginEnabled: false,
                     disableUIStyles : true,
-                    //validationEnabled: true,
+                    validationEnabled: true,
                     focusFirstInput : true,
                     historyEnabled: true,
                     textSubmit: 'Enviar',
@@ -291,7 +574,7 @@
     
                             },
                             'numerodocumento':{
-                                required:true,
+                                //required:true,
                                 digits:true,    
                                 remote : //
                                     {
@@ -311,7 +594,7 @@
                                             });
                                          }       
                                     }        
-                            },
+                            }/*,
                             'paisnacimiento':{
                                 required:true
                              },
@@ -345,7 +628,7 @@
                             },
                             'telefonoparticular':{
                                 required:true
-                            }
+                            }*/
 		      }
 		    }                        
                     ,formOptions :{
@@ -392,7 +675,64 @@
                             
                      }
                 });    
-                    
+
+                var paisTutor = $('#paistutorId').combolookupfield({
+                    grid: {
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locpaises
+                    }
+                    ,inputNameDesc: 'paistutorDesc'
+                    ,onSelected: function(){
+                        provinciaTutor.clear();
+                        localidadTutor.clear();
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#paistutorId").trigger(e);
+                            
+                     }
+                });    
+
+                var paisGarante = $('#paisgaranteId').combolookupfield({
+                    grid: {
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locpaises
+                    }
+                    ,inputNameDesc: 'paisgaranteDesc'
+                    ,onSelected: function(){
+                        provinciaGarante.clear();
+                        localidadGarante.clear();
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#paisgaranteId").trigger(e);
+                            
+                     }
+                });    
+
+                var paisLaboral = $('#paislaboralId').combolookupfield({
+                    grid: {
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locpaises
+                    }
+                    ,inputNameDesc: 'paislaboralDesc'
+                    ,onSelected: function(){
+                        provinciaGarante.clear();
+                        localidadGarante.clear();
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#paislaboralId").trigger(e);
+                            
+                     }
+                });    
+
                 var provinciaNacimiento=$('#provincianacimientoId').combolookupfield({
                     grid:{
                         colNames:['Id','Descripción']
@@ -425,7 +765,7 @@
                     }
                     ,inputNameDesc:'provinciadomicilioDesc'
                     ,cascade:{
-                        elementCascadeId:['paisnacimientoId'],
+                        elementCascadeId:['paisdomicilioId'],
                         paramName:['id_pais']
                     }
                     ,onSelected:function(){
@@ -436,8 +776,74 @@
                             
                     }
                 });
+                var provinciaTutor = $('#provinciatutorId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locprovincias
+                    }
+                    ,inputNameDesc:'provinciatutorDesc'
+                    ,cascade:{
+                        elementCascadeId:['paistutorId'],
+                        paramName:['id_pais']
+                    }
+                    ,onSelected:function(){
+                        localidadTutor.clear();
+                        var e = jQuery.Event("keyup");
+                        e.which = 17;//tecla ctrl
+                        $("#provinciadomicilioId").trigger(e);
+                            
+                    }
+                });
                     
-                    
+                var provinciaGarante = $('#provinciagaranteId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locprovincias
+                    }
+                    ,inputNameDesc:'provinciagaranteDesc'
+                    ,cascade:{
+                        elementCascadeId:['paisgaranteId'],
+                        paramName:['id_pais']
+                    }
+                    ,onSelected:function(){
+                        localidadGarante.clear();
+                        var e = jQuery.Event("keyup");
+                        e.which = 17;//tecla ctrl
+                        $("#provinciadomicilioId").trigger(e);
+                            
+                    }
+                });
+
+                var provinciaLaboral = $('#provincialaboralId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:locprovincias
+                    }
+                    ,inputNameDesc:'provincialaboralDesc'
+                    ,cascade:{
+                        elementCascadeId:['paislaboralId'],
+                        paramName:['id_pais']
+                    }
+                    ,onSelected:function(){
+                        localidadGarante.clear();
+                        var e = jQuery.Event("keyup");
+                        e.which = 17;//tecla ctrl
+                        $("#provincialaboralId").trigger(e);
+                            
+                    }
+                });
+
+
+
                 var localidadNacimiento =  $('#localidadnacimientoId').combolookupfield({
                     grid:{
                         colNames:['Id','Descripción']
@@ -476,8 +882,65 @@
                        $("#localidaddomicilioId").trigger(e);
                     }
                 });
+                var localidadTutor = $('#localidadtutorId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:loclocalidades
+                    }
+                    ,inputNameDesc:'localidadtutorDesc'
+                    ,cascade:{
+                        elementCascadeId:['provinciatutorId'],
+                        paramName:['id_provincia']
+                    },
+                    onSelected: function(){
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#localidadtutorId").trigger(e);
+                    }
+                });
+                var localidadGarante = $('#localidadgaranteId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:loclocalidades
+                    }
+                    ,inputNameDesc:'localidadgaranteDesc'
+                    ,cascade:{
+                        elementCascadeId:['provinciagaranteId'],
+                        paramName:['id_provincia']
+                    },
+                    onSelected: function(){
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#localidadGaranteId").trigger(e);
+                    }
+                });
+                var localidadLaboral = $('#localidadlaboralId').combolookupfield({
+                    grid:{
+                        colNames:['Id','Descripción']
+                        ,colModel:[{name:'id',index:'id', width:40,hidden:true}
+                            ,{name:'descripcion',index:'descripcion', width:92,search:true,sortable:true}
+                        ],
+                        url:loclocalidades
+                    }
+                    ,inputNameDesc:'localidadlaboralDesc'
+                    ,cascade:{
+                        elementCascadeId:['provincialaboralId'],
+                        paramName:['id_provincia']
+                    },
+                    onSelected: function(){
+                       var e = jQuery.Event("keyup");
+                       e.which = 17;//tecla ctrl
+                       $("#localidadLaboralId").trigger(e);
+                    }
+                });
                     
-
+                    
                         
        });                 
 </script>

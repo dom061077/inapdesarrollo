@@ -11,7 +11,32 @@
         }
         
         public function insertPreinscripcion($params) {
-            $this->_db->prepare(
+            
+            $fechanacimiento = date_parse_from_format ("ddmmyyyy","02022013");
+            print_r ($fechanacimiento);
+            return;
+            
+                                //,paisnacimiento,provincianacimiento,localidadnacimiento,calledomicilio,numerodomicilio
+                                //,barriodomicilio
+
+            $statement=$this->_db->prepare("INSERT INTO alumnos(tipodocumento,numerodocumento,apellido,nombre,sexo,fechanacimiento) 
+                                VALUES(:tipodocumento,:numerodocumento,:apellido,:nombre,:sexo,:fechanacimiento 
+                                    )");
+            $statement->execute(
+                            array(
+                                ':tipodocumento' => $params['tipodocumento'],
+                                ':numerodocumento' => $params['numerodocumento'],
+                                ':apellido' => $params['apellido'],
+                                ':nombre' => $params['nombre'],
+                                ':sexo' => $params['sexo']
+                                ,':fechanacimiento' => "'{$fechanacimiento[year]}-{$fechanacimiento[month]}-{$fechanacimiento[day]}'"
+                            ));
+             $arr = $statement->errorInfo();
+             print_r($arr);
+            
+             return;               
+                    
+            /*$this->_db->prepare(
                     "
                        INSERT INTO alumnos VALUES (null, :tipodocumento, :numerodocumento,
                        :apellido,:nombre,:sexo,:fechanacimiento,:paisnacimiento,:provincianacimiento,
@@ -83,7 +108,8 @@
                        ':localidadgarante' =>  $params['localidadgarante'],
                        ':sitacademica' => $params['sitacademica'],
                        ':sitadministrativa' => $params['sitacademica']
-                    ));
+                    ));*/
+            echo "PEZON BUS...";
         }
         
         public function verificarNumeroDocumento($numerodocumento){

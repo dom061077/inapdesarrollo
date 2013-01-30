@@ -16,7 +16,7 @@
         public function registrar(){
             $this->_view->assign('titulo','Registro de aspirantes');
             $this->_view->assign('titulocontenido','Registro de Aspirantes');
-            $this->_view->setJs(array('wizard/bbq','wizard/jquery.form','wizard/jquery.form.wizard-min','wizard/jquery.validate','wizard/additional-methods'));
+            $this->_view->setJs(array('wizard/bbq','wizard/jquery.form','wizard/jquery.form.wizard','wizard/jquery.validate','wizard/additional-methods'));
             
             
             $this->_view->assign('tipoDocList',$this->_aspirante->getTiposDocumentos());
@@ -27,16 +27,20 @@
         public function saveregistrar(){
            $errores = array(); 
            if(!$this->getInt('numerodocumento')){
-               array_push($errores,'El Número de Documento es obligatorio');
+               //array_push($errores,array('numerodocumento'=>'El Número de Documento es obligatorio'));
+               $errores['numerodocumento']='El Numero de Documento es obligatorio';
+               $flagerror=true;
            }
            
            if (!$this->getTexto('apellido')){
-               array_push($errores,'El Apellido es ingreso obligatorio');
+               //array_push($errores,array('apellido'=>'El Apellido es ingreso obligatorio'));
+               $errores['apellido']='El Apellido es ingreso obligatorio';
                $flagerror=true;
            }
            
            if (!$this->getTexto('nombre')){
-               array_push($errores,'El Nombre es ingreso obligatrio');
+               //array_push($errores,array('nombre'=>'El Nombre es ingreso obligatrio'));
+               $errores['nombre']='El Nombre es ingreso obligatorio';
                $flagerror=true;
            }
            
@@ -51,9 +55,14 @@
                $this->_view->assign('datos',$_POST);
                $this->_view->renderizar('registrar');
            }else{
+               //echo "<p>PARAMETROS APELLIDO: ".$_POST['apellido']."</p>";
+               //print_r($_POST);
+               $this->_aspirante->insertPreinscripcion($_POST);
+               return;
                $this->_view->assign('titulocontenido','Registro Guardado');
                $this->_view->assign('titulo','Registro Guardado');
-               $this->_view->renderizar('show');
+               echo "SALVANDO REGISTRO!!!!!!!";
+              // $this->_view->renderizar('show');
            }
            
         }

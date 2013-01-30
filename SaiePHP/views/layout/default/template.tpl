@@ -84,15 +84,6 @@
                 <div class="span-20 prepend-2">
                     <noscript><p>Para el correcto funcionamiento debe tener el soporte de javascript habilitado</p></noscript>
                     <h1> {$titulo|default:"Sin titulo"} </h1>                       
-                    {if count($_error)>0}
-                    <div id="errormsg" class="errormsg">
-                        <ol>
-                        {foreach item=it from=$_error}
-                            <p>{$it}</label></p>
-                        {/foreach}    
-                        </ol>
-                    </div>
-                    {/if}
 
                     {if isset($_mensaje)}
                     <div id="mensaje">{$_mensaje}</div>

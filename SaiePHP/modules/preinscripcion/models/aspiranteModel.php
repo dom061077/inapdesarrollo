@@ -11,28 +11,25 @@
         }
         
         public function insertPreinscripcion($params) {
-            
-            $fechanacimiento = date_parse_from_format ("ddmmyyyy","02022013");
-            print_r ($fechanacimiento);
-            return;
-            
-                                //,paisnacimiento,provincianacimiento,localidadnacimiento,calledomicilio,numerodomicilio
-                                //,barriodomicilio
 
             $statement=$this->_db->prepare("INSERT INTO alumnos(tipodocumento,numerodocumento,apellido,nombre,sexo,fechanacimiento) 
                                 VALUES(:tipodocumento,:numerodocumento,:apellido,:nombre,:sexo,:fechanacimiento 
                                     )");
-            $statement->execute(
-                            array(
-                                ':tipodocumento' => $params['tipodocumento'],
-                                ':numerodocumento' => $params['numerodocumento'],
-                                ':apellido' => $params['apellido'],
-                                ':nombre' => $params['nombre'],
-                                ':sexo' => $params['sexo']
-                                ,':fechanacimiento' => "'{$fechanacimiento[year]}-{$fechanacimiento[month]}-{$fechanacimiento[day]}'"
-                            ));
-             $arr = $statement->errorInfo();
-             print_r($arr);
+            try{
+                $statement->execute(
+                                array(
+                                    ':tipodocumento' => $params['tipodocumento'],
+                                    ':numerodocumento' => $params['numerodocumento'],
+                                    ':apellido' => $params['apellido'],
+                                    ':nombre' => $params['nombre'],
+                                    ':sexo' => $params['sexo']
+                                    ,':fechanacimiento' => substr($params['fechanacimiento'],6,4)."-".substr($params['fechanacimiento'],3,2)."-".substr($params['fechanacimiento'],0,2)
+                                ));
+                 //$arr = $statement->errorInfo();
+            }catch(Exception $e) {
+                echo($e->getMessage());
+            }
+             //print_r($arr);
             
              return;               
                     

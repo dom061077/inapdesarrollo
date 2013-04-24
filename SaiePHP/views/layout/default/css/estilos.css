@@ -36,3 +36,15 @@ div.invalid {clear:both}
     height: 15px;
     float: left;
 }
+
+.checked {
+    background-image: url("../img/check.gif");
+    background-repeat:  no-repeat;
+    margin-top: 2px;
+    margin-left: 5px;
+    padding-left: 25px;
+    width: 17px;
+    height: 17px;
+    float: left;
+
+}

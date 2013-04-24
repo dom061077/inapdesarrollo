@@ -55,7 +55,7 @@ class View extends Smarty
             array(
                 'id' => 'post',
                 'titulo' => 'Preinscripción',
-                'enlace' => BASE_URL . 'post'
+                'enlace' => BASE_URL . 'preinscripcion/aspirante/registrar'
                 )
         );
         

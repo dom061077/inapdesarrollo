@@ -503,6 +503,9 @@
                         errorClass:'invalid',
                         errorElement:'div',
                         ignore:'',
+                        //success: function(label){
+                        //    alert(label);
+                        //},
                         messages:{
                             'numerodocumento':{
                                 remote:'Ya exite el numero de documento',
@@ -514,6 +517,7 @@
                             },
                             'fechanacimiento':{
                                 required:'Dato obligatorio'
+                                ,dateITA:'Ingrese una fecha correcta'
                             },
                             'nombre':{
                                 required: 'Dato obligatorio'
@@ -570,11 +574,11 @@
                                 required: true
                             },
                             'nombre':{
-                                required: true
+                               required: true
     
                             },
                             'numerodocumento':{
-                                //required:true,
+                                required:true,
                                 digits:true,    
                                 remote : //
                                     {
@@ -583,16 +587,31 @@
                                         dataType: 'json',
                                         beforeSend: function(xhr){
                                             if(!flagerror){
+                                                if($('#numeroCheckedId').length > 0)
+                                                    $('#numeroCheckedId').hide();
                                                 $('#numerodocumentoId').css('float','left');
-                                                $('<div class=\"spinnerwait\" id=\"numeroDocumentoWaitId\">Verificando Numero...</div>').insertAfter('#numerodocumentoId');
+                                                if($('#numeroDocumentoWaitId').length > 0)
+                                                    $('#numeroDocumentoWaitId').show();
+                                                else    
+                                                    $('<div class=\"spinnerwait\" id=\"numeroDocumentoWaitId\">Verificando Numero...</div>').insertAfter('#numerodocumentoId');
                                                 flagerror = true;
                                             }
                                         },
-                                        complete: function(){
+                                        complete: function(data){
                                             $('#numeroDocumentoWaitId').fadeOut(function(){
                                                 flagerror = false;
                                             });
-                                         }       
+                                           if(data.responseText=="true" ){
+                                               if ($('#numerodocumentoId').val().length>0){
+                                                    if($('#numeroCheckedId').length > 0)
+                                                         $('#numeroCheckedId').show();
+                                                    else    
+                                                         $('<div class=\"checked\" id=\"numeroCheckedId\">').insertAfter('#numerodocumentoId');
+                                               }else
+                                                    $('#numeroCheckedId').hide();
+                                           }else
+                                               $('#numeroCheckedId').hide();
+                                         }
                                     }        
                             }/*,
                             'paisnacimiento':{

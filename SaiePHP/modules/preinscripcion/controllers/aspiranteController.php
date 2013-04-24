@@ -58,11 +58,9 @@
                //echo "<p>PARAMETROS APELLIDO: ".$_POST['apellido']."</p>";
                //print_r($_POST);
                $this->_aspirante->insertPreinscripcion($_POST);
-               return;
                $this->_view->assign('titulocontenido','Registro Guardado');
                $this->_view->assign('titulo','Registro Guardado');
-               echo "SALVANDO REGISTRO!!!!!!!";
-              // $this->_view->renderizar('show');
+               $this->_view->renderizar('show');
            }
            
         }

@@ -1,8 +1,8 @@
 import com.medfire.User
 import com.medfire.Role
 
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken as AuthToken
-import org.springframework.security.context.SecurityContextHolder as SCH
+//import org.springframework.security.providers.UsernamePasswordAuthenticationToken as AuthToken
+//import org.springframework.security.context.SecurityContextHolder as SCH
 
 /**
  * Registration controller.
@@ -191,7 +191,7 @@ class RegisterController {
 
 			person.save(flush: true)
 
-			def auth = new AuthToken(person.username, params.passwd)
+			//def auth = new AuthToken(person.username, params.passwd)
 			def authtoken = daoAuthenticationProvider.authenticate(auth)
 			SCH.context.authentication = authtoken
 			redirect uri: '/'

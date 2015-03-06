@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.text.DateFormat;
 import java.text.ParseException;
 import org.springframework.web.multipart.commons .CommonsMultipartFile
-import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
+//import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
 
 class ProfesionalController {
 	def imageUploadService
@@ -194,13 +194,13 @@ class ProfesionalController {
 	
 			if(fechaIngresoError){
 				profesionalInstance.validate()
-				profesionalInstance.errors.rejectValue("fechaIngreso","com.medfire.Profesional.fechaIngreso.date.error","Ingrese una fecha correcta, se sugiere una correción")
+				profesionalInstance.errors.rejectValue("fechaIngreso","com.medfire.Profesional.fechaIngreso.date.error","Ingrese una fecha correcta, se sugiere una correciï¿½n")
 				render(view: "edit", model: [profesionalInstance: profesionalInstance])
 				return
 			}
 			if(fechaNacimientoError){
 				profesionalInstance.validate()
-				profesionalInstance.errors.rejectValue("fechaNacimiento","com.medfire.Profesional.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
+				profesionalInstance.errors.rejectValue("fechaNacimiento","com.medfire.Profesional.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correciï¿½n")
 				log.debug "ERROR EN FECHA DE NACIMIENTO SEGUN BANDERA"
 				render(view: "edit", model: [profesionalInstance: profesionalInstance])
 				return

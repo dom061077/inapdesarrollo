@@ -1,7 +1,7 @@
 package com.medfire
 //
 import com.medfire.util.GUtilDomainClass
-import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
+//import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
 
 
 class ObraSocialController {

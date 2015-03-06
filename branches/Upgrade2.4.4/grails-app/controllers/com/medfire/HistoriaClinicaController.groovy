@@ -9,7 +9,7 @@ import com.medfire.enums.EstadoConsultaEnum
 import com.medfire.enums.ImpresionVademecumEnum
 import com.medfire.util.GUtilDomainClass
 import pl.burningice.plugins.image.container.ContainerUtils
-import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
+//import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
 
 
 class HistoriaClinicaController {

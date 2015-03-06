@@ -55,7 +55,7 @@ grails.logging.jul.usebridge = true
 grails.spring.bean.packages = []
 
 //grails.plugin.cloudfoundry.target = "http://api.cloudfoundry.com:3128"
-
+grails.plugin.springsecurity.active = false
 
 
 
@@ -171,3 +171,49 @@ bi.Institucion = [
 		contentType:['image/gif', 'image/png' , 'image/jpg', 'image/jpeg', 'image/pjpeg', 'image/x-png']
 	]
 ]
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
+grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
+grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
+grails.plugin.springsecurity.securityConfigType = 'Requestmap'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/assets/**':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll']
+]
+
+
+log4j = {
+    // Example of changing the log pattern for the default console appender:
+    //
+    //appenders {
+    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    //}
+
+    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
+            'org.codehaus.groovy.grails.web.pages',          // GSP
+            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
+            'org.codehaus.groovy.grails.commons',            // core / classloading
+            'org.codehaus.groovy.grails.plugins',            // plugins
+            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
+            'org.springframework',
+            'org.hibernate',
+            'net.sf.ehcache.hibernate'
+    debug  'grails.app.controllers'
+    root {
+        error 'stdout'/*, 'smtp'*/
+        // additivity = true
+        //debug 'stdout'
+    }
+
+}

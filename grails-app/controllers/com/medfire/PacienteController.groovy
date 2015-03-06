@@ -8,7 +8,7 @@ import java.util.Calendar;
 import com.medfire.util.GUtilDomainClass
 import grails.converters.JSON
 import org.springframework.transaction.TransactionStatus
-import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
+//import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
 
 class PacienteController {
 	def grailsApplication
@@ -80,7 +80,7 @@ class PacienteController {
 		
 		if(fechaNacimientoError){
 			pacienteInstance.validate()
-			pacienteInstance.errors.rejectValue("fechaNacimiento","com.medfire.Profesional.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correción")
+			pacienteInstance.errors.rejectValue("fechaNacimiento","com.medfire.Profesional.fechaNacimiento.date.error","Ingrese una fecha correcta, se sugiere una correciï¿½n")
 			log.debug "ERROR EN FECHA DE NACIMIENTO SEGUN BANDERA"
 			render(view: "create", model: [pacienteInstance: pacienteInstance,eventInstance:eventInstance,localidades:listlocalidades])
 			return

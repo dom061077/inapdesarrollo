@@ -1,34 +1,25 @@
-import org.codehaus.groovy.grails.plugins.springsecurity.RedirectUtils
-import org.grails.plugins.springsecurity.service.AuthenticateService
+//import org.codehaus.groovy.grails.plugins.springsecurity.RedirectUtils
+//import org.grails.plugins.springsecurity.service.AuthenticateService
 
-import org.springframework.security.AuthenticationTrustResolverImpl
-import org.springframework.security.DisabledException
-import org.springframework.security.context.SecurityContextHolder as SCH
-import org.springframework.security.ui.AbstractProcessingFilter
-import org.springframework.security.ui.webapp.AuthenticationProcessingFilter
+//import org.springframework.security.AuthenticationTrustResolverImpl
+//import org.springframework.security.DisabledException
+//import org.springframework.security.context.SecurityContextHolder as SCH
+//import org.springframework.security.ui.AbstractProcessingFilter
+//import org.springframework.security.ui.webapp.AuthenticationProcessingFilter
 
-import org.springframework.security.ui.AbstractProcessingFilter as APF
-import org.springframework.security.ui.savedrequest.SavedRequest
+//import org.springframework.security.ui.AbstractProcessingFilter as APF
+//import org.springframework.security.ui.savedrequest.SavedRequest
 
 
 /**
  * Login Controller (Example).
  */
 class LoginController {
-
-	/**
-	 * Dependency injection for the authentication service.
-	 */
+/*
 	def authenticateService
 
-	/**
-	 * Dependency injection for OpenIDConsumer.
-	 */
 	def openIDConsumer
 
-	/**
-	 * Dependency injection for OpenIDAuthenticationProcessingFilter.
-	 */
 	def openIDAuthenticationProcessingFilter
 
 	private final authenticationTrustResolver = new AuthenticationTrustResolverImpl()
@@ -42,9 +33,6 @@ class LoginController {
 		}
 	}
 
-	/**
-	 * Show the login page.
-	 */
 	def auth = {
 
 		nocache response
@@ -73,9 +61,6 @@ class LoginController {
 		render view: view, model: [postUrl: postUrl]
 	}
 
-	/**
-	 * Form submit action to start an OpenID authentication.
-	 */
 	def openIdAuthenticate = {
 		String openID = params['j_username']
 		try {
@@ -95,14 +80,7 @@ class LoginController {
 	def authAjax = {
 		nocache(response)
 		//this is example:
-		/*render """
-		<script type='text/javascript'>
-		(function() {
-			loginForm();
-		})();
-		</script>
-		"""*/
-		
+
 		//def savedRequest = session[APF.SPRING_SECURITY_SAVED_REQUEST_KEY]
 		//String originalUrl = savedRequest?.fullRequestUrl ?: '/'
 		//session[APF.SPRING_SECURITY_SAVED_REQUEST_KEY]="/"
@@ -114,17 +92,11 @@ class LoginController {
 		
 	}
 
-	/**
-	 * The Ajax success redirect url.
-	 */
 	def ajaxSuccess = {
 		nocache(response)
 		render '{success: true}'
 	}
 
-	/**
-	 * Show denied page.
-	 */
 	def denied = {
 		if (isLoggedIn() && authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
@@ -132,9 +104,6 @@ class LoginController {
 		}
 	}
 
-	/**
-	 * Login page for users with a remember-me cookie but accessing a IS_AUTHENTICATED_FULLY page.
-	 */
 	def full = {
 		render view: 'auth', params: params,
 			model: [hasCookie: authenticationTrustResolver.isRememberMe(SCH.context?.authentication)]
@@ -148,9 +117,6 @@ class LoginController {
 		}
 	}
 
-	/**
-	 * login failed
-	 */
 	def authfail = {
 
 		def username = session[AuthenticationProcessingFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
@@ -174,9 +140,6 @@ class LoginController {
 		}
 	}
 
-	/**
-	 * Check if logged in.
-	 */
 	private boolean isLoggedIn() {
 		return authenticateService.isLoggedIn()
 	}
@@ -185,7 +148,6 @@ class LoginController {
 		return authenticateService.isAjax(request)
 	}
 
-	/** cache controls */
 	private void nocache(response) {
 		response.setHeader('Cache-Control', 'no-cache') // HTTP 1.1
 		response.addDateHeader('Expires', 0)
@@ -193,4 +155,5 @@ class LoginController {
 		response.setIntHeader ('Expires', -1) //prevents caching at the proxy server
 		response.addHeader('cache-Control', 'private') //IE5.x only
 	}
+    */
 }

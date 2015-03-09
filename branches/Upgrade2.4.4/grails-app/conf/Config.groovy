@@ -110,7 +110,7 @@ bi.Profesional = [
 	]
 ]
 
-
+grails.plugins.springsecurity.active = false
 
 /*
 * 	loginUserDomainClass = "com.medfire.User"

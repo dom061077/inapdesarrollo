@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
 
-<%@ page import="org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools"
+<%@ page import="grails.plugin.springsecurity.SpringSecurityUtils"
 		 import= "com.medfire.enums.EstadoEvent"
 %>
 
@@ -72,7 +72,7 @@
 			
 			
 			<%
-				if (AuthorizeTools.ifAnyGranted("ROLE_ADMIN,ROLE_PROFESIONAL")){
+				if (SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN,ROLE_PROFESIONAL")){
 					out << "turnosprof = true;";
 					 
 					out << "var locturnos='"+g.createLink(controller:"event",action:"atenciondeldia")+"';";

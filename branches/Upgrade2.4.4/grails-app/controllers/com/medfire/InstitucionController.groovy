@@ -6,11 +6,11 @@ class InstitucionController {
 	def imageUploadService
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
-    def index = {
+    def index () {
         redirect(action: "list", params: params)
     }
 
-    def list = {
+    def list () {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [institucionInstanceList: Institucion.list(params), institucionInstanceTotal: Institucion.count()]
     }

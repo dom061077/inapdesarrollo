@@ -1,4 +1,4 @@
-grails.servlet.version = "3.0" // Change depending on target container compliance (2.5 or 3.0)
+grails.servlet.version = "2.5" // Change depending on target container compliance (2.5 or 3.0)
 grails.project.class.dir = "target/classes"
 grails.project.test.class.dir = "target/test-classes"
 grails.project.test.reports.dir = "target/test-reports"
@@ -70,6 +70,7 @@ grails.project.dependency.resolution = {
         compile ":burning-image:0.5.2"
         compile ":audit-logging:1.0.3"
         compile ":jasper:1.11.0"
+        compile ':spring-security-core:2.0-RC4'
 
         // Uncomment these to enable additional asset-pipeline capabilities
         //compile ":sass-asset-pipeline:1.9.0"

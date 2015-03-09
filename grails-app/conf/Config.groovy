@@ -59,22 +59,6 @@ grails.plugin.springsecurity.active = false
 
 
 
-grails {
-    mail {
-        host = "smtp.gmail.com"
-        port = 587
-        username = "mimail@gmail.com"
-        password = "xxxxxx"
-        props = ["mail.debug": "true",
-                "mail.smtp.protocol": "smtps",
-                "mail.smtp.auth": "true",
-                "mail.smtp.starttls.enable": "true",
-                "mail.smtp.host": "smtp.gmail.com",
-                "mail.smtp.user": "mimail@gmail.com",
-                "mail.smtp.password": "xxxxx",
-				]
-    }
-}
 
 
 
@@ -136,6 +120,33 @@ bi.Profesional = [
 *
 * */
 
+log4j = {
+    // Example of changing the log pattern for the default console appender:
+    //
+    //appenders {
+    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
+    //}
+
+    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
+            'org.codehaus.groovy.grails.web.pages',          // GSP
+            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
+            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
+            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
+            'org.codehaus.groovy.grails.commons',            // core / classloading
+            'org.codehaus.groovy.grails.plugins',            // plugins
+            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
+            'org.springframework',
+            'org.hibernate',
+            'net.sf.ehcache.hibernate'
+    debug  'grails.app.controllers'
+    root {
+        error 'stdout'/*, 'smtp'*/
+        // additivity = true
+        //debug 'stdout'
+    }
+
+}
+
 
 bi.EstudioComplementarioImagen = [
 	outputDir: 'imagenestudios',
@@ -174,46 +185,22 @@ bi.Institucion = [
 
 
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
-grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
-grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
-grails.plugin.springsecurity.securityConfigType = 'Requestmap'
-grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-	'/':                              ['permitAll'],
-	'/index':                         ['permitAll'],
-	'/index.gsp':                     ['permitAll'],
-	'/assets/**':                     ['permitAll'],
-	'/**/js/**':                      ['permitAll'],
-	'/**/css/**':                     ['permitAll'],
-	'/**/images/**':                  ['permitAll'],
-	'/**/favicon.ico':                ['permitAll']
-]
+
+//grails.plugin.springsecurity.
+//grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
+//grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
+//grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
+//grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
+//grails.plugin.springsecurity.securityConfigType = 'Requestmap'
+//grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+//	'/':                              ['permitAll'],
+//	'/index':                         ['permitAll'],
+//	'/index.gsp':                     ['permitAll'],
+//	'/assets/**':                     ['permitAll'],
+//	'/**/js/**':                      ['permitAll'],
+//	'/**/css/**':                     ['permitAll'],
+//	'/**/images/**':                  ['permitAll'],
+//	'/**/favicon.ico':                ['permitAll']
+//]
 
 
-log4j = {
-    // Example of changing the log pattern for the default console appender:
-    //
-    //appenders {
-    //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
-    //}
-
-    error  'org.codehaus.groovy.grails.web.servlet',        // controllers
-            'org.codehaus.groovy.grails.web.pages',          // GSP
-            'org.codehaus.groovy.grails.web.sitemesh',       // layouts
-            'org.codehaus.groovy.grails.web.mapping.filter', // URL mapping
-            'org.codehaus.groovy.grails.web.mapping',        // URL mapping
-            'org.codehaus.groovy.grails.commons',            // core / classloading
-            'org.codehaus.groovy.grails.plugins',            // plugins
-            'org.codehaus.groovy.grails.orm.hibernate',      // hibernate integration
-            'org.springframework',
-            'org.hibernate',
-            'net.sf.ehcache.hibernate'
-    debug  'grails.app.controllers'
-    root {
-        error 'stdout'/*, 'smtp'*/
-        // additivity = true
-        //debug 'stdout'
-    }
-
-}

@@ -110,7 +110,7 @@ bi.Profesional = [
 	]
 ]
 
-grails.plugins.springsecurity.active = false
+
 
 /*
 * 	loginUserDomainClass = "com.medfire.User"
@@ -184,23 +184,26 @@ bi.Institucion = [
 ]
 
 
-// Added by the Spring Security Core plugin:
 
-//grails.plugin.springsecurity.
-//grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
-//grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
-//grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
+
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.active = true
+
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
+grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
 //grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
 //grails.plugin.springsecurity.securityConfigType = 'Requestmap'
-//grails.plugin.springsecurity.controllerAnnotations.staticRules = [
-//	'/':                              ['permitAll'],
-//	'/index':                         ['permitAll'],
-//	'/index.gsp':                     ['permitAll'],
-//	'/assets/**':                     ['permitAll'],
-//	'/**/js/**':                      ['permitAll'],
-//	'/**/css/**':                     ['permitAll'],
-//	'/**/images/**':                  ['permitAll'],
-//	'/**/favicon.ico':                ['permitAll']
-//]
-
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+	'/':                              ['permitAll'],
+	'/index':                         ['permitAll'],
+	'/index.gsp':                     ['permitAll'],
+	'/assets/**':                     ['permitAll'],
+	'/**/js/**':                      ['permitAll'],
+	'/**/css/**':                     ['permitAll'],
+	'/**/images/**':                  ['permitAll'],
+	'/**/favicon.ico':                ['permitAll']
+]
 

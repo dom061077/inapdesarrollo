@@ -15,7 +15,9 @@ import com.medfire.Institucion
 //import groovy.sql.Sql;
 //import org.codehaus.groovy.grails.commons.ConfigurationHolder as CH
 import com.medfire.util.DataSourceUtils
-
+import com.medfire.security.Person
+import com.medfire.security.Authority
+import com.medfire.security.PersonAuthority
 
 //http://grails.1312388.n4.nabble.com/MySQL-errors-after-standing-idle-for-a-period-td3328284.html
 //http://www.sylvioazevedo.com.br/?p=56
@@ -50,6 +52,15 @@ class BootStrap {
 
 	
 	void createAdminIfRequired(){
+        def userAdmin = Person.findByUsername('useradmin')
+        if(!userAdmin){
+            def adminRole = new Authority(authority: 'ROLE_ADMIN').save(failOnError: true)
+            userAdmin = new Person(username: 'useradmin',password: 'useradmin').save(failOnError: true)
+            if(!userAdmin.authorities.contains(adminRole))
+                PersonAuthority.create(userAdmin,adminRole)
+        }
+
+        /*
 		if (!User.findByUsername("admin")){
 			def role = new Role(authority:"ROLE_ADMIN",description:"Rol Administrador").save()//usuario adminstrador
 			def roleregular = new Role(authority:"ROLE_USER",description:"Rol Secretaria").save()//usuario secretaria
@@ -160,6 +171,6 @@ class BootStrap {
 			
 						
 			//inicializaTablas()
-		}
+		}    */
 	}	
 }

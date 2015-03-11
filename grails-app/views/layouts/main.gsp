@@ -71,7 +71,7 @@
 			
 			
 			
-			<%--
+			<%
 				if (SpringSecurityUtils.ifAnyGranted("ROLE_ADMIN,ROLE_PROFESIONAL")){
 					out << "turnosprof = true;";
 					 
@@ -79,7 +79,7 @@
 					out << "var locupdturnos ='"+g.createLink(controller:"event",action:"updateestado")+"';";
 					out << "var locpacientes ='"+g.createLink(controller:"event",action:"editpaciente")+"';";
 				}
-			--%>
+			%>
         </script>        
 		<sec:ifAnyGranted roles="ROLE_PROFESIONAL">
 			<script type="text/javascript" src="${g.resource(dir:'js/script',file:'scriptatencion.js')}"></script>
@@ -210,10 +210,10 @@
 							</a>	
 						</div>
 						<div class="span-5">
-							<g:institucioninfo/>
+							<!--g:institucioninfo/-->
 						</div>
 						<div class="span-2 prepend-6">	
-							<g:institucionimg/>
+							<!--g:institucionimg/-->
 						</div>
 					</sec:ifLoggedIn>
 					<sec:ifNotLoggedIn>
@@ -241,7 +241,7 @@
 		            <ul class="dropdown dropdown-horizontal" >
 						<li><a href="#" class="dir">Archivo</a>
 							<ul>
-								<sec:ifAnyGranted role="ROLE_ADMIN">
+								<sec:ifAnyGranted roles="ROLE_ADMIN">
 									<li><a href="${createLink(controller:'user')}">Usuarios</a></li>
 									<li><a href="${createLink(controller:'role')}">Roles</a></li>
 									<li><a href="${createLink(controller:'requestmap')}">Requestmap</a></li>
@@ -250,13 +250,13 @@
 								
 							</ul>
 						</li>
-						<sec:ifAnyGranted role="ROLE_PROFESIONAL,ROLE_ADMIN">
+						<sec:ifAnyGranted roles="ROLE_PROFESIONAL,ROLE_ADMIN">
 							<li><a href="#" class="dir">Edición</a>
 								<ul>
-									<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_PROFESIONAL">
+									<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_PROFESIONAL">
 										<li><a href="${response.encodeURL(createLink(controller:'antecedenteLabel',action:'redirect')+g.antecedenteLabel(field:'id',url:true))}">Etiquetas de Ficha Clínica</a></li>	
 									</sec:ifAnyGranted>
-									<sec:ifAnyGranted role="ROLE_ADMIN">
+									<sec:ifAnyGranted roles="ROLE_ADMIN">
 										<li><a href="${response.encodeURL(createLink(controller:'antecedenteLabel',action:'list')+g.antecedenteLabel(field:'id',url:true))}">Listar etiquetas de Ficha Clínica</a></li>
 									</sec:ifAnyGranted>
 									<li><a href="${createLink(controller:'institucion',action:'redirectaction')}">Membrete Institucional</a></li>
@@ -265,7 +265,7 @@
 						</sec:ifAnyGranted>
 						<li><a href="#" class="dir">Actualizaciones</a>
 							<ul>
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_USER">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_USER">
 									<li><a href="${createLink(controller:'obraSocial',action:'list')}">Obra Social</a></li>
 									<li><a href="${createLink(controller:'event',action:'create')}">Turnos</a></li>
 									<li><a href="${createLink(controller:'profesional',action:'list')}">Profesionales</a> </li>
@@ -273,31 +273,31 @@
 									<li><a href="${createLink(controller:'especialidadMedica',action:'list')}">Especialidades</a> </li>			
 								</sec:ifAnyGranted>
 
-								<sec:ifAnyGranted role="ROLE_ADMIN">
+								<sec:ifAnyGranted roles="ROLE_ADMIN">
 									<li><a href="${createLink(controller:'institucion',action:'list')}">Institución</a></li>
 								</sec:ifAnyGranted>
 
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_USER,ROLE_PROFESIONAL">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_USER,ROLE_PROFESIONAL">
 									<li><a href="${createLink(controller:'paciente',action:'list')}">Pacientes</a></li>
 									<li><a href="${createLink(controller:'vademecum',action:'list')}">Vademecum</a></li>
 								</sec:ifAnyGranted>
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_PROFESIONAL">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_PROFESIONAL">
 									<li><a href="${createLink(controller:'historiaClinica',action:'list')}">Historia Cínica</a> </li>
 								</sec:ifAnyGranted>
 							</ul>
 						</li>
 						<li><a href="#" class="dir">Informes</a>
 							<ul>
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_PROFESIONAL">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_PROFESIONAL">
 									<li><a href="${createLink(controller:"indicecorporal",action:"index")}">Indice de masa corporal</a> </li>
 									<li><a href="${createLink(controller:"consulta",action:"consultaspropias")}">Visitas de mis Pacientes</a> </li>
 								</sec:ifAnyGranted>
 								<li><a href="${createLink(controller:"consulta",action:"pacientesatendidos")}">Pacientes Atendidos</a></li>
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_USER,ROLE_PROFESIONAL">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_USER,ROLE_PROFESIONAL">
 									<li><a href="${createLink(controller:"consulta",action:"pacientesatendidosporos")}">Pacientes Atendidos por O.S</a></li>
 									<li><a href="${createLink(controller:"consulta",action:"pacientesatendidosporprimeravez")}">Pacientes Atendidos por Primera Vez</a></li>
 								</sec:ifAnyGranted>
-								<sec:ifAnyGranted role="ROLE_ADMIN,ROLE_PROFESIONAL">
+								<sec:ifAnyGranted roles="ROLE_ADMIN,ROLE_PROFESIONAL">
 									<li><a href="${createLink(controller:"consulta",action:"pacientesatendidosporgrupodiag")}">Pacientes Atendidos por grupo diagnostico</a></li>																								
 <!--							<li><a href="${createLink(controller:"consulta",action:"cantidadvisitasporpaciente")}">Cantidad de visitas de un paciente</a></li>								-->
 								</sec:ifAnyGranted>

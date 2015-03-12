@@ -4,7 +4,7 @@ import pl.burningice.plugins.image.container.ContainerWorkerFactory
 
 class BurningImageExtensionTagLib {
 	ContainerWorkerFactory containerWorkerFactory
-	def authenticateService
+	def springSecurityService
 	
 	def resourceimgext = { attrs ->
 		def tamanio = attrs.size
@@ -21,7 +21,7 @@ class BurningImageExtensionTagLib {
 	
 	def institucionimg = { attrs ->
 		//<bi:img size="large" bean="${imageContainer}" />
-		def institucionInstance = authenticateService.userDomain().institucion 
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
 
 		out << bi.img(size:"large",bean:institucionInstance)
 
@@ -30,8 +30,8 @@ class BurningImageExtensionTagLib {
 	
 	def institucioninfo = { attrs ->
 		out << "<CENTER>"
-		out << "<p>"+authenticateService.userDomain().institucion.nombre+"</p>"+"<p>"+(authenticateService.userDomain().institucion.direccion?authenticateService.userDomain().institucion.direccion:"")+"</p>"
-		out << "<p><a href='${(authenticateService.userDomain().institucion.web?authenticateService.userDomain().institucion.web:"")}'>"+(authenticateService.userDomain().institucion.web?authenticateService.userDomain().institucion.web:"")+"</a>"
+		out << "<p>"+springSecurityService.userDomain().institucion.nombre+"</p>"+"<p>"+(springSecurityService.userDomain().institucion.direccion?springSecurityService.userDomain().institucion.direccion:"")+"</p>"
+		out << "<p><a href='${(springSecurityService.userDomain().institucion.web?springSecurityService.userDomain().institucion.web:"")}'>"+(springSecurityService.userDomain().institucion.web?springSecurityService.userDomain().institucion.web:"")+"</a>"
 		out << "</CENTER>"
 	}
 

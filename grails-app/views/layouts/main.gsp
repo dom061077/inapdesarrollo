@@ -304,7 +304,7 @@
 							</ul>
 						</li>
 						
-						<li><a href="#" class="dir">Usuario <%out << g.loggedInUserInfo(field:"userRealName")%></a>
+						<li><a href="#" class="dir">Usuario <sec:loggedInUserInfo field="username"/></a>
 							<ul>
 								<li><a href="${createLink(controller:"user",action:"changepassword")}">Cambiar Contraseña</a></li>
 								<li><a href="${createLink(controller:'logout',action:'index')}">Cerrar Sesión</a></li>							

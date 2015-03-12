@@ -4,12 +4,12 @@ import com.medfire.User;
 
 
 class ProfesionallabelTagLib {
-	def authenticateService
+	def springSecurityService
 	
 	def antecedenteLabel = { attrs ->
 		def fieldLabel = attrs.field
-		def userInstance = User.get(authenticateService.userDomain().id)
-		def value = userInstance.profesionalAsignado?.antecedenteLabel?."${fieldLabel}"
+		def userInstance = User.get(springSecurityService.getCurrentUser().id)
+		def value = userInstance?.profesionalAsignado?.antecedenteLabel?."${fieldLabel}"
 		if(value){
 			if(attrs.url)
 				out << response.encodeURL('/'+value)

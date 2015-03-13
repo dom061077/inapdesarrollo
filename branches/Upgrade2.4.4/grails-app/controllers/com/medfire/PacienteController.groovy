@@ -9,10 +9,11 @@ import com.medfire.util.GUtilDomainClass
 import grails.converters.JSON
 import org.springframework.transaction.TransactionStatus
 //import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 class PacienteController {
 	def grailsApplication
-	def authenticateService	
+	def springSecurityService
 
 	
 	
@@ -76,7 +77,7 @@ class PacienteController {
 		
 		def pacienteInstance = new Paciente(params)
 		
-		pacienteInstance.institucion = authenticateService.userDomain().institucion
+		pacienteInstance.institucion = springSecurityService.getCurrentUser().institucion
 		
 		if(fechaNacimientoError){
 			pacienteInstance.validate()
@@ -281,9 +282,9 @@ class PacienteController {
 			 filtersJson = JSON.parse(params.filters)
 		
 		log.debug "JSON GENERADO: ${filtersJson}"
-		def institucionInstance = authenticateService.userDomain().institucion
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
 		
-		if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
+		if (SpringSecurityUtils.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 			params.altfilters = """{'groupOp':'AND','rules':[{'field':'institucion_id','op':'eq','data':'${institucionInstance.id}'}]}"""
 			params._search = "true"
 		}
@@ -335,7 +336,7 @@ class PacienteController {
 				}
 				if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 					institucion{
-						eq("id",authenticateService.userDomain().institucion.id)
+						eq("id",springSecurityService.getCurrentUser().institucion.id)
 					}
 				}
 			}
@@ -355,7 +356,7 @@ class PacienteController {
 		log.info "INGRESANDO AL CLOSURE listsearchjson"
 		log.info "PARAMETROS ${params}"
 		
-		def institucionInstance = authenticateService.userDomain().institucion
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
 		if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 			params.altfilters = """{'groupOp':'AND','rules':[{'field':'institucion_id','op':'eq','data':'${institucionInstance.id}'}]}"""
 			params._search = "true"

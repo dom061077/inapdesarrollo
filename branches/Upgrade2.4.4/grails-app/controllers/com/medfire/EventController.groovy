@@ -8,9 +8,10 @@ import java.util.Calendar;
 import java.util.Date
 import java.util.GregorianCalendar
 import grails.converters.JSON
+import com.medfire.security.Person
 
 class EventController {
-	def authenticateService
+	def springSecurityService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -30,7 +31,7 @@ class EventController {
         //eventInstance.properties = params
 		
 		
-		def usuario = User.load( authenticateService.userDomain()?.id)
+		def usuario = Person.load( springSecurityService.getCurrentUser()?.id)
 		def profList = Profesional.createCriteria().list{
 			and{
 				eq("activo",true)
@@ -261,7 +262,7 @@ class EventController {
 			
 		def sobreturno = esSobreturno(eventInstance)
 			
-		eventInstance.user = authenticateService.userDomain()
+		eventInstance.user = springSecurityService.getCurrentUser()
         if (eventInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])}"
             if(sobreturno)
@@ -390,7 +391,7 @@ class EventController {
 			if(!eventInstance.estado.equals(EstadoEvent.EVENT_PENDIENTE) 
 				 || eventInstance.fechaStart.compareTo(gcHoy.getTime())<0 ){
 				render(contentType:"text/json"){
-					result success:false,title:"Error, solo se pueden modificar los turnos pendientes y que no sean anteriores al día de hoy"
+					result success:false,title:"Error, solo se pueden modificar los turnos pendientes y que no sean anteriores al dï¿½a de hoy"
 				}
 				return
 			}
@@ -647,7 +648,7 @@ class EventController {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		def dateEnd = cal.getTime()
-		def user = User.load(authenticateService.userDomain().id)
+		def user = Person.load(springSecurityService.getCurrentUser().id)
 		def filtersJson 
 		def oper
 		

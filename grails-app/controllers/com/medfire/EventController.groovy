@@ -2,6 +2,21 @@ package com.medfire
 
 //http://fbflex.wordpress.com/2011/10/24/six-ways-to-become-a-better-grails-programmer/
 
+/*
+*
+* DELIMITER $$
+
+DROP FUNCTION IF EXISTS `medfireweb`.`tiempoatencion`$$
+
+CREATE DEFINER=`root`@`localhost` FUNCTION `tiempoatencion`(s DATETIME,e DATETIME) RETURNS INT(11)
+    DETERMINISTIC
+BEGIN
+	RETURN TIMESTAMPDIFF(MINUTE,s,e);
+    END$$
+
+DELIMITER ;
+* */
+
 import com.medfire.enums.EstadoEvent;
 import com.medfire.util.FilterUtils
 import java.util.Calendar;
@@ -262,7 +277,7 @@ class EventController {
 			
 		def sobreturno = esSobreturno(eventInstance)
 			
-		eventInstance.user = springSecurityService.getCurrentUser()
+		eventInstance.person = springSecurityService.getCurrentUser()
         if (eventInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'event.label', default: 'Event'), eventInstance.id])}"
             if(sobreturno)

@@ -10,13 +10,14 @@ import com.medfire.enums.ImpresionVademecumEnum
 import com.medfire.util.GUtilDomainClass
 import pl.burningice.plugins.image.container.ContainerUtils
 //import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
-
+import grails.plugin.springsecurity.SpringSecurityUtils
+import com.medfire.security.Person
 
 class HistoriaClinicaController {
 
 	def imageUploadService
 	def historiaClinicaService
-	def authenticateService 
+	def springSecurityService
 	def sessionFactory 
 	
 	static allowedMethods = [save:"POST",update: "POST", delete: "POST"]
@@ -36,7 +37,7 @@ class HistoriaClinicaController {
 	def create = {
 		log.info "INGRESANDO AL CLOSURE create DEL CONTROLLER HistoriaClinicaController"
 		log.info "PARAMETROS $params"
-		def userInstance = User.load(authenticateService.userDomain().id)
+		def userInstance = Person.load(springSecurityService.getCurrentUser().id)
 		def antecedenteInstance  
 
 		if(!userInstance.profesionalAsignado){
@@ -48,7 +49,7 @@ class HistoriaClinicaController {
 		pacienteInstance= Paciente.get(params.pacienteId)
 		
 		pacienteInstance.antecedentes?.each{
-			if(it.profesional.id == authenticateService.userDomain().profesionalAsignado.id){
+			if(it.profesional.id == springSecurityService.getCurrentUser().profesionalAsignado.id){
 				antecedenteInstance = it
 				return
 			}
@@ -127,10 +128,10 @@ class HistoriaClinicaController {
 		def consultaInstance = new Consulta(params.consulta)
 		def pacienteInstance = Paciente.get(params.pacienteId.toLong())
 		def eventInstance
-		def userInstance = User.load(authenticateService.userDomain().id)
+		def userInstance = User.load(springSecurityService.getCurrentUser().id)
 		def profesionalInstance = Profesional.load(userInstance.profesionalAsignado.id)
 		consultaInstance.profesional=profesionalInstance
-		consultaInstance.institucion = authenticateService.userDomain().institucion
+		consultaInstance.institucion = springSecurityService.getCurrentUser().institucion
 				
 		pacienteInstance.properties = params.paciente
 		def antecedenteInstance
@@ -238,7 +239,7 @@ class HistoriaClinicaController {
 
 	def show = {
 		def consultaInstance = Consulta.get(params.id)
-		def userInstance = authenticateService.userDomain()
+		def userInstance = springSecurityService.getCurrentUser()
 		def antecedenteInstance
 		if (!consultaInstance) {
 			flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'consulta.label', default: 'Consulta'), params.id])}"
@@ -269,7 +270,7 @@ class HistoriaClinicaController {
 	def edit = {
 		log.info "INGRESANDO AL CLOSURE edit"
 		log.info "PARAMETROS: $params"
-		def userInstance = authenticateService.userDomain()
+		def userInstance = springSecurityService.getCurrentUser()
 		
 		def consultaInstance = Consulta.get(params.id)
 		if (!consultaInstance) {
@@ -321,7 +322,7 @@ class HistoriaClinicaController {
 		
 		def flagantecedente = false
 		
-		def userInstance = User.load(authenticateService.userDomain().id)
+		def userInstance = User.load(springSecurityService.getCurrentUser().id)
 		def profesionalInstance = Profesional.load(userInstance.profesionalAsignado.id)
 
 		
@@ -373,7 +374,7 @@ class HistoriaClinicaController {
 		log.info "INGRESANDO EL CLOSURE delete"
 		log.info "PARAMETROS: $params"
 		def consultaInstance = Consulta.get(params.id)
-		def userInstance = authenticateService.userDomain()
+		def userInstance = springSecurityService.getCurrentUser()
 		if (consultaInstance) {
 			if(!consultaInstance.profesional.id.equals(userInstance.profesionalAsignado.id)){
 				flash.message = "Solo puede modificar las consultas que Ud. atendió"
@@ -403,8 +404,8 @@ class HistoriaClinicaController {
 		log.info "INGRESANDO AL CLOSURE listjson DEL CONTROLLER HistoriaClinicaController"
 		log.info "PARAMETROS ${params}"
 		def list
-		def institucionInstance = authenticateService.userDomain().institucion
-		if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
+		if (SpringSecurityUtils.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 			params.altfilters = """{'groupOp':'AND','rules':[{'field':'institucion_id','op':'eq','data':'${institucionInstance.id}'}]}"""
 			params._search = "true"
 		}
@@ -482,7 +483,7 @@ class HistoriaClinicaController {
 		def consultaInstance = Consulta.load(params.id.toLong())
 		log.debug "PACIENTE: "+consultaInstance.paciente.apellido
 		def list = Institucion.findAll()
-		def institucionInstance = authenticateService.userDomain().institucion//list.getAt(0)
+		def institucionInstance = springSecurityService.getCurrentUser().institucion//list.getAt(0)
 		String pathimage
 		String nameimage
 		def config
@@ -529,7 +530,7 @@ class HistoriaClinicaController {
 		log.info "INGRESANDO AL CLOSURE reportehistoriapropio"
 		log.info "PARAMETROS : $params"
 		def list = Institucion.findAll()
-		def institucionInstance = authenticateService.userDomain().institucion//list.getAt(0)
+		def institucionInstance = springSecurityService.getCurrentUser().institucion//list.getAt(0)
 		String pathimage
 		String nameimage
 		def config
@@ -556,7 +557,7 @@ class HistoriaClinicaController {
 		params.put("_format","PDF")
 		params.put("_name","historiacontenidovisita")
 		params.put("_file","historiacontenidovisita")
-		def userLogged = authenticateService.userDomain()
+		def userLogged = springSecurityService.getCurrentUser()
 		def listReporte = Consulta.createCriteria().list(){
 			profesional{
 				eq("id",userLogged.profesionalAsignado?.id)

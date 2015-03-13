@@ -1,12 +1,13 @@
 package com.medfire
 //
 import com.medfire.util.GUtilDomainClass
+import grails.plugin.springsecurity.SpringSecurityUtils
 //import org.codehaus.groovy.grails.plugins.springsecurity.AuthorizeTools
 
 
 class ObraSocialController {
 	def grailsApplication
-	def authenticateService
+	def springSecurityService
 	
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
@@ -29,7 +30,7 @@ class ObraSocialController {
 		log.info "INGRESANDO AL CLOSURE save DEL CONTROLLER ObraSocialController"
 		log.info "PARAMETROS: $params"
         def obraSocialInstance = new ObraSocial(params)
-		obraSocialInstance.institucion = authenticateService.userDomain().institucion
+		obraSocialInstance.institucion = springSecurityService.getCurrentUser().institucion
         if (obraSocialInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'obraSocial.label', default: 'ObraSocial'), obraSocialInstance.id])}"
             redirect(action: "show", id: obraSocialInstance.id)
@@ -111,7 +112,7 @@ class ObraSocialController {
 		log.info "INGRESANDO AL METODO listsearchjson DEL CONTROLLER ObraSocialController"
 		log.info "PARAMETROS: ${params}"
 		
-		def institucionInstance = authenticateService.userDomain().institucion
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
 		params.altfilters = """{'groupOp':'AND','rules':[{'field':'institucion_id','op':'eq','data':'${institucionInstance.id}'}]}"""
 		params._search = "true"
 
@@ -149,8 +150,8 @@ class ObraSocialController {
     	log.info "PARAMETROS: $params"
     	def list
     	
-		def institucionInstance = authenticateService.userDomain().institucion
-		if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
+		def institucionInstance = springSecurityService.getCurrentUser().institucion
+		if (SpringSecurityUtils.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 			params.altfilters = """{'groupOp':'AND','rules':[{'field':'institucion_id','op':'eq','data':'${institucionInstance.id}'}]}"""
 			params._search = "true"
 		}
@@ -196,7 +197,7 @@ class ObraSocialController {
 				like('descripcion','%'+params.term+'%')
 				if (AuthorizeTools.ifAnyGranted("ROLE_USER,ROLE_PROFESIONAL")){
 					institucion{
-						eq("id",authenticateService.userDomain().institucion.id)
+						eq("id",springSecurityService.getCurrentUser().institucion.id)
 					}
 				}
 			}

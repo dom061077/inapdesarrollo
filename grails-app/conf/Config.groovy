@@ -126,6 +126,7 @@ log4j = {
     //appenders {
     //    console name:'stdout', layout:pattern(conversionPattern: '%c{2} %m%n')
     //}
+    debug 'org.hibernate.SQL'
 
     error  'org.codehaus.groovy.grails.web.servlet',        // controllers
             'org.codehaus.groovy.grails.web.pages',          // GSP
@@ -194,8 +195,8 @@ grails.plugin.springsecurity.active = true
 grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.medfire.security.Person'
 grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.medfire.security.PersonAuthority'
 grails.plugin.springsecurity.authority.className = 'com.medfire.security.Authority'
-//grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
-//grails.plugin.springsecurity.securityConfigType = 'Requestmap'
+grails.plugin.springsecurity.requestMap.className = 'com.medfire.security.Requestmapa'
+grails.plugin.springsecurity.securityConfigType = 'Requestmap'
 //grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 //	'/':                              ['permitAll'],
 //	'/index':                         ['permitAll'],
